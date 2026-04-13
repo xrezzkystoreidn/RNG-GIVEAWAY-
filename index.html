@@ -339,7 +339,7 @@ button:disabled{opacity:0.5;cursor:not-allowed;transform:none}
   <div style="font-size:50px;margin-bottom:10px">🎉</div>
   <div class="win-text">SELAMAT!</div>
   <div id="winOverlayPrize" style="font-family:'Orbitron',sans-serif;font-size:16px;color:#00ffd5;margin-bottom:20px;padding:0 20px"></div>
-  <button id="winCloseBtn" style="width:200px;background:linear-gradient(135deg,#ffcc00,#f59e0b);color:#000;font-family:'Orbitron',sans-serif;font-weight:900;padding:12px;border-radius:10px;border:none;cursor:pointer;font-size:14px">KLAIM HADIAH</button>
+  <button id="winCloseBtn" style="width:200px;background:linear-gradient(135deg,#ffcc00,#f59e0b);color:#000;font-family:'Orbitron',sans-serif;font-weight:900;padding:12px;border-radius:10px;border:none;cursor:pointer;font-size:14px">✕ TUTUP</button>
 </div>
 
 <!-- ACCOUNT MODAL -->
@@ -603,13 +603,13 @@ const deviceId = localStorage.getItem("devId") || (() => {
 let globalSettings = {};
 let currentPrizes  = [];
 let isSpinning     = false;
-let wheelRotation  = 0; // cumulative CSS rotation degrees
-let userSpins      = 0; // synced from Firebase
+let wheelRotation  = 0;
+let userSpins      = 0;
 let lastWinResult  = null;
 let isAdmin        = false;
 let titleClickCount= 0;
 let scheduleInterval = null;
-let autoToggleLock = false; // prevents race condition on auto-toggle
+let autoToggleLock = false;
 
 // =============================================
 //  CANVAS WHEEL
@@ -636,7 +636,7 @@ function drawWheel() {
 
   const n   = currentPrizes.length;
   const arc = (2 * Math.PI) / n;
-  const startOffset = -Math.PI / 2; // slice 0 starts at top (12 o'clock)
+  const startOffset = -Math.PI / 2;
 
   const winColors  = ["#15803d","#16a34a","#22c55e","#166534"];
   const loseColors = ["#b91c1c","#dc2626","#991b1b","#7f1d1d"];
@@ -697,12 +697,6 @@ function drawWheel() {
   ctx.stroke();
 }
 
-/**
- * spinToIndex — rotates wheel so targetIndex lands under the arrow (top/12 o'clock).
- * Slice i occupies [i*(360/n), (i+1)*(360/n)] from top, clockwise.
- * Center of slice i = i*(360/n) + (360/n)/2
- * To bring that center to top (0°), rotate canvas by -(center_of_slice)
- */
 function spinToIndex(targetIndex, callback) {
   const n = currentPrizes.length;
   if (n === 0) { callback(); return; }
@@ -710,13 +704,9 @@ function spinToIndex(targetIndex, callback) {
   const sliceDeg    = 360 / n;
   const sliceCenter = targetIndex * sliceDeg + sliceDeg / 2;
 
-  // Current rotation mod 360 (normalized 0-360)
   const curMod = ((wheelRotation % 360) + 360) % 360;
 
-  // Degrees to rotate so sliceCenter comes to 0° (top)
-  // We want: curMod + delta ≡ -sliceCenter (mod 360) → delta = (-sliceCenter - curMod) mod 360
   let delta = ((-sliceCenter) - curMod + 36000) % 360;
-  // Always spin at least a bit forward even if delta is tiny
   if (delta < 10) delta += 360;
 
   const extraSpins = 5 * 360;
@@ -731,7 +721,6 @@ function spinToIndex(targetIndex, callback) {
 // =============================================
 //  USER SPIN STORAGE (Firebase-backed)
 // =============================================
-// Path: userSpins/<deviceId>  — integer value
 const userSpinRef = db.ref("userSpins/" + deviceId);
 
 userSpinRef.on("value", snap => {
@@ -755,7 +744,6 @@ async function addSpinsToUser(devId, amount) {
 async function initNewUser() {
   const snap = await userSpinRef.once("value");
   if (snap.val() === null) {
-    // Brand new user — never had spins set
     const freeSnap = await db.ref("settings/freeSpinNewUser").once("value");
     const free = freeSnap.val() || 5;
     await userSpinRef.set(free);
@@ -775,7 +763,6 @@ db.ref("settings").on("value", snap => {
   updateEventDateInfo();
   updateSlotStat();
 
-  // Sync admin panel inputs
   if (isAdmin) syncAdminInputs();
 });
 
@@ -812,7 +799,6 @@ db.ref("winners").on("value", snap => {
 
 db.ref("wheelItems").on("value", snap => {
   const raw = snap.val();
-  // Firebase stores arrays as objects with numeric keys sometimes
   if (Array.isArray(raw)) {
     currentPrizes = raw;
   } else if (raw && typeof raw === "object") {
@@ -838,7 +824,7 @@ db.ref("manualSpin/" + deviceId).on("value", async snap => {
   }
 });
 
-// Locked name listener — restore on page load
+// Locked name listener
 db.ref("lockedNames/" + deviceId).on("value", snap => {
   const locked = snap.val();
   if (locked) {
@@ -909,7 +895,6 @@ function displayTimer(ms, label) {
 document.getElementById("spinBtn").onclick = async () => {
   if (isSpinning) { showToast("⏳ Tunggu spin selesai...", "warn"); return; }
 
-  // Lock check
   const lockSnap = await db.ref("deviceLock/" + deviceId).once("value");
   const lockUntil = lockSnap.val();
   if (lockUntil && Date.now() < lockUntil) {
@@ -920,7 +905,6 @@ document.getElementById("spinBtn").onclick = async () => {
   if (!globalSettings.eventOn) { showToast("❌ Event sedang OFF.", "error"); return; }
   if (!currentPrizes || currentPrizes.length === 0) { showToast("❌ Admin belum setup hadiah!", "error"); return; }
 
-  // Name check
   let name = document.getElementById("nameInput").value.trim();
   const nameSnap = await db.ref("lockedNames/" + deviceId).once("value");
   const lockedName = nameSnap.val();
@@ -929,16 +913,13 @@ document.getElementById("spinBtn").onclick = async () => {
     name = lockedName;
   } else {
     if (!name) { showToast("❌ Masukkan nama dulu!", "error"); return; }
-    // Lock name to this device
     await db.ref("lockedNames/" + deviceId).set(name);
     await saveNameHistory(deviceId, name);
     document.getElementById("nameInput").disabled = true;
   }
 
-  // Check spins
   if (userSpins <= 0) { showToast("❌ Spin habis! Redeem kode atau minta admin.", "error"); return; }
 
-  // Check per-event spin limit
   if (globalSettings.maxSpinPerUser > 0) {
     const spinUsedSnap = await db.ref("spinUsed/" + deviceId).once("value");
     const used = spinUsedSnap.val() || 0;
@@ -948,10 +929,8 @@ document.getElementById("spinBtn").onclick = async () => {
     await db.ref("spinUsed/" + deviceId).set(used + 1);
   }
 
-  // Deduct spin from Firebase
   await deductSpin();
 
-  // Weighted random selection
   const totalWeight = currentPrizes.reduce((s, p) => s + (p.weight || 1), 0);
   let rnd = Math.random() * totalWeight;
   let selectedIndex = currentPrizes.length - 1;
@@ -960,7 +939,6 @@ document.getElementById("spinBtn").onclick = async () => {
     if (rnd <= 0) { selectedIndex = i; break; }
   }
 
-  // UI: spinning state
   isSpinning = true;
   const btn = document.getElementById("spinBtn");
   btn.disabled   = true;
@@ -991,7 +969,6 @@ document.getElementById("spinBtn").onclick = async () => {
 };
 
 async function handleWin(name, prize) {
-  // Check global winner limit
   const winnersSnap = await db.ref("winners").once("value");
   const winners = winnersSnap.val() || [];
 
@@ -1000,379 +977,459 @@ async function handleWin(name, prize) {
     return;
   }
 
-  // Check per-device win limit
-  const devWinSnap = await db.ref("deviceWins/" + deviceId).once("value");
-  const devWin = devWinSnap.val() || 0;
-  if (globalSettings.maxWinPerDevice > 0 && devWin >= globalSettings.maxWinPerDevice) {
-    showToast("❌ Batas menang per device tercapai.", "warn");
+  const deviceWinsSnap = await db.ref("deviceWins/" + deviceId).once("value");
+  const deviceWins = deviceWinsSnap.val() || 0;
+
+  if (globalSettings.maxWinPerUser > 0 && deviceWins >= globalSettings.maxWinPerUser) {
+    showToast("❌ Kamu sudah mencapai batas menang!", "warn");
     return;
   }
 
-  // Save winner
-  winners.push({
-    name,
-    prize,
-    deviceId,
-    time: new Date().toLocaleString("id-ID", { timeZone: "Asia/Jakarta" })
+  const now = new Date();
+  const timeStr = now.toLocaleString("id-ID");
+
+  await db.ref("winners").push({
+    name: name,
+    prize: prize,
+    time: timeStr,
+    deviceId: deviceId
   });
 
-  await db.ref("winners").set(winners);
-  await db.ref("deviceWins/" + deviceId).set(devWin + 1);
+  await db.ref("deviceWins/" + deviceId).set(deviceWins + 1);
 
+  showWinAnimation(prize);
   document.getElementById("claimBtn").style.display = "block";
-  showWinOverlay(name, prize);
-  launchConfetti();
+
+  showToast("🎉 SELAMAT! Kamu menang: " + prize, "success");
 }
 
-async function saveNameHistory(devId, newName) {
-  const snap = await db.ref("nameHistory/" + devId).once("value");
-  const history = snap.val() || [];
-  const last = history[history.length - 1];
-  if (!last || last.name !== newName) {
-    history.push({
-      name: newName,
-      time: new Date().toLocaleString("id-ID", { timeZone: "Asia/Jakarta" })
-    });
-    await db.ref("nameHistory/" + devId).set(history);
+// =============================================
+//  UTILITY FUNCTIONS
+// =============================================
+function escapeHtml(text) {
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return text.replace(/[&<>"']/g, m => map[m]);
+}
+
+function pad(num) {
+  return String(num).padStart(2, '0');
+}
+
+function showToast(msg, type = "info") {
+  const toast = document.createElement("div");
+  toast.style.cssText = `
+    position:fixed;
+    bottom:20px;right:20px;
+    background:${type === "success" ? "#16a34a" : type === "error" ? "#ef4444" : type === "warn" ? "#f59e0b" : "#00ffd5"};
+    color:#fff;
+    padding:12px 16px;
+    border-radius:8px;
+    z-index:10000;
+    font-size:12px;
+    animation:slideIn .3s ease-out;
+  `;
+  toast.innerText = msg;
+  document.body.appendChild(toast);
+  setTimeout(() => {
+    toast.style.animation = "slideOut .3s ease-in";
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
+
+function updateSpinInfo() {
+  document.getElementById("statSpin").innerText = userSpins;
+  document.getElementById("spinInfo").innerText = `🎟 Sisa Spin: ${userSpins}`;
+}
+
+function updateStatusUI() {
+  if (globalSettings.eventOn) {
+    setVisualStatus("st-on", "🟢 EVENT BERJALAN");
+  } else {
+    setVisualStatus("st-off", "🔴 EVENT OFF");
   }
 }
 
-// =============================================
-//  WIN OVERLAY
-// =============================================
-function showWinOverlay(name, prize) {
-  document.getElementById("winOverlayPrize").innerText = `${name} memenangkan:\n${prize}`;
-  const ov = document.getElementById("winOverlay");
-  ov.style.display = "flex";
+function setVisualStatus(className, text) {
+  const elem = document.getElementById("eventIndicator");
+  elem.className = className;
+  elem.innerText = text;
+}
+
+function updateEventDateInfo() {
+  const start = Number(globalSettings.eventStart || 0);
+  const end = Number(globalSettings.eventEnd || 0);
+  const elem = document.getElementById("eventDateInfo");
+  
+  if (!start || !end) {
+    elem.innerText = "Jadwal belum diatur";
+  } else {
+    const startDate = new Date(start).toLocaleString("id-ID");
+    const endDate = new Date(end).toLocaleString("id-ID");
+    elem.innerText = `📅 ${startDate} s/d ${endDate}`;
+  }
+}
+
+function updateSlotStat() {
+  if (globalSettings.maxWinnerGlobal > 0) {
+    const winnersSnap = firebase.database().ref("winners");
+    winnersSnap.once("value", snap => {
+      const winners = snap.val() || [];
+      const remaining = Math.max(0, globalSettings.maxWinnerGlobal - winners.length);
+      document.getElementById("statSlots").innerText = remaining;
+    });
+  } else {
+    document.getElementById("statSlots").innerText = "∞";
+  }
+}
+
+function addToLog(name, prize, won) {
+  const logPanel = document.getElementById("logPanel");
+  const item = document.createElement("div");
+  item.style.cssText = "padding:6px 8px;border-bottom:1px solid rgba(0,255,213,0.1);font-size:11px;color:#ccc";
+  item.innerHTML = `
+    <div style="color:#00ffd5">${escapeHtml(name)}</div>
+    <div>${won ? "✅" : "❌"} ${escapeHtml(prize)}</div>
+  `;
+  logPanel.appendChild(item);
+}
+
+function showWinAnimation(prize) {
+  const overlay = document.getElementById("winOverlay");
+  document.getElementById("winOverlayPrize").innerText = prize;
+  overlay.style.display = "flex";
+
+  confetti();
 }
 
 document.getElementById("winCloseBtn").onclick = () => {
   document.getElementById("winOverlay").style.display = "none";
-  // Scroll to claim button
-  document.getElementById("claimBtn").scrollIntoView({ behavior: "smooth" });
 };
 
 // =============================================
-//  CONFETTI
+//  ADMIN FUNCTIONS
 // =============================================
-function launchConfetti() {
-  const cvs = document.getElementById("confetti");
-  cvs.width  = window.innerWidth;
-  cvs.height = window.innerHeight;
-  const ct = cvs.getContext("2d");
-  const colors = ["#00ffd5","#ffcc00","#ff4444","#4ade80","#60a5fa","#f472b6","#fff"];
-  const pieces = Array.from({ length: 150 }, () => ({
-    x:    Math.random() * cvs.width,
-    y:    -10 - Math.random() * 100,
-    vx:   (Math.random() - 0.5) * 5,
-    vy:   Math.random() * 5 + 2,
-    r:    Math.random() * 9 + 3,
-    col:  colors[Math.floor(Math.random() * colors.length)],
-    rot:  Math.random() * 360,
-    rotV: (Math.random() - 0.5) * 10
-  }));
-  let frame;
-  let alive = true;
-  function draw() {
-    ct.clearRect(0, 0, cvs.width, cvs.height);
-    let allDone = true;
-    pieces.forEach(p => {
-      if (p.y < cvs.height + 30) allDone = false;
-      ct.save();
-      ct.translate(p.x, p.y);
-      ct.rotate(p.rot * Math.PI / 180);
-      ct.fillStyle = p.col;
-      ct.globalAlpha = Math.max(0, 1 - (p.y / cvs.height));
-      ct.fillRect(-p.r / 2, -p.r / 4, p.r, p.r / 2);
-      ct.restore();
-      p.x   += p.vx;
-      p.y   += p.vy;
-      p.rot += p.rotV;
-    });
-    if (allDone || !alive) {
-      cancelAnimationFrame(frame);
-      ct.clearRect(0, 0, cvs.width, cvs.height);
-      return;
+document.getElementById("title").onclick = async () => {
+  titleClickCount++;
+  if (titleClickCount === 5) {
+    const pin = prompt("Masukkan PIN Admin:");
+    if (pin === ADMIN_PIN) {
+      isAdmin = true;
+      document.getElementById("adminPanel").style.display = "block";
+      syncAdminInputs();
+      showToast("✅ Admin mode ON", "success");
     }
-    frame = requestAnimationFrame(draw);
+    titleClickCount = 0;
   }
-  draw();
-  setTimeout(() => { alive = false; }, 6000);
+};
+
+function syncAdminInputs() {
+  document.getElementById("maxWinnerGlobal").value = globalSettings.maxWinnerGlobal || 0;
+  document.getElementById("maxWinDevice").value = globalSettings.maxWinPerUser || 0;
+  document.getElementById("maxSpinDevice").value = globalSettings.maxSpinPerUser || 0;
+  document.getElementById("freeSpinNewUser").value = globalSettings.freeSpinNewUser || 5;
+  document.getElementById("enableSchedule").checked = !!globalSettings.scheduleEnabled;
+  
+  if (globalSettings.eventStart) {
+    document.getElementById("eventStart").value = new Date(Number(globalSettings.eventStart)).toISOString().slice(0, 16);
+  }
+  if (globalSettings.eventEnd) {
+    document.getElementById("eventEnd").value = new Date(Number(globalSettings.eventEnd)).toISOString().slice(0, 16);
+  }
 }
 
-// =============================================
-//  CLAIM VIA WA
-// =============================================
-document.getElementById("claimBtn").onclick = async () => {
-  const lockSnap = await db.ref("deviceLock/" + deviceId).once("value");
-  if (lockSnap.val() && Date.now() < lockSnap.val()) {
-    showToast("🔒 Device di-lock!", "error"); return;
-  }
-  const name   = document.getElementById("nameInput").value.trim() || "User";
-  const result = document.getElementById("result").innerText;
-  const text   = `Halo Admin XREZZKYSTORE!\nSaya *${name}* memenangkan *${result}*.\nMohon verifikasi & kirim hadiah 🙏\nDevice ID: ${deviceId}`;
-  window.open(`https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(text)}`, "_blank");
+document.getElementById("mainToggleBtn").onclick = async () => {
+  globalSettings.eventOn = !globalSettings.eventOn;
+  await db.ref("settings/eventOn").set(globalSettings.eventOn);
+  updateStatusUI();
 };
 
-// =============================================
-//  REDEEM CODE
-// =============================================
-document.getElementById("redeemBtn").onclick = async () => {
-  const code = document.getElementById("codeInput").value.trim().toUpperCase();
-  if (!code) { showToast("❌ Masukkan kode!", "error"); return; }
-
-  // Check locally first for UX speed
-  const usedCodes = JSON.parse(localStorage.getItem("usedCodes") || "{}");
-  if (usedCodes[code]) { showToast("❌ Kode sudah pernah kamu pakai!", "error"); return; }
-
-  const snap = await db.ref("codes/" + code).once("value");
-  const data = snap.val();
-  if (!data) { showToast("❌ Kode tidak valid!", "error"); return; }
-
-  // Check per-user usage in Firebase
-  const userCodeSnap = await db.ref("userCodeUse/" + deviceId + "/" + code).once("value");
-  if (userCodeSnap.val()) { showToast("❌ Kamu sudah pakai kode ini!", "error"); return; }
-
-  if ((data.used || 0) >= data.maxUse) { showToast("❌ Kode sudah habis dipakai!", "error"); return; }
-
-  // Apply
-  await addSpinsToUser(deviceId, data.spin);
-  await db.ref("codes/" + code + "/used").set((data.used || 0) + 1);
-  await db.ref("userCodeUse/" + deviceId + "/" + code).set(true);
-
-  usedCodes[code] = true;
-  localStorage.setItem("usedCodes", JSON.stringify(usedCodes));
-
-  document.getElementById("codeInput").value = "";
-  showToast(`✅ +${data.spin} spin berhasil ditambahkan!`, "success");
-};
-
-// =============================================
-//  ADMIN PANEL
-// =============================================
-
-// Toggle event
-document.getElementById("mainToggleBtn").onclick = () => {
-  if (globalSettings.scheduleEnabled) { showToast("❌ Nonaktifkan schedule dulu!", "warn"); return; }
-  const next = !globalSettings.eventOn;
-  if (next && !validateRequirements()) {
-    alert("❌ Lengkapi dulu:\n• Deskripsi event (isi & simpan)\n• Max pemenang > 0\n• Max menang/user > 0\n• Min 1 item HADIAH + 1 item ZONK di roda");
-    return;
-  }
-  db.ref("settings/eventOn").set(next).then(() => {
-    showToast(next ? "✅ Event HIDUP!" : "✅ Event DIMATIKAN!", next ? "success" : "warn");
-  });
-};
-
-// Save all settings
 document.getElementById("applySettingsBtn").onclick = async () => {
-  const info     = document.getElementById("adminInfo").value.trim();
-  const startVal = document.getElementById("eventStart").value;
-  const endVal   = document.getElementById("eventEnd").value;
-
-  if (!info) { showToast("❌ Isi deskripsi event!", "error"); return; }
-
-  const startTs = startVal ? new Date(startVal).getTime() : 0;
-  const endTs   = endVal   ? new Date(endVal).getTime()   : 0;
-
-  if (startTs && endTs && startTs >= endTs) {
-    showToast("❌ Waktu mulai harus sebelum waktu akhir!", "error"); return;
-  }
-
-  const data = {
-    maxWinnerGlobal: parseInt(document.getElementById("maxWinnerGlobal").value)  || 0,
-    maxWinPerDevice: parseInt(document.getElementById("maxWinDevice").value)     || 0,
-    maxSpinPerUser:  parseInt(document.getElementById("maxSpinDevice").value)    || 0,
-    freeSpinNewUser: parseInt(document.getElementById("freeSpinNewUser").value)  || 5,
-    eventStart:      startTs,
-    eventEnd:        endTs,
-    scheduleEnabled: document.getElementById("enableSchedule").checked
+  const updates = {
+    maxWinnerGlobal: Number(document.getElementById("maxWinnerGlobal").value) || 0,
+    maxWinPerUser: Number(document.getElementById("maxWinDevice").value) || 0,
+    maxSpinPerUser: Number(document.getElementById("maxSpinDevice").value) || 0,
+    freeSpinNewUser: Number(document.getElementById("freeSpinNewUser").value) || 5,
+    scheduleEnabled: document.getElementById("enableSchedule").checked,
+    eventStart: new Date(document.getElementById("eventStart").value).getTime() || 0,
+    eventEnd: new Date(document.getElementById("eventEnd").value).getTime() || 0
   };
 
-  try {
-    await db.ref("settings").update(data);
-    await db.ref("infoBoard").set(info);
-    showToast("✅ Pengaturan berhasil disimpan!", "success");
-  } catch(e) {
-    showToast("Error: " + e.message, "error");
+  for (const key in updates) {
+    await db.ref("settings/" + key).set(updates[key]);
   }
+
+  showToast("✅ Settings disimpan!", "success");
+  startScheduleTimer();
 };
 
-// Add wheel item
-document.getElementById("addWheelItemBtn").onclick = async () => {
-  const label  = document.getElementById("newWheelLabel").value.trim();
-  const type   = document.getElementById("newWheelType").value;
-  const weight = Math.max(1, parseInt(document.getElementById("newWheelWeight").value) || 1);
-  if (!label) { showToast("❌ Masukkan nama hadiah!", "error"); return; }
-
-  const newItem = { label, win: type === "win", weight };
-  const updated = [...currentPrizes, newItem];
-
-  await db.ref("wheelItems").set(updated);
-  document.getElementById("newWheelLabel").value  = "";
-  document.getElementById("newWheelWeight").value = "1";
-  showToast("✅ Item roda ditambahkan!", "success");
-};
-
-window.deletePrize = async (i) => {
-  if (!confirm(`Hapus "${currentPrizes[i].label}"?`)) return;
-  const updated = currentPrizes.filter((_, idx) => idx !== i);
-  await db.ref("wheelItems").set(updated.length > 0 ? updated : null);
-  showToast("✅ Item dihapus!", "success");
-};
-
-// Add global code
 document.getElementById("addGlobalCodeBtn").onclick = async () => {
-  const name   = document.getElementById("newCodeName").value.trim().toUpperCase().replace(/\s+/g,"_");
-  const spin   = parseInt(document.getElementById("newCodeSpinAmount").value);
-  const maxUse = parseInt(document.getElementById("newCodeMaxUse").value);
-  if (!name || !spin || !maxUse || spin <= 0 || maxUse <= 0) {
-    showToast("❌ Isi semua field dengan benar!", "error"); return;
+  const name = document.getElementById("newCodeName").value.trim();
+  const spin = Number(document.getElementById("newCodeSpinAmount").value);
+  const maxUse = Number(document.getElementById("newCodeMaxUse").value);
+
+  if (!name || spin <= 0) {
+    showToast("❌ Isi semua field!", "error");
+    return;
   }
-  await db.ref("codes/" + name).set({ spin, maxUse, used: 0 });
-  document.getElementById("newCodeName").value       = "";
+
+  const codeId = Math.random().toString(36).slice(2, 10).toUpperCase();
+  await db.ref("codes/" + codeId).set({
+    name: name,
+    spinAmount: spin,
+    maxUse: maxUse,
+    used: 0
+  });
+
+  document.getElementById("newCodeName").value = "";
   document.getElementById("newCodeSpinAmount").value = "";
-  document.getElementById("newCodeMaxUse").value     = "";
-  showToast("✅ Code ditambahkan!", "success");
+  document.getElementById("newCodeMaxUse").value = "";
+  showToast("✅ Code " + codeId + " ditambahkan!", "success");
 };
 
-window.deleteCode = async (code) => {
-  if (!confirm(`Hapus code "${code}"?`)) return;
-  await db.ref("codes/" + code).remove();
+document.getElementById("redeemBtn").onclick = async () => {
+  const code = document.getElementById("codeInput").value.trim().toUpperCase();
+  if (!code) {
+    showToast("❌ Masukkan kode!", "error");
+    return;
+  }
+
+  const codeSnap = await db.ref("codes/" + code).once("value");
+  const codeData = codeSnap.val();
+
+  if (!codeData) {
+    showToast("❌ Kode tidak valid!", "error");
+    return;
+  }
+
+  if (codeData.maxUse > 0 && codeData.used >= codeData.maxUse) {
+    showToast("❌ Kode sudah habis!", "error");
+    return;
+  }
+
+  const userCodeSnap = await db.ref("userCodes/" + deviceId + "/" + code).once("value");
+  if (userCodeSnap.val()) {
+    showToast("❌ Kamu sudah redeem kode ini!", "error");
+    return;
+  }
+
+  await addSpinsToUser(deviceId, codeData.spinAmount);
+  await db.ref("codes/" + code + "/used").set((codeData.used || 0) + 1);
+  await db.ref("userCodes/" + deviceId + "/" + code).set(true);
+
+  document.getElementById("codeInput").value = "";
+  showToast(`✅ +${codeData.spinAmount} Spin dari kode ${code}!`, "success");
+};
+
+document.getElementById("addWheelItemBtn").onclick = async () => {
+  const label = document.getElementById("newWheelLabel").value.trim();
+  const type = document.getElementById("newWheelType").value;
+  const weight = Number(document.getElementById("newWheelWeight").value) || 1;
+
+  if (!label) {
+    showToast("❌ Masukkan nama hadiah!", "error");
+    return;
+  }
+
+  const itemId = Math.random().toString(36).slice(2, 10);
+  await db.ref("wheelItems/" + itemId).set({
+    label: label,
+    win: type === "win",
+    weight: weight
+  });
+
+  document.getElementById("newWheelLabel").value = "";
+  document.getElementById("newWheelWeight").value = "1";
+  showToast("✅ Item hadiah ditambahkan!", "success");
+};
+
+function renderAdminWheel() {
+  const wheelList = document.getElementById("wheelList");
+  wheelList.innerHTML = "";
+
+  currentPrizes.forEach((p, i) => {
+    const item = document.createElement("div");
+    item.className = p.win ? "wheel-item win-item" : "wheel-item lose-item";
+    item.innerHTML = `
+      <div class="info">
+        <strong>${escapeHtml(p.label)}</strong><br>
+        <small>${p.win ? "HADIAH" : "ZONK"} | Weight: ${p.weight || 1}</small>
+      </div>
+      <button class="del-btn" onclick="deleteWheelItem(${i})">✕</button>
+    `;
+    wheelList.appendChild(item);
+  });
+}
+
+async function deleteWheelItem(index) {
+  const itemId = Object.keys((await db.ref("wheelItems").once("value")).val() || {})[index];
+  if (itemId) {
+    await db.ref("wheelItems/" + itemId).remove();
+    showToast("✅ Item dihapus!", "success");
+  }
+}
+
+function renderCodeList(codes) {
+  const codeList = document.getElementById("codeList");
+  codeList.innerHTML = "";
+
+  for (const codeId in codes) {
+    const code = codes[codeId];
+    const item = document.createElement("div");
+    item.className = "code-item";
+    item.innerHTML = `
+      <div>
+        <strong>${codeId}</strong><br>
+        <small>${code.spinAmount} Spin | Dipakai ${code.used}/${code.maxUse}</small>
+      </div>
+      <button class="del-btn" onclick="deleteCode('${codeId}')">✕</button>
+    `;
+    codeList.appendChild(item);
+  }
+}
+
+async function deleteCode(codeId) {
+  await db.ref("codes/" + codeId).remove();
   showToast("✅ Code dihapus!", "success");
+}
+
+document.getElementById("addSpinUserBtn").onclick = async () => {
+  const devId = document.getElementById("targetDeviceId").value.trim();
+  const amount = Number(document.getElementById("addSpinAmount").value);
+
+  if (!devId || amount <= 0) {
+    showToast("❌ Isi semua field!", "error");
+    return;
+  }
+
+  await addSpinsToUser(devId, amount);
+  document.getElementById("targetDeviceId").value = "";
+  document.getElementById("addSpinAmount").value = "";
+  showToast(`✅ +${amount} Spin ditambahkan ke ${devId}!`, "success");
 };
 
-// Lock device
 document.getElementById("lockDeviceBtn").onclick = async () => {
-  const target = document.getElementById("lockDeviceId").value.trim();
-  const hours  = parseInt(document.getElementById("lockDuration").value);
-  if (!target || !hours || hours <= 0) { showToast("❌ Isi Device ID dan durasi!", "error"); return; }
-  await db.ref("deviceLock/" + target).set(Date.now() + hours * 3600000);
-  document.getElementById("lockDeviceId").value  = "";
-  document.getElementById("lockDuration").value  = "";
-  showToast(`✅ Device di-lock ${hours} jam!`, "success");
+  const devId = document.getElementById("lockDeviceId").value.trim();
+  const duration = Number(document.getElementById("lockDuration").value);
+
+  if (!devId || duration <= 0) {
+    showToast("❌ Isi Device ID dan durasi!", "error");
+    return;
+  }
+
+  const lockUntil = Date.now() + (duration * 60 * 60 * 1000);
+  await db.ref("deviceLock/" + devId).set(lockUntil);
+  document.getElementById("lockDeviceId").value = "";
+  document.getElementById("lockDuration").value = "";
+  showToast(`✅ Device ${devId} di-lock selama ${duration} jam!`, "success");
 };
 
 document.getElementById("unlockDeviceBtn").onclick = async () => {
-  const target = document.getElementById("lockDeviceId").value.trim();
-  if (!target) { showToast("❌ Masukkan Device ID!", "error"); return; }
-  await db.ref("deviceLock/" + target).remove();
-  document.getElementById("lockDeviceId").value = "";
-  showToast("✅ Device di-unlock!", "success");
+  const devId = document.getElementById("lockDeviceId").value.trim();
+
+  if (!devId) {
+    showToast("❌ Masukkan Device ID!", "error");
+    return;
+  }
+
+  await db.ref("deviceLock/" + devId).remove();
+  showToast(`✅ Device ${devId} di-unlock!`, "success");
 };
 
-// Add spin to user
-document.getElementById("addSpinUserBtn").onclick = async () => {
-  const id  = document.getElementById("targetDeviceId").value.trim();
-  const amt = parseInt(document.getElementById("addSpinAmount").value);
-  if (!id || !amt || amt <= 0) { showToast("❌ Isi Device ID dan jumlah!", "error"); return; }
-  await db.ref("manualSpin/" + id).transaction(cur => (cur || 0) + amt);
-  document.getElementById("targetDeviceId").value = "";
-  document.getElementById("addSpinAmount").value  = "";
-  showToast(`✅ +${amt} spin dikirim ke ${id}!`, "success");
-};
-
-// Grant edit permission
 document.getElementById("grantEditBtn").onclick = async () => {
-  const id = document.getElementById("grantEditId").value.trim();
-  if (!id) { showToast("❌ Masukkan Device ID!", "error"); return; }
-  await db.ref("accountData/" + id).update({
-    editAllowed: true,
-    editExpire:  Date.now() + 86400000
-  });
+  const devId = document.getElementById("grantEditId").value.trim();
+
+  if (!devId) {
+    showToast("❌ Masukkan Device ID!", "error");
+    return;
+  }
+
+  await db.ref("editGrant/" + devId).set(1);
   document.getElementById("grantEditId").value = "";
-  showToast(`✅ Izin edit diberikan ke ${id} (24 jam)`, "success");
+  showToast(`✅ Edit permission diberikan ke ${devId}!`, "success");
 };
 
-// Export
-document.getElementById("exportBtn").onclick = async () => {
-  const snap = await db.ref("winners").once("value");
-  const data  = snap.val() || [];
-  let txt = "=== DATA PEMENANG XREZZKYSTORE ===\n";
-  txt += "Export: " + new Date().toLocaleString("id-ID") + "\n";
-  txt += "Total: " + data.length + "\n\n";
-  data.forEach((w, i) => {
-    txt += `${i+1}. ${w.name} | ${w.prize} | ${w.time} | ${w.deviceId}\n`;
+document.getElementById("exportBtn").onclick = () => {
+  const winnersSnap = firebase.database().ref("winners");
+  winnersSnap.once("value", snap => {
+    const winners = snap.val() || [];
+    let csv = "Nama,Hadiah,Waktu,Device ID\n";
+    winners.forEach(w => {
+      csv += `"${w.name}","${w.prize}","${w.time}","${w.deviceId}"\n`;
+    });
+    document.getElementById("exportArea").value = csv;
+    document.getElementById("exportModal").style.display = "flex";
   });
-  document.getElementById("exportArea").value = txt;
-  document.getElementById("exportModal").style.display = "flex";
 };
 
-// Reset event
-document.getElementById("resetEventBtn").onclick = async () => {
-  if (!confirm("♻️ Reset settings event ke default?")) return;
-  await db.ref("settings").set({
-    eventOn: false,
-    maxWinnerGlobal: 0,
-    maxWinPerDevice: 0,
-    maxSpinPerUser:  0,
-    freeSpinNewUser: 5,
-    eventStart: 0,
-    eventEnd:   0,
-    scheduleEnabled: false
-  });
-  await db.ref("spinUsed").remove();
-  showToast("✅ Event direset!", "success");
+document.getElementById("resetEventBtn").onclick = () => {
+  if (confirm("Reset semua data event? (TIDAK BISA DIBATALKAN)")) {
+    db.ref("winners").remove();
+    db.ref("spinUsed").remove();
+    showToast("✅ Event direset!", "success");
+  }
 };
 
-// Reset all data
-document.getElementById("resetAllDataBtn").onclick = async () => {
-  if (!confirm("⚠️ Hapus SEMUA pemenang, spin used, name history? Tidak bisa dibatalkan!")) return;
-  if (!confirm("⚠️ KONFIRMASI FINAL — yakin hapus semua data?")) return;
-  await Promise.all([
-    db.ref("winners").remove(),
-    db.ref("deviceWins").remove(),
-    db.ref("spinUsed").remove(),
-    db.ref("userCodeUse").remove()
-  ]);
-  showToast("✅ Semua data pemenang dibersihkan.", "success");
+document.getElementById("resetAllDataBtn").onclick = () => {
+  if (confirm("HAPUS SEMUA DATA? (SERIUS, TIDAK BISA DIBATALKAN!)")) {
+    db.ref().remove();
+    showToast("⚠️ Semua data dihapus!", "warn");
+  }
 };
 
-// =============================================
-//  ACCOUNT MODAL
-// =============================================
-document.getElementById("accountBtn").onclick = openAccount;
-
-async function openAccount() {
-  document.getElementById("accountModal").style.display = "flex";
+document.getElementById("accountBtn").onclick = () => {
   document.getElementById("accDeviceId").innerText = deviceId;
+  
+  firebase.database().ref("lockedNames/" + deviceId).once("value", snap => {
+    document.getElementById("accCurrentName").innerText = snap.val() || "-";
+  });
 
-  // Current name
-  const nameSnap = await db.ref("lockedNames/" + deviceId).once("value");
-  document.getElementById("accCurrentName").innerText = nameSnap.val() || "Belum ada";
+  firebase.database().ref("nameHistory/" + deviceId).once("value", snap => {
+    const history = snap.val() || {};
+    const historyDiv = document.getElementById("accNameHistory");
+    historyDiv.innerHTML = "";
+    
+    for (const id in history) {
+      const item = document.createElement("div");
+      item.className = "name-history-item";
+      item.innerHTML = `
+        <div class="nh-name">${escapeHtml(history[id].name)}</div>
+        <div class="nh-time">${history[id].time}</div>
+      `;
+      historyDiv.appendChild(item);
+    }
+    if (Object.keys(history).length === 0) {
+      historyDiv.innerHTML = "<div style='color:#aaa;font-size:11px;text-align:center'>Belum ada riwayat nama</div>";
+    }
+  });
 
-  // Name history
-  const histSnap = await db.ref("nameHistory/" + deviceId).once("value");
-  const nameHist = histSnap.val() || [];
-  const nhCont   = document.getElementById("accNameHistory");
-  nhCont.innerHTML = "";
-  if (nameHist.length === 0) {
-    nhCont.innerHTML = "<div style='color:#aaa;font-size:11px;text-align:center;padding:6px'>Belum ada riwayat nama</div>";
-  } else {
-    [...nameHist].reverse().forEach((h, i) => {
-      const d = document.createElement("div");
-      d.className = "name-history-item";
-      d.innerHTML = `<div class="nh-name">${i === 0 ? "⭐ " : ""}${escapeHtml(h.name)}</div><div class="nh-time">${h.time}</div>`;
-      nhCont.appendChild(d);
-    });
-  }
+  firebase.database().ref("winners").orderByChild("deviceId").equalTo(deviceId).once("value", snap => {
+    const list = snap.val() || {};
+    const historyDiv = document.getElementById("accHistory");
+    historyDiv.innerHTML = "";
+    
+    for (const id in list) {
+      const w = list[id];
+      const item = document.createElement("div");
+      item.style.cssText = "padding:6px 8px;border-bottom:1px solid rgba(0,255,213,0.1);font-size:11px";
+      item.innerHTML = `
+        <div style="color:#00ffd5">${escapeHtml(w.prize)}</div>
+        <div style="color:#aaa;font-size:10px">${w.time}</div>
+      `;
+      historyDiv.appendChild(item);
+    }
+    if (Object.keys(list).length === 0) {
+      historyDiv.innerHTML = "<div style='color:#aaa;font-size:11px;text-align:center'>Belum ada riwayat hadiah</div>";
+    }
+  });
 
-  // Prize history
-  const wSnap  = await db.ref("winners").once("value");
-  const myWins = (wSnap.val() || []).filter(w => w.deviceId === deviceId);
-  const hCont  = document.getElementById("accHistory");
-  hCont.innerHTML = "";
-  if (myWins.length === 0) {
-    hCont.innerHTML = "<div style='color:#aaa;font-size:11px;text-align:center;padding:6px'>Belum ada kemenangan</div>";
-  } else {
-    [...myWins].reverse().forEach(w => {
-      const d = document.createElement("div");
-      d.style.cssText = "padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:11px";
-      d.innerHTML = `<div style="color:#00ffd5">🏆 ${escapeHtml(w.prize)}</div><div style="color:#aaa">${w.time}</div>`;
-      hCont.appendChild(d);
-    });
-  }
-}
+  document.getElementById("accountModal").style.display = "flex";
+};
 
 function closeAccount() {
   document.getElementById("accountModal").style.display = "none";
@@ -1380,303 +1437,113 @@ function closeAccount() {
 
 document.getElementById("copyIdBtn").onclick = () => {
   navigator.clipboard.writeText(deviceId).then(() => {
-    const btn = document.getElementById("copyIdBtn");
-    btn.innerText = "✅ Disalin!";
-    setTimeout(() => btn.innerText = "📋 Copy ID", 2000);
+    showToast("📋 Device ID disalin!", "success");
   });
 };
 
 document.getElementById("requestEditBtn").onclick = async () => {
-  const snap = await db.ref("accountData/" + deviceId).once("value");
-  const data  = snap.val() || {};
-
-  // Check if admin granted permission
-  if (data.editAllowed && Date.now() < (data.editExpire || 0)) {
-    const newName = prompt("Masukkan nama baru:");
-    if (!newName || !newName.trim()) return;
-    const trimmed = newName.trim();
-    await db.ref("lockedNames/" + deviceId).set(trimmed);
-    await saveNameHistory(deviceId, trimmed);
-    await db.ref("accountData/" + deviceId).update({ editAllowed: false });
-    document.getElementById("accCurrentName").innerText   = trimmed;
-    document.getElementById("nameInput").value            = trimmed;
-    document.getElementById("nameInput").disabled         = true;
-    showToast("✅ Nama berhasil diubah!", "success");
+  const grantSnap = await db.ref("editGrant/" + deviceId).once("value");
+  if (!grantSnap.val()) {
+    showToast("❌ Tidak ada izin edit dari admin!", "error");
     return;
   }
 
-  // Request via WA with rate limiting (2x per 24 jam)
-  let cnt   = data.waRequestCount || 0;
-  let reset = data.waResetTime    || 0;
-  if (Date.now() > reset) { cnt = 0; reset = Date.now() + 86400000; }
-  if (cnt >= 2) {
-    showToast("❌ Max 2x per 24 jam. Reset: " + new Date(reset).toLocaleString("id-ID"), "error");
-    return;
-  }
-  cnt++;
-  await db.ref("accountData/" + deviceId).update({ waRequestCount: cnt, waResetTime: reset });
-  const text = `Halo Admin XREZZKYSTORE 🙏\nSaya minta izin edit nama.\nDevice ID: ${deviceId}\nNama baru: ...`;
-  window.open(`https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(text)}`, "_blank");
-  showToast(`✅ Request terkirim. Sisa: ${2 - cnt}x hari ini`, "success");
-};
-
-document.getElementById("logoutBtn").onclick = () => {
-  if (!confirm("Yakin Log Out? Device ID akan direset.")) return;
-  ["devId","localSpin","usedCodes"].forEach(k => localStorage.removeItem(k));
-  location.reload();
-};
-
-// =============================================
-//  ADMIN ACCESS (5 clicks on title)
-// =============================================
-document.getElementById("title").onclick = () => {
-  titleClickCount++;
-  if (titleClickCount >= 5) {
-    const p = prompt("🔑 PIN Admin:");
-    if (p === ADMIN_PIN) {
-      isAdmin = true;
-      document.getElementById("adminPanel").style.display = "block";
-      syncAdminInputs();
-      showToast("✅ Admin Mode Aktif", "success");
-    } else if (p !== null) {
-      showToast("❌ PIN salah!", "error");
-    }
-    titleClickCount = 0;
+  const newName = prompt("Masukkan nama baru:", document.getElementById("accCurrentName").innerText);
+  if (newName && newName.trim()) {
+    await db.ref("lockedNames/" + deviceId).set(newName.trim());
+    await saveNameHistory(deviceId, newName.trim());
+    await db.ref("editGrant/" + deviceId).remove();
+    document.getElementById("nameInput").value = newName.trim();
+    closeAccount();
+    showToast("✅ Nama diubah!", "success");
   }
 };
 
-function syncAdminInputs() {
-  document.getElementById("maxWinnerGlobal").value   = globalSettings.maxWinnerGlobal  || 0;
-  document.getElementById("maxWinDevice").value      = globalSettings.maxWinPerDevice  || 0;
-  document.getElementById("maxSpinDevice").value     = globalSettings.maxSpinPerUser   || 0;
-  document.getElementById("freeSpinNewUser").value   = globalSettings.freeSpinNewUser  || 5;
-  document.getElementById("enableSchedule").checked  = globalSettings.scheduleEnabled  || false;
+document.getElementById("logoutBtn").onclick = async () => {
+  if (confirm("Logout dan hapus akun lokal?")) {
+    localStorage.removeItem("devId");
+    location.reload();
+  }
+};
 
-  if (globalSettings.eventStart)
-    document.getElementById("eventStart").value = toLocalDatetime(globalSettings.eventStart);
-  if (globalSettings.eventEnd)
-    document.getElementById("eventEnd").value   = toLocalDatetime(globalSettings.eventEnd);
+async function saveNameHistory(devId, name) {
+  const historyId = Math.random().toString(36).slice(2, 10);
+  await db.ref("nameHistory/" + devId + "/" + historyId).set({
+    name: name,
+    time: new Date().toLocaleString("id-ID")
+  });
 }
 
 // =============================================
-//  DEVICE INFO
+//  CONFETTI ANIMATION
 // =============================================
-function initDeviceDisplay() {
-  const el    = document.getElementById("deviceInfo");
-  const short = deviceId.length > 20 ? deviceId.slice(0, 18) + "..." : deviceId;
-  el.innerText = "📱 " + short + " (tap copy)";
-  el.onclick   = () => {
-    navigator.clipboard.writeText(deviceId).then(() => {
-      const orig = el.innerText;
-      el.innerText = "✅ ID Disalin!";
-      setTimeout(() => el.innerText = orig, 2000);
+function confetti() {
+  const canvas = document.getElementById("confetti");
+  const ctx = canvas.getContext("2d");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const particles = [];
+  for (let i = 0; i < 100; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height - canvas.height,
+      vx: (Math.random() - 0.5) * 8,
+      vy: Math.random() * 8 + 4,
+      color: ["#00ffd5", "#ffcc00", "#16a34a", "#ef4444"][Math.floor(Math.random() * 4)],
+      life: 1
     });
-  };
-}
-
-// =============================================
-//  RENDER HELPERS
-// =============================================
-function renderAdminWheel() {
-  const cont = document.getElementById("wheelList");
-  cont.innerHTML = "";
-  if (!currentPrizes || currentPrizes.length === 0) {
-    cont.innerHTML = "<div style='color:#aaa;text-align:center;padding:10px;font-size:11px'>Belum ada item</div>";
-    return;
   }
-  currentPrizes.forEach((p, i) => {
-    const d = document.createElement("div");
-    d.className = "wheel-item " + (p.win ? "win-item" : "lose-item");
-    d.innerHTML = `
-      <div class="info">
-        <span style="color:${p.win ? "#4ade80" : "#f87171"}">${p.win ? "✓ WIN" : "✗ ZONK"}</span>
-        <span style="color:#fff"> ${escapeHtml(p.label)}</span>
-        <span style="color:#aaa"> (w:${p.weight || 1})</span>
-      </div>
-      <button class="del-btn" onclick="deletePrize(${i})">✕</button>`;
-    cont.appendChild(d);
-  });
-}
 
-function renderCodeList(data) {
-  const cont = document.getElementById("codeList");
-  cont.innerHTML = "";
-  const keys = Object.keys(data);
-  if (keys.length === 0) {
-    cont.innerHTML = "<div style='color:#aaa;text-align:center;padding:8px;font-size:11px'>Belum ada code</div>";
-    return;
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let hasAlive = false;
+
+    particles.forEach(p => {
+      if (p.life > 0) {
+        hasAlive = true;
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.2;
+        p.life -= 0.01;
+        
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.life;
+        ctx.fillRect(p.x, p.y, 8, 8);
+        ctx.globalAlpha = 1;
+      }
+    });
+
+    if (hasAlive) requestAnimationFrame(animate);
   }
-  keys.forEach(code => {
-    const c = data[code];
-    const d = document.createElement("div");
-    d.className = "code-item";
-    d.innerHTML = `
-      <div>
-        <div style="color:#00ffd5;font-weight:bold;font-size:12px">${escapeHtml(code)}</div>
-        <div style="color:#aaa;font-size:10px">+${c.spin} spin | ${c.used || 0}/${c.maxUse} pakai</div>
-      </div>
-      <button class="del-btn" onclick="deleteCode('${escapeHtml(code)}')">✕</button>`;
-    cont.appendChild(d);
-  });
-}
-
-function updateStatusUI() {
-  const btn = document.getElementById("mainToggleBtn");
-  const isScheduled = globalSettings.scheduleEnabled;
-
-  if (isScheduled) {
-    btn.innerText         = "⏰ AUTO MODE AKTIF";
-    btn.style.background  = "#555";
-    btn.style.color       = "#fff";
-    btn.disabled          = true;
-    // Visual status updated by timer tick
-  } else {
-    btn.disabled = false;
-    if (globalSettings.eventOn) {
-      btn.innerText        = "⏹️ MATIKAN EVENT";
-      btn.style.background = "linear-gradient(135deg,#ef4444,#7f1d1d)";
-      btn.style.color      = "#fff";
-      setVisualStatus("st-on", "🟢 EVENT BERJALAN");
-      document.getElementById("timerLabel").innerText = "Event sedang berlangsung";
-      document.getElementById("timerClock").innerText = "AKTIF";
-    } else {
-      btn.innerText        = "▶️ HIDUPKAN EVENT";
-      btn.style.background = "linear-gradient(135deg,#16a34a,#052e16)";
-      btn.style.color      = "#fff";
-      setVisualStatus("st-off", "🔴 EVENT OFFLINE");
-      document.getElementById("timerLabel").innerText = "Event tidak aktif";
-      document.getElementById("timerClock").innerText = "OFFLINE";
-    }
-  }
-}
-
-function updateEventDateInfo() {
-  const el = document.getElementById("eventDateInfo");
-  const s  = Number(globalSettings.eventStart || 0);
-  const e  = Number(globalSettings.eventEnd   || 0);
-  if (!s || !e) { el.innerHTML = ""; return; }
-  const fmt  = { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "Asia/Jakarta" };
-  const ds   = new Date(s).toLocaleString("id-ID", fmt);
-  const de   = new Date(e).toLocaleString("id-ID", fmt);
-  el.innerHTML = `📅 ${ds} → ${de} WIB`;
-}
-
-function setVisualStatus(cls, txt) {
-  const el = document.getElementById("eventIndicator");
-  el.className = cls;
-  el.innerText  = txt;
-}
-
-async function updateSlotStat() {
-  const mwg    = globalSettings.maxWinnerGlobal || 0;
-  const el     = document.getElementById("statSlots");
-  if (mwg <= 0) { el.innerText = "∞"; el.style.color = "#00ffd5"; return; }
-  const snap   = await db.ref("winners").once("value");
-  const cnt    = (snap.val() || []).length;
-  const left   = Math.max(0, mwg - cnt);
-  el.innerText = left;
-  el.style.color = left <= 2 ? "#ef4444" : left <= 5 ? "#f59e0b" : "#00ffd5";
-}
-
-function updateSpinInfo() {
-  document.getElementById("spinInfo").innerText    = `🎟 Sisa Spin: ${userSpins}`;
-  document.getElementById("statSpin").innerText    = userSpins;
-}
-
-function addToLog(name, result, win) {
-  const log = document.getElementById("logPanel");
-  const d   = document.createElement("div");
-  d.style.cssText = "padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:11px";
-  d.innerHTML     = `
-    <span style="color:rgba(0,255,213,0.5)">${new Date().toLocaleTimeString("id-ID")}</span>
-    <span style="margin-left:4px;color:${win ? "#4ade80" : "#f87171"}">${win ? "✓" : "✗"} ${escapeHtml(result)}</span>`;
-  log.appendChild(d);
-  log.scrollTop = log.scrollHeight;
-}
-
-function validateRequirements() {
-  const info = document.getElementById("adminInfo").value.trim();
-  const mwg  = parseInt(document.getElementById("maxWinnerGlobal").value);
-  const mwd  = parseInt(document.getElementById("maxWinDevice").value);
-  const hasW = currentPrizes.some(p =>  p.win);
-  const hasL = currentPrizes.some(p => !p.win);
-  return info !== "" && mwg > 0 && mwd > 0 && hasW && hasL;
+  animate();
 }
 
 // =============================================
-//  TOAST NOTIFICATION
+//  INIT
 // =============================================
-let toastTimeout = null;
-function showToast(msg, type = "info") {
-  let el = document.getElementById("toastEl");
-  if (!el) {
-    el = document.createElement("div");
-    el.id = "toastEl";
-    el.style.cssText = `
-      position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
-      padding:10px 20px;border-radius:10px;font-family:'Share Tech Mono',monospace;
-      font-size:12px;z-index:99998;max-width:320px;text-align:center;
-      transition:opacity .3s;pointer-events:none;
-      box-shadow:0 4px 20px rgba(0,0,0,0.4);
-    `;
-    document.body.appendChild(el);
-  }
-  const styles = {
-    success: "background:linear-gradient(135deg,#16a34a,#052e16);color:#4ade80;border:1px solid #4ade80",
-    error:   "background:linear-gradient(135deg,#7f1d1d,#450a0a);color:#fca5a5;border:1px solid #ef4444",
-    warn:    "background:linear-gradient(135deg,#78350f,#431407);color:#fcd34d;border:1px solid #f59e0b",
-    info:    "background:linear-gradient(135deg,#0c4a6e,#082f49);color:#7dd3fc;border:1px solid #0ea5e9"
-  };
-  el.style.cssText += styles[type] || styles.info;
-  el.innerText      = msg;
-  el.style.opacity  = "1";
-  if (toastTimeout) clearTimeout(toastTimeout);
-  toastTimeout = setTimeout(() => { el.style.opacity = "0"; }, 3500);
-}
-
-// =============================================
-//  UTILS
-// =============================================
-function toLocalDatetime(ts) {
-  if (!ts) return "";
-  const d    = new Date(ts);
-  const pad2 = n => String(n).padStart(2, "0");
-  return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}T${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
-}
-
-function pad(n) { return n < 10 ? "0" + n : String(n); }
-
-function escapeHtml(str) {
-  return String(str)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#39;");
-}
-
-// =============================================
-//  APP INIT
-// =============================================
-async function initApp() {
-  initDeviceDisplay();
-  drawWheel();
-
-  // Init free spin for new users (Firebase-backed)
+window.onload = async () => {
   await initNewUser();
-
-  // Start schedule timer
-  startScheduleTimer();
+  updateSpinInfo();
+  updateStatusUI();
+  
+  document.getElementById("deviceInfo").innerText = "📱 Device: " + deviceId.slice(0, 10) + "...";
+  document.getElementById("deviceInfo").onclick = () => {
+    navigator.clipboard.writeText(deviceId);
+    showToast("📋 Device ID disalin!", "success");
+  };
 
   // Hide loading overlay
   setTimeout(() => {
-    const ov = document.getElementById("loadingOverlay");
-    ov.style.opacity = "0";
-    setTimeout(() => { ov.style.display = "none"; }, 500);
-  }, 1200);
-}
+    const overlay = document.getElementById("loadingOverlay");
+    overlay.style.opacity = "0";
+    overlay.style.pointerEvents = "none";
+  }, 1500);
 
-window.addEventListener("load", initApp);
+  startScheduleTimer();
+  tickSchedule();
+};
 </script>
+
 </body>
-</html>
+        </html>
