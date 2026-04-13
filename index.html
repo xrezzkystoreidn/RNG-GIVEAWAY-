@@ -480,7 +480,13 @@ button:disabled{opacity:0.5;cursor:not-allowed;transform:none}
     <!-- EVENT CONTROL -->
     <div class="admin-section">
       <div class="admin-section-title">📡 KONTROL EVENT</div>
-      <button id="mainToggleBtn" style="background:#555;color:#fff">TOGGLE EVENT</button>
+      <div style="display:flex;gap:6px;margin-bottom:8px">
+        <button id="mainToggleBtn" style="background:#555;color:#fff;flex:1">TOGGLE EVENT</button>
+        <button id="testModeBtn" style="background:linear-gradient(135deg,#7c3aed,#4c1d95);color:#fff;flex:1;font-size:12px" title="Spin tanpa potong stok, tidak simpan ke pemenang">🧪 UJI COBA</button>
+      </div>
+      <div id="testModeBanner" style="display:none;background:rgba(124,58,237,0.2);border:1px solid #7c3aed;border-radius:6px;padding:6px 10px;font-size:11px;color:#c4b5fd;margin-bottom:8px;text-align:center">
+        🧪 MODE UJI COBA AKTIF — Spin tidak potong stok & tidak tersimpan
+      </div>
       <textarea id="adminInfo" placeholder="Deskripsi event / pengumuman..." style="resize:vertical;height:80px;margin-top:8px"></textarea>
       <div class="grid-2" style="margin-top:8px">
         <input id="maxWinnerGlobal" type="number" placeholder="Limit Pemenang" value="0" style="margin-top:0">
@@ -527,6 +533,8 @@ button:disabled{opacity:0.5;cursor:not-allowed;transform:none}
       </select>
       <input id="newWheelWeight" type="number" placeholder="Weight Probabilitas" value="1" style="margin-top:6px">
       <button id="addWheelItemBtn" class="btn-primary" style="margin-top:8px">➕ TAMBAH ITEM RODA</button>
+      <!-- CHANCE DISPLAY -->
+      <div id="chanceDisplay" style="margin-top:10px"></div>
     </div>
 
     <!-- ADD SPIN USER -->
@@ -594,6 +602,7 @@ let autoToggleLock  = false;
 let mySpinCount     = 0;    // local session log counter
 let loseStreak      = 0;    // consecutive losses (local)
 let presenceRef     = null;
+let testMode        = false;  // Mode uji coba: spin tidak potong stok & tidak simpan pemenang
 
 // ════════════════════════════════════════════
 //  CANVAS WHEEL
@@ -825,17 +834,22 @@ function startScheduleTimer() {
 }
 
 function tickSchedule() {
-  if (!globalSettings.scheduleEnabled) return;
   const start = Number(globalSettings.eventStart||0);
   const end   = Number(globalSettings.eventEnd||0);
-  if (!start||!end) return;
-  const now = Date.now();
-  if (now < start) {
-    displayTimer(start-now,"Event Dimulai Dalam:"); setVisualStatus("st-wait","⏳ AKAN DATANG"); autoToggle(false);
-  } else if (now<=end) {
-    displayTimer(end-now,"Event Berakhir Dalam:"); setVisualStatus("st-on","🟢 EVENT BERJALAN"); autoToggle(true);
-  } else {
-    displayTimer(0,"Event Telah Berakhir"); setVisualStatus("st-off","🔴 EVENT BERAKHIR"); autoToggle(false);
+
+  // Selalu tampilkan countdown kalau ada jadwal tersimpan
+  if (start && end) {
+    const now = Date.now();
+    if (now < start) {
+      displayTimer(start-now,"Event Dimulai Dalam:");
+      if (globalSettings.scheduleEnabled) { setVisualStatus("st-wait","⏳ AKAN DATANG"); autoToggle(false); }
+    } else if (now <= end) {
+      displayTimer(end-now,"Event Berakhir Dalam:");
+      if (globalSettings.scheduleEnabled) { setVisualStatus("st-on","🟢 EVENT BERJALAN"); autoToggle(true); }
+    } else {
+      displayTimer(0,"Event Telah Berakhir");
+      if (globalSettings.scheduleEnabled) { setVisualStatus("st-off","🔴 EVENT BERAKHIR"); autoToggle(false); }
+    }
   }
 }
 
@@ -866,33 +880,38 @@ document.getElementById("spinBtn").onclick = async () => {
     showToast("🔒 Device di-lock hingga "+new Date(lockUntil).toLocaleString("id-ID"),"error"); return;
   }
 
-  if (!globalSettings.eventOn) { showToast("❌ Event sedang OFF.","error"); return; }
+  if (!testMode && !globalSettings.eventOn) { showToast("❌ Event sedang OFF.","error"); return; }
   if (!currentPrizes||currentPrizes.length===0) { showToast("❌ Admin belum setup hadiah!","error"); return; }
 
   // Name
   let name = document.getElementById("nameInput").value.trim();
-  const nameSnap = await db.ref("lockedNames/"+deviceId).once("value");
-  const locked   = nameSnap.val();
-  if (locked) {
-    name = locked;
+  if (!testMode) {
+    const nameSnap = await db.ref("lockedNames/"+deviceId).once("value");
+    const locked   = nameSnap.val();
+    if (locked) {
+      name = locked;
+    } else {
+      if (!name) { showToast("❌ Masukkan nama dulu!","error"); return; }
+      await db.ref("lockedNames/"+deviceId).set(name);
+      await saveNameHistory(deviceId, name);
+      document.getElementById("nameInput").disabled = true;
+    }
+    if (userSpins<=0) { showToast("❌ Spin habis! Redeem kode atau minta admin.","error"); return; }
+    // Per-event spin limit
+    if (globalSettings.maxSpinPerUser>0) {
+      const usedSnap = await db.ref("spinUsed/"+deviceId).once("value");
+      const used = usedSnap.val()||0;
+      if (used>=globalSettings.maxSpinPerUser) { showToast("❌ Batas spin per event tercapai.","error"); return; }
+      await db.ref("spinUsed/"+deviceId).set(used+1);
+    }
   } else {
-    if (!name) { showToast("❌ Masukkan nama dulu!","error"); return; }
-    await db.ref("lockedNames/"+deviceId).set(name);
-    await saveNameHistory(deviceId, name);
-    document.getElementById("nameInput").disabled = true;
+    // Test mode: gunakan nama input langsung tanpa lock
+    if (!name) name = "TEST USER";
   }
 
-  if (userSpins<=0) { showToast("❌ Spin habis! Redeem kode atau minta admin.","error"); return; }
-
-  // Per-event spin limit
-  if (globalSettings.maxSpinPerUser>0) {
-    const usedSnap = await db.ref("spinUsed/"+deviceId).once("value");
-    const used = usedSnap.val()||0;
-    if (used>=globalSettings.maxSpinPerUser) { showToast("❌ Batas spin per event tercapai.","error"); return; }
-    await db.ref("spinUsed/"+deviceId).set(used+1);
+  if (!testMode) {
+    await deductSpin();
   }
-
-  await deductSpin();
 
   // Weighted random
   const total = currentPrizes.reduce((s,p)=>s+(p.weight||1),0);
@@ -928,7 +947,14 @@ document.getElementById("spinBtn").onclick = async () => {
     if (prize.win) {
       loseStreak = 0;
       floatReaction('party');
-      await handleWin(name, prize.label);
+      if (testMode) {
+        showToast("🧪 [UJI COBA] Menang: " + prize.label + " — tidak disimpan","info");
+        document.getElementById("claimBtn").style.display = "none";
+        showWinOverlay(name + " [TEST]", prize.label + " (tidak disimpan)");
+        launchConfetti();
+      } else {
+        await handleWin(name, prize.label);
+      }
     } else {
       loseStreak++;
       floatReaction(loseStreak>=3?"😭":"😢");
@@ -1134,11 +1160,28 @@ document.getElementById("saveBroadcastBtn").onclick = async () => {
   showToast(msg ? "📣 Broadcast terkirim!" : "✅ Broadcast dihapus.","success");
 };
 
+document.getElementById("testModeBtn").onclick = () => {
+  testMode = !testMode;
+  const btn    = document.getElementById("testModeBtn");
+  const banner = document.getElementById("testModeBanner");
+  if (testMode) {
+    btn.style.background = "linear-gradient(135deg,#059669,#064e3b)";
+    btn.innerText        = "🧪 UJI COBA ON";
+    banner.style.display = "block";
+    showToast("🧪 Mode Uji Coba AKTIF — spin tidak potong stok","info");
+  } else {
+    btn.style.background = "linear-gradient(135deg,#7c3aed,#4c1d95)";
+    btn.innerText        = "🧪 UJI COBA";
+    banner.style.display = "none";
+    showToast("✅ Mode Uji Coba dimatikan","success");
+  }
+};
+
 document.getElementById("mainToggleBtn").onclick = () => {
   if (globalSettings.scheduleEnabled) { showToast("❌ Nonaktifkan schedule dulu!","warn"); return; }
   const next = !globalSettings.eventOn;
   if (next && !validateRequirements()) {
-    alert("❌ Lengkapi dulu:\n• Deskripsi event\n• Max pemenang > 0\n• Max menang/user > 0\n• Min 1 HADIAH + 1 ZONK di roda"); return;
+    showToast("❌ Tambahkan minimal 1 item hadiah di roda dulu!","error"); return;
   }
   db.ref("settings/eventOn").set(next).then(()=>showToast(next?"✅ Event HIDUP!":"✅ Event DIMATIKAN!",next?"success":"warn"));
 };
@@ -1375,7 +1418,9 @@ function renderAdminWheel() {
   const cont = document.getElementById("wheelList");
   cont.innerHTML = "";
   if (!currentPrizes||!currentPrizes.length) {
-    cont.innerHTML="<div style='color:#aaa;text-align:center;padding:10px;font-size:11px'>Belum ada item</div>"; return;
+    cont.innerHTML="<div style='color:#aaa;text-align:center;padding:10px;font-size:11px'>Belum ada item</div>";
+    renderChanceDisplay();
+    return;
   }
   currentPrizes.forEach((p,i)=>{
     const d=document.createElement("div");
@@ -1383,6 +1428,51 @@ function renderAdminWheel() {
     d.innerHTML=`<div class="info"><span style="color:${p.win?"#4ade80":"#f87171"}">${p.win?"✓ WIN":"✗ ZONK"}</span> <span style="color:#fff">${escapeHtml(p.label)}</span> <span style="color:#aaa">(w:${p.weight||1})</span></div><button class="del-btn" onclick="deletePrize(${i})">✕</button>`;
     cont.appendChild(d);
   });
+  renderChanceDisplay();
+}
+
+function renderChanceDisplay() {
+  const el = document.getElementById("chanceDisplay");
+  if (!el) return;
+  if (!currentPrizes||!currentPrizes.length) { el.innerHTML=""; return; }
+
+  const totalW = currentPrizes.reduce((s,p)=>s+(p.weight||1),0);
+  const winW   = currentPrizes.filter(p=>p.win).reduce((s,p)=>s+(p.weight||1),0);
+  const loseW  = totalW - winW;
+  const winPct  = ((winW/totalW)*100).toFixed(1);
+  const losePct = ((loseW/totalW)*100).toFixed(1);
+
+  let html = `
+    <div style="background:rgba(0,0,0,0.4);border:1px solid rgba(0,255,213,0.15);border-radius:8px;padding:10px;font-size:11px">
+      <div style="color:#00ffd5;font-weight:700;margin-bottom:8px;letter-spacing:1px">📊 PELUANG MASING-MASING</div>
+      <!-- Summary bar -->
+      <div style="display:flex;border-radius:6px;overflow:hidden;height:14px;margin-bottom:8px">
+        <div style="width:${winPct}%;background:#16a34a;transition:width .5s"></div>
+        <div style="width:${losePct}%;background:#ef4444;transition:width .5s"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+        <span style="color:#4ade80">✓ Total Menang: <b>${winPct}%</b></span>
+        <span style="color:#f87171">✗ Total Zonk: <b>${losePct}%</b></span>
+      </div>
+      <div style="border-top:1px solid rgba(255,255,255,0.07);padding-top:8px">`;
+
+  currentPrizes.forEach(p => {
+    const pct = ((p.weight||1)/totalW*100).toFixed(2);
+    const bar = Math.round((p.weight||1)/totalW*100);
+    html += `
+        <div style="margin-bottom:5px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:2px">
+            <span style="color:${p.win?"#4ade80":"#f87171"}">${p.win?"✓":"✗"} ${escapeHtml(p.label)}</span>
+            <span style="color:#fff;font-weight:700">${pct}%</span>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border-radius:3px;height:6px;overflow:hidden">
+            <div style="width:${bar}%;background:${p.win?"#16a34a":"#ef4444"};height:100%;border-radius:3px;transition:width .5s"></div>
+          </div>
+        </div>`;
+  });
+
+  html += `</div></div>`;
+  el.innerHTML = html;
 }
 
 function renderCodeList(data) {
@@ -1454,10 +1544,8 @@ function addToLog(name, result, win) {
 }
 
 function validateRequirements() {
-  const info=document.getElementById("adminInfo").value.trim();
-  const mwg=parseInt(document.getElementById("maxWinnerGlobal").value);
-  const mwd=parseInt(document.getElementById("maxWinDevice").value);
-  return info&&mwg>0&&mwd>0&&currentPrizes.some(p=>p.win)&&currentPrizes.some(p=>!p.win);
+  // Hanya wajib: ada minimal 1 item roda
+  return currentPrizes.length > 0;
 }
 
 // ════════════════════════════════════════════
