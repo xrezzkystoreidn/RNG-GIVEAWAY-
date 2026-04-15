@@ -6,38 +6,31 @@
 <title>XREZZKYSTORE RNG GIVEAWAY</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
-:root{--c:#00ffd5;--dark:#020b0b;--card:#071414}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:radial-gradient(ellipse at 50% 0%,#0a2f2f,#020b0b 60%);min-height:100vh;font-family:'Share Tech Mono',monospace;color:#fff;display:flex;justify-content:center;padding:16px 10px 60px}
 .box{width:100%;max-width:420px;background:#071414;border-radius:20px;padding:18px;box-shadow:0 0 40px rgba(0,255,213,.15);border:1px solid rgba(0,255,213,.2);display:flex;flex-direction:column;align-items:center;position:relative;overflow:hidden}
 .box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00ffd5,transparent)}
-/* HEADER */
 .hdr{width:100%;display:flex;align-items:center;justify-content:center;position:relative;margin-bottom:2px}
 #accountBtn{position:absolute;right:0;width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#00ffd5,#007a6a);border:none;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .2s}
 #accountBtn:hover{transform:scale(1.1)}
 h2{font-family:'Orbitron',sans-serif;font-size:19px;color:#00ffd5;letter-spacing:3px;text-shadow:0 0 20px rgba(0,255,213,.6);cursor:pointer;text-align:center}
 .sub{font-size:10px;letter-spacing:4px;color:rgba(0,255,213,.5);text-align:center;margin-bottom:10px}
-/* TABS */
 .tabs{display:flex;width:100%;gap:6px;margin-bottom:12px}
-.tab{flex:1;padding:8px 4px;border-radius:8px;border:1px solid rgba(0,255,213,.2);background:transparent;color:#aaa;font-family:'Share Tech Mono',monospace;font-size:11px;cursor:pointer;transition:all .2s;letter-spacing:1px}
-.tab.on{background:linear-gradient(135deg,#00ffd5,#007a6a);color:#000;border-color:#00ffd5;font-weight:700}
-/* STATUS */
+.tab{flex:1;padding:8px 4px;border-radius:8px;border:1px solid rgba(0,255,213,.2);background:transparent;color:#aaa;font-family:'Share Tech Mono',monospace;font-size:11px;cursor:pointer;transition:all .2s}
+.tab.on{background:linear-gradient(135deg,#00ffd5,#007a6a);color:#000;font-weight:700}
 #evInd{width:100%;padding:7px 12px;border-radius:8px;text-align:center;font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:2px;font-weight:700;margin-bottom:8px;transition:all .3s}
 .s-on{background:linear-gradient(135deg,#064e1a,#16a34a);color:#4ade80;border:1px solid #16a34a;box-shadow:0 0 15px rgba(22,163,74,.3)}
 .s-off{background:linear-gradient(135deg,#4e0606,#ef4444);color:#fca5a5;border:1px solid #ef4444;box-shadow:0 0 15px rgba(239,68,68,.3)}
 .s-wait{background:linear-gradient(135deg,#4e2e06,#f59e0b);color:#fcd34d;border:1px solid #f59e0b;box-shadow:0 0 15px rgba(245,158,11,.3)}
-/* TIMER */
 #timerBox{width:100%;background:rgba(0,0,0,.4);border:1px solid rgba(0,255,213,.15);border-radius:10px;padding:8px 12px;margin-bottom:10px}
 #evDateInfo{font-size:10px;color:rgba(0,255,213,.6);margin-bottom:4px;line-height:1.5}
 #timerLbl{font-size:10px;color:#aaa;margin-bottom:3px}
 #timerClk{font-family:'Orbitron',sans-serif;font-size:17px;color:#00ffd5;letter-spacing:2px}
 .tu{color:#ffcc66}
-/* STATS */
 #stats{width:100%;display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:10px}
 .sb{background:rgba(0,0,0,.3);border:1px solid rgba(0,255,213,.1);border-radius:8px;padding:5px;text-align:center}
 .sb .v{font-family:'Orbitron',sans-serif;font-size:15px;color:#00ffd5}
 .sb .l{font-size:9px;color:#aaa;margin-top:2px}
-/* INPUTS */
 input,select,textarea{width:100%;padding:9px 11px;border-radius:8px;border:1px solid rgba(0,255,213,.2);background:rgba(0,0,0,.4);color:#fff;font-family:'Share Tech Mono',monospace;font-size:13px;margin-top:7px;outline:none;transition:border-color .2s}
 input:focus,select:focus,textarea:focus{border-color:#00ffd5;box-shadow:0 0 8px rgba(0,255,213,.2)}
 input:disabled{opacity:.6;cursor:not-allowed}
@@ -49,28 +42,24 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .bg{background:linear-gradient(135deg,#16a34a,#052e16);color:#fff}
 .bw{background:linear-gradient(135deg,#f59e0b,#78350f);color:#fff}
 .bx{background:rgba(255,255,255,.1);color:#fff}
-/* CODE WRAPPER */
 .cw{display:flex;width:100%;gap:7px;align-items:flex-end;margin-top:7px}
 .cw input{flex:1;margin-top:0}
-/* WHEEL */
 #wWrap{width:100%;display:flex;flex-direction:column;align-items:center;margin:12px 0}
 #wCont{position:relative;width:290px;height:290px}
 #wheel{width:290px;height:290px;display:block;transition:transform 4s cubic-bezier(0.17,.67,.12,.99)}
 #arrWrap{position:absolute;top:-20px;left:50%;transform:translateX(-50%);z-index:20;filter:drop-shadow(0 0 5px #00ffd5)}
 #wCenter{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;background:linear-gradient(135deg,#00ffd5,#007a6a);border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-size:7px;color:#000;font-weight:900;z-index:10;pointer-events:none;text-align:center}
-#spinBtn{font-family:'Orbitron',sans-serif;font-size:15px;letter-spacing:2px;padding:15px;background:linear-gradient(135deg,#00ffd5,#007a6a);color:#000;font-weight:900;box-shadow:0 4px 18px rgba(0,255,213,.3)}
+#spinBtn{font-family:'Orbitron',sans-serif;font-size:15px;letter-spacing:2px;padding:15px;background:linear-gradient(135deg,#00ffd5,#007a6a);color:#000;font-weight:900}
 #result{margin:10px 0 6px;font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;text-align:center;min-height:26px;color:#00ffd5;letter-spacing:1px}
 #result.wr{color:#4ade80;text-shadow:0 0 20px rgba(74,222,128,.6);animation:pls 1s infinite}
 #result.lr{color:#f87171}
 @keyframes pls{0%,100%{opacity:1}50%{opacity:.7}}
 #claimBtn{background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;margin-top:4px;display:none}
 #spinInfo{color:#aaa;font-size:11px;margin:4px 0 0;text-align:center;display:block}
-#spinNote{color:#ffcc00;font-size:11px;margin:2px 0 5px;text-align:center;display:block}
+#spinNote{color:#ffcc00;font-size:11px;margin:2px 0 5px;text-align:center;display:block;min-height:18px}
 #devInfo{color:rgba(0,255,213,.5);font-size:10px;cursor:pointer;margin-bottom:8px;text-align:center;display:block}
-/* PANELS */
 .pnl{background:rgba(0,0,0,.3);padding:9px;border-radius:10px;font-size:11px;width:100%;border:1px solid rgba(0,255,213,.1);margin-top:8px}
 .ptitle{color:#00ffd5;font-weight:700;margin-bottom:5px;font-size:11px;letter-spacing:1px;border-bottom:1px solid rgba(0,255,213,.1);padding-bottom:3px}
-/* ADMIN */
 #admPanel{display:none;width:100%;margin-top:12px}
 .as{background:rgba(0,0,0,.3);padding:11px;border-radius:10px;margin-bottom:10px;border:1px solid rgba(255,204,0,.2)}
 .at{color:#ffcc00;font-size:11px;font-weight:700;letter-spacing:1px;margin-bottom:8px}
@@ -83,19 +72,16 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .wia .nfo{flex:1;font-size:11px}
 .db{width:28px;height:28px;border-radius:50%;background:#ef4444;color:#fff;font-size:11px;padding:0;flex-shrink:0}
 .ci{display:flex;justify-content:space-between;align-items:center;padding:5px 7px;border-radius:6px;margin-bottom:4px;background:rgba(0,255,213,.05);border:1px solid rgba(0,255,213,.1)}
-/* MODALS */
 .mov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
-.mbox{width:330px;background:#071414;border:1px solid rgba(0,255,213,.3);padding:18px;border-radius:16px;box-shadow:0 0 40px rgba(0,255,213,.15);max-height:90vh;overflow-y:auto}
+.mbox{width:330px;background:#071414;border:1px solid rgba(0,255,213,.3);padding:18px;border-radius:16px;max-height:90vh;overflow-y:auto}
 .mbox h3{font-family:'Orbitron',sans-serif;color:#00ffd5;text-align:center;margin-bottom:13px;font-size:14px;letter-spacing:2px}
 .arow{margin-bottom:10px}
 .arow label{font-size:9px;color:#aaa;display:block;margin-bottom:3px;letter-spacing:1px}
 .aval{background:rgba(0,0,0,.4);border:1px solid rgba(0,255,213,.2);border-radius:6px;padding:7px 9px;font-size:12px;color:#00ffd5;word-break:break-all}
 .nhi{padding:4px 7px;border-radius:5px;margin-bottom:3px;background:rgba(0,255,213,.05);border:1px solid rgba(0,255,213,.1);font-size:10px}
-/* WIN OVERLAY */
 #winOv{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:8000;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:20px}
 .wb{font-family:'Orbitron',sans-serif;font-size:26px;color:#ffcc00;text-shadow:0 0 30px rgba(255,204,0,.8);margin-bottom:8px;animation:bnc .5s infinite alternate}
 @keyframes bnc{from{transform:scale(1)}to{transform:scale(1.05)}}
-/* NAME SPIN */
 #nSpin{display:none;width:100%}
 .nsr{font-family:'Orbitron',sans-serif;font-size:18px;color:#ffcc00;text-align:center;min-height:30px;margin:8px 0;text-shadow:0 0 15px rgba(255,204,0,.6);letter-spacing:2px}
 .ntags{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px;max-height:90px;overflow:auto}
@@ -106,9 +92,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
 #nArr{position:absolute;top:-20px;left:50%;transform:translateX(-50%);z-index:20;filter:drop-shadow(0 0 5px #ffcc00)}
 #nwCenter{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:38px;height:38px;background:linear-gradient(135deg,#ffcc00,#f59e0b);border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-size:7px;color:#000;font-weight:900;z-index:10;pointer-events:none}
 #nSpinBtn{font-family:'Orbitron',sans-serif;font-size:14px;letter-spacing:2px;padding:14px;background:linear-gradient(135deg,#ffcc00,#f59e0b);color:#000;font-weight:900;margin-top:8px}
-/* REALTIME BADGE */
-.rt-badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;color:#4ade80;margin-left:8px}
-.rt-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:blink 1.5s infinite}
+.rtdot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#4ade80;animation:blink 1.5s infinite;margin-left:5px;vertical-align:middle}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:rgba(0,0,0,.2)}
@@ -162,13 +146,12 @@ button:disabled{opacity:.5;cursor:not-allowed}
     <button id="accountBtn">👤</button>
   </div>
 
-  <!-- Mode Tabs -->
   <div class="tabs">
     <button class="tab on" id="t1" onclick="switchMode('g')">🎰 GIVEAWAY RNG</button>
     <button class="tab" id="t2" onclick="switchMode('n')">🎡 SPIN NAMA</button>
   </div>
 
-  <!-- Status & Timer always visible -->
+  <!-- Status & Timer -->
   <div id="evInd" class="s-off">MEMUAT...</div>
   <div id="timerBox">
     <div id="evDateInfo"></div>
@@ -176,11 +159,11 @@ button:disabled{opacity:.5;cursor:not-allowed}
     <div id="timerClk" style="font-family:'Orbitron',sans-serif;font-size:17px;color:#00ffd5;letter-spacing:2px">-- : -- : --</div>
   </div>
 
-  <!-- ====== GIVEAWAY SECTION ====== -->
+  <!-- GIVEAWAY SECTION -->
   <div id="gSec" style="width:100%;display:flex;flex-direction:column;align-items:center">
     <div id="stats">
       <div class="sb"><div class="v" id="sWin">0</div><div class="l">PEMENANG</div></div>
-      <div class="sb"><div class="v" id="sSpin">0</div><div class="l">SISA SPIN</div></div>
+      <div class="sb"><div class="v" id="sSpin">-</div><div class="l">SISA SPIN</div></div>
       <div class="sb"><div class="v" id="sSlot">∞</div><div class="l">SLOT</div></div>
     </div>
     <input id="nameInp" placeholder="✏️ Masukkan Nama Anda">
@@ -188,8 +171,6 @@ button:disabled{opacity:.5;cursor:not-allowed}
       <input id="codeInp" placeholder="🎟️ Kode Spin" style="margin-top:0">
       <button id="redeemBtn" class="bc" style="width:88px;margin-top:0;flex-shrink:0">Redeem</button>
     </div>
-
-    <!-- RNG Wheel -->
     <div id="wWrap">
       <div id="wCont">
         <div id="arrWrap">
@@ -202,25 +183,21 @@ button:disabled{opacity:.5;cursor:not-allowed}
         <div id="wCenter">RNG</div>
       </div>
     </div>
-
     <button id="spinBtn">🌀 SPIN RNG</button>
     <div id="result">PUTAR UNTUK MEMULAI</div>
     <button id="claimBtn">📩 KLAIM HADIAH VIA WA</button>
-    <span id="spinInfo">🎟 Memuat...</span>
+    <span id="spinInfo">🎟 Memuat spin...</span>
     <span id="spinNote"></span>
     <span id="devInfo">📱 Device ID: memuat...</span>
-
     <div class="pnl"><div class="ptitle">📋 RIWAYAT SPIN SAYA</div>
       <div id="logInner" style="max-height:100px;overflow:auto"></div></div>
-
-    <div class="pnl"><div class="ptitle">📢 INFO EVENT <span class="rt-badge"><span class="rt-dot"></span>LIVE</span></div>
+    <div class="pnl"><div class="ptitle">📢 INFO EVENT <span class="rtdot"></span></div>
       <div id="infoContent" style="color:#ccc;font-size:11px;line-height:1.6">Memuat...</div></div>
-
-    <div class="pnl"><div class="ptitle">🏆 PEMENANG TERBARU <span class="rt-badge"><span class="rt-dot"></span>LIVE</span></div>
+    <div class="pnl"><div class="ptitle">🏆 PEMENANG TERBARU <span class="rtdot"></span></div>
       <div id="winContent" style="max-height:120px;overflow:auto">Memuat...</div></div>
-  </div><!-- end gSec -->
+  </div>
 
-  <!-- ====== NAME SPIN SECTION ====== -->
+  <!-- NAME SPIN SECTION -->
   <div id="nSpin">
     <div class="pnl" style="margin-top:0">
       <div class="ptitle">👥 DAFTAR NAMA PESERTA</div>
@@ -257,23 +234,16 @@ button:disabled{opacity:.5;cursor:not-allowed}
     <div style="font-size:10px;color:rgba(0,255,213,.3);text-align:center;margin-top:8px">Spin Nama tersimpan lokal. Tidak perlu event aktif.</div>
   </div>
 
-  <!-- ====== ADMIN PANEL ====== -->
+  <!-- ADMIN PANEL -->
   <div id="admPanel">
-    <div style="font-family:'Orbitron',sans-serif;color:#ffcc00;text-align:center;font-size:12px;letter-spacing:2px;margin-bottom:12px;border-bottom:1px solid rgba(255,204,0,.2);padding-bottom:10px">
-      ⚙️ ADMIN PANEL <span class="rt-badge"><span class="rt-dot"></span>REALTIME</span>
-    </div>
+    <div style="font-family:'Orbitron',sans-serif;color:#ffcc00;text-align:center;font-size:12px;letter-spacing:2px;margin-bottom:12px;border-bottom:1px solid rgba(255,204,0,.2);padding-bottom:10px">⚙️ ADMIN PANEL</div>
 
-    <!-- CONNECTION STATUS -->
-    <div id="connStatus" class="as" style="text-align:center;font-size:11px;color:#4ade80">
-      🟢 Terhubung ke Firebase
-    </div>
+    <div id="connStatus" class="as" style="text-align:center;font-size:11px;padding:8px">🟡 Menghubungkan...</div>
 
-    <!-- GRANT EDIT -->
     <div class="as"><div class="at">🔐 GRANT EDIT PERMISSION</div>
       <input id="grantId" placeholder="Device ID Target">
       <button id="grantBtn" class="bc" style="margin-top:7px">Beri Izin Edit 1x</button></div>
 
-    <!-- LOCK DEVICE -->
     <div class="as"><div class="at">🔒 LOCK DEVICE</div>
       <input id="lockId" placeholder="Device ID Target">
       <input id="lockHr" type="number" placeholder="Durasi Lock (jam)" style="margin-top:5px">
@@ -282,10 +252,9 @@ button:disabled{opacity:.5;cursor:not-allowed}
         <button id="unlockBtn" class="bg">🔓 UNLOCK</button>
       </div></div>
 
-    <!-- EVENT CONTROL -->
     <div class="as"><div class="at">📡 KONTROL EVENT</div>
-      <div style="font-size:10px;color:#aaa;margin-bottom:6px">Toggle manual aktif hanya jika Auto Schedule OFF dan data lengkap.</div>
-      <button id="toggleBtn" style="background:#555;color:#fff">TOGGLE EVENT</button>
+      <div style="font-size:10px;color:#aaa;margin-bottom:6px">Toggle manual hanya aktif jika Auto Schedule OFF dan data lengkap.</div>
+      <button id="toggleBtn" style="background:#555;color:#fff;width:100%;padding:9px;border-radius:8px;border:none;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:13px;font-weight:700">TOGGLE EVENT</button>
       <textarea id="admInfo" placeholder="Deskripsi event / pengumuman..." style="resize:vertical;height:70px;margin-top:7px"></textarea>
       <div class="g2" style="margin-top:6px">
         <input id="mwg" type="number" placeholder="Limit Pemenang" value="0" style="margin-top:0">
@@ -294,7 +263,6 @@ button:disabled{opacity:.5;cursor:not-allowed}
         <input id="fsn" type="number" placeholder="Free Spin User Baru" value="5" style="margin-top:0">
       </div></div>
 
-    <!-- SCHEDULE -->
     <div class="as"><div class="at">⏰ AUTO SCHEDULE</div>
       <div id="schedMsg" style="font-size:10px;color:#f87171;margin-bottom:6px">⚠️ Lengkapi data event dulu.</div>
       <label style="font-size:10px;color:#aaa;display:block;margin-bottom:3px">Mulai Event</label>
@@ -307,8 +275,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
       </label>
       <button id="saveBtn" class="bc" style="margin-top:9px">💾 SIMPAN SEMUA SETTINGS</button></div>
 
-    <!-- CODES -->
-    <div class="as"><div class="at">🎟️ MANAJEMEN CODE GLOBAL <span class="rt-badge"><span class="rt-dot"></span>LIVE</span></div>
+    <div class="as"><div class="at">🎟️ MANAJEMEN CODE GLOBAL <span class="rtdot"></span></div>
       <div class="g2">
         <input id="newCode" placeholder="Nama Kode" style="margin-top:0">
         <input id="newCodeSpin" type="number" placeholder="Jumlah Spin" style="margin-top:0">
@@ -317,8 +284,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
       <button id="addCodeBtn" class="bc" style="margin-top:7px">➕ TAMBAH CODE</button>
       <div id="codeList" style="margin-top:8px;max-height:140px;overflow:auto"></div></div>
 
-    <!-- WHEEL ITEMS -->
-    <div class="as"><div class="at">🎡 SETTING HADIAH RODA <span class="rt-badge"><span class="rt-dot"></span>LIVE</span></div>
+    <div class="as"><div class="at">🎡 SETTING HADIAH RODA <span class="rtdot"></span></div>
       <div id="wList" style="max-height:170px;overflow:auto;margin-bottom:8px"></div>
       <input id="newLbl" placeholder="Nama Hadiah / Zonk">
       <select id="newType" style="margin-top:5px">
@@ -328,823 +294,816 @@ button:disabled{opacity:.5;cursor:not-allowed}
       <input id="newWt" type="number" placeholder="Weight (makin besar = makin sering)" value="1" style="margin-top:5px">
       <button id="addWheelBtn" class="bc" style="margin-top:7px">➕ TAMBAH ITEM</button></div>
 
-    <!-- ADD SPIN USER -->
     <div class="as"><div class="at">🎁 TAMBAH SPIN USER</div>
       <input id="tgtDev" placeholder="Device ID User">
       <input id="tgtAmt" type="number" placeholder="Jumlah Spin" style="margin-top:5px">
       <button id="addSpinBtn" class="bg" style="margin-top:7px">➕ TAMBAH SPIN</button></div>
 
-    <!-- ONLINE USERS -->
-    <div class="as"><div class="at">👥 USER AKTIF <span class="rt-badge"><span class="rt-dot"></span>LIVE</span></div>
+    <div class="as"><div id="onlineTitle" class="at">👥 USER AKTIF <span class="rtdot"></span></div>
       <div id="userList" style="max-height:120px;overflow:auto;font-size:11px">Memuat...</div></div>
 
-    <!-- ACTIONS -->
     <div class="as"><div class="at">⚡ AKSI DATA</div>
       <div class="brow">
         <button id="exportBtn" style="flex:1;background:#fff;color:#000;font-size:11px">📤 EXPORT</button>
         <button id="resetEvBtn" class="bw" style="flex:1;font-size:11px">♻ RESET EVENT</button>
         <button id="resetAllBtn" class="br" style="flex:1;font-size:11px">⚠️ RESET ALL</button>
       </div></div>
-  </div><!-- end admPanel -->
-</div><!-- end .box -->
+  </div>
+</div>
 
+<!-- Firebase SDKs (compat version, no import needed) -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
 <script>
-// ═══════════════════════════════════════════════
-//  FIREBASE INIT
-// ═══════════════════════════════════════════════
-const fbCfg={
-  apiKey:"AIzaSyD_1I7jtDwBRFhthA3DKlwysWfVtTfoy0o",
-  authDomain:"rng-spin.firebaseapp.com",
-  databaseURL:"https://rng-spin-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId:"rng-spin",
-  storageBucket:"rng-spin.firebasestorage.app",
-  messagingSenderId:"696033026587",
-  appId:"1:696033026587:web:3f668e38d466218fb98ebe",
-  measurementId:"G-JP8RS41P8T"
-};
-firebase.initializeApp(fbCfg);
-firebase.analytics();
-const db=firebase.database();
+// ══════════════════════════════════════
+// FIREBASE CONFIG
+// ══════════════════════════════════════
+const app = firebase.initializeApp({
+  apiKey: "AIzaSyD_1I7jtDwBRFhthA3DKlwysWfVtTfoy0o",
+  authDomain: "rng-spin.firebaseapp.com",
+  databaseURL: "https://rng-spin-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "rng-spin",
+  storageBucket: "rng-spin.firebasestorage.app",
+  messagingSenderId: "696033026587",
+  appId: "1:696033026587:web:3f668e38d466218fb98ebe",
+  measurementId: "G-JP8RS41P8T"
+});
+const db = firebase.database();
 
-// ═══════════════════════════════════════════════
-//  CONSTANTS
-// ═══════════════════════════════════════════════
-const ADMIN_PIN="XREZZKY STORE0930";
-const ADMIN_WA="6288293064112";
+// ══════════════════════════════════════
+// CONSTANTS
+// ══════════════════════════════════════
+const ADMIN_PIN = "XREZZKY STORE0930";
+const ADMIN_WA  = "6288293064112";
 
-// Device ID — persisted in localStorage
-const deviceId=(()=>{
-  let id=localStorage.getItem("devId");
-  if(!id){id="dev-"+Math.random().toString(36).slice(2,10);localStorage.setItem("devId",id);}
+const deviceId = (()=>{
+  let id = localStorage.getItem("devId");
+  if (!id) { id = "dev-" + Math.random().toString(36).slice(2,10); localStorage.setItem("devId", id); }
   return id;
 })();
 
-// ═══════════════════════════════════════════════
-//  STATE (all sourced from Firebase)
-// ═══════════════════════════════════════════════
-let prizes=[];          // from db.ref("wheelItems")
-let cfg={};            // from db.ref("settings")
-let infoBoardVal="";   // from db.ref("infoBoard")
-let totalWinners=0;    // from db.ref("winners")
-let mySpins=0;         // from db.ref("spins/"+deviceId)  ← NOW IN FIREBASE
-let myWins=0;          // from db.ref("deviceWins/"+deviceId)
-let isSpinning=false;
-let isNSpinning=false;
-let wheelRot=0;
-let nWheelRot=0;
-let _autoLast=null;    // prevent spam Firebase writes from timer
+// ══════════════════════════════════════
+// STATE — sourced from Firebase listeners
+// ══════════════════════════════════════
+let prizes      = [];
+let cfg         = {};
+let infoVal     = "Tidak ada informasi.";
+let totalWin    = 0;
+let mySpins     = 0;
+let myWins      = 0;
+let myLockUntil = 0;
+let isSpinning  = false;
+let isNSpin     = false;
+let wheelRot    = 0;
+let nWheelRot   = 0;
+let _autoLast   = null;  // prevent timer spam-writing to Firebase
+let spinInited  = false; // guard: only init free spin once
 
-// ═══════════════════════════════════════════════
-//  CONNECTION STATUS
-// ═══════════════════════════════════════════════
-db.ref(".info/connected").on("value",snap=>{
-  const el=document.getElementById("connStatus");
-  if(el){
-    if(snap.val()){el.style.color="#4ade80";el.innerText="🟢 Terhubung ke Firebase Realtime";}
-    else{el.style.color="#f87171";el.innerText="🔴 Koneksi terputus — mencoba reconnect...";}
+// ══════════════════════════════════════
+// CONNECTION MONITOR
+// ══════════════════════════════════════
+db.ref(".info/connected").on("value", snap => {
+  const el = document.getElementById("connStatus");
+  if (!el) return;
+  if (snap.val()) {
+    el.style.color = "#4ade80";
+    el.innerText = "🟢 Terhubung ke Firebase Realtime";
+  } else {
+    el.style.color = "#f87171";
+    el.innerText = "🔴 Koneksi terputus — mencoba reconnect...";
   }
 });
 
-// ═══════════════════════════════════════════════
-//  PRESENCE — Track online users
-// ═══════════════════════════════════════════════
-const presRef=db.ref("presence/"+deviceId);
-presRef.set({online:true,lastSeen:firebase.database.ServerValue.TIMESTAMP,deviceId});
-presRef.onDisconnect().set({online:false,lastSeen:firebase.database.ServerValue.TIMESTAMP,deviceId});
+// ══════════════════════════════════════
+// PRESENCE
+// ══════════════════════════════════════
+const presRef = db.ref("presence/" + deviceId);
+presRef.set({ online: true, ts: firebase.database.ServerValue.TIMESTAMP, deviceId });
+presRef.onDisconnect().update({ online: false, ts: firebase.database.ServerValue.TIMESTAMP });
 
-// ═══════════════════════════════════════════════
-//  MODE SWITCH
-// ═══════════════════════════════════════════════
-function switchMode(m){
-  document.getElementById("gSec").style.display=m==="g"?"flex":"none";
-  document.getElementById("nSpin").style.display=m==="n"?"block":"none";
-  document.getElementById("t1").className="tab"+(m==="g"?" on":"");
-  document.getElementById("t2").className="tab"+(m==="n"?" on":"");
+// ══════════════════════════════════════
+// MODE SWITCH
+// ══════════════════════════════════════
+function switchMode(m) {
+  document.getElementById("gSec").style.display  = m === "g" ? "flex" : "none";
+  document.getElementById("nSpin").style.display = m === "n" ? "block" : "none";
+  document.getElementById("t1").className = "tab" + (m === "g" ? " on" : "");
+  document.getElementById("t2").className = "tab" + (m === "n" ? " on" : "");
 }
 
-// ═══════════════════════════════════════════════
-//  RNG WHEEL — DRAW
-// ═══════════════════════════════════════════════
-const cvs=document.getElementById("wheel"),ctx=cvs.getContext("2d");
-const CX=145,CY=145,R=138;
+// ══════════════════════════════════════
+// RNG WHEEL
+// ══════════════════════════════════════
+const cvs = document.getElementById("wheel"), ctx = cvs.getContext("2d");
+const CX = 145, CY = 145, R = 138;
 
-function drawRNG(){
-  ctx.clearRect(0,0,290,290);
-  if(!prizes.length){
-    ctx.fillStyle="#111";ctx.beginPath();ctx.arc(CX,CY,R,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle="#555";ctx.font="12px Arial";ctx.textAlign="center";
-    ctx.fillText("Belum ada hadiah",CX,CY-6);ctx.fillText("Tambah di admin panel",CX,CY+10);
+function drawRNG() {
+  ctx.clearRect(0, 0, 290, 290);
+  if (!prizes.length) {
+    ctx.fillStyle = "#111"; ctx.beginPath(); ctx.arc(CX,CY,R,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = "#555"; ctx.font = "12px Arial"; ctx.textAlign = "center";
+    ctx.fillText("Belum ada hadiah", CX, CY-6);
+    ctx.fillText("Tambah di admin panel", CX, CY+10);
     return;
   }
-  const n=prizes.length,arc=(2*Math.PI)/n,SO=-Math.PI/2;
-  const wC=["#15803d","#16a34a","#22c55e","#4ade80"],lC=["#b91c1c","#dc2626","#ef4444","#f87171"];
-  prizes.forEach((p,i)=>{
-    const sa=SO+i*arc,ea=sa+arc;
-    ctx.beginPath();ctx.moveTo(CX,CY);ctx.arc(CX,CY,R,sa,ea);ctx.closePath();
-    ctx.fillStyle=p.win?wC[i%4]:lC[i%4];ctx.fill();
-    ctx.strokeStyle="#000";ctx.lineWidth=1.5;ctx.stroke();
-    // Label
-    ctx.save();ctx.translate(CX,CY);ctx.rotate(sa+arc/2);
-    const ml=n<=5?15:n<=10?10:n<=16?7:5;
-    const lb=p.label.length>ml?p.label.slice(0,ml-1)+"…":p.label;
-    const fs=n<=4?12:n<=8?10:n<=14?8:7;
-    ctx.fillStyle="#fff";ctx.font=`bold ${fs}px Arial`;ctx.textAlign="left";
-    ctx.shadowColor="rgba(0,0,0,.9)";ctx.shadowBlur=3;
-    ctx.fillText(lb,R*.60-(lb.length*fs*.3),fs/3);
+  const n = prizes.length, arc = (2*Math.PI)/n, SO = -Math.PI/2;
+  const wC = ["#15803d","#16a34a","#22c55e","#4ade80"];
+  const lC = ["#b91c1c","#dc2626","#ef4444","#f87171"];
+  prizes.forEach((p, i) => {
+    const sa = SO + i*arc, ea = sa + arc;
+    ctx.beginPath(); ctx.moveTo(CX,CY); ctx.arc(CX,CY,R,sa,ea); ctx.closePath();
+    ctx.fillStyle = p.win ? wC[i%4] : lC[i%4]; ctx.fill();
+    ctx.strokeStyle = "#000"; ctx.lineWidth = 1.5; ctx.stroke();
+    ctx.save(); ctx.translate(CX,CY); ctx.rotate(sa + arc/2);
+    const ml = n<=5?15:n<=10?10:n<=16?7:5;
+    const lb = p.label.length > ml ? p.label.slice(0,ml-1)+"…" : p.label;
+    const fs = n<=4?12:n<=8?10:n<=14?8:7;
+    ctx.fillStyle="#fff"; ctx.font=`bold ${fs}px Arial`; ctx.textAlign="left";
+    ctx.shadowColor="rgba(0,0,0,.9)"; ctx.shadowBlur=3;
+    ctx.fillText(lb, R*.60 - lb.length*fs*.3, fs/3);
     ctx.restore();
   });
-  ctx.beginPath();ctx.arc(CX,CY,R,0,Math.PI*2);ctx.strokeStyle="rgba(0,255,213,.6)";ctx.lineWidth=4;ctx.stroke();
-  ctx.beginPath();ctx.arc(CX,CY,21,0,Math.PI*2);ctx.fillStyle="#071414";ctx.fill();ctx.strokeStyle="rgba(0,255,213,.4)";ctx.lineWidth=2;ctx.stroke();
+  ctx.beginPath(); ctx.arc(CX,CY,R,0,Math.PI*2); ctx.strokeStyle="rgba(0,255,213,.6)"; ctx.lineWidth=4; ctx.stroke();
+  ctx.beginPath(); ctx.arc(CX,CY,21,0,Math.PI*2); ctx.fillStyle="#071414"; ctx.fill(); ctx.strokeStyle="rgba(0,255,213,.4)"; ctx.lineWidth=2; ctx.stroke();
 }
 
-// Spin RNG wheel so slice[idx] center lands under arrow (top = 0°, 12 o'clock)
-// Slice i center in canvas coords (from top, CW) = i*(360/n) + (360/n)/2
-// To bring that to top: rotate CW by (360 - sliceCenter - curMod) % 360 + extraSpins
-function spinTo(idx,cb){
-  const n=prizes.length;if(!n)return;
-  const sd=360/n,sc=idx*sd+sd/2;
-  const cur=((wheelRot%360)+360)%360;
-  let d=((360-sc)-cur+36000)%360;
-  wheelRot+=(5*360)+d;
-  cvs.style.transition="transform 4s cubic-bezier(0.17,.67,.12,.99)";
-  cvs.style.transform=`rotate(${wheelRot}deg)`;
-  setTimeout(cb,4300);
+// Spin so slice[idx] center lands under arrow (top, 12 o'clock)
+function spinTo(idx, cb) {
+  const n = prizes.length; if (!n) return;
+  const sd = 360/n, sc = idx*sd + sd/2;
+  const cur = ((wheelRot%360)+360)%360;
+  const d = ((360-sc) - cur + 36000) % 360;
+  wheelRot += 5*360 + d;
+  cvs.style.transition = "transform 4s cubic-bezier(0.17,.67,.12,.99)";
+  cvs.style.transform = `rotate(${wheelRot}deg)`;
+  setTimeout(cb, 4300);
 }
 
-// ═══════════════════════════════════════════════
-//  NAME WHEEL — DRAW & SPIN
-// ═══════════════════════════════════════════════
-const ncvs=document.getElementById("nWheel"),nctx=ncvs.getContext("2d");
-const NR=130,NX=140,NY=140;
-let nameList=JSON.parse(localStorage.getItem("nList")||"[]");
-let nameHist=JSON.parse(localStorage.getItem("nHist")||"[]");
-let lastSpunIdx=null;
+// ══════════════════════════════════════
+// NAME WHEEL
+// ══════════════════════════════════════
+const ncvs = document.getElementById("nWheel"), nctx = ncvs.getContext("2d");
+let nameList = JSON.parse(localStorage.getItem("nList") || "[]");
+let nameHist = JSON.parse(localStorage.getItem("nHist") || "[]");
+let lastSpunIdx = null;
 
-function drawName(){
+function drawName() {
   nctx.clearRect(0,0,280,280);
-  if(!nameList.length){
-    nctx.fillStyle="#111";nctx.beginPath();nctx.arc(NX,NY,NR,0,Math.PI*2);nctx.fill();
-    nctx.fillStyle="#555";nctx.font="12px Arial";nctx.textAlign="center";
-    nctx.fillText("Tambahkan nama",NX,NY-6);nctx.fillText("peserta dulu",NX,NY+10);
+  const NR=130, NX=140, NY=140, names=nameList;
+  if (!names.length) {
+    nctx.fillStyle="#111"; nctx.beginPath(); nctx.arc(NX,NY,NR,0,Math.PI*2); nctx.fill();
+    nctx.fillStyle="#555"; nctx.font="12px Arial"; nctx.textAlign="center";
+    nctx.fillText("Tambahkan nama", NX, NY-6); nctx.fillText("peserta dulu", NX, NY+10);
     return;
   }
-  const n=nameList.length,arc=(2*Math.PI)/n,SO=-Math.PI/2;
+  const n=names.length, arc=(2*Math.PI)/n, SO=-Math.PI/2;
   const pal=["#7c3aed","#6d28d9","#5b21b6","#4c1d95","#7e22ce","#6b21a8","#581c87","#9333ea","#a855f7","#c084fc"];
-  nameList.forEach((nm,i)=>{
-    const sa=SO+i*arc,ea=sa+arc;
-    nctx.beginPath();nctx.moveTo(NX,NY);nctx.arc(NX,NY,NR,sa,ea);nctx.closePath();
-    nctx.fillStyle=pal[i%pal.length];nctx.fill();
-    nctx.strokeStyle="#000";nctx.lineWidth=1.5;nctx.stroke();
-    nctx.save();nctx.translate(NX,NY);nctx.rotate(sa+arc/2);
+  names.forEach((nm,i)=>{
+    const sa=SO+i*arc, ea=sa+arc;
+    nctx.beginPath(); nctx.moveTo(NX,NY); nctx.arc(NX,NY,NR,sa,ea); nctx.closePath();
+    nctx.fillStyle=pal[i%pal.length]; nctx.fill();
+    nctx.strokeStyle="#000"; nctx.lineWidth=1.5; nctx.stroke();
+    nctx.save(); nctx.translate(NX,NY); nctx.rotate(sa+arc/2);
     const ml=n<=6?14:n<=12?8:6;
     const lb=nm.length>ml?nm.slice(0,ml-1)+"…":nm;
     const fs=n<=4?12:n<=8?10:n<=14?8:7;
-    nctx.fillStyle="#fff";nctx.font=`bold ${fs}px Arial`;nctx.textAlign="left";
-    nctx.shadowColor="rgba(0,0,0,.9)";nctx.shadowBlur=3;
-    nctx.fillText(lb,NR*.62-(lb.length*fs*.3),fs/3);
+    nctx.fillStyle="#fff"; nctx.font=`bold ${fs}px Arial`; nctx.textAlign="left";
+    nctx.shadowColor="rgba(0,0,0,.9)"; nctx.shadowBlur=3;
+    nctx.fillText(lb, NR*.62-lb.length*fs*.3, fs/3);
     nctx.restore();
   });
-  nctx.beginPath();nctx.arc(NX,NY,NR,0,Math.PI*2);nctx.strokeStyle="rgba(255,204,0,.6)";nctx.lineWidth=4;nctx.stroke();
-  nctx.beginPath();nctx.arc(NX,NY,20,0,Math.PI*2);nctx.fillStyle="#071414";nctx.fill();nctx.strokeStyle="rgba(255,204,0,.4)";nctx.lineWidth=2;nctx.stroke();
+  nctx.beginPath(); nctx.arc(NX,NY,NR,0,Math.PI*2); nctx.strokeStyle="rgba(255,204,0,.6)"; nctx.lineWidth=4; nctx.stroke();
+  nctx.beginPath(); nctx.arc(NX,NY,20,0,Math.PI*2); nctx.fillStyle="#071414"; nctx.fill(); nctx.strokeStyle="rgba(255,204,0,.4)"; nctx.lineWidth=2; nctx.stroke();
 }
 
-function nSpinTo(idx,cb){
-  const n=nameList.length;if(!n)return;
-  const sd=360/n,sc=idx*sd+sd/2;
+function nSpinTo(idx, cb) {
+  const n=nameList.length; if (!n) return;
+  const sd=360/n, sc=idx*sd+sd/2;
   const cur=((nWheelRot%360)+360)%360;
-  let d=((360-sc)-cur+36000)%360;
-  nWheelRot+=(5*360)+d;
+  const d=((360-sc)-cur+36000)%360;
+  nWheelRot+=5*360+d;
   ncvs.style.transition="transform 4s cubic-bezier(0.17,.67,.12,.99)";
   ncvs.style.transform=`rotate(${nWheelRot}deg)`;
-  setTimeout(cb,4300);
+  setTimeout(cb, 4300);
 }
 
-document.getElementById("nSpinBtn").onclick=()=>{
-  if(isNSpinning){alert("⏳ Tunggu spin selesai...");return;}
-  if(nameList.length<2){alert("❌ Minimal 2 nama peserta!");return;}
-  isNSpinning=true;
-  const btn=document.getElementById("nSpinBtn");
-  btn.disabled=true;btn.innerText="🌀 MEMILIH...";
-  document.getElementById("nResult").innerText="...";
-  const idx=Math.floor(Math.random()*nameList.length);
-  lastSpunIdx=idx;
-  nSpinTo(idx,()=>{
-    const chosen=nameList[idx];
-    document.getElementById("nResult").innerText="🎉 "+chosen;
-    nameHist.unshift({name:chosen,time:new Date().toLocaleString("id-ID")});
-    if(nameHist.length>50)nameHist.pop();
-    localStorage.setItem("nHist",JSON.stringify(nameHist));
+document.getElementById("nSpinBtn").onclick = () => {
+  if (isNSpin) { alert("⏳ Tunggu spin selesai..."); return; }
+  if (nameList.length < 2) { alert("❌ Minimal 2 nama peserta!"); return; }
+  isNSpin = true;
+  const btn = document.getElementById("nSpinBtn");
+  btn.disabled = true; btn.innerText = "🌀 MEMILIH...";
+  document.getElementById("nResult").innerText = "...";
+  const idx = Math.floor(Math.random() * nameList.length);
+  lastSpunIdx = idx;
+  nSpinTo(idx, () => {
+    const chosen = nameList[idx];
+    document.getElementById("nResult").innerText = "🎉 " + chosen;
+    nameHist.unshift({ name: chosen, time: new Date().toLocaleString("id-ID") });
+    if (nameHist.length > 50) nameHist.pop();
+    localStorage.setItem("nHist", JSON.stringify(nameHist));
     renderNHist();
-    isNSpinning=false;btn.disabled=false;btn.innerText="🎡 PUTAR — PILIH NAMA";
+    isNSpin = false; btn.disabled = false; btn.innerText = "🎡 PUTAR — PILIH NAMA";
     launchConfetti();
   });
 };
 
-// Name list mgmt
-function renderNTags(){
-  const c=document.getElementById("nTags");c.innerHTML="";
-  nameList.forEach((nm,i)=>{
-    const d=document.createElement("div");d.className="ntag";
-    d.innerHTML=`${escH(nm)} <span class="xt" onclick="rmName(${i})">✕</span>`;
+function renderNTags() {
+  const c = document.getElementById("nTags"); c.innerHTML = "";
+  nameList.forEach((nm, i) => {
+    const d = document.createElement("div"); d.className = "ntag";
+    d.innerHTML = `${escH(nm)} <span class="xt" onclick="rmName(${i})">✕</span>`;
     c.appendChild(d);
   });
-  document.getElementById("nCount").innerText=nameList.length+" peserta";
+  document.getElementById("nCount").innerText = nameList.length + " peserta";
   drawName();
 }
-window.rmName=(i)=>{nameList.splice(i,1);saveNL();renderNTags();}
-function addName(){
-  const raw=document.getElementById("nInput").value;if(!raw.trim())return;
-  raw.split(/[,\n;]+/).map(s=>s.trim()).filter(s=>s).forEach(n=>{if(n&&!nameList.includes(n))nameList.push(n);});
-  document.getElementById("nInput").value="";saveNL();renderNTags();
+window.rmName = i => { nameList.splice(i,1); saveNL(); renderNTags(); };
+function addName() {
+  const raw = document.getElementById("nInput").value; if (!raw.trim()) return;
+  raw.split(/[,\n;]+/).map(s=>s.trim()).filter(s=>s).forEach(n=>{ if(n&&!nameList.includes(n)) nameList.push(n); });
+  document.getElementById("nInput").value = ""; saveNL(); renderNTags();
 }
-function nKey(e){if(e.key==="Enter"){e.preventDefault();addName();}}
-function clearNames(){if(!confirm("Hapus semua nama?"))return;nameList=[];saveNL();renderNTags();}
-function shuffleNames(){for(let i=nameList.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[nameList[i],nameList[j]]=[nameList[j],nameList[i]];}saveNL();renderNTags();}
-function removeLastSpun(){
-  if(lastSpunIdx===null||lastSpunIdx>=nameList.length){alert("Belum ada yang di-spin atau sudah dihapus.");return;}
-  if(!confirm(`Hapus "${nameList[lastSpunIdx]}" dari daftar?`))return;
-  nameList.splice(lastSpunIdx,1);lastSpunIdx=null;saveNL();renderNTags();
+function nKey(e) { if (e.key==="Enter") { e.preventDefault(); addName(); } }
+function clearNames() { if(!confirm("Hapus semua nama?"))return; nameList=[]; saveNL(); renderNTags(); }
+function shuffleNames() { for(let i=nameList.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[nameList[i],nameList[j]]=[nameList[j],nameList[i]];} saveNL(); renderNTags(); }
+function removeLastSpun() {
+  if (lastSpunIdx===null||lastSpunIdx>=nameList.length) { alert("Belum ada yang di-spin atau sudah dihapus."); return; }
+  if (!confirm(`Hapus "${nameList[lastSpunIdx]}" dari daftar?`)) return;
+  nameList.splice(lastSpunIdx,1); lastSpunIdx=null; saveNL(); renderNTags();
 }
-function saveNL(){localStorage.setItem("nList",JSON.stringify(nameList));}
-function renderNHist(){
-  const c=document.getElementById("nHistList");c.innerHTML="";
-  if(!nameHist.length){c.innerHTML="<div style='color:#aaa;text-align:center;padding:5px'>Belum ada riwayat</div>";return;}
-  nameHist.slice(0,20).forEach((h,i)=>{
-    const d=document.createElement("div");d.style.cssText="padding:3px 0;border-bottom:1px solid rgba(255,255,255,.05)";
+function saveNL() { localStorage.setItem("nList", JSON.stringify(nameList)); }
+function renderNHist() {
+  const c = document.getElementById("nHistList"); c.innerHTML = "";
+  if (!nameHist.length) { c.innerHTML="<div style='color:#aaa;text-align:center;padding:5px'>Belum ada riwayat</div>"; return; }
+  nameHist.slice(0,20).forEach((h,i) => {
+    const d = document.createElement("div"); d.style.cssText="padding:3px 0;border-bottom:1px solid rgba(255,255,255,.05)";
     d.innerHTML=`<span style="color:#ffcc00">${i+1}. ${escH(h.name)}</span> <span style="color:#aaa;font-size:10px">${h.time}</span>`;
     c.appendChild(d);
   });
 }
-function clearNHist(){nameHist=[];localStorage.removeItem("nHist");renderNHist();}
+function clearNHist() { nameHist=[]; localStorage.removeItem("nHist"); renderNHist(); }
 
-// ═══════════════════════════════════════════════
-//  FIREBASE REALTIME LISTENERS — ALL USE .on()
-// ═══════════════════════════════════════════════
+// ══════════════════════════════════════
+// FIREBASE LISTENERS — all .on() realtime
+// ══════════════════════════════════════
 
-// 1. SETTINGS — controls everything
-db.ref("settings").on("value",snap=>{
-  cfg=snap.val()||{};
-  if(cfg.eventOn===undefined)cfg.eventOn=false;
-
+// 1. SETTINGS
+db.ref("settings").on("value", snap => {
+  cfg = snap.val() || {};
+  if (cfg.eventOn === undefined) cfg.eventOn = false;
   updateStatusUI();
   updateDateInfo();
   checkSchedValid();
-
-  // Sync admin inputs (don't overwrite if focused)
-  si("mwg",cfg.maxWinnerGlobal||0);
-  si("mwd",cfg.maxWinPerDevice||0);
-  si("msp",cfg.maxSpinPerUser||0);
-  si("fsn",cfg.freeSpinNewUser||5);
-  document.getElementById("schedCb").checked=!!cfg.scheduleEnabled;
-  if(cfg.eventStart>0)document.getElementById("evStart").value=toDT(cfg.eventStart);
-  if(cfg.eventEnd>0)document.getElementById("evEnd").value=toDT(cfg.eventEnd);
+  si("mwg", cfg.maxWinnerGlobal  || 0);
+  si("mwd", cfg.maxWinPerDevice  || 0);
+  si("msp", cfg.maxSpinPerUser   || 0);
+  si("fsn", cfg.freeSpinNewUser  || 5);
+  document.getElementById("schedCb").checked = !!cfg.scheduleEnabled;
+  if (cfg.eventStart > 0) document.getElementById("evStart").value = toDT(cfg.eventStart);
+  if (cfg.eventEnd   > 0) document.getElementById("evEnd").value   = toDT(cfg.eventEnd);
 });
 
 // 2. INFO BOARD
-db.ref("infoBoard").on("value",snap=>{
-  infoBoardVal=snap.val()||"Tidak ada informasi.";
-  document.getElementById("infoContent").innerText=typeof infoBoardVal==="string"?infoBoardVal:JSON.stringify(infoBoardVal);
-  const el=document.getElementById("admInfo");if(document.activeElement!==el)el.value=typeof infoBoardVal==="string"?infoBoardVal:"";
+db.ref("infoBoard").on("value", snap => {
+  infoVal = (typeof snap.val()==="string" && snap.val()) ? snap.val() : "Tidak ada informasi.";
+  document.getElementById("infoContent").innerText = infoVal;
+  const el = document.getElementById("admInfo");
+  if (document.activeElement !== el) el.value = infoVal;
 });
 
-// 3. WINNERS — realtime list (Firebase list via push, stored as object)
-db.ref("winners").on("value",snap=>{
-  const raw=snap.val();
-  // Winners stored as Firebase push() object: {"-key":{...}, ...}
-  const list=raw?Object.values(raw):[];
-  totalWinners=list.length;
-  document.getElementById("sWin").innerText=totalWinners;
+// 3. WINNERS — using push() keys, stored as object
+db.ref("winners").on("value", snap => {
+  const raw  = snap.val();
+  const list = raw ? Object.values(raw) : [];
+  totalWin   = list.length;
+  document.getElementById("sWin").innerText = totalWin;
   updateSlotDisplay();
-
-  const cont=document.getElementById("winContent");
-  if(!list.length){cont.innerHTML="<div style='color:#aaa;font-size:11px;text-align:center;padding:7px'>Belum ada pemenang.</div>";return;}
-  cont.innerHTML="";
-  // Sort by time desc (newest first), show latest 15
-  const sorted=[...list].reverse().slice(0,15);
-  sorted.forEach((w,i)=>{
-    const d=document.createElement("div");
-    d.style.cssText="padding:4px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:11px";
-    d.innerHTML=`<div style="color:#fff">${i+1}. <b>${escH(w.name)}</b></div><div style="color:#00ffd5;font-size:10px">${escH(w.prize)}</div><div style="color:#aaa;font-size:9px">${w.time}</div>`;
+  const cont = document.getElementById("winContent");
+  if (!list.length) { cont.innerHTML="<div style='color:#aaa;font-size:11px;text-align:center;padding:7px'>Belum ada pemenang.</div>"; return; }
+  cont.innerHTML = "";
+  [...list].reverse().slice(0,15).forEach((w,i) => {
+    const d = document.createElement("div");
+    d.style.cssText = "padding:4px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:11px";
+    d.innerHTML = `<div style="color:#fff">${i+1}. <b>${escH(w.name)}</b></div><div style="color:#00ffd5;font-size:10px">${escH(w.prize)}</div><div style="color:#aaa;font-size:9px">${w.time||""}</div>`;
     cont.appendChild(d);
   });
 });
 
 // 4. WHEEL ITEMS
-db.ref("wheelItems").on("value",snap=>{prizes=snap.val()||[];drawRNG();renderWList();checkSchedValid();});
+db.ref("wheelItems").on("value", snap => {
+  prizes = snap.val() || [];
+  drawRNG();
+  renderWList();
+  checkSchedValid();
+});
 
-// 5. CODES — admin panel live
-db.ref("codes").on("value",snap=>{renderCodes(snap.val()||{});});
+// 5. CODES
+db.ref("codes").on("value", snap => { renderCodes(snap.val() || {}); });
 
-// 6. MY SPIN COUNT — stored in Firebase per device
-db.ref("spins/"+deviceId).on("value",snap=>{
-  const val=snap.val();
-  if(val===null){
-    // New user — init free spins
-    const free=cfg.freeSpinNewUser||5;
-    db.ref("spins/"+deviceId).set(free);
-    mySpins=free;
-    document.getElementById("spinNote").innerText=`🎁 Selamat datang! Bonus ${free} Spin Gratis!`;
-    setTimeout(()=>document.getElementById("spinNote").innerText="",7000);
+// 6. MY SPIN COUNT — Firebase, NOT localStorage
+// FIX: wait until settings are loaded before initializing free spins
+db.ref("spins/" + deviceId).on("value", snap => {
+  const val = snap.val();
+  if (val === null) {
+    // New user or spin data missing
+    if (!spinInited) {
+      spinInited = true;
+      // Read current freeSpinNewUser from Firebase directly (don't rely on cfg timing)
+      db.ref("settings/freeSpinNewUser").once("value").then(s => {
+        const free = s.val() || 5;
+        db.ref("spins/" + deviceId).set(free).then(() => {
+          document.getElementById("spinNote").innerText = `🎁 Selamat datang! Bonus ${free} Spin Gratis!`;
+          setTimeout(() => document.getElementById("spinNote").innerText = "", 7000);
+        });
+      });
+    }
   } else {
-    mySpins=val;
+    spinInited = true;
+    mySpins = val;
+    document.getElementById("spinInfo").innerText = `🎟 Sisa Spin: ${mySpins}`;
+    document.getElementById("sSpin").innerText = mySpins;
   }
-  document.getElementById("spinInfo").innerText=`🎟 Sisa Spin: ${mySpins}`;
-  document.getElementById("sSpin").innerText=mySpins;
 });
 
 // 7. MY WIN COUNT
-db.ref("deviceWins/"+deviceId).on("value",snap=>{myWins=snap.val()||0;});
+db.ref("deviceWins/" + deviceId).on("value", snap => { myWins = snap.val() || 0; });
 
 // 8. MANUAL SPIN FROM ADMIN
-db.ref("manualSpin/"+deviceId).on("value",snap=>{
-  const ex=snap.val()||0;
-  if(ex>0){
-    db.ref("manualSpin/"+deviceId).set(0);// clear first
-    db.ref("spins/"+deviceId).transaction(cur=>(cur||0)+ex).then(()=>{
+db.ref("manualSpin/" + deviceId).on("value", snap => {
+  const ex = snap.val() || 0;
+  if (ex > 0) {
+    // Clear first to avoid re-trigger
+    db.ref("manualSpin/" + deviceId).set(0);
+    db.ref("spins/" + deviceId).transaction(cur => (cur || 0) + ex).then(() => {
       alert(`🎁 +${ex} spin dari admin!`);
     });
   }
 });
 
-// 9. DEVICE LOCK — realtime listener
-let myLockTime=0;
-db.ref("deviceLock/"+deviceId).on("value",snap=>{myLockTime=snap.val()||0;});
+// 9. DEVICE LOCK
+db.ref("deviceLock/" + deviceId).on("value", snap => { myLockUntil = snap.val() || 0; });
 
-// 10. PRESENCE — online users for admin
-db.ref("presence").on("value",snap=>{
-  const data=snap.val()||{};
-  const cont=document.getElementById("userList");
-  const users=Object.values(data).filter(u=>u.online);
-  if(!users.length){cont.innerHTML="<div style='color:#aaa;text-align:center;padding:5px'>Tidak ada user online</div>";return;}
-  cont.innerHTML="";
-  users.forEach(u=>{
-    const d=document.createElement("div");
-    d.style.cssText="padding:3px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:10px;display:flex;align-items:center;gap:6px";
-    d.innerHTML=`<span style="color:#4ade80">●</span><span style="color:#00ffd5">${escH(u.deviceId)}</span>`;
+// 10. PRESENCE — online users
+db.ref("presence").on("value", snap => {
+  const data  = snap.val() || {};
+  const cont  = document.getElementById("userList");
+  const title = document.getElementById("onlineTitle");
+  const users = Object.values(data).filter(u => u.online);
+  if (title) title.innerHTML = `👥 USER AKTIF (${users.length}) <span class="rtdot"></span>`;
+  if (!users.length) { cont.innerHTML = "<div style='color:#aaa;text-align:center;padding:5px'>Tidak ada user online</div>"; return; }
+  cont.innerHTML = "";
+  users.forEach(u => {
+    const d = document.createElement("div");
+    d.style.cssText = "padding:3px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:10px;display:flex;align-items:center;gap:6px";
+    d.innerHTML = `<span style="color:#4ade80">●</span><span style="color:#00ffd5">${escH(u.deviceId||"")}</span>`;
     cont.appendChild(d);
   });
-  document.querySelector("#admPanel .at").innerText=`👥 USER AKTIF (${users.length}) `;
 });
 
-// ═══════════════════════════════════════════════
-//  TIMER — runs every second
-// ═══════════════════════════════════════════════
-setInterval(()=>{
-  const hasSched=cfg.scheduleEnabled;
-  const start=Number(cfg.eventStart||0);
-  const end=Number(cfg.eventEnd||0);
-  const now=Date.now();
+// ══════════════════════════════════════
+// TIMER — every second
+// ══════════════════════════════════════
+setInterval(() => {
+  const hs = cfg.scheduleEnabled;
+  const st = Number(cfg.eventStart || 0);
+  const en = Number(cfg.eventEnd   || 0);
+  const now = Date.now();
 
-  if(!hasSched){
-    if(start>0&&end>0){
-      if(now<start)showTimer(start-now,"Dijadwalkan Mulai Dalam:");
-      else if(now<=end)showTimer(end-now,"Dijadwalkan Berakhir Dalam:");
-      else{document.getElementById("timerClk").innerText="— selesai —";document.getElementById("timerLbl").innerText="Jadwal Lewat";}
+  if (!hs) {
+    // Schedule OFF — show countdown info only, don't touch eventOn
+    if (st > 0 && en > 0) {
+      if (now < st)       showTimer(st - now, "Dijadwalkan Mulai Dalam:");
+      else if (now <= en) showTimer(en - now, "Dijadwalkan Berakhir Dalam:");
+      else { document.getElementById("timerClk").innerText="— selesai —"; document.getElementById("timerLbl").innerText="Jadwal Lewat"; }
     } else {
-      document.getElementById("timerClk").innerText="-- : -- : --";
-      document.getElementById("timerLbl").innerText="Belum ada jadwal";
+      document.getElementById("timerClk").innerText = "-- : -- : --";
+      document.getElementById("timerLbl").innerText = "Belum ada jadwal";
     }
     return;
   }
-  if(!start||!end){
-    document.getElementById("timerClk").innerText="-- : -- : --";
-    document.getElementById("timerLbl").innerText="Jadwal belum diset";
+
+  if (!st || !en) {
+    document.getElementById("timerClk").innerText = "-- : -- : --";
+    document.getElementById("timerLbl").innerText = "Jadwal belum diset";
     return;
   }
-  let want=false;
-  if(now<start){showTimer(start-now,"Event Dimulai Dalam:");setSt("s-wait","⏳ AKAN DATANG");want=false;}
-  else if(now<=end){showTimer(end-now,"Event Berakhir Dalam:");setSt("s-on","🟢 EVENT BERJALAN");want=true;}
-  else{document.getElementById("timerClk").innerText="00:00:00";document.getElementById("timerLbl").innerText="Event Berakhir";setSt("s-off","🔴 EVENT BERAKHIR");want=false;}
 
-  // Only write when state changes
-  if(_autoLast!==want){
-    _autoLast=want;
-    if(want&&!vReqQ()){console.warn("Auto-ON blocked: data belum lengkap");return;}
+  let want = false;
+  if (now < st) {
+    showTimer(st-now, "Event Dimulai Dalam:");
+    setSt("s-wait", "⏳ AKAN DATANG");
+    want = false;
+  } else if (now <= en) {
+    showTimer(en-now, "Event Berakhir Dalam:");
+    setSt("s-on", "🟢 EVENT BERJALAN");
+    want = true;
+  } else {
+    document.getElementById("timerClk").innerText = "00:00:00";
+    document.getElementById("timerLbl").innerText = "Event Berakhir";
+    setSt("s-off", "🔴 EVENT BERAKHIR");
+    want = false;
+  }
+
+  // Write to Firebase ONLY when state actually changes
+  if (_autoLast !== want) {
+    _autoLast = want;
+    if (want && !vReqQ()) { console.warn("Auto-ON blocked: data belum lengkap"); return; }
     db.ref("settings/eventOn").set(want);
   }
-},1000);
+}, 1000);
 
-function showTimer(ms,label){
-  const s=Math.floor(ms/1000),d=Math.floor(s/86400),h=Math.floor((s%86400)/3600),m=Math.floor((s%3600)/60),sc=s%60;
-  document.getElementById("timerLbl").innerText=label;
-  document.getElementById("timerClk").innerHTML=
+function showTimer(ms, label) {
+  const s=Math.floor(ms/1000), d=Math.floor(s/86400), h=Math.floor((s%86400)/3600), m=Math.floor((s%3600)/60), sc=s%60;
+  document.getElementById("timerLbl").innerText = label;
+  document.getElementById("timerClk").innerHTML =
     `<span class="tu">${d}h</span>:<span class="tu">${pad(h)}j</span>:<span class="tu">${pad(m)}m</span>:<span class="tu">${pad(sc)}d</span>`;
 }
 
-// ═══════════════════════════════════════════════
-//  SPIN LOGIC — FULLY FIREBASE TRANSACTIONAL
-// ═══════════════════════════════════════════════
-document.getElementById("spinBtn").onclick=async()=>{
-  if(isSpinning){alert("⏳ Tunggu spin selesai...");return;}
+// ══════════════════════════════════════
+// SPIN — fully transactional
+// ══════════════════════════════════════
+document.getElementById("spinBtn").onclick = async () => {
+  if (isSpinning) { alert("⏳ Tunggu spin selesai..."); return; }
+  if (myLockUntil && Date.now() < myLockUntil) { alert("🔒 Device di-lock hingga: " + new Date(myLockUntil).toLocaleString("id-ID")); return; }
+  if (!cfg.eventOn) { alert("❌ Event sedang OFF."); return; }
+  if (!prizes.length) { alert("❌ Admin belum setup hadiah!"); return; }
 
-  // Lock check (from realtime listener)
-  if(myLockTime&&Date.now()<myLockTime){alert("🔒 Device di-lock hingga: "+new Date(myLockTime).toLocaleString("id-ID"));return;}
-  if(!cfg.eventOn){alert("❌ Event sedang OFF.");return;}
-  if(!prizes.length){alert("❌ Admin belum setup hadiah!");return;}
+  const name = document.getElementById("nameInp").value.trim();
+  if (!name) { alert("❌ Masukkan nama kamu dulu!"); return; }
+  if (mySpins <= 0) { alert("❌ Spin habis! Redeem kode atau hubungi admin."); return; }
 
-  const name=document.getElementById("nameInp").value.trim();
-  if(!name){alert("❌ Masukkan nama kamu dulu!");return;}
-
-  if(mySpins<=0){alert("❌ Spin habis! Redeem kode atau hubungi admin.");return;}
-
-  // Check max spin per user (if set)
-  if(cfg.maxSpinPerUser>0){
-    const snap=await db.ref("spinUsed/"+deviceId).once("value");
-    const used=snap.val()||0;
-    if(used>=cfg.maxSpinPerUser){alert("❌ Batas spin event tercapai.");return;}
+  if (cfg.maxSpinPerUser > 0) {
+    const snap = await db.ref("spinUsed/" + deviceId).once("value");
+    if ((snap.val()||0) >= cfg.maxSpinPerUser) { alert("❌ Batas spin event tercapai."); return; }
   }
 
-  // DEDUCT SPIN via Firebase transaction (atomic, no race condition)
-  let canSpin=false;
-  await db.ref("spins/"+deviceId).transaction(cur=>{
-    if(cur>0){canSpin=true;return cur-1;}
+  // Deduct spin — atomic transaction
+  let ok = false;
+  await db.ref("spins/" + deviceId).transaction(cur => {
+    if ((cur||0) > 0) { ok = true; return cur - 1; }
     return cur;
   });
-  if(!canSpin){alert("❌ Spin habis!");return;}
+  if (!ok) { alert("❌ Spin habis!"); return; }
 
-  // Track spin used count
-  if(cfg.maxSpinPerUser>0){
-    db.ref("spinUsed/"+deviceId).transaction(cur=>(cur||0)+1);
-  }
+  if (cfg.maxSpinPerUser > 0) db.ref("spinUsed/" + deviceId).transaction(c => (c||0)+1);
 
   // Pick result by weight
-  const totalW=prizes.reduce((s,p)=>s+(p.weight||1),0);
-  let rnd=Math.random()*totalW,sel=prizes.length-1;
-  for(let i=0;i<prizes.length;i++){rnd-=(prizes[i].weight||1);if(rnd<=0){sel=i;break;}}
+  const tw = prizes.reduce((s,p) => s+(p.weight||1), 0);
+  let rnd = Math.random()*tw, sel = prizes.length-1;
+  for (let i=0; i<prizes.length; i++) { rnd -= (prizes[i].weight||1); if (rnd<=0){sel=i;break;} }
 
-  isSpinning=true;
-  const btn=document.getElementById("spinBtn");
-  btn.disabled=true;btn.innerText="🌀 SPINNING...";
-  document.getElementById("result").className="";
-  document.getElementById("result").innerText="...";
-  document.getElementById("claimBtn").style.display="none";
+  isSpinning = true;
+  const btn = document.getElementById("spinBtn");
+  btn.disabled = true; btn.innerText = "🌀 SPINNING...";
+  document.getElementById("result").className = "";
+  document.getElementById("result").innerText = "...";
+  document.getElementById("claimBtn").style.display = "none";
 
-  spinTo(sel,()=>{
-    const item=prizes[sel];
-    document.getElementById("result").innerText="🎯 "+item.label;
-    document.getElementById("result").className=item.win?"wr":"lr";
-    addLog(name,item.label,item.win);
-    if(item.win)handleWin(name,item.label);
-    isSpinning=false;btn.disabled=false;btn.innerText="🌀 SPIN RNG";
+  spinTo(sel, () => {
+    const item = prizes[sel];
+    document.getElementById("result").innerText = "🎯 " + item.label;
+    document.getElementById("result").className = item.win ? "wr" : "lr";
+    addLog(name, item.label, item.win);
+    if (item.win) handleWin(name, item.label);
+    isSpinning = false; btn.disabled = false; btn.innerText = "🌀 SPIN RNG";
   });
 };
 
-function handleWin(name,prize){
-  // Check quotas then push winner
-  db.ref("winners").once("value",snap=>{
-    const cnt=snap.val()?Object.keys(snap.val()).length:0;
-    if(cfg.maxWinnerGlobal>0&&cnt>=cfg.maxWinnerGlobal){
-      alert("❌ Kuota pemenang global penuh.");return;
-    }
-    if(cfg.maxWinPerDevice>0&&myWins>=cfg.maxWinPerDevice){
-      alert("❌ Batas menang per device.");return;
-    }
-    // Use push() to avoid race conditions — each winner gets unique key
-    db.ref("winners").push({name,prize,deviceId,time:new Date().toLocaleString("id-ID")}).then(()=>{
-      db.ref("deviceWins/"+deviceId).transaction(c=>(c||0)+1);
-      document.getElementById("claimBtn").style.display="block";
-      document.getElementById("winTxt").innerText=`${name}\nmemenangkan:\n${prize}`;
-      document.getElementById("winOv").style.display="flex";
+function handleWin(name, prize) {
+  // Check quotas fresh from Firebase
+  db.ref("winners").once("value", snap => {
+    const cnt = snap.val() ? Object.keys(snap.val()).length : 0;
+    if (cfg.maxWinnerGlobal > 0 && cnt >= cfg.maxWinnerGlobal) { alert("❌ Kuota pemenang global penuh."); return; }
+    if (cfg.maxWinPerDevice > 0 && myWins >= cfg.maxWinPerDevice) { alert("❌ Batas menang per device."); return; }
+    // push() = unique key, no race condition
+    db.ref("winners").push({ name, prize, deviceId, time: new Date().toLocaleString("id-ID") }).then(() => {
+      db.ref("deviceWins/" + deviceId).transaction(c => (c||0)+1);
+      document.getElementById("claimBtn").style.display = "block";
+      document.getElementById("winTxt").innerText = `${name}\nmemenangkan:\n${prize}`;
+      document.getElementById("winOv").style.display = "flex";
       launchConfetti();
     });
   });
 }
 
-document.getElementById("winCloseBtn").onclick=()=>{document.getElementById("winOv").style.display="none";};
-document.getElementById("claimBtn").onclick=()=>{
-  if(myLockTime&&Date.now()<myLockTime){alert("🔒 Device di-lock.");return;}
-  const name=document.getElementById("nameInp").value.trim()||"User";
-  const res=document.getElementById("result").innerText;
-  window.open(`https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(`Halo Admin XREZZKYSTORE, saya *${name}* menang *${res}*.\nDevice ID: ${deviceId}`)}`,"_blank");
+document.getElementById("winCloseBtn").onclick = () => document.getElementById("winOv").style.display = "none";
+document.getElementById("claimBtn").onclick = () => {
+  if (myLockUntil && Date.now() < myLockUntil) { alert("🔒 Device di-lock."); return; }
+  const name = document.getElementById("nameInp").value.trim() || "User";
+  const res  = document.getElementById("result").innerText;
+  window.open(`https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(`Halo Admin XREZZKYSTORE, saya *${name}* menang *${res}*.\nDevice ID: ${deviceId}`)}`, "_blank");
 };
 
-// ═══════════════════════════════════════════════
-//  REDEEM CODE — transactional
-// ═══════════════════════════════════════════════
-document.getElementById("redeemBtn").onclick=()=>{
-  const code=document.getElementById("codeInp").value.trim().toUpperCase();
-  if(!code){alert("❌ Masukkan kode!");return;}
+// ══════════════════════════════════════
+// REDEEM CODE — transactional
+// ══════════════════════════════════════
+document.getElementById("redeemBtn").onclick = () => {
+  const code = document.getElementById("codeInp").value.trim().toUpperCase();
+  if (!code) { alert("❌ Masukkan kode!"); return; }
+  const usedLocal = JSON.parse(localStorage.getItem("usedCodes") || "{}");
+  if (usedLocal[code]) { alert("❌ Kode sudah pernah kamu pakai!"); return; }
 
-  // Check local usage first
-  const usedLocal=JSON.parse(localStorage.getItem("usedCodes")||"{}");
-  if(usedLocal[code]){alert("❌ Kode sudah pernah kamu pakai!");return;}
-
-  db.ref("codes/"+code).transaction(data=>{
-    if(!data)return; // null transaction = abort, code not found
-    if(data.used>=data.maxUse)return; // abort = quota habis
-    return {...data,used:(data.used||0)+1};
-  }).then(result=>{
-    if(!result.committed){
-      // Was code not found or quota habis?
-      db.ref("codes/"+code).once("value").then(s=>{
-        if(!s.val())alert("❌ Kode tidak valid!");
-        else alert("❌ Kode sudah habis kuota!");
+  db.ref("codes/" + code).transaction(data => {
+    if (!data) return; // abort — not found
+    if ((data.used||0) >= data.maxUse) return; // abort — quota habis
+    return { ...data, used: (data.used||0) + 1 };
+  }).then(res => {
+    if (!res.committed) {
+      db.ref("codes/" + code).once("value").then(s => {
+        alert(!s.val() ? "❌ Kode tidak valid!" : "❌ Kode sudah habis kuota!");
       });
       return;
     }
-    const spins=result.snapshot.val().spin;
-    db.ref("spins/"+deviceId).transaction(c=>(c||0)+spins);
-    usedLocal[code]=true;localStorage.setItem("usedCodes",JSON.stringify(usedLocal));
-    document.getElementById("codeInp").value="";
+    const spins = res.snapshot.val().spin;
+    db.ref("spins/" + deviceId).transaction(c => (c||0) + spins);
+    usedLocal[code] = true; localStorage.setItem("usedCodes", JSON.stringify(usedLocal));
+    document.getElementById("codeInp").value = "";
     alert(`✅ Berhasil redeem +${spins} spin!`);
   });
 };
 
-// ═══════════════════════════════════════════════
-//  ADMIN ACTIONS
-// ═══════════════════════════════════════════════
-document.getElementById("toggleBtn").onclick=()=>{
-  if(cfg.scheduleEnabled){alert("❌ Auto Schedule aktif. Nonaktifkan dulu via SIMPAN SETTINGS.");return;}
-  const next=!cfg.eventOn;
-  if(next&&!vReq(true))return;
-  db.ref("settings/eventOn").set(next).then(()=>alert(next?"✅ Event HIDUP!":"✅ Event MATI!"));
+// ══════════════════════════════════════
+// ADMIN ACTIONS
+// ══════════════════════════════════════
+document.getElementById("toggleBtn").onclick = () => {
+  if (cfg.scheduleEnabled) { alert("❌ Auto Schedule aktif. Nonaktifkan dulu via SIMPAN SETTINGS."); return; }
+  const next = !cfg.eventOn;
+  if (next && !vReq(true)) return;
+  db.ref("settings/eventOn").set(next).then(() => alert(next ? "✅ Event HIDUP!" : "✅ Event MATI!"));
 };
 
-document.getElementById("saveBtn").onclick=()=>{
-  const info=document.getElementById("admInfo").value.trim();
-  if(!info){alert("❌ Isi deskripsi event dulu!");return;}
-  const sv=document.getElementById("evStart").value,ev=document.getElementById("evEnd").value;
-  const ws=document.getElementById("schedCb").checked;
-  const sTs=sv?new Date(sv).getTime():0,eTs=ev?new Date(ev).getTime():0;
-  if(ws){
-    if(!sTs||!eTs){alert("❌ Isi waktu Mulai dan Akhir!");return;}
-    if(eTs<=sTs){alert("❌ Waktu Akhir harus setelah Mulai!");return;}
-    if(!vReq(true))return;
+document.getElementById("saveBtn").onclick = () => {
+  const info = document.getElementById("admInfo").value.trim();
+  if (!info) { alert("❌ Isi deskripsi event dulu!"); return; }
+  const sv = document.getElementById("evStart").value;
+  const ev = document.getElementById("evEnd").value;
+  const ws = document.getElementById("schedCb").checked;
+  const sTs = sv ? new Date(sv).getTime() : 0;
+  const eTs = ev ? new Date(ev).getTime() : 0;
+  if (ws) {
+    if (!sTs||!eTs) { alert("❌ Isi waktu Mulai dan Akhir!"); return; }
+    if (eTs<=sTs)   { alert("❌ Waktu Akhir harus setelah Mulai!"); return; }
+    if (!vReq(true)) return;
   }
-  const data={
-    maxWinnerGlobal:parseInt(document.getElementById("mwg").value)||0,
-    maxWinPerDevice:parseInt(document.getElementById("mwd").value)||0,
-    maxSpinPerUser:parseInt(document.getElementById("msp").value)||0,
-    freeSpinNewUser:parseInt(document.getElementById("fsn").value)||5,
-    eventStart:sTs,eventEnd:eTs,scheduleEnabled:ws
+  const data = {
+    maxWinnerGlobal: parseInt(document.getElementById("mwg").value)||0,
+    maxWinPerDevice: parseInt(document.getElementById("mwd").value)||0,
+    maxSpinPerUser:  parseInt(document.getElementById("msp").value)||0,
+    freeSpinNewUser: parseInt(document.getElementById("fsn").value)||5,
+    eventStart: sTs, eventEnd: eTs, scheduleEnabled: ws
   };
   db.ref("settings").update(data)
-    .then(()=>db.ref("infoBoard").set(info))
-    .then(()=>{_autoLast=null;alert("✅ Settings disimpan! Semua user akan update otomatis.");})
-    .catch(e=>alert("Error: "+e.message));
+    .then(() => db.ref("infoBoard").set(info))
+    .then(() => { _autoLast = null; alert("✅ Settings disimpan! Semua user update otomatis."); })
+    .catch(e => alert("Error: " + e.message));
 };
 
-document.getElementById("addWheelBtn").onclick=()=>{
-  const label=document.getElementById("newLbl").value.trim();
-  const type=document.getElementById("newType").value;
-  const weight=parseInt(document.getElementById("newWt").value)||1;
-  if(!label){alert("❌ Masukkan nama hadiah!");return;}
-  const newPrizes=[...prizes,{label,win:type==="win",weight:weight>0?weight:1}];
-  db.ref("wheelItems").set(newPrizes).then(()=>{
-    document.getElementById("newLbl").value="";document.getElementById("newWt").value="1";
+document.getElementById("addWheelBtn").onclick = () => {
+  const label  = document.getElementById("newLbl").value.trim();
+  const type   = document.getElementById("newType").value;
+  const weight = parseInt(document.getElementById("newWt").value) || 1;
+  if (!label) { alert("❌ Masukkan nama hadiah!"); return; }
+  db.ref("wheelItems").set([...prizes, { label, win: type==="win", weight: weight>0?weight:1 }]).then(() => {
+    document.getElementById("newLbl").value = ""; document.getElementById("newWt").value = "1";
   });
 };
-
-window.deletePrize=(i)=>{
-  if(!confirm("Hapus item ini?"))return;
-  const np=[...prizes];np.splice(i,1);
-  db.ref("wheelItems").set(np.length?np:[]);
+window.deletePrize = i => {
+  if (!confirm("Hapus item ini?")) return;
+  const np = [...prizes]; np.splice(i,1);
+  db.ref("wheelItems").set(np.length ? np : null);
 };
 
-document.getElementById("addCodeBtn").onclick=()=>{
-  const name=document.getElementById("newCode").value.trim().toUpperCase();
-  const spin=parseInt(document.getElementById("newCodeSpin").value);
-  const maxUse=parseInt(document.getElementById("newCodeMax").value);
-  if(!name||!spin||!maxUse||spin<=0||maxUse<=0){alert("❌ Isi semua field!");return;}
-  db.ref("codes/"+name).set({spin,maxUse,used:0}).then(()=>{
-    ["newCode","newCodeSpin","newCodeMax"].forEach(id=>document.getElementById(id).value="");
-    alert("✅ Code ditambahkan!");
+document.getElementById("addCodeBtn").onclick = () => {
+  const name   = document.getElementById("newCode").value.trim().toUpperCase();
+  const spin   = parseInt(document.getElementById("newCodeSpin").value);
+  const maxUse = parseInt(document.getElementById("newCodeMax").value);
+  if (!name||!spin||!maxUse||spin<=0||maxUse<=0) { alert("❌ Isi semua field!"); return; }
+  db.ref("codes/" + name).set({ spin, maxUse, used:0 }).then(() => {
+    ["newCode","newCodeSpin","newCodeMax"].forEach(id => document.getElementById(id).value = "");
   });
 };
-window.deleteCode=(code)=>{if(!confirm(`Hapus "${code}"?`))return;db.ref("codes/"+code).remove();};
+window.deleteCode = code => { if (!confirm(`Hapus "${code}"?`)) return; db.ref("codes/" + code).remove(); };
 
-document.getElementById("lockBtn").onclick=()=>{
-  const t=document.getElementById("lockId").value.trim(),h=parseInt(document.getElementById("lockHr").value);
-  if(!t||!h||h<=0){alert("❌ Isi Device ID & durasi!");return;}
+document.getElementById("lockBtn").onclick = () => {
+  const t=document.getElementById("lockId").value.trim(), h=parseInt(document.getElementById("lockHr").value);
+  if (!t||!h||h<=0) { alert("❌ Isi Device ID & durasi!"); return; }
   db.ref("deviceLock/"+t).set(Date.now()+h*3600000).then(()=>{
-    alert(`✅ Di-lock ${h} jam!`);document.getElementById("lockId").value="";document.getElementById("lockHr").value="";
+    alert(`✅ Di-lock ${h} jam!`); document.getElementById("lockId").value=""; document.getElementById("lockHr").value="";
   });
 };
-document.getElementById("unlockBtn").onclick=()=>{
+document.getElementById("unlockBtn").onclick = () => {
   const t=document.getElementById("lockId").value.trim();
-  if(!t){alert("❌ Masukkan Device ID!");return;}
-  db.ref("deviceLock/"+t).remove().then(()=>{alert("✅ Di-unlock!");document.getElementById("lockId").value="";});
+  if (!t) { alert("❌ Masukkan Device ID!"); return; }
+  db.ref("deviceLock/"+t).remove().then(()=>{ alert("✅ Di-unlock!"); document.getElementById("lockId").value=""; });
 };
-document.getElementById("addSpinBtn").onclick=()=>{
-  const id=document.getElementById("tgtDev").value.trim(),amt=parseInt(document.getElementById("tgtAmt").value);
-  if(!id||!amt||amt<=0){alert("❌ Isi ID & jumlah!");return;}
-  // Use manualSpin node, listener on user's device will pick it up
+
+document.getElementById("addSpinBtn").onclick = () => {
+  const id=document.getElementById("tgtDev").value.trim(), amt=parseInt(document.getElementById("tgtAmt").value);
+  if (!id||!amt||amt<=0) { alert("❌ Isi ID & jumlah!"); return; }
   db.ref("manualSpin/"+id).transaction(c=>(c||0)+amt).then(()=>{
     alert(`✅ +${amt} spin dikirim ke ${id}!`);
-    document.getElementById("tgtDev").value="";document.getElementById("tgtAmt").value="";
+    document.getElementById("tgtDev").value=""; document.getElementById("tgtAmt").value="";
   });
 };
-document.getElementById("grantBtn").onclick=()=>{
+
+document.getElementById("grantBtn").onclick = () => {
   const id=document.getElementById("grantId").value.trim();
-  if(!id){alert("❌ Masukkan Device ID!");return;}
-  db.ref("accountData/"+id).update({editAllowed:true,editExpire:Date.now()+86400000})
-    .then(()=>{alert(`✅ Izin edit → ${id} (24 jam)`);document.getElementById("grantId").value="";});
-};
-document.getElementById("exportBtn").onclick=()=>{
-  db.ref("winners").once("value",snap=>{
-    const raw=snap.val()||{};
-    const list=Object.values(raw);
-    let txt="=== PEMENANG XREZZKYSTORE ===\nExport: "+new Date().toLocaleString("id-ID")+"\nTotal: "+list.length+"\n\n";
-    list.forEach((w,i)=>{txt+=`${i+1}. ${w.name} | ${w.prize} | ${w.time} | ${w.deviceId}\n`;});
-    document.getElementById("exportArea").value=txt;
-    document.getElementById("exportModal").style.display="flex";
+  if (!id) { alert("❌ Masukkan Device ID!"); return; }
+  db.ref("accountData/"+id).update({ editAllowed:true, editExpire:Date.now()+86400000 }).then(()=>{
+    alert(`✅ Izin edit → ${id}`); document.getElementById("grantId").value="";
   });
 };
-document.getElementById("resetAllBtn").onclick=()=>{
-  if(!confirm("⚠️ Hapus SEMUA data pemenang & spin?"))return;
-  if(!confirm("Konfirmasi final?"))return;
+
+document.getElementById("exportBtn").onclick = () => {
+  db.ref("winners").once("value", snap => {
+    const list = snap.val() ? Object.values(snap.val()) : [];
+    let txt = "=== PEMENANG XREZZKYSTORE ===\nExport: "+new Date().toLocaleString("id-ID")+"\nTotal: "+list.length+"\n\n";
+    list.forEach((w,i) => { txt += `${i+1}. ${w.name} | ${w.prize} | ${w.time} | ${w.deviceId}\n`; });
+    document.getElementById("exportArea").value = txt;
+    document.getElementById("exportModal").style.display = "flex";
+  });
+};
+
+document.getElementById("resetAllBtn").onclick = () => {
+  if (!confirm("⚠️ Hapus semua data pemenang?")) return;
+  if (!confirm("Konfirmasi final?")) return;
   db.ref("winners").remove();
   db.ref("deviceWins").remove();
   db.ref("manualSpin").remove();
   db.ref("spinUsed").remove();
-  // NOTE: tidak hapus spins agar user masih punya spin
   alert("✅ Data pemenang dibersihkan.");
 };
-document.getElementById("resetEvBtn").onclick=()=>{
-  if(!confirm("♻️ Reset event ke default?"))return;
-  db.ref("settings").set({eventOn:false,maxWinnerGlobal:0,maxWinPerDevice:0,maxSpinPerUser:0,freeSpinNewUser:5,eventStart:0,eventEnd:0,scheduleEnabled:false})
-    .then(()=>{_autoLast=null;alert("✅ Event direset.");});
+
+document.getElementById("resetEvBtn").onclick = () => {
+  if (!confirm("♻️ Reset event ke default?")) return;
+  db.ref("settings").set({ eventOn:false,maxWinnerGlobal:0,maxWinPerDevice:0,maxSpinPerUser:0,freeSpinNewUser:5,eventStart:0,eventEnd:0,scheduleEnabled:false })
+    .then(() => { _autoLast=null; alert("✅ Event direset."); });
 };
 
-// ═══════════════════════════════════════════════
-//  ACCOUNT
-// ═══════════════════════════════════════════════
-document.getElementById("accountBtn").onclick=openAcc;
-async function openAcc(){
-  document.getElementById("accModal").style.display="flex";
-  document.getElementById("accDevId").innerText=deviceId;
-
-  // Current name from Firebase
-  const ns=await db.ref("lockedNames/"+deviceId).once("value");
-  document.getElementById("accName").innerText=ns.val()||"—";
-
-  // Name history
-  const hs=await db.ref("nameHistory/"+deviceId).once("value");
-  const nh=hs.val()||[];
-  const nc=document.getElementById("accNH");nc.innerHTML="";
-  if(!nh.length){nc.innerHTML="<div style='color:#aaa;font-size:10px;text-align:center;padding:5px'>Belum ada riwayat</div>";}
-  else{nh.slice().reverse().forEach((h,i)=>{const d=document.createElement("div");d.className="nhi";d.innerHTML=`<span style="color:#00ffd5">${i===0?"⭐ ":""}${escH(h.name)}</span> <span style="color:#aaa;font-size:9px">${h.time}</span>`;nc.appendChild(d);});}
-
-  // Win history
-  const ws=await db.ref("winners").once("value");
-  const raw=ws.val()||{};
-  const wins=Object.values(raw).filter(w=>w.deviceId===deviceId);
-  const hc=document.getElementById("accHist");hc.innerHTML="";
-  if(!wins.length){hc.innerHTML="<div style='color:#aaa;font-size:10px;text-align:center;padding:5px'>Belum ada kemenangan</div>";}
-  else{wins.slice().reverse().forEach(w=>{const d=document.createElement("div");d.style.cssText="padding:3px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:10px";d.innerHTML=`<div style="color:#00ffd5">${escH(w.prize)}</div><div style="color:#aaa">${w.time}</div>`;hc.appendChild(d);});}
+// ══════════════════════════════════════
+// ACCOUNT
+// ══════════════════════════════════════
+document.getElementById("accountBtn").onclick = openAcc;
+async function openAcc() {
+  document.getElementById("accModal").style.display = "flex";
+  document.getElementById("accDevId").innerText = deviceId;
+  const ns = await db.ref("lockedNames/"+deviceId).once("value");
+  document.getElementById("accName").innerText = ns.val() || "—";
+  const hs = await db.ref("nameHistory/"+deviceId).once("value");
+  const nh = hs.val() || [];
+  const nc = document.getElementById("accNH"); nc.innerHTML="";
+  if (!nh.length) nc.innerHTML="<div style='color:#aaa;font-size:10px;text-align:center;padding:5px'>Belum ada riwayat</div>";
+  else nh.slice().reverse().forEach((h,i)=>{ const d=document.createElement("div"); d.className="nhi"; d.innerHTML=`<span style="color:#00ffd5">${i===0?"⭐ ":""}${escH(h.name)}</span> <span style="color:#aaa;font-size:9px">${h.time}</span>`; nc.appendChild(d); });
+  const ws = await db.ref("winners").once("value");
+  const wins = ws.val() ? Object.values(ws.val()).filter(w=>w.deviceId===deviceId) : [];
+  const hc = document.getElementById("accHist"); hc.innerHTML="";
+  if (!wins.length) hc.innerHTML="<div style='color:#aaa;font-size:10px;text-align:center;padding:5px'>Belum ada kemenangan</div>";
+  else wins.slice().reverse().forEach(w=>{ const d=document.createElement("div"); d.style.cssText="padding:3px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:10px"; d.innerHTML=`<div style="color:#00ffd5">${escH(w.prize)}</div><div style="color:#aaa">${w.time||""}</div>`; hc.appendChild(d); });
 }
-function closeAccount(){document.getElementById("accModal").style.display="none";}
-document.getElementById("copyIdBtn").onclick=()=>{
-  navigator.clipboard.writeText(deviceId).then(()=>{const b=document.getElementById("copyIdBtn");b.innerText="✅ Disalin!";setTimeout(()=>b.innerText="📋 Copy ID",2000);});
+function closeAccount() { document.getElementById("accModal").style.display="none"; }
+document.getElementById("copyIdBtn").onclick = () => {
+  navigator.clipboard.writeText(deviceId).then(()=>{ const b=document.getElementById("copyIdBtn"); b.innerText="✅ Disalin!"; setTimeout(()=>b.innerText="📋 Copy ID",2000); });
 };
-document.getElementById("reqEditBtn").onclick=async()=>{
-  const snap=await db.ref("accountData/"+deviceId).once("value");const data=snap.val()||{};
-  if(data.editAllowed&&Date.now()<(data.editExpire||0)){
-    const nn=prompt("Nama baru:");if(!nn||!nn.trim())return;
+document.getElementById("reqEditBtn").onclick = async () => {
+  const snap=await db.ref("accountData/"+deviceId).once("value"); const data=snap.val()||{};
+  if (data.editAllowed && Date.now()<(data.editExpire||0)) {
+    const nn=prompt("Nama baru:"); if (!nn||!nn.trim()) return;
     await db.ref("lockedNames/"+deviceId).set(nn.trim());
-    await saveNH(deviceId,nn.trim());
+    await saveNH(deviceId, nn.trim());
     await db.ref("accountData/"+deviceId).update({editAllowed:false});
-    document.getElementById("accName").innerText=nn.trim();
-    alert("✅ Nama diubah!");return;
+    document.getElementById("accName").innerText=nn.trim(); alert("✅ Nama diubah!"); return;
   }
-  let cnt=data.waRequestCount||0,rst=data.waResetTime||0;
-  if(Date.now()>rst){cnt=0;rst=Date.now()+86400000;}
-  if(cnt>=2){alert("❌ Max 2x per 24 jam. Reset: "+new Date(rst).toLocaleString("id-ID"));return;}
-  cnt++;await db.ref("accountData/"+deviceId).update({waRequestCount:cnt,waResetTime:rst});
-  window.open(`https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(`Halo Admin XREZZKYSTORE, minta edit nama.\nDevice ID: ${deviceId}\nNama baru: ...`)}`,"_blank");
+  let cnt=data.waRequestCount||0, rst=data.waResetTime||0;
+  if (Date.now()>rst){cnt=0;rst=Date.now()+86400000;}
+  if (cnt>=2){alert("❌ Max 2x per 24 jam. Reset: "+new Date(rst).toLocaleString("id-ID"));return;}
+  cnt++; await db.ref("accountData/"+deviceId).update({waRequestCount:cnt,waResetTime:rst});
+  window.open(`https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(`Halo Admin, minta edit nama.\nDevice ID: ${deviceId}\nNama baru: ...`)}`, "_blank");
   alert(`✅ Permintaan dikirim. Sisa: ${2-cnt}x`);
 };
-document.getElementById("logoutBtn").onclick=()=>{
-  if(!confirm("Yakin Log Out?"))return;
-  presRef.set({online:false,lastSeen:firebase.database.ServerValue.TIMESTAMP,deviceId});
-  localStorage.removeItem("devId");localStorage.removeItem("usedCodes");location.reload();
+document.getElementById("logoutBtn").onclick = () => {
+  if (!confirm("Yakin Log Out?")) return;
+  presRef.update({online:false}); // mark offline first
+  localStorage.removeItem("devId"); localStorage.removeItem("usedCodes");
+  location.reload();
 };
-async function saveNH(devId,newName){
-  const snap=await db.ref("nameHistory/"+devId).once("value");const h=snap.val()||[];
-  if(!h.length||h[h.length-1].name!==newName){h.push({name:newName,time:new Date().toLocaleString("id-ID")});await db.ref("nameHistory/"+devId).set(h);}
+async function saveNH(devId, newName) {
+  const snap=await db.ref("nameHistory/"+devId).once("value"); const h=snap.val()||[];
+  if (!h.length||h[h.length-1].name!==newName) { h.push({name:newName,time:new Date().toLocaleString("id-ID")}); await db.ref("nameHistory/"+devId).set(h); }
 }
 
-// ═══════════════════════════════════════════════
-//  CONFETTI
-// ═══════════════════════════════════════════════
+// ══════════════════════════════════════
+// CONFETTI
+// ══════════════════════════════════════
 function launchConfetti(){
-  const c=document.getElementById("confetti");c.width=window.innerWidth;c.height=window.innerHeight;
+  const c=document.getElementById("confetti"); c.width=window.innerWidth; c.height=window.innerHeight;
   const ct=c.getContext("2d");
   const P=Array.from({length:100},()=>({x:Math.random()*c.width,y:-10,vx:(Math.random()-.5)*4,vy:Math.random()*4+2,r:Math.random()*7+3,col:["#00ffd5","#ffcc00","#ff4444","#4ade80","#60a5fa","#f472b6"][Math.floor(Math.random()*6)],rot:Math.random()*360,rv:(Math.random()-.5)*8}));
-  let fr;function draw(){ct.clearRect(0,0,c.width,c.height);P.forEach(p=>{ct.save();ct.translate(p.x,p.y);ct.rotate(p.rot*Math.PI/180);ct.fillStyle=p.col;ct.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);ct.restore();p.x+=p.vx;p.y+=p.vy;p.rot+=p.rv;});fr=requestAnimationFrame(draw);if(P.every(p=>p.y>c.height+20)){cancelAnimationFrame(fr);ct.clearRect(0,0,c.width,c.height);}}draw();
+  let fr; function draw(){ct.clearRect(0,0,c.width,c.height);P.forEach(p=>{ct.save();ct.translate(p.x,p.y);ct.rotate(p.rot*Math.PI/180);ct.fillStyle=p.col;ct.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);ct.restore();p.x+=p.vx;p.y+=p.vy;p.rot+=p.rv;});fr=requestAnimationFrame(draw);if(P.every(p=>p.y>c.height+20)){cancelAnimationFrame(fr);ct.clearRect(0,0,c.width,c.height);}} draw();
 }
 
-// ═══════════════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════════════
-window.addEventListener("load",()=>{
-  const el=document.getElementById("devInfo");
-  el.innerText="📱 "+deviceId;
-  el.onclick=()=>{navigator.clipboard.writeText(deviceId).then(()=>{const o=el.innerText;el.innerText="✅ ID Disalin!";setTimeout(()=>el.innerText=o,2000);});};
+// ══════════════════════════════════════
+// INIT
+// ══════════════════════════════════════
+window.addEventListener("load", () => {
+  const el = document.getElementById("devInfo");
+  el.innerText = "📱 " + deviceId;
+  el.onclick = () => { navigator.clipboard.writeText(deviceId).then(()=>{ const o=el.innerText; el.innerText="✅ ID Disalin!"; setTimeout(()=>el.innerText=o,2000); }); };
 
-  // Admin access — 5 taps on title
-  let cc=0;
-  document.getElementById("title").onclick=()=>{
+  // Admin — 5 taps on title
+  let cc = 0;
+  document.getElementById("title").onclick = () => {
     cc++;
-    if(cc>=5){
-      const p=prompt("🔐 PIN Admin:");
-      if(p===ADMIN_PIN){document.getElementById("admPanel").style.display="block";alert("✅ Admin Mode Aktif. Semua perubahan langsung ke semua user.");}
+    if (cc >= 5) {
+      const p = prompt("🔐 PIN Admin:");
+      if (p === ADMIN_PIN) { document.getElementById("admPanel").style.display="block"; alert("✅ Admin Mode Aktif."); }
       else alert("❌ PIN salah!");
-      cc=0;
+      cc = 0;
     }
   };
 
-  drawRNG();drawName();renderNTags();renderNHist();
+  drawRNG(); drawName(); renderNTags(); renderNHist();
 });
 
-// ═══════════════════════════════════════════════
-//  HELPERS
-// ═══════════════════════════════════════════════
-function updateStatusUI(){
-  const btn=document.getElementById("toggleBtn");
-  if(cfg.scheduleEnabled){btn.innerText="⏰ AUTO MODE AKTIF";btn.style.background="#555";btn.style.color="#fff";btn.disabled=true;return;}
-  btn.disabled=false;
-  if(cfg.eventOn){btn.innerText="⏹ MATIKAN EVENT";btn.style.background="#ef4444";btn.style.color="#fff";setSt("s-on","🟢 EVENT BERJALAN");}
-  else{btn.innerText="▶ HIDUPKAN EVENT";btn.style.background="#16a34a";btn.style.color="#fff";setSt("s-off","🔴 EVENT OFFLINE");}
+// ══════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════
+function updateStatusUI() {
+  const btn = document.getElementById("toggleBtn");
+  if (cfg.scheduleEnabled) { btn.innerText="⏰ AUTO MODE AKTIF"; btn.style.background="#555"; btn.style.color="#fff"; btn.disabled=true; return; }
+  btn.disabled = false;
+  if (cfg.eventOn) { btn.innerText="⏹ MATIKAN EVENT"; btn.style.background="#ef4444"; btn.style.color="#fff"; setSt("s-on","🟢 EVENT BERJALAN"); }
+  else             { btn.innerText="▶ HIDUPKAN EVENT"; btn.style.background="#16a34a"; btn.style.color="#fff"; setSt("s-off","🔴 EVENT OFFLINE"); }
 }
-function updateDateInfo(){
-  const el=document.getElementById("evDateInfo");
-  if(!cfg.eventStart||cfg.eventStart===0){el.innerHTML="";return;}
-  const fmt={day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit",hour12:false,timeZone:"Asia/Jakarta"};
-  el.innerHTML=`📅 ${new Date(cfg.eventStart).toLocaleString("id-ID",fmt)} → ${new Date(cfg.eventEnd||0).toLocaleString("id-ID",fmt)} WIB`;
+function updateDateInfo() {
+  const el = document.getElementById("evDateInfo");
+  if (!cfg.eventStart || cfg.eventStart===0) { el.innerHTML=""; return; }
+  const fmt = {day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit",hour12:false,timeZone:"Asia/Jakarta"};
+  el.innerHTML = `📅 ${new Date(cfg.eventStart).toLocaleString("id-ID",fmt)} → ${new Date(cfg.eventEnd||0).toLocaleString("id-ID",fmt)} WIB`;
 }
-function setSt(cls,txt){const el=document.getElementById("evInd");el.className=cls;el.innerText=txt;}
-function updateSlotDisplay(){
-  const mwg=cfg.maxWinnerGlobal||0,el=document.getElementById("sSlot");
-  if(mwg>0){const l=Math.max(0,mwg-totalWinners);el.innerText=l;el.style.color=l<=2?"#ef4444":l<=5?"#f59e0b":"#00ffd5";}
-  else{el.innerText="∞";el.style.color="#00ffd5";}
+function setSt(cls, txt) { const el=document.getElementById("evInd"); el.className=cls; el.innerText=txt; }
+function updateSlotDisplay() {
+  const mwg=cfg.maxWinnerGlobal||0, el=document.getElementById("sSlot");
+  if (mwg>0) { const l=Math.max(0,mwg-totalWin); el.innerText=l; el.style.color=l<=2?"#ef4444":l<=5?"#f59e0b":"#00ffd5"; }
+  else { el.innerText="∞"; el.style.color="#00ffd5"; }
 }
-function addLog(name,result,win){
+function addLog(name, result, win) {
   const log=document.getElementById("logInner");
-  const d=document.createElement("div");
-  d.style.cssText="padding:3px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:10px";
+  const d=document.createElement("div"); d.style.cssText="padding:3px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:10px";
   d.innerHTML=`<span style="color:rgba(0,255,213,.5)">${new Date().toLocaleTimeString()}</span> <span style="color:${win?"#4ade80":"#f87171"}">${win?"✓":"✗"} ${escH(result)}</span> <span style="color:#aaa">(${escH(name)})</span>`;
-  log.appendChild(d);log.scrollTop=log.scrollHeight;
+  log.appendChild(d); log.scrollTop=log.scrollHeight;
 }
-function vReq(show){
+function vReq(show) {
   const info=document.getElementById("admInfo").value.trim();
   const mwg=parseInt(document.getElementById("mwg").value)||0;
   const mwd=parseInt(document.getElementById("mwd").value)||0;
-  const hasW=prizes.some(p=>p.win),hasL=prizes.some(p=>!p.win);
-  const ok=info&&mwg>0&&mwd>0&&hasW&&hasL;
-  if(!ok&&show){
+  const ok=info&&mwg>0&&mwd>0&&prizes.some(p=>p.win)&&prizes.some(p=>!p.win);
+  if (!ok&&show) {
     let msg="❌ Belum bisa:\n";
-    if(!info)msg+="• Isi deskripsi event\n";
-    if(!mwg)msg+="• Limit pemenang global > 0\n";
-    if(!mwd)msg+="• Limit menang/user > 0\n";
-    if(!hasW)msg+="• Tambah min 1 HADIAH di roda\n";
-    if(!hasL)msg+="• Tambah min 1 ZONK di roda";
+    if(!info) msg+="• Isi deskripsi event\n"; if(!mwg) msg+="• Limit pemenang global > 0\n";
+    if(!mwd)  msg+="• Limit menang/user > 0\n";
+    if(!prizes.some(p=>p.win))  msg+="• Tambah min 1 HADIAH di roda\n";
+    if(!prizes.some(p=>!p.win)) msg+="• Tambah min 1 ZONK di roda";
     alert(msg);
   }
   return ok;
 }
-// Quiet validation — reads from cfg (Firebase state), not DOM
-function vReqQ(){
-  return !!(infoBoardVal&&infoBoardVal.trim()&&
-    (cfg.maxWinnerGlobal||0)>0&&
-    (cfg.maxWinPerDevice||0)>0&&
-    prizes.some(p=>p.win)&&prizes.some(p=>!p.win));
+// Quiet validation — reads from Firebase state vars, NOT DOM
+function vReqQ() {
+  return !!(infoVal&&infoVal.trim()&&(cfg.maxWinnerGlobal||0)>0&&(cfg.maxWinPerDevice||0)>0&&prizes.some(p=>p.win)&&prizes.some(p=>!p.win));
 }
-function checkSchedValid(){
+function checkSchedValid() {
   const el=document.getElementById("schedMsg");
   const ok=vReqQ();
-  const sv=document.getElementById("evStart").value,ev=document.getElementById("evEnd").value;
+  const sv=document.getElementById("evStart").value, ev=document.getElementById("evEnd").value;
   const hasTime=sv&&ev&&new Date(ev)>new Date(sv);
   if(ok&&hasTime){el.style.color="#4ade80";el.innerText="✅ Semua data lengkap. Schedule siap diaktifkan.";}
   else{el.style.color="#f87171";el.innerText="⚠️ Lengkapi data event dulu sebelum aktifkan schedule.";}
 }
-function renderWList(){
-  const c=document.getElementById("wList");c.innerHTML="";
-  if(!prizes.length){c.innerHTML="<div style='color:#aaa;text-align:center;padding:7px;font-size:10px'>Belum ada item</div>";return;}
+function renderWList() {
+  const c=document.getElementById("wList"); c.innerHTML="";
+  if (!prizes.length){c.innerHTML="<div style='color:#aaa;text-align:center;padding:7px;font-size:10px'>Belum ada item</div>";return;}
   prizes.forEach((p,i)=>{
-    const d=document.createElement("div");d.className="wia "+(p.win?"wi":"lo");
+    const d=document.createElement("div"); d.className="wia "+(p.win?"wi":"lo");
     d.innerHTML=`<div class="nfo"><span style="color:${p.win?"#4ade80":"#f87171"}">${p.win?"✓ WIN":"✗ ZONK"}</span> <span style="color:#fff">${escH(p.label)}</span> <span style="color:#aaa;font-size:10px">(w:${p.weight||1})</span></div><button class="db" onclick="deletePrize(${i})">✕</button>`;
     c.appendChild(d);
   });
 }
-function renderCodes(data){
-  const c=document.getElementById("codeList");c.innerHTML="";
+function renderCodes(data) {
+  const c=document.getElementById("codeList"); c.innerHTML="";
   const keys=Object.keys(data);
   if(!keys.length){c.innerHTML="<div style='color:#aaa;text-align:center;padding:6px;font-size:10px'>Belum ada code</div>";return;}
   keys.forEach(code=>{
-    const cd=data[code];const d=document.createElement("div");d.className="ci";
+    const cd=data[code]; const d=document.createElement("div"); d.className="ci";
     const pct=cd.maxUse>0?Math.round((cd.used/cd.maxUse)*100):0;
     d.innerHTML=`<div><div style="color:#00ffd5;font-weight:bold;font-size:11px">${code}</div><div style="color:#aaa;font-size:10px">+${cd.spin} spin | ${cd.used}/${cd.maxUse} (${pct}%)</div></div><button class="db" onclick="deleteCode('${code}')">✕</button>`;
     c.appendChild(d);
   });
 }
-function si(id,val){const el=document.getElementById(id);if(el&&document.activeElement!==el)el.value=val;}
-function toDT(ts){const d=new Date(ts);const p=n=>String(n).padStart(2,"0");return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`;}
-function pad(n){return n<10?"0"+n:n;}
-function escH(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function si(id, val) { const el=document.getElementById(id); if(el&&document.activeElement!==el) el.value=val; }
+function toDT(ts) { const d=new Date(ts),p=n=>String(n).padStart(2,"0"); return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`; }
+function pad(n) { return n<10?"0"+n:n; }
+function escH(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 </script>
 </body>
 </html>
