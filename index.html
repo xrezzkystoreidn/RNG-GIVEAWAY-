@@ -350,20 +350,23 @@ button:disabled{opacity:.5;cursor:not-allowed}
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
 <script>
 // ═══════════════════════════════════════════════
 //  FIREBASE INIT
 // ═══════════════════════════════════════════════
 const fbCfg={
-  apiKey:"AIzaSyD85JE0QCaey1o4AUQtp24aGqNmx3AtbmA",
-  authDomain:"xrezzkystore-rng.firebaseapp.com",
-  databaseURL:"https://xrezzkystore-rng-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId:"xrezzkystore-rng",
-  storageBucket:"xrezzkystore-rng.appspot.com",
-  messagingSenderId:"304889774590",
-  appId:"1:304889774590:web:5d52c2485ca2137ad480af"
+  apiKey:"AIzaSyD_1I7jtDwBRFhthA3DKlwysWfVtTfoy0o",
+  authDomain:"rng-spin.firebaseapp.com",
+  databaseURL:"https://rng-spin-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId:"rng-spin",
+  storageBucket:"rng-spin.firebasestorage.app",
+  messagingSenderId:"696033026587",
+  appId:"1:696033026587:web:3f668e38d466218fb98ebe",
+  measurementId:"G-JP8RS41P8T"
 };
 firebase.initializeApp(fbCfg);
+firebase.analytics();
 const db=firebase.database();
 
 // ═══════════════════════════════════════════════
