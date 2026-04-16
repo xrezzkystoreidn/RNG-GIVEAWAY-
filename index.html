@@ -3,1107 +3,1372 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>XREZZKYSTORE RNG GIVEAWAY</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<title>ANDIKZ – Admin Panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:radial-gradient(ellipse at 50% 0%,#0a2f2f,#020b0b 60%);min-height:100vh;font-family:'Share Tech Mono',monospace;color:#fff;display:flex;justify-content:center;padding:16px 10px 60px}
-.box{width:100%;max-width:420px;background:#071414;border-radius:20px;padding:18px;box-shadow:0 0 40px rgba(0,255,213,.15);border:1px solid rgba(0,255,213,.2);display:flex;flex-direction:column;align-items:center;position:relative;overflow:hidden}
-.box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00ffd5,transparent)}
-.hdr{width:100%;display:flex;align-items:center;justify-content:center;position:relative;margin-bottom:2px}
-#accountBtn{position:absolute;right:0;width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#00ffd5,#007a6a);border:none;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .2s}
-#accountBtn:hover{transform:scale(1.1)}
-h2{font-family:'Orbitron',sans-serif;font-size:19px;color:#00ffd5;letter-spacing:3px;text-shadow:0 0 20px rgba(0,255,213,.6);cursor:pointer;text-align:center}
-.sub{font-size:10px;letter-spacing:4px;color:rgba(0,255,213,.5);text-align:center;margin-bottom:10px}
-.tabs{display:flex;width:100%;gap:6px;margin-bottom:12px}
-.tab{flex:1;padding:8px 4px;border-radius:8px;border:1px solid rgba(0,255,213,.2);background:transparent;color:#aaa;font-family:'Share Tech Mono',monospace;font-size:11px;cursor:pointer;transition:all .2s}
-.tab.on{background:linear-gradient(135deg,#00ffd5,#007a6a);color:#000;font-weight:700}
-#evInd{width:100%;padding:7px 12px;border-radius:8px;text-align:center;font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:2px;font-weight:700;margin-bottom:8px;transition:all .3s}
-.s-on{background:linear-gradient(135deg,#064e1a,#16a34a);color:#4ade80;border:1px solid #16a34a;box-shadow:0 0 15px rgba(22,163,74,.3)}
-.s-off{background:linear-gradient(135deg,#4e0606,#ef4444);color:#fca5a5;border:1px solid #ef4444;box-shadow:0 0 15px rgba(239,68,68,.3)}
-.s-wait{background:linear-gradient(135deg,#4e2e06,#f59e0b);color:#fcd34d;border:1px solid #f59e0b;box-shadow:0 0 15px rgba(245,158,11,.3)}
-#timerBox{width:100%;background:rgba(0,0,0,.4);border:1px solid rgba(0,255,213,.15);border-radius:10px;padding:8px 12px;margin-bottom:10px}
-#evDateInfo{font-size:10px;color:rgba(0,255,213,.6);margin-bottom:4px;line-height:1.5}
-#timerLbl{font-size:10px;color:#aaa;margin-bottom:3px}
-#timerClk{font-family:'Orbitron',sans-serif;font-size:17px;color:#00ffd5;letter-spacing:2px}
-.tu{color:#ffcc66}
-#stats{width:100%;display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:10px}
-.sb{background:rgba(0,0,0,.3);border:1px solid rgba(0,255,213,.1);border-radius:8px;padding:5px;text-align:center}
-.sb .v{font-family:'Orbitron',sans-serif;font-size:15px;color:#00ffd5}
-.sb .l{font-size:9px;color:#aaa;margin-top:2px}
-input,select,textarea{width:100%;padding:9px 11px;border-radius:8px;border:1px solid rgba(0,255,213,.2);background:rgba(0,0,0,.4);color:#fff;font-family:'Share Tech Mono',monospace;font-size:13px;margin-top:7px;outline:none;transition:border-color .2s}
-input:focus,select:focus,textarea:focus{border-color:#00ffd5;box-shadow:0 0 8px rgba(0,255,213,.2)}
-input:disabled{opacity:.6;cursor:not-allowed}
-button{width:100%;padding:9px;border-radius:8px;border:none;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:13px;font-weight:700;transition:transform .15s}
-button:active{transform:scale(.96)}
-button:disabled{opacity:.5;cursor:not-allowed}
-.bc{background:linear-gradient(135deg,#00ffd5,#007a6a);color:#000}
-.br{background:linear-gradient(135deg,#ef4444,#7f1d1d);color:#fff}
-.bg{background:linear-gradient(135deg,#16a34a,#052e16);color:#fff}
-.bw{background:linear-gradient(135deg,#f59e0b,#78350f);color:#fff}
-.bx{background:rgba(255,255,255,.1);color:#fff}
-.cw{display:flex;width:100%;gap:7px;align-items:flex-end;margin-top:7px}
-.cw input{flex:1;margin-top:0}
-#wWrap{width:100%;display:flex;flex-direction:column;align-items:center;margin:12px 0}
-#wCont{position:relative;width:290px;height:290px}
-#wheel{width:290px;height:290px;display:block;transition:transform 4s cubic-bezier(0.17,.67,.12,.99)}
-#arrWrap{position:absolute;top:-20px;left:50%;transform:translateX(-50%);z-index:20;filter:drop-shadow(0 0 5px #00ffd5)}
-#wCenter{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;background:linear-gradient(135deg,#00ffd5,#007a6a);border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-size:7px;color:#000;font-weight:900;z-index:10;pointer-events:none;text-align:center}
-#spinBtn{font-family:'Orbitron',sans-serif;font-size:15px;letter-spacing:2px;padding:15px;background:linear-gradient(135deg,#00ffd5,#007a6a);color:#000;font-weight:900}
-#result{margin:10px 0 6px;font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;text-align:center;min-height:26px;color:#00ffd5;letter-spacing:1px}
-#result.wr{color:#4ade80;text-shadow:0 0 20px rgba(74,222,128,.6);animation:pls 1s infinite}
-#result.lr{color:#f87171}
-@keyframes pls{0%,100%{opacity:1}50%{opacity:.7}}
-#claimBtn{background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;margin-top:4px;display:none}
-#spinInfo{color:#aaa;font-size:11px;margin:4px 0 0;text-align:center;display:block}
-#spinNote{color:#ffcc00;font-size:11px;margin:2px 0 5px;text-align:center;display:block;min-height:18px}
-#devInfo{color:rgba(0,255,213,.5);font-size:10px;cursor:pointer;margin-bottom:8px;text-align:center;display:block}
-.pnl{background:rgba(0,0,0,.3);padding:9px;border-radius:10px;font-size:11px;width:100%;border:1px solid rgba(0,255,213,.1);margin-top:8px}
-.ptitle{color:#00ffd5;font-weight:700;margin-bottom:5px;font-size:11px;letter-spacing:1px;border-bottom:1px solid rgba(0,255,213,.1);padding-bottom:3px}
-#admPanel{display:none;width:100%;margin-top:12px}
-.as{background:rgba(0,0,0,.3);padding:11px;border-radius:10px;margin-bottom:10px;border:1px solid rgba(255,204,0,.2)}
-.at{color:#ffcc00;font-size:11px;font-weight:700;letter-spacing:1px;margin-bottom:8px}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:5px}
-.brow{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
-.brow button{flex:1}
-.wia{display:flex;align-items:center;gap:7px;padding:6px 7px;border-radius:6px;margin-bottom:4px}
-.wia.wi{background:rgba(22,163,74,.15);border:1px solid rgba(22,163,74,.3)}
-.wia.lo{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3)}
-.wia .nfo{flex:1;font-size:11px}
-.db{width:28px;height:28px;border-radius:50%;background:#ef4444;color:#fff;font-size:11px;padding:0;flex-shrink:0}
-.ci{display:flex;justify-content:space-between;align-items:center;padding:5px 7px;border-radius:6px;margin-bottom:4px;background:rgba(0,255,213,.05);border:1px solid rgba(0,255,213,.1)}
-.mov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
-.mbox{width:330px;background:#071414;border:1px solid rgba(0,255,213,.3);padding:18px;border-radius:16px;max-height:90vh;overflow-y:auto}
-.mbox h3{font-family:'Orbitron',sans-serif;color:#00ffd5;text-align:center;margin-bottom:13px;font-size:14px;letter-spacing:2px}
-.arow{margin-bottom:10px}
-.arow label{font-size:9px;color:#aaa;display:block;margin-bottom:3px;letter-spacing:1px}
-.aval{background:rgba(0,0,0,.4);border:1px solid rgba(0,255,213,.2);border-radius:6px;padding:7px 9px;font-size:12px;color:#00ffd5;word-break:break-all}
-.nhi{padding:4px 7px;border-radius:5px;margin-bottom:3px;background:rgba(0,255,213,.05);border:1px solid rgba(0,255,213,.1);font-size:10px}
-#winOv{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:8000;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:20px}
-.wb{font-family:'Orbitron',sans-serif;font-size:26px;color:#ffcc00;text-shadow:0 0 30px rgba(255,204,0,.8);margin-bottom:8px;animation:bnc .5s infinite alternate}
-@keyframes bnc{from{transform:scale(1)}to{transform:scale(1.05)}}
-#nSpin{display:none;width:100%}
-.nsr{font-family:'Orbitron',sans-serif;font-size:18px;color:#ffcc00;text-align:center;min-height:30px;margin:8px 0;text-shadow:0 0 15px rgba(255,204,0,.6);letter-spacing:2px}
-.ntags{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px;max-height:90px;overflow:auto}
-.ntag{background:rgba(0,255,213,.1);border:1px solid rgba(0,255,213,.2);border-radius:20px;padding:3px 10px;font-size:11px;color:#00ffd5;display:flex;align-items:center;gap:5px}
-.ntag .xt{cursor:pointer;color:#f87171;font-size:12px;font-weight:bold}
-#nwCont{position:relative;width:280px;height:280px}
-#nWheel{width:280px;height:280px;display:block;transition:transform 4s cubic-bezier(0.17,.67,.12,.99)}
-#nArr{position:absolute;top:-20px;left:50%;transform:translateX(-50%);z-index:20;filter:drop-shadow(0 0 5px #ffcc00)}
-#nwCenter{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:38px;height:38px;background:linear-gradient(135deg,#ffcc00,#f59e0b);border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-size:7px;color:#000;font-weight:900;z-index:10;pointer-events:none}
-#nSpinBtn{font-family:'Orbitron',sans-serif;font-size:14px;letter-spacing:2px;padding:14px;background:linear-gradient(135deg,#ffcc00,#f59e0b);color:#000;font-weight:900;margin-top:8px}
-.rtdot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#4ade80;animation:blink 1.5s infinite;margin-left:5px;vertical-align:middle}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-track{background:rgba(0,0,0,.2)}
-::-webkit-scrollbar-thumb{background:#00ffd5;border-radius:2px}
-#confetti{position:fixed;inset:0;pointer-events:none;z-index:7999}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0b0f;--bg2:#111318;--bg3:#181b22;--bg4:#1e2230;
+  --ac:#00e5a0;--ac2:#00b87a;--blu:#3b82f6;--yel:#f59e0b;
+  --red:#ef4444;--pur:#8b5cf6;
+  --t1:#f0f2f8;--t2:#a8b2cc;--t3:#5a6480;
+  --bdr:rgba(255,255,255,0.06);--bdr2:rgba(255,255,255,0.12);
+  --shadow:0 4px 24px rgba(0,0,0,.5);
+  --r:10px;--r2:6px;
+  --font:'Outfit',sans-serif;--mono:'DM Mono',monospace;--disp:'Syne',sans-serif;
+}
+html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--font);font-size:14px;line-height:1.6;overflow-x:hidden}
+a{color:var(--ac);text-decoration:none}
+button{cursor:pointer;font-family:var(--font)}
+input,select,textarea{font-family:var(--font)}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:99px}
+
+/* LOADING */
+#loadingScreen{position:fixed;inset:0;background:var(--bg);z-index:9000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:opacity .35s}
+#loadingScreen.gone{opacity:0;pointer-events:none}
+.loadLogo{font-family:var(--disp);font-size:2.2rem;font-weight:800}
+.loadLogo span{color:var(--ac)}
+.loadSpin{width:28px;height:28px;border:3px solid var(--bdr2);border-top-color:var(--ac);border-radius:50%;animation:spin .7s linear infinite}
+
+/* TOAST */
+#toast{position:fixed;top:16px;right:16px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toastMsg{background:var(--bg3);border:1px solid var(--bdr2);border-radius:var(--r2);padding:10px 16px;font-size:.82rem;font-weight:500;box-shadow:var(--shadow);animation:slideIn .3s ease;pointer-events:all;max-width:320px}
+.toastMsg.ok{border-left:3px solid var(--ac)}
+.toastMsg.err{border-left:3px solid var(--red)}
+.toastMsg.warn{border-left:3px solid var(--yel)}
+@keyframes slideIn{from{transform:translateX(120%);opacity:0}to{transform:translateX(0);opacity:1}}
+
+/* MODAL */
+#modalBack{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:800;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}
+#modalBack.open{display:flex}
+.modalBox{background:var(--bg2);border:1px solid var(--bdr2);border-radius:var(--r);width:100%;max-width:560px;max-height:88vh;display:flex;flex-direction:column;box-shadow:var(--shadow);animation:popIn .25s ease}
+@keyframes popIn{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.modalHead{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--bdr)}
+.modalHead h3{font-family:var(--disp);font-size:1rem;font-weight:700}
+.modalClose{background:none;border:none;color:var(--t3);font-size:1.3rem;padding:2px 6px;border-radius:4px;transition:.2s}
+.modalClose:hover{background:var(--bg4);color:var(--t1)}
+.modalBody{padding:20px;overflow-y:auto;flex:1}
+
+/* LOGIN — default hidden */
+#loginWrap{display:none;min-height:100vh;align-items:center;justify-content:center;padding:20px;background:var(--bg);position:relative;overflow:hidden}
+#loginWrap.show{display:flex}
+#loginWrap::before{content:'';position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(0,229,160,.08) 0%,transparent 70%);top:-150px;right:-150px;pointer-events:none}
+#loginWrap::after{content:'';position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(59,130,246,.06) 0%,transparent 70%);bottom:-100px;left:-100px;pointer-events:none}
+.loginCard{background:var(--bg2);border:1px solid var(--bdr2);border-radius:16px;padding:40px 36px;width:100%;max-width:420px;box-shadow:0 24px 80px rgba(0,0,0,.6);position:relative;z-index:1}
+.loginLogo{text-align:center;margin-bottom:28px}
+.loginLogo .logoTxt{font-family:var(--disp);font-size:2rem;font-weight:800;letter-spacing:-.02em}
+.loginLogo .logoTxt span{color:var(--ac)}
+.loginLogo .logoBadge{display:inline-block;background:rgba(0,229,160,.1);border:1px solid rgba(0,229,160,.25);color:var(--ac);font-size:.65rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:2px 10px;border-radius:99px;margin-top:6px}
+.loginTitle{font-family:var(--disp);font-size:1.1rem;font-weight:700;margin-bottom:20px;text-align:center;color:var(--t2)}
+.fGrp{margin-bottom:14px}
+.fGrp label{display:block;font-size:.75rem;font-weight:600;color:var(--t3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.fInp{width:100%;background:var(--bg3);border:1px solid var(--bdr2);border-radius:var(--r2);padding:10px 13px;color:var(--t1);font-size:.875rem;outline:none;transition:.2s}
+.fInp:focus{border-color:var(--ac);box-shadow:0 0 0 3px rgba(0,229,160,.1)}
+.fInp::placeholder{color:var(--t3)}
+.loginErr{color:var(--red);font-size:.8rem;margin-bottom:12px;min-height:18px;text-align:center;line-height:1.5}
+.loginBtn{width:100%;background:var(--ac);color:#0a0b0f;border:none;border-radius:var(--r2);padding:11px;font-size:.9rem;font-weight:700;font-family:var(--disp);letter-spacing:.04em;transition:.2s;margin-top:4px}
+.loginBtn:hover{background:var(--ac2);transform:translateY(-1px)}
+.loginBtn:disabled{opacity:.6;transform:none;cursor:not-allowed}
+.loginSwitch{margin-top:18px;text-align:center;font-size:.8rem;color:var(--t3)}
+.loginSwitch a{color:var(--ac);font-weight:600;cursor:pointer}
+.loginSwitch a:hover{text-decoration:underline}
+.forgotLink{text-align:right;margin-top:-8px;margin-bottom:12px}
+.forgotLink a{font-size:.77rem;color:var(--t3);cursor:pointer}
+.forgotLink a:hover{color:var(--ac)}
+.divider{display:flex;align-items:center;gap:10px;margin:16px 0;color:var(--t3);font-size:.75rem}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--bdr2)}
+.infoBox{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:6px;padding:10px 12px;font-size:.75rem;color:#f59e0b;margin-top:14px;line-height:1.5}
+.infoBoxBlue{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);border-radius:6px;padding:10px 12px;font-size:.75rem;color:var(--blu);margin-top:14px}
+
+/* DENIED */
+#deniedWrap{display:none;min-height:100vh;flex-direction:column;align-items:center;justify-content:center;padding:20px;background:var(--bg);text-align:center;gap:12px}
+#deniedWrap.show{display:flex}
+.deniedIco{font-size:3rem}
+.deniedTitle{font-family:var(--disp);font-size:1.5rem;font-weight:800;color:var(--red)}
+.deniedMsg{color:var(--t3);font-size:.875rem;max-width:360px;line-height:1.6}
+
+/* APP — default hidden */
+#appWrap{display:none;min-height:100vh;flex-direction:column}
+#appWrap.show{display:flex}
+.topBar{height:52px;background:var(--bg2);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 20px;gap:12px;position:sticky;top:0;z-index:200}
+.topBarLogo{font-family:var(--disp);font-size:1.1rem;font-weight:800;letter-spacing:-.02em;flex-shrink:0}
+.topBarLogo span{color:var(--ac)}
+.topBarMid{flex:1}
+.topBarRight{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.dbPing{width:8px;height:8px;border-radius:50%;background:var(--t3);flex-shrink:0}
+.dbPing.live{background:var(--ac);box-shadow:0 0 0 3px rgba(0,229,160,.2);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(0,229,160,.2)}50%{box-shadow:0 0 0 6px rgba(0,229,160,.06)}}
+.tbEmail{font-size:.75rem;color:var(--t3);font-family:var(--mono)}
+.tbRole{font-size:.65rem;background:rgba(0,229,160,.1);color:var(--ac);border:1px solid rgba(0,229,160,.25);padding:1px 7px;border-radius:99px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.appBody{display:flex;flex:1}
+
+/* SIDEBAR */
+.sidebar{width:220px;background:var(--bg2);border-right:1px solid var(--bdr);display:flex;flex-direction:column;padding:12px 10px;gap:2px;flex-shrink:0;height:calc(100vh - 52px);position:sticky;top:52px;overflow-y:auto}
+.navSec{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);padding:10px 8px 4px}
+.navBtn{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:var(--r2);color:var(--t2);font-size:.85rem;font-weight:500;transition:.2s;border:none;background:none;width:100%;text-align:left;position:relative;cursor:pointer}
+.navBtn:hover{background:var(--bg3);color:var(--t1)}
+.navBtn.on{background:rgba(0,229,160,.1);color:var(--ac);font-weight:600}
+.navBtn .ico{font-size:1rem;width:20px;text-align:center;flex-shrink:0}
+.navDot{width:7px;height:7px;border-radius:50%;background:var(--red);position:absolute;right:10px;top:50%;transform:translateY(-50%);display:none}
+.navDot.show{display:block}
+.sidebarFoot{margin-top:auto;padding-top:12px;border-top:1px solid var(--bdr)}
+.logoutBtn{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:var(--r2);color:var(--t3);font-size:.85rem;transition:.2s;border:none;background:none;width:100%;cursor:pointer}
+.logoutBtn:hover{background:rgba(239,68,68,.1);color:var(--red)}
+
+/* MAIN */
+.mainContent{flex:1;padding:24px;overflow-y:auto;min-height:calc(100vh - 52px)}
+.tabPane{display:none}
+.tabPane.on{display:block}
+.pageTitle{font-family:var(--disp);font-size:1.4rem;font-weight:800;margin-bottom:20px;letter-spacing:-.02em}
+.pageTitle span{color:var(--ac)}
+
+/* STATS */
+.statsGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:24px}
+.statCard{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:18px 20px;position:relative;overflow:hidden}
+.statCard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.statCard.s-green::before{background:linear-gradient(90deg,var(--ac),transparent)}
+.statCard.s-blue::before{background:linear-gradient(90deg,var(--blu),transparent)}
+.statCard.s-yellow::before{background:linear-gradient(90deg,var(--yel),transparent)}
+.statCard.s-red::before{background:linear-gradient(90deg,var(--red),transparent)}
+.statCard.s-pur::before{background:linear-gradient(90deg,var(--pur),transparent)}
+.statIco{font-size:1.5rem;margin-bottom:8px}
+.statVal{font-family:var(--disp);font-size:1.6rem;font-weight:800;line-height:1;margin-bottom:4px}
+.statLbl{font-size:.75rem;color:var(--t3)}
+.dashGrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.dashCard{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden}
+.dashCardHead{padding:14px 18px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between}
+.dashCardHead h3{font-size:.875rem;font-weight:600;color:var(--t2)}
+
+/* FILTER */
+.filterBar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.fSelect,.fSearch{background:var(--bg2);border:1px solid var(--bdr2);border-radius:var(--r2);padding:8px 12px;color:var(--t1);font-size:.82rem;outline:none;transition:.2s}
+.fSelect:focus,.fSearch:focus{border-color:var(--ac)}
+.fSearch{min-width:200px;flex:1}
+.fSelect option{background:var(--bg2)}
+
+/* TABLE */
+.tableWrap{overflow-x:auto;border-radius:var(--r);border:1px solid var(--bdr)}
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+thead{background:var(--bg3)}
+th{padding:10px 14px;text-align:left;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);white-space:nowrap;border-bottom:1px solid var(--bdr)}
+td{padding:10px 14px;border-bottom:1px solid var(--bdr);vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:rgba(255,255,255,.02)}
+.mono{font-family:var(--mono);font-size:.78rem}
+.nowrap{white-space:nowrap}
+.bold{font-weight:600}
+
+/* BADGES */
+.badge{display:inline-block;padding:2px 8px;border-radius:99px;font-size:.68rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.b-pending{background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.3)}
+.b-approved,.b-selesai,.b-success{background:rgba(0,229,160,.12);color:var(--ac);border:1px solid rgba(0,229,160,.25)}
+.b-rejected,.b-dibatalkan{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.25)}
+.b-diproses,.b-paid{background:rgba(59,130,246,.12);color:var(--blu);border:1px solid rgba(59,130,246,.25)}
+.b-admin{background:rgba(139,92,246,.15);color:var(--pur);border:1px solid rgba(139,92,246,.3)}
+.b-user{background:rgba(255,255,255,.06);color:var(--t2);border:1px solid var(--bdr2)}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:var(--r2);border:none;font-size:.78rem;font-weight:600;font-family:var(--font);transition:.15s;cursor:pointer;white-space:nowrap}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:none}
+.btnSm{padding:4px 9px;font-size:.73rem}
+.btnSuc{background:rgba(0,229,160,.15);color:var(--ac);border:1px solid rgba(0,229,160,.25)}
+.btnSuc:hover{background:rgba(0,229,160,.25)}
+.btnDng{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.25)}
+.btnDng:hover{background:rgba(239,68,68,.25)}
+.btnBlu{background:rgba(59,130,246,.15);color:var(--blu);border:1px solid rgba(59,130,246,.25)}
+.btnBlu:hover{background:rgba(59,130,246,.25)}
+.btnGry{background:var(--bg4);color:var(--t2);border:1px solid var(--bdr2)}
+.btnGry:hover{background:var(--bg3);color:var(--t1)}
+.btnPur{background:rgba(139,92,246,.15);color:var(--pur);border:1px solid rgba(139,92,246,.25)}
+.btnPur:hover{background:rgba(139,92,246,.25)}
+.btnYel{background:rgba(245,158,11,.15);color:var(--yel);border:1px solid rgba(245,158,11,.25)}
+.btnYel:hover{background:rgba(245,158,11,.25)}
+.btnPrimary{background:var(--ac);color:#0a0b0f;border:none;font-weight:700}
+.btnPrimary:hover{background:var(--ac2)}
+.btnRow{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+
+/* EMPTY/LOADING */
+.empty{text-align:center;padding:48px 20px;color:var(--t3)}
+.eico{font-size:2.5rem;margin-bottom:10px}
+.empty p{font-size:.875rem}
+.loading{display:flex;align-items:center;justify-content:center;gap:10px;padding:40px;color:var(--t3);font-size:.875rem}
+.spin{width:18px;height:18px;border:2px solid var(--bdr2);border-top-color:var(--ac);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* DETAIL */
+.detailBox{display:flex;flex-direction:column}
+.detRow{display:flex;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--bdr)}
+.detRow:last-child{border-bottom:none}
+.detKey{font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--t3);flex-shrink:0;width:130px}
+.detVal{font-size:.85rem;color:var(--t1);word-break:break-all}
+
+/* FORM */
+.formGrp{margin-bottom:14px}
+.formGrp label{display:block;font-size:.75rem;font-weight:600;color:var(--t3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.formInp,.formSel,.formTxa{width:100%;background:var(--bg3);border:1px solid var(--bdr2);border-radius:var(--r2);padding:9px 12px;color:var(--t1);font-size:.875rem;outline:none;transition:.2s;font-family:var(--font)}
+.formInp:focus,.formSel:focus,.formTxa:focus{border-color:var(--ac);box-shadow:0 0 0 3px rgba(0,229,160,.08)}
+.formTxa{resize:vertical;min-height:80px}
+.formSel option{background:var(--bg3)}
+
+/* CARDS */
+.settCard{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:22px;margin-bottom:14px}
+.settCard h3{font-size:.875rem;font-weight:700;color:var(--t2);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--bdr);font-family:var(--disp)}
+.settGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.addDepCard{background:var(--bg3);border:1px solid var(--bdr2);border-radius:var(--r);padding:18px;margin-bottom:20px}
+.addDepCard h3{font-size:.875rem;font-weight:600;margin-bottom:14px;color:var(--t2)}
+.sotpCard{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:22px;margin-bottom:14px}
+.sotpHeader{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px}
+.sotpBalance{font-family:var(--disp);font-size:2rem;font-weight:800;color:var(--ac)}
+.sotpBalLbl{font-size:.75rem;color:var(--t3)}
+.reqCard{background:var(--bg2);border:1px solid var(--bdr2);border-radius:var(--r);padding:16px 18px;display:flex;align-items:center;gap:14px;margin-bottom:10px;flex-wrap:wrap}
+.reqAvatar{width:38px;height:38px;border-radius:50%;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.reqInfo{flex:1;min-width:0}
+.reqEmail{font-size:.875rem;font-weight:600;word-break:break-all}
+.reqDate{font-size:.72rem;color:var(--t3)}
+.reqActions{display:flex;gap:8px;flex-wrap:wrap}
+.userHist{background:var(--bg3);border-radius:var(--r2);overflow:hidden;margin-bottom:4px}
+.userHistItem{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--bdr);font-size:.8rem;gap:8px}
+.userHistItem:last-child{border-bottom:none}
+.adjNote{font-size:.8rem;color:var(--t3);margin-top:8px}
+
+/* BOT DOCS */
+.docSection{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:22px;margin-bottom:14px}
+.docSection h3{font-size:.9rem;font-weight:700;color:var(--t2);margin-bottom:14px;font-family:var(--disp)}
+.codeBlock{background:var(--bg);border:1px solid var(--bdr2);border-radius:var(--r2);padding:14px;font-family:var(--mono);font-size:.72rem;color:var(--ac);line-height:1.9;overflow-x:auto;margin:10px 0;white-space:pre-wrap;word-break:break-word}
+.codeBlock .cm{color:var(--t3)}
+.docItem{padding:9px 0;border-bottom:1px solid var(--bdr);font-size:.82rem}
+.docItem:last-child{border-bottom:none}
+.docItem strong{color:var(--t1)}
+.docItem p{color:var(--t3);font-size:.78rem;margin-top:2px}
+
+/* MOBILE NAV */
+#mobileNavWrap{display:none}
+#mobileNavWrap.show{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--bdr);padding:8px 0 12px;z-index:300;display:flex;justify-content:space-around}
+.mobileNavBtn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 12px;color:var(--t3);font-size:.6rem;font-weight:600;background:none;border:none;cursor:pointer}
+.mobileNavBtn.on{color:var(--ac)}
+.mobileNavBtn .ico{font-size:1.2rem}
+
+@media(max-width:768px){
+  .sidebar{display:none}
+  .statsGrid{grid-template-columns:1fr 1fr}
+  .dashGrid{grid-template-columns:1fr}
+  .settGrid{grid-template-columns:1fr}
+  .mainContent{padding:16px;padding-bottom:72px}
+  .topBar{padding:0 14px}
+}
+@media(max-width:480px){.statsGrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<canvas id="confetti"></canvas>
 
-<!-- WIN OVERLAY -->
-<div id="winOv">
-  <div style="font-size:48px;margin-bottom:8px">🎉</div>
-  <div class="wb">SELAMAT!</div>
-  <div id="winTxt" style="font-family:'Orbitron',sans-serif;font-size:15px;color:#00ffd5;margin-bottom:18px;line-height:1.6;white-space:pre-line"></div>
-  <button id="winCloseBtn" style="width:210px;background:linear-gradient(135deg,#ffcc00,#f59e0b);color:#000;font-family:'Orbitron',sans-serif;font-weight:900;padding:12px;border-radius:10px;border:none;cursor:pointer;font-size:13px">KLAIM HADIAH 📩</button>
+<!-- LOADING SCREEN -->
+<div id="loadingScreen">
+  <div class="loadLogo">ANDIKZ<span>.</span></div>
+  <div class="loadSpin"></div>
 </div>
 
-<!-- ACCOUNT MODAL -->
-<div id="accModal" class="mov">
-  <div class="mbox">
-    <h3>👤 AKUN SAYA</h3>
-    <div class="arow"><label>DEVICE ID</label><div class="aval" id="accDevId">-</div>
-      <button id="copyIdBtn" class="bc" style="margin-top:5px;padding:7px">📋 Copy ID</button></div>
-    <div class="arow"><label>NAMA SAAT INI</label><div class="aval" id="accName">-</div></div>
-    <div class="arow"><label>RIWAYAT NAMA</label>
-      <div id="accNH" style="max-height:90px;overflow:auto;background:rgba(0,0,0,.3);border:1px solid rgba(0,255,213,.1);border-radius:8px;padding:5px"></div></div>
-    <div class="arow"><label>RIWAYAT HADIAH</label>
-      <div id="accHist" style="max-height:110px;overflow:auto;background:rgba(0,0,0,.3);border:1px solid rgba(0,255,213,.1);border-radius:8px;padding:5px"></div></div>
-    <div class="brow" style="margin-top:8px">
-      <button id="reqEditBtn" class="bw" style="flex:1">✏️ Edit Nama</button>
-      <button id="logoutBtn" class="br" style="flex:1">🔒 Log Out</button>
+<div id="toast"></div>
+
+<!-- MODAL -->
+<div id="modalBack" onclick="closeModalBack(event)">
+  <div class="modalBox">
+    <div class="modalHead">
+      <h3 id="modalTitle">Detail</h3>
+      <button class="modalClose" onclick="closeModal()">✕</button>
     </div>
-    <button onclick="closeAccount()" class="bx" style="margin-top:7px">✕ Tutup</button>
+    <div class="modalBody" id="modalBody"></div>
   </div>
 </div>
 
-<!-- EXPORT MODAL -->
-<div id="exportModal" class="mov">
-  <div class="mbox">
-    <h3>📊 DATA PEMENANG</h3>
-    <textarea id="exportArea" readonly style="height:190px;background:#000;color:#00ffd5;font-family:monospace;font-size:11px;resize:none;margin-top:0"></textarea>
-    <button onclick="document.getElementById('exportModal').style.display='none'" class="br" style="margin-top:8px">TUTUP</button>
+<!-- ═══ LOGIN (hidden by default) ═════════════════════════════ -->
+<div id="loginWrap">
+  <div class="loginCard">
+    <div class="loginLogo">
+      <div class="logoTxt">ANDIKZ<span>.</span></div>
+      <div class="logoBadge">Admin Panel</div>
+    </div>
+    <div id="loginErr" class="loginErr"></div>
+
+    <!-- Login View -->
+    <div id="viewLogin">
+      <div class="loginTitle">Masuk ke Panel</div>
+      <div class="fGrp">
+        <label>Email</label>
+        <input id="liEmail" class="fInp" type="email" placeholder="admin@email.com" autocomplete="email"/>
+      </div>
+      <div class="fGrp">
+        <label>Password</label>
+        <input id="liPass" class="fInp" type="password" placeholder="••••••••" autocomplete="current-password"/>
+      </div>
+      <div class="forgotLink"><a onclick="showView('forgot')">Lupa password?</a></div>
+      <button id="loginBtn" class="loginBtn" onclick="doLogin()">Masuk ke Panel</button>
+      <div class="loginSwitch">Belum punya akun? <a onclick="showView('register')">Daftar di sini</a></div>
+      <div class="infoBoxBlue">🔒 Hanya akun dengan role <strong>admin</strong> yang bisa akses panel ini.</div>
+    </div>
+
+    <!-- Register View -->
+    <div id="viewRegister" style="display:none">
+      <div class="loginTitle">Daftar Akun</div>
+      <div class="fGrp"><label>Email</label><input id="regEmail" class="fInp" type="email" placeholder="email@kamu.com"/></div>
+      <div class="fGrp"><label>Nama Lengkap</label><input id="regName" class="fInp" type="text" placeholder="Nama kamu"/></div>
+      <div class="fGrp"><label>Password</label><input id="regPass" class="fInp" type="password" placeholder="Min. 6 karakter"/></div>
+      <div class="fGrp"><label>Konfirmasi Password</label><input id="regPass2" class="fInp" type="password" placeholder="Ulangi password"/></div>
+      <button id="regBtn" class="loginBtn" onclick="doRegister()">Daftar</button>
+      <div class="divider">atau</div>
+      <div class="loginSwitch">Sudah punya akun? <a onclick="showView('login')">Masuk</a></div>
+      <div class="infoBox">⚠️ Akun baru otomatis role <strong>user</strong>. Minta owner ubah ke <strong>admin</strong> via Role Manager supaya bisa login.</div>
+    </div>
+
+    <!-- Forgot View -->
+    <div id="viewForgot" style="display:none">
+      <div class="loginTitle">Reset Password</div>
+      <div class="fGrp"><label>Email Terdaftar</label><input id="forgotEmail" class="fInp" type="email" placeholder="email@kamu.com"/></div>
+      <button id="forgotBtn" class="loginBtn" onclick="doForgotSend()">📧 Kirim Link Reset</button>
+      <div class="loginSwitch" style="margin-top:14px"><a onclick="showView('login')">← Kembali ke Login</a></div>
+    </div>
   </div>
 </div>
 
-<!-- MAIN BOX -->
-<div class="box">
-  <div class="hdr">
-    <div><h2 id="title">XREZZKYSTORE</h2><div class="sub">RNG GIVEAWAY SYSTEM</div></div>
-    <button id="accountBtn">👤</button>
-  </div>
+<!-- ═══ DENIED (hidden by default) ════════════════════════════ -->
+<div id="deniedWrap">
+  <div class="deniedIco">🚫</div>
+  <div class="deniedTitle">Akses Ditolak</div>
+  <div class="deniedMsg" id="deniedMsg">Akun kamu tidak memiliki akses admin.</div>
+  <button class="btn btnDng" onclick="doLogout()" style="margin-top:8px">Logout</button>
+</div>
 
-  <div class="tabs">
-    <button class="tab on" id="t1" onclick="switchMode('g')">🎰 GIVEAWAY RNG</button>
-    <button class="tab" id="t2" onclick="switchMode('n')">🎡 SPIN NAMA</button>
-  </div>
-
-  <!-- Status & Timer -->
-  <div id="evInd" class="s-off">MEMUAT...</div>
-  <div id="timerBox">
-    <div id="evDateInfo"></div>
-    <div id="timerLbl" style="font-size:10px;color:#aaa;margin-bottom:3px">Menunggu...</div>
-    <div id="timerClk" style="font-family:'Orbitron',sans-serif;font-size:17px;color:#00ffd5;letter-spacing:2px">-- : -- : --</div>
-  </div>
-
-  <!-- GIVEAWAY SECTION -->
-  <div id="gSec" style="width:100%;display:flex;flex-direction:column;align-items:center">
-    <div id="stats">
-      <div class="sb"><div class="v" id="sWin">0</div><div class="l">PEMENANG</div></div>
-      <div class="sb"><div class="v" id="sSpin">-</div><div class="l">SISA SPIN</div></div>
-      <div class="sb"><div class="v" id="sSlot">∞</div><div class="l">SLOT</div></div>
+<!-- ═══ APP (hidden by default, show kalau login & role admin) ═ -->
+<div id="appWrap">
+  <div class="topBar">
+    <div class="topBarLogo">ANDIKZ<span>.</span></div>
+    <div class="topBarMid"></div>
+    <div class="topBarRight">
+      <div id="dbPing" class="dbPing"></div>
+      <span class="tbRole">Admin</span>
+      <span id="tbEmail" class="tbEmail"></span>
+      <button class="btn btnGry btnSm" onclick="doLogout()">Logout</button>
     </div>
-    <input id="nameInp" placeholder="✏️ Masukkan Nama Anda">
-    <div class="cw">
-      <input id="codeInp" placeholder="🎟️ Kode Spin" style="margin-top:0">
-      <button id="redeemBtn" class="bc" style="width:88px;margin-top:0;flex-shrink:0">Redeem</button>
+  </div>
+
+  <div class="appBody">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="navSec">Utama</div>
+      <button class="navBtn on" onclick="goTab('dashboard',this)"><span class="ico">📊</span> Dashboard</button>
+      <button class="navBtn" onclick="goTab('deposit',this)"><span class="ico">💰</span> Deposit <span id="dotDeposit" class="navDot"></span></button>
+      <button class="navBtn" onclick="goTab('order',this)"><span class="ico">📦</span> Orders <span id="dotOrder" class="navDot"></span></button>
+      <div class="navSec">Data</div>
+      <button class="navBtn" onclick="goTab('users',this)"><span class="ico">👥</span> Users</button>
+      <button class="navBtn" onclick="goTab('saldootp',this)"><span class="ico">🔑</span> Saldo OTP</button>
+      <div class="navSec">Config</div>
+      <button class="navBtn" onclick="goTab('rolemgr',this)"><span class="ico">🛡️</span> Role Manager</button>
+      <button class="navBtn" onclick="goTab('settings',this)"><span class="ico">⚙️</span> Settings</button>
+      <button class="navBtn" onclick="goTab('botdocs',this)"><span class="ico">🤖</span> Bot Docs</button>
+      <div class="sidebarFoot">
+        <button class="logoutBtn" onclick="doLogout()">🚪 Logout</button>
+      </div>
     </div>
-    <div id="wWrap">
-      <div id="wCont">
-        <div id="arrWrap">
-          <svg viewBox="0 0 22 26" fill="none" width="22" height="26">
-            <polygon points="11,26 0,8 22,8" fill="#00ffd5"/>
-            <rect x="8" y="0" width="6" height="11" rx="3" fill="#00ffd5"/>
-          </svg>
+
+    <!-- CONTENT -->
+    <div class="mainContent">
+
+      <!-- DASHBOARD -->
+      <div id="tab-dashboard" class="tabPane on">
+        <div class="pageTitle">Dashboard <span>Overview</span></div>
+        <div class="statsGrid">
+          <div class="statCard s-green"><div class="statIco">💰</div><div class="statVal" id="sTotalDep">Rp 0</div><div class="statLbl">Total Deposit Approved</div></div>
+          <div class="statCard s-blue"><div class="statIco">📦</div><div class="statVal" id="sTotalOrd">0</div><div class="statLbl">Total Orders</div></div>
+          <div class="statCard s-yellow"><div class="statIco">⏳</div><div class="statVal" id="sPendDep">0</div><div class="statLbl">Deposit Pending</div></div>
+          <div class="statCard s-red"><div class="statIco">🔔</div><div class="statVal" id="sPendOrd">0</div><div class="statLbl">Order Pending</div></div>
+          <div class="statCard s-pur"><div class="statIco">👥</div><div class="statVal" id="sTotalUsr">0</div><div class="statLbl">Total Users</div></div>
         </div>
-        <canvas id="wheel" width="290" height="290"></canvas>
-        <div id="wCenter">RNG</div>
-      </div>
-    </div>
-    <button id="spinBtn">🌀 SPIN RNG</button>
-    <div id="result">PUTAR UNTUK MEMULAI</div>
-    <button id="claimBtn">📩 KLAIM HADIAH VIA WA</button>
-    <span id="spinInfo">🎟 Memuat spin...</span>
-    <span id="spinNote"></span>
-    <span id="devInfo">📱 Device ID: memuat...</span>
-    <div class="pnl"><div class="ptitle">📋 RIWAYAT SPIN SAYA</div>
-      <div id="logInner" style="max-height:100px;overflow:auto"></div></div>
-    <div class="pnl"><div class="ptitle">📢 INFO EVENT <span class="rtdot"></span></div>
-      <div id="infoContent" style="color:#ccc;font-size:11px;line-height:1.6">Memuat...</div></div>
-    <div class="pnl"><div class="ptitle">🏆 PEMENANG TERBARU <span class="rtdot"></span></div>
-      <div id="winContent" style="max-height:120px;overflow:auto">Memuat...</div></div>
-  </div>
-
-  <!-- NAME SPIN SECTION -->
-  <div id="nSpin">
-    <div class="pnl" style="margin-top:0">
-      <div class="ptitle">👥 DAFTAR NAMA PESERTA</div>
-      <div style="font-size:10px;color:#aaa;margin-bottom:5px">Ketik nama → Enter. Paste banyak nama sekaligus (pisah koma/baris).</div>
-      <div style="display:flex;gap:6px;align-items:flex-end">
-        <input id="nInput" placeholder="Ketik nama lalu Enter..." style="flex:1;margin-top:0" onkeydown="nKey(event)">
-        <button onclick="addName()" class="bc" style="width:70px;margin-top:0;flex-shrink:0;font-size:11px">+Tambah</button>
-      </div>
-      <div class="ntags" id="nTags"></div>
-      <div style="font-size:10px;color:rgba(0,255,213,.5);margin-top:5px" id="nCount">0 peserta</div>
-      <div class="brow" style="margin-top:6px">
-        <button onclick="clearNames()" class="br" style="flex:1;font-size:11px">🗑 Hapus Semua</button>
-        <button onclick="shuffleNames()" class="bx" style="flex:1;font-size:11px">🔀 Acak</button>
-        <button onclick="removeLastSpun()" class="bw" style="flex:1;font-size:11px">✂ Hapus Terpilih</button>
-      </div>
-    </div>
-    <div style="display:flex;flex-direction:column;align-items:center;margin:12px 0">
-      <div id="nwCont">
-        <div id="nArr">
-          <svg viewBox="0 0 22 26" fill="none" width="22" height="26">
-            <polygon points="11,26 0,8 22,8" fill="#ffcc00"/>
-            <rect x="8" y="0" width="6" height="11" rx="3" fill="#ffcc00"/>
-          </svg>
+        <div class="dashGrid">
+          <div class="dashCard">
+            <div class="dashCardHead"><h3>💰 Deposit Pending</h3><button class="btn btnGry btnSm" onclick="goTab('deposit',null)">Semua</button></div>
+            <div id="dashDepPending"><div class="loading"><span class="spin"></span>Memuat…</div></div>
+          </div>
+          <div class="dashCard">
+            <div class="dashCardHead"><h3>📦 Order Pending</h3><button class="btn btnGry btnSm" onclick="goTab('order',null)">Semua</button></div>
+            <div id="dashOrdPending"><div class="loading"><span class="spin"></span>Memuat…</div></div>
+          </div>
         </div>
-        <canvas id="nWheel" width="280" height="280"></canvas>
-        <div id="nwCenter">NAMA</div>
       </div>
-    </div>
-    <button id="nSpinBtn">🎡 PUTAR — PILIH NAMA</button>
-    <div class="nsr" id="nResult">— Siapa yang terpilih? —</div>
-    <div class="pnl"><div class="ptitle">📋 RIWAYAT NAMA TERPILIH</div>
-      <div id="nHistList" style="max-height:100px;overflow:auto;font-size:11px"></div>
-      <button onclick="clearNHist()" class="bx" style="margin-top:6px;font-size:10px;padding:5px">🗑 Hapus Riwayat</button></div>
-    <div style="font-size:10px;color:rgba(0,255,213,.3);text-align:center;margin-top:8px">Spin Nama tersimpan lokal. Tidak perlu event aktif.</div>
-  </div>
 
-  <!-- ADMIN PANEL -->
-  <div id="admPanel">
-    <div style="font-family:'Orbitron',sans-serif;color:#ffcc00;text-align:center;font-size:12px;letter-spacing:2px;margin-bottom:12px;border-bottom:1px solid rgba(255,204,0,.2);padding-bottom:10px">⚙️ ADMIN PANEL</div>
-
-    <div id="connStatus" class="as" style="text-align:center;font-size:11px;padding:8px">🟡 Menghubungkan...</div>
-
-    <div class="as"><div class="at">🔐 GRANT EDIT PERMISSION</div>
-      <input id="grantId" placeholder="Device ID Target">
-      <button id="grantBtn" class="bc" style="margin-top:7px">Beri Izin Edit 1x</button></div>
-
-    <div class="as"><div class="at">🔒 LOCK DEVICE</div>
-      <input id="lockId" placeholder="Device ID Target">
-      <input id="lockHr" type="number" placeholder="Durasi Lock (jam)" style="margin-top:5px">
-      <div class="brow">
-        <button id="lockBtn" class="br">🔒 LOCK</button>
-        <button id="unlockBtn" class="bg">🔓 UNLOCK</button>
-      </div></div>
-
-    <div class="as"><div class="at">📡 KONTROL EVENT</div>
-      <div style="font-size:10px;color:#aaa;margin-bottom:6px">Toggle manual hanya aktif jika Auto Schedule OFF dan data lengkap.</div>
-      <button id="toggleBtn" style="background:#555;color:#fff;width:100%;padding:9px;border-radius:8px;border:none;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:13px;font-weight:700">TOGGLE EVENT</button>
-      <textarea id="admInfo" placeholder="Deskripsi event / pengumuman..." style="resize:vertical;height:70px;margin-top:7px"></textarea>
-      <div class="g2" style="margin-top:6px">
-        <input id="mwg" type="number" placeholder="Limit Pemenang" value="0" style="margin-top:0">
-        <input id="mwd" type="number" placeholder="Limit Menang/User" value="0" style="margin-top:0">
-        <input id="msp" type="number" placeholder="Limit Spin/User" value="0" style="margin-top:0">
-        <input id="fsn" type="number" placeholder="Free Spin User Baru" value="5" style="margin-top:0">
-      </div></div>
-
-    <div class="as"><div class="at">⏰ AUTO SCHEDULE</div>
-      <div id="schedMsg" style="font-size:10px;color:#f87171;margin-bottom:6px">⚠️ Lengkapi data event dulu.</div>
-      <label style="font-size:10px;color:#aaa;display:block;margin-bottom:3px">Mulai Event</label>
-      <input id="evStart" type="datetime-local" step="60" style="margin-top:0">
-      <label style="font-size:10px;color:#aaa;display:block;margin-top:6px;margin-bottom:3px">Akhir Event</label>
-      <input id="evEnd" type="datetime-local" step="60" style="margin-top:0">
-      <label style="font-size:11px;color:#aaa;margin-top:9px;display:flex;align-items:center;gap:8px;cursor:pointer">
-        <input id="schedCb" type="checkbox" style="width:auto;margin:0">
-        <span>Aktifkan Auto ON/OFF Berdasarkan Waktu</span>
-      </label>
-      <button id="saveBtn" class="bc" style="margin-top:9px">💾 SIMPAN SEMUA SETTINGS</button></div>
-
-    <div class="as"><div class="at">🎟️ MANAJEMEN CODE GLOBAL <span class="rtdot"></span></div>
-      <div class="g2">
-        <input id="newCode" placeholder="Nama Kode" style="margin-top:0">
-        <input id="newCodeSpin" type="number" placeholder="Jumlah Spin" style="margin-top:0">
+      <!-- DEPOSIT -->
+      <div id="tab-deposit" class="tabPane">
+        <div class="pageTitle">Manajemen <span>Deposit</span></div>
+        <div class="addDepCard">
+          <h3>➕ Tambah Deposit Manual</h3>
+          <div class="settGrid">
+            <div class="formGrp"><label>Nomor WA / User ID</label><input id="manDepUser" class="formInp" placeholder="6281234567890"/></div>
+            <div class="formGrp"><label>Nominal (Rp)</label><input id="manDepAmt" class="formInp" type="number" placeholder="50000"/></div>
+            <div class="formGrp"><label>Metode</label>
+              <select id="manDepMethod" class="formSel"><option>Transfer Bank</option><option>DANA</option><option>OVO</option><option>GoPay</option><option>Manual</option></select>
+            </div>
+            <div class="formGrp"><label>Catatan</label><input id="manDepNote" class="formInp" placeholder="Opsional"/></div>
+          </div>
+          <button class="btn btnPrimary" onclick="addManualDeposit()">💾 Simpan & Auto Approve</button>
+        </div>
+        <div class="filterBar">
+          <select id="fDepStatus" class="fSelect" onchange="renderDeposits()">
+            <option value="">Semua Status</option><option value="pending">Pending</option>
+            <option value="approved">Approved</option><option value="rejected">Rejected</option>
+          </select>
+          <input id="fDepQ" class="fSearch" placeholder="Cari ID, nama, nomor, ref…" oninput="renderDeposits()"/>
+        </div>
+        <div class="tableWrap" id="depTable"><div class="loading"><span class="spin"></span>Memuat…</div></div>
       </div>
-      <input id="newCodeMax" type="number" placeholder="Max Pengguna" style="margin-top:5px">
-      <button id="addCodeBtn" class="bc" style="margin-top:7px">➕ TAMBAH CODE</button>
-      <div id="codeList" style="margin-top:8px;max-height:140px;overflow:auto"></div></div>
 
-    <div class="as"><div class="at">🎡 SETTING HADIAH RODA <span class="rtdot"></span></div>
-      <div id="wList" style="max-height:170px;overflow:auto;margin-bottom:8px"></div>
-      <input id="newLbl" placeholder="Nama Hadiah / Zonk">
-      <select id="newType" style="margin-top:5px">
-        <option value="win">🏆 HADIAH (MENANG)</option>
-        <option value="lose">💀 ZONK (KALAH)</option>
-      </select>
-      <input id="newWt" type="number" placeholder="Weight (makin besar = makin sering)" value="1" style="margin-top:5px">
-      <button id="addWheelBtn" class="bc" style="margin-top:7px">➕ TAMBAH ITEM</button></div>
+      <!-- ORDER -->
+      <div id="tab-order" class="tabPane">
+        <div class="pageTitle">Manajemen <span>Order</span></div>
+        <div class="filterBar">
+          <select id="fOrdStatus" class="fSelect" onchange="renderOrders()">
+            <option value="">Semua Status</option><option value="pending">Pending</option>
+            <option value="diproses">Diproses</option><option value="selesai">Selesai</option><option value="dibatalkan">Dibatalkan</option>
+          </select>
+          <input id="fOrdQ" class="fSearch" placeholder="Cari ID, nomor, layanan, target…" oninput="renderOrders()"/>
+        </div>
+        <div class="tableWrap" id="ordTable"><div class="loading"><span class="spin"></span>Memuat…</div></div>
+      </div>
 
-    <div class="as"><div class="at">🎁 TAMBAH SPIN USER</div>
-      <input id="tgtDev" placeholder="Device ID User">
-      <input id="tgtAmt" type="number" placeholder="Jumlah Spin" style="margin-top:5px">
-      <button id="addSpinBtn" class="bg" style="margin-top:7px">➕ TAMBAH SPIN</button></div>
+      <!-- USERS -->
+      <div id="tab-users" class="tabPane">
+        <div class="pageTitle">Data <span>Users</span></div>
+        <div class="filterBar">
+          <select id="fUserRole" class="fSelect" onchange="renderUsers()">
+            <option value="">Semua Role</option><option value="admin">Admin</option><option value="user">User</option>
+          </select>
+          <input id="fUserQ" class="fSearch" placeholder="Cari nomor WA, nama, email…" oninput="renderUsers()"/>
+        </div>
+        <div class="tableWrap" id="userTable"><div class="loading"><span class="spin"></span>Memuat…</div></div>
+      </div>
 
-    <div class="as"><div id="onlineTitle" class="at">👥 USER AKTIF <span class="rtdot"></span></div>
-      <div id="userList" style="max-height:120px;overflow:auto;font-size:11px">Memuat...</div></div>
+      <!-- SALDO OTP -->
+      <div id="tab-saldootp" class="tabPane">
+        <div class="pageTitle">Saldo <span>OTP</span></div>
+        <div id="sotpContent"><div class="loading"><span class="spin"></span>Memuat…</div></div>
+      </div>
 
-    <div class="as"><div class="at">⚡ AKSI DATA</div>
-      <div class="brow">
-        <button id="exportBtn" style="flex:1;background:#fff;color:#000;font-size:11px">📤 EXPORT</button>
-        <button id="resetEvBtn" class="bw" style="flex:1;font-size:11px">♻ RESET EVENT</button>
-        <button id="resetAllBtn" class="br" style="flex:1;font-size:11px">⚠️ RESET ALL</button>
-      </div></div>
-  </div>
+      <!-- ROLE MANAGER -->
+      <div id="tab-rolemgr" class="tabPane">
+        <div class="pageTitle">Role <span>Manager</span></div>
+        <p style="font-size:.82rem;color:var(--t3);margin-bottom:16px">Ubah role user jadi <strong style="color:var(--pur)">admin</strong> supaya bisa login ke panel, atau turunkan balik ke <strong style="color:var(--t2)">user</strong>.</p>
+        <div id="roleMgrList"><div class="loading"><span class="spin"></span>Memuat…</div></div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div id="tab-settings" class="tabPane">
+        <div class="pageTitle">Site <span>Settings</span></div>
+        <div class="settCard">
+          <h3>🏪 Info Toko</h3>
+          <div class="settGrid">
+            <div class="formGrp"><label>Nama Toko</label><input id="sCfgNama" class="formInp" placeholder="ANDIKZ Store"/></div>
+            <div class="formGrp"><label>Nomor WA Admin</label><input id="sCfgWA" class="formInp" placeholder="6281234567890"/></div>
+            <div class="formGrp"><label>Tagline</label><input id="sCfgTagline" class="formInp" placeholder="Top-up Murah & Cepat"/></div>
+            <div class="formGrp"><label>Warna Aksen (hex)</label><input id="sCfgColor" class="formInp" placeholder="#00e5a0"/></div>
+          </div>
+        </div>
+        <div class="settCard">
+          <h3>💳 Metode Pembayaran</h3>
+          <div class="settGrid">
+            <div class="formGrp"><label>Nama Bank/E-Wallet</label><input id="sCfgPayName" class="formInp" placeholder="BCA / DANA"/></div>
+            <div class="formGrp"><label>Nomor Rekening</label><input id="sCfgPayNo" class="formInp" placeholder="1234567890"/></div>
+            <div class="formGrp"><label>Atas Nama</label><input id="sCfgPayOwner" class="formInp" placeholder="Nama Pemilik"/></div>
+            <div class="formGrp"><label>Min. Deposit (Rp)</label><input id="sCfgMinDep" class="formInp" type="number" placeholder="10000"/></div>
+          </div>
+        </div>
+        <div class="settCard">
+          <h3>📢 Pengumuman</h3>
+          <div class="formGrp"><label>Teks</label><textarea id="sCfgAnnounce" class="formTxa" placeholder="Selamat datang!"></textarea></div>
+          <div class="formGrp"><label>Tampilkan</label>
+            <select id="sCfgShowAnnounce" class="formSel"><option value="true">Ya</option><option value="false">Tidak</option></select>
+          </div>
+        </div>
+        <div class="settCard">
+          <h3>🔧 Maintenance</h3>
+          <div class="settGrid">
+            <div class="formGrp"><label>Mode</label>
+              <select id="sCfgMaintenance" class="formSel"><option value="false">Tidak Aktif</option><option value="true">Aktif</option></select>
+            </div>
+            <div class="formGrp"><label>Pesan Maintenance</label><input id="sCfgMaintMsg" class="formInp" placeholder="Sedang maintenance…"/></div>
+          </div>
+        </div>
+        <button class="btn btnPrimary" style="width:100%;justify-content:center;padding:12px" onclick="saveSettings()">💾 Simpan Semua Settings</button>
+      </div>
+
+      <!-- BOT DOCS -->
+      <div id="tab-botdocs" class="tabPane">
+        <div class="pageTitle">🤖 Bot <span>Integration Docs</span></div>
+        <p style="font-size:.85rem;color:var(--t3);margin-bottom:20px">Perintah Firestore yang perlu disambungkan dari bot ke Firebase project <strong style="color:var(--ac);font-family:var(--mono)">wa-bot-fa92c</strong>.</p>
+
+        <div class="docSection">
+          <h3>📁 Struktur Koleksi Firestore</h3>
+          <div class="codeBlock"><span class="cm">// Collections yang dipakai panel ini:</span>
+users/           → data semua user (role, saldo, nama, phone, dll)
+orders/          → semua transaksi order dari user
+deposits/        → semua request deposit dari user
+config/site      → setting toko (nama, WA, payment, dll)
+config/saldootp  → saldo & config OTP provider
+otp_logs/        → log setiap OTP yang terkirim
+otp_topup_log/   → log top-up saldo OTP oleh admin</div>
+        </div>
+
+        <div class="docSection">
+          <h3>👤 1. User Daftar via Bot (/daftar)</h3>
+          <p style="font-size:.8rem;color:var(--t3);margin-bottom:8px">Simpan ke <code style="color:var(--ac)">users/{phoneNumber}</code> — role WAJIB 'user', bukan 'admin':</p>
+          <div class="codeBlock"><span class="cm">// Node.js / Firebase Admin SDK</span>
+await db.collection('users').doc(phoneNumber).set({
+  uid: phoneNumber,
+  phone: phoneNumber,         <span class="cm">// format: 6281234567890</span>
+  name: namaUser,
+  pushName: waPushName,       <span class="cm">// nama di WA</span>
+  email: null,
+  role: 'user',               <span class="cm">// ← SELALU 'user', jangan 'admin'!</span>
+  saldo: 0,
+  totalDeposit: 0,
+  totalOrder: 0,
+  isActive: true,
+  isBanned: false,
+  registeredFrom: 'whatsapp-bot',
+  createdAt: admin.firestore.FieldValue.serverTimestamp(),
+  lastActive: admin.firestore.FieldValue.serverTimestamp()
+});</div>
+        </div>
+
+        <div class="docSection">
+          <h3>💰 2. User Request Deposit (/deposit)</h3>
+          <div class="codeBlock"><span class="cm">// Buat dokumen baru di deposits/, status 'pending'</span>
+await db.collection('deposits').add({
+  userId: phoneNumber,
+  phone: phoneNumber,
+  name: namaUser,
+  amount: nominalDeposit,     <span class="cm">// integer (Rp)</span>
+  method: 'Transfer Bank',
+  refCode: generateRefCode(), <span class="cm">// kode unik opsional</span>
+  note: catatanUser,
+  status: 'pending',          <span class="cm">// admin panel yang approve</span>
+  createdAt: admin.firestore.FieldValue.serverTimestamp()
+});
+<span class="cm">// Admin approve → saldo user otomatis bertambah (handled panel)</span></div>
+        </div>
+
+        <div class="docSection">
+          <h3>📦 3. User Order (/order atau checkout)</h3>
+          <div class="codeBlock"><span class="cm">// 1. Cek saldo dulu</span>
+const userDoc = await db.collection('users').doc(phoneNumber).get();
+const { saldo, isBanned } = userDoc.data();
+if (isBanned) return bot.reply('❌ Akun kamu dibanned.');
+if (saldo &lt; hargaProduk) return bot.reply('❌ Saldo tidak cukup.');
+
+<span class="cm">// 2. Buat order + kurangi saldo (pakai batch biar atomik)</span>
+const batch = db.batch();
+const orderRef = db.collection('orders').doc();
+batch.set(orderRef, {
+  userId: phoneNumber,
+  phone: phoneNumber,
+  service: namaLayanan,       <span class="cm">// 'Mobile Legends 86 Diamond'</span>
+  layanan: namaLayanan,
+  kategori: kategoriProduk,   <span class="cm">// 'Mobile Legends'</span>
+  target: targetId,           <span class="cm">// ID game / nomor tujuan</span>
+  harga: hargaProduk,
+  price: hargaProduk,
+  catatan: catatanUser,
+  status: 'pending',          <span class="cm">// admin panel yang proses</span>
+  externalId: null,
+  createdAt: admin.firestore.FieldValue.serverTimestamp()
+});
+batch.update(db.collection('users').doc(phoneNumber), {
+  saldo: admin.firestore.FieldValue.increment(-hargaProduk),
+  totalOrder: admin.firestore.FieldValue.increment(1),
+  lastActive: admin.firestore.FieldValue.serverTimestamp()
+});
+await batch.commit();
+bot.reply(`✅ Order dibuat! ID: ${orderRef.id.slice(-8)}`);</div>
+        </div>
+
+        <div class="docSection">
+          <h3>🔔 4. Notifikasi Perubahan Status Order (Realtime)</h3>
+          <div class="codeBlock"><span class="cm">// Bot listen perubahan status order, kirim notif ke user:</span>
+db.collection('orders').doc(orderId).onSnapshot(snap => {
+  const { status, phone } = snap.data();
+  if (status === 'selesai') {
+    bot.sendMessage(phone, `✅ Order kamu selesai diproses!`);
+  }
+  if (status === 'dibatalkan') {
+    <span class="cm">// saldo sudah dikembalikan otomatis oleh panel</span>
+    bot.sendMessage(phone, `❌ Order dibatalkan, saldo dikembalikan.`);
+  }
+  if (status === 'diproses') {
+    bot.sendMessage(phone, `🔄 Order kamu sedang diproses admin.`);
+  }
+});</div>
+        </div>
+
+        <div class="docSection">
+          <h3>⚙️ 5. Baca Config Toko (untuk menu bot)</h3>
+          <div class="codeBlock"><span class="cm">// Baca sebelum proses request user:</span>
+const cfg = (await db.collection('config').doc('site').get()).data();
+
+if (cfg.maintenance) {
+  return bot.reply(cfg.maintenanceMsg || '🔧 Sedang maintenance.');
+}
+<span class="cm">// Pakai cfg.waAdmin, cfg.payName, cfg.payNo, cfg.minDeposit, dll</span></div>
+        </div>
+
+        <div class="docSection">
+          <h3>🔑 6. Kirim OTP — Log & Kurangi Saldo</h3>
+          <div class="codeBlock"><span class="cm">// Tiap kirim OTP, log dan kurangi saldo OTP:</span>
+const otpCfg = (await db.collection('config').doc('saldootp').get()).data();
+const biaya = otpCfg.ratePerOtp || 0;
+
+if (otpCfg.saldo &lt; biaya) {
+  console.error('Saldo OTP habis!'); return;
+}
+
+const batch = db.batch();
+batch.set(db.collection('otp_logs').doc(), {
+  phone: targetPhone,
+  status: 'sent',             <span class="cm">// atau 'failed'</span>
+  cost: biaya,
+  provider: otpCfg.provider,
+  createdAt: admin.firestore.FieldValue.serverTimestamp()
+});
+batch.update(db.collection('config').doc('saldootp'), {
+  saldo: admin.firestore.FieldValue.increment(-biaya),
+  totalUsed: admin.firestore.FieldValue.increment(biaya)
+});
+await batch.commit();</div>
+        </div>
+
+        <div class="docSection">
+          <h3>🚦 7. Auto-Complete Order (jika punya API provider)</h3>
+          <div class="codeBlock"><span class="cm">// Jika bot terintegrasi Digiflazz / Apigames / dll:</span>
+<span class="cm">// Setelah callback success dari provider:</span>
+const batch = db.batch();
+batch.update(db.collection('orders').doc(orderId), {
+  status: 'selesai',
+  externalId: providerTrxId,
+  updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+  updatedBy: 'bot-auto'
+});
+await batch.commit();
+
+<span class="cm">// Jika gagal/dibatalkan → refund saldo:</span>
+const batch2 = db.batch();
+batch2.update(db.collection('orders').doc(orderId), {
+  status: 'dibatalkan',
+  updatedAt: admin.firestore.FieldValue.serverTimestamp()
+});
+batch2.update(db.collection('users').doc(phoneNumber), {
+  saldo: admin.firestore.FieldValue.increment(+hargaProduk)
+});
+await batch2.commit();</div>
+        </div>
+
+        <div class="settCard" style="border-color:rgba(0,229,160,.2)">
+          <h3>✅ Checklist Integrasi Bot</h3>
+          <div class="docItem"><strong>users/{phone}</strong> — set saat /daftar, role: 'user'<p>Panel pakai: tabel users, adjust saldo, role manager, history</p></div>
+          <div class="docItem"><strong>deposits/{auto}</strong> — set saat /deposit, status: 'pending'<p>Panel pakai: approve → saldo user +amount otomatis</p></div>
+          <div class="docItem"><strong>orders/{auto}</strong> — set saat checkout, status: 'pending'<p>Panel pakai: update status, cancel → refund saldo</p></div>
+          <div class="docItem"><strong>config/site</strong> — baca untuk nama toko, WA, payment, maintenance<p>Di-update lewat panel Settings</p></div>
+          <div class="docItem"><strong>config/saldootp</strong> — baca rate, kurangi saldo tiap kirim OTP<p>Di-top-up dari panel Saldo OTP</p></div>
+          <div class="docItem"><strong>otp_logs/{auto}</strong> — log tiap OTP terkirim<p>Ditampilkan di panel tab Saldo OTP</p></div>
+        </div>
+      </div>
+
+    </div><!-- /mainContent -->
+  </div><!-- /appBody -->
+</div><!-- /appWrap -->
+
+<!-- MOBILE NAV -->
+<div id="mobileNavWrap">
+  <button class="mobileNavBtn on" onclick="goTab('dashboard',this)"><span class="ico">📊</span>Dashboard</button>
+  <button class="mobileNavBtn" onclick="goTab('deposit',this)"><span class="ico">💰</span>Deposit</button>
+  <button class="mobileNavBtn" onclick="goTab('order',this)"><span class="ico">📦</span>Orders</button>
+  <button class="mobileNavBtn" onclick="goTab('users',this)"><span class="ico">👥</span>Users</button>
+  <button class="mobileNavBtn" onclick="goTab('settings',this)"><span class="ico">⚙️</span>Settings</button>
 </div>
 
-<!-- Firebase SDKs (compat version, no import needed) -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-<script>
-// ══════════════════════════════════════
-// FIREBASE CONFIG
-// ══════════════════════════════════════
-const app = firebase.initializeApp({
-  apiKey: "AIzaSyD_1I7jtDwBRFhthA3DKlwysWfVtTfoy0o",
-  authDomain: "rng-spin.firebaseapp.com",
-  databaseURL: "https://rng-spin-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "rng-spin",
-  storageBucket: "rng-spin.firebasestorage.app",
-  messagingSenderId: "696033026587",
-  appId: "1:696033026587:web:3f668e38d466218fb98ebe",
-  measurementId: "G-JP8RS41P8T"
-});
-const db = firebase.database();
+<!-- ═══ SCRIPT ════════════════════════════════════════════════ -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, collection, query, orderBy, limit, getDocs, updateDoc, addDoc, onSnapshot, serverTimestamp, writeBatch, increment }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// ══════════════════════════════════════
-// CONSTANTS
-// ══════════════════════════════════════
-const ADMIN_PIN = "XREZZKY STORE0930";
-const ADMIN_WA  = "6288293064112";
-
-const deviceId = (()=>{
-  let id = localStorage.getItem("devId");
-  if (!id) { id = "dev-" + Math.random().toString(36).slice(2,10); localStorage.setItem("devId", id); }
-  return id;
-})();
-
-// ══════════════════════════════════════
-// STATE — sourced from Firebase listeners
-// ══════════════════════════════════════
-let prizes      = [];
-let cfg         = {};
-let infoVal     = "Tidak ada informasi.";
-let totalWin    = 0;
-let mySpins     = 0;
-let myWins      = 0;
-let myLockUntil = 0;
-let isSpinning  = false;
-let isNSpin     = false;
-let wheelRot    = 0;
-let nWheelRot   = 0;
-let _autoLast   = null;  // prevent timer spam-writing to Firebase
-let spinInited  = false; // guard: only init free spin once
-
-// ══════════════════════════════════════
-// CONNECTION MONITOR
-// ══════════════════════════════════════
-db.ref(".info/connected").on("value", snap => {
-  const el = document.getElementById("connStatus");
-  if (!el) return;
-  if (snap.val()) {
-    el.style.color = "#4ade80";
-    el.innerText = "🟢 Terhubung ke Firebase Realtime";
-  } else {
-    el.style.color = "#f87171";
-    el.innerText = "🔴 Koneksi terputus — mencoba reconnect...";
-  }
-});
-
-// ══════════════════════════════════════
-// PRESENCE
-// ══════════════════════════════════════
-const presRef = db.ref("presence/" + deviceId);
-presRef.set({ online: true, ts: firebase.database.ServerValue.TIMESTAMP, deviceId });
-presRef.onDisconnect().update({ online: false, ts: firebase.database.ServerValue.TIMESTAMP });
-
-// ══════════════════════════════════════
-// MODE SWITCH
-// ══════════════════════════════════════
-function switchMode(m) {
-  document.getElementById("gSec").style.display  = m === "g" ? "flex" : "none";
-  document.getElementById("nSpin").style.display = m === "n" ? "block" : "none";
-  document.getElementById("t1").className = "tab" + (m === "g" ? " on" : "");
-  document.getElementById("t2").className = "tab" + (m === "n" ? " on" : "");
-}
-
-// ══════════════════════════════════════
-// RNG WHEEL
-// ══════════════════════════════════════
-const cvs = document.getElementById("wheel"), ctx = cvs.getContext("2d");
-const CX = 145, CY = 145, R = 138;
-
-function drawRNG() {
-  ctx.clearRect(0, 0, 290, 290);
-  if (!prizes.length) {
-    ctx.fillStyle = "#111"; ctx.beginPath(); ctx.arc(CX,CY,R,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle = "#555"; ctx.font = "12px Arial"; ctx.textAlign = "center";
-    ctx.fillText("Belum ada hadiah", CX, CY-6);
-    ctx.fillText("Tambah di admin panel", CX, CY+10);
-    return;
-  }
-  const n = prizes.length, arc = (2*Math.PI)/n, SO = -Math.PI/2;
-  const wC = ["#15803d","#16a34a","#22c55e","#4ade80"];
-  const lC = ["#b91c1c","#dc2626","#ef4444","#f87171"];
-  prizes.forEach((p, i) => {
-    const sa = SO + i*arc, ea = sa + arc;
-    ctx.beginPath(); ctx.moveTo(CX,CY); ctx.arc(CX,CY,R,sa,ea); ctx.closePath();
-    ctx.fillStyle = p.win ? wC[i%4] : lC[i%4]; ctx.fill();
-    ctx.strokeStyle = "#000"; ctx.lineWidth = 1.5; ctx.stroke();
-    ctx.save(); ctx.translate(CX,CY); ctx.rotate(sa + arc/2);
-    const ml = n<=5?15:n<=10?10:n<=16?7:5;
-    const lb = p.label.length > ml ? p.label.slice(0,ml-1)+"…" : p.label;
-    const fs = n<=4?12:n<=8?10:n<=14?8:7;
-    ctx.fillStyle="#fff"; ctx.font=`bold ${fs}px Arial`; ctx.textAlign="left";
-    ctx.shadowColor="rgba(0,0,0,.9)"; ctx.shadowBlur=3;
-    ctx.fillText(lb, R*.60 - lb.length*fs*.3, fs/3);
-    ctx.restore();
-  });
-  ctx.beginPath(); ctx.arc(CX,CY,R,0,Math.PI*2); ctx.strokeStyle="rgba(0,255,213,.6)"; ctx.lineWidth=4; ctx.stroke();
-  ctx.beginPath(); ctx.arc(CX,CY,21,0,Math.PI*2); ctx.fillStyle="#071414"; ctx.fill(); ctx.strokeStyle="rgba(0,255,213,.4)"; ctx.lineWidth=2; ctx.stroke();
-}
-
-// Spin so slice[idx] center lands under arrow (top, 12 o'clock)
-function spinTo(idx, cb) {
-  const n = prizes.length; if (!n) return;
-  const sd = 360/n, sc = idx*sd + sd/2;
-  const cur = ((wheelRot%360)+360)%360;
-  const d = ((360-sc) - cur + 36000) % 360;
-  wheelRot += 5*360 + d;
-  cvs.style.transition = "transform 4s cubic-bezier(0.17,.67,.12,.99)";
-  cvs.style.transform = `rotate(${wheelRot}deg)`;
-  setTimeout(cb, 4300);
-}
-
-// ══════════════════════════════════════
-// NAME WHEEL
-// ══════════════════════════════════════
-const ncvs = document.getElementById("nWheel"), nctx = ncvs.getContext("2d");
-let nameList = JSON.parse(localStorage.getItem("nList") || "[]");
-let nameHist = JSON.parse(localStorage.getItem("nHist") || "[]");
-let lastSpunIdx = null;
-
-function drawName() {
-  nctx.clearRect(0,0,280,280);
-  const NR=130, NX=140, NY=140, names=nameList;
-  if (!names.length) {
-    nctx.fillStyle="#111"; nctx.beginPath(); nctx.arc(NX,NY,NR,0,Math.PI*2); nctx.fill();
-    nctx.fillStyle="#555"; nctx.font="12px Arial"; nctx.textAlign="center";
-    nctx.fillText("Tambahkan nama", NX, NY-6); nctx.fillText("peserta dulu", NX, NY+10);
-    return;
-  }
-  const n=names.length, arc=(2*Math.PI)/n, SO=-Math.PI/2;
-  const pal=["#7c3aed","#6d28d9","#5b21b6","#4c1d95","#7e22ce","#6b21a8","#581c87","#9333ea","#a855f7","#c084fc"];
-  names.forEach((nm,i)=>{
-    const sa=SO+i*arc, ea=sa+arc;
-    nctx.beginPath(); nctx.moveTo(NX,NY); nctx.arc(NX,NY,NR,sa,ea); nctx.closePath();
-    nctx.fillStyle=pal[i%pal.length]; nctx.fill();
-    nctx.strokeStyle="#000"; nctx.lineWidth=1.5; nctx.stroke();
-    nctx.save(); nctx.translate(NX,NY); nctx.rotate(sa+arc/2);
-    const ml=n<=6?14:n<=12?8:6;
-    const lb=nm.length>ml?nm.slice(0,ml-1)+"…":nm;
-    const fs=n<=4?12:n<=8?10:n<=14?8:7;
-    nctx.fillStyle="#fff"; nctx.font=`bold ${fs}px Arial`; nctx.textAlign="left";
-    nctx.shadowColor="rgba(0,0,0,.9)"; nctx.shadowBlur=3;
-    nctx.fillText(lb, NR*.62-lb.length*fs*.3, fs/3);
-    nctx.restore();
-  });
-  nctx.beginPath(); nctx.arc(NX,NY,NR,0,Math.PI*2); nctx.strokeStyle="rgba(255,204,0,.6)"; nctx.lineWidth=4; nctx.stroke();
-  nctx.beginPath(); nctx.arc(NX,NY,20,0,Math.PI*2); nctx.fillStyle="#071414"; nctx.fill(); nctx.strokeStyle="rgba(255,204,0,.4)"; nctx.lineWidth=2; nctx.stroke();
-}
-
-function nSpinTo(idx, cb) {
-  const n=nameList.length; if (!n) return;
-  const sd=360/n, sc=idx*sd+sd/2;
-  const cur=((nWheelRot%360)+360)%360;
-  const d=((360-sc)-cur+36000)%360;
-  nWheelRot+=5*360+d;
-  ncvs.style.transition="transform 4s cubic-bezier(0.17,.67,.12,.99)";
-  ncvs.style.transform=`rotate(${nWheelRot}deg)`;
-  setTimeout(cb, 4300);
-}
-
-document.getElementById("nSpinBtn").onclick = () => {
-  if (isNSpin) { alert("⏳ Tunggu spin selesai..."); return; }
-  if (nameList.length < 2) { alert("❌ Minimal 2 nama peserta!"); return; }
-  isNSpin = true;
-  const btn = document.getElementById("nSpinBtn");
-  btn.disabled = true; btn.innerText = "🌀 MEMILIH...";
-  document.getElementById("nResult").innerText = "...";
-  const idx = Math.floor(Math.random() * nameList.length);
-  lastSpunIdx = idx;
-  nSpinTo(idx, () => {
-    const chosen = nameList[idx];
-    document.getElementById("nResult").innerText = "🎉 " + chosen;
-    nameHist.unshift({ name: chosen, time: new Date().toLocaleString("id-ID") });
-    if (nameHist.length > 50) nameHist.pop();
-    localStorage.setItem("nHist", JSON.stringify(nameHist));
-    renderNHist();
-    isNSpin = false; btn.disabled = false; btn.innerText = "🎡 PUTAR — PILIH NAMA";
-    launchConfetti();
-  });
+const firebaseConfig = {
+  apiKey: "AIzaSyBusamPr8Kk6V_IP63mYZt1whta__1mqzk",
+  authDomain: "wa-bot-fa92c.firebaseapp.com",
+  projectId: "wa-bot-fa92c",
+  storageBucket: "wa-bot-fa92c.firebasestorage.app",
+  messagingSenderId: "166490184841",
+  appId: "1:166490184841:web:e6db8cc4f0d4d9f65f3a58"
 };
 
-function renderNTags() {
-  const c = document.getElementById("nTags"); c.innerHTML = "";
-  nameList.forEach((nm, i) => {
-    const d = document.createElement("div"); d.className = "ntag";
-    d.innerHTML = `${escH(nm)} <span class="xt" onclick="rmName(${i})">✕</span>`;
-    c.appendChild(d);
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+
+// ── STATE ────────────────────────────────────────────────────
+let currentUser = null;
+let allDeposits = [], allOrders = [], allUsers = [];
+let unsubs = [];
+
+// ── HELPERS ──────────────────────────────────────────────────
+const fmt = n => 'Rp ' + Number(n||0).toLocaleString('id-ID');
+const fmtDate = ts => {
+  if (!ts) return '–';
+  const d = ts.toDate ? ts.toDate() : new Date(ts);
+  return d.toLocaleString('id-ID',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+};
+const toast = (msg, type='ok') => {
+  const el = document.createElement('div');
+  el.className = `toastMsg ${type}`;
+  el.innerHTML = `${type==='ok'?'✅':type==='warn'?'⚠️':'❌'} ${msg}`;
+  document.getElementById('toast').appendChild(el);
+  setTimeout(()=>el.remove(), 4000);
+};
+const badge = s => {
+  const m = {pending:'b-pending',approved:'b-approved',rejected:'b-rejected',diproses:'b-diproses',selesai:'b-selesai',dibatalkan:'b-dibatalkan',paid:'b-paid',success:'b-success',admin:'b-admin',user:'b-user'};
+  return `<span class="badge ${m[s]||'b-pending'}">${s}</span>`;
+};
+const empty = msg => `<div class="empty"><div class="eico">📭</div><p>${msg||'Tidak ada data'}</p></div>`;
+const detRow = (k,v) => `<div class="detRow"><div class="detKey">${k}</div><div class="detVal">${v??'–'}</div></div>`;
+
+// ── MODAL ─────────────────────────────────────────────────────
+window.openModal = (title, html) => {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalBody').innerHTML = html;
+  document.getElementById('modalBack').classList.add('open');
+};
+window.closeModal = () => document.getElementById('modalBack').classList.remove('open');
+window.closeModalBack = e => { if (e.target===document.getElementById('modalBack')) closeModal(); };
+
+// ── SCREEN MANAGER ────────────────────────────────────────────
+// Semua screen hidden by default di CSS, baru kelihatan kalau dikasih class .show
+function showScreen(s) {
+  document.getElementById('loadingScreen').classList.add('gone');
+  ['loginWrap','appWrap','deniedWrap'].forEach(id => {
+    document.getElementById(id).classList.remove('show');
   });
-  document.getElementById("nCount").innerText = nameList.length + " peserta";
-  drawName();
-}
-window.rmName = i => { nameList.splice(i,1); saveNL(); renderNTags(); };
-function addName() {
-  const raw = document.getElementById("nInput").value; if (!raw.trim()) return;
-  raw.split(/[,\n;]+/).map(s=>s.trim()).filter(s=>s).forEach(n=>{ if(n&&!nameList.includes(n)) nameList.push(n); });
-  document.getElementById("nInput").value = ""; saveNL(); renderNTags();
-}
-function nKey(e) { if (e.key==="Enter") { e.preventDefault(); addName(); } }
-function clearNames() { if(!confirm("Hapus semua nama?"))return; nameList=[]; saveNL(); renderNTags(); }
-function shuffleNames() { for(let i=nameList.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[nameList[i],nameList[j]]=[nameList[j],nameList[i]];} saveNL(); renderNTags(); }
-function removeLastSpun() {
-  if (lastSpunIdx===null||lastSpunIdx>=nameList.length) { alert("Belum ada yang di-spin atau sudah dihapus."); return; }
-  if (!confirm(`Hapus "${nameList[lastSpunIdx]}" dari daftar?`)) return;
-  nameList.splice(lastSpunIdx,1); lastSpunIdx=null; saveNL(); renderNTags();
-}
-function saveNL() { localStorage.setItem("nList", JSON.stringify(nameList)); }
-function renderNHist() {
-  const c = document.getElementById("nHistList"); c.innerHTML = "";
-  if (!nameHist.length) { c.innerHTML="<div style='color:#aaa;text-align:center;padding:5px'>Belum ada riwayat</div>"; return; }
-  nameHist.slice(0,20).forEach((h,i) => {
-    const d = document.createElement("div"); d.style.cssText="padding:3px 0;border-bottom:1px solid rgba(255,255,255,.05)";
-    d.innerHTML=`<span style="color:#ffcc00">${i+1}. ${escH(h.name)}</span> <span style="color:#aaa;font-size:10px">${h.time}</span>`;
-    c.appendChild(d);
-  });
-}
-function clearNHist() { nameHist=[]; localStorage.removeItem("nHist"); renderNHist(); }
+  document.getElementById('mobileNavWrap').classList.remove('show');
 
-// ══════════════════════════════════════
-// FIREBASE LISTENERS — all .on() realtime
-// ══════════════════════════════════════
-
-// 1. SETTINGS
-db.ref("settings").on("value", snap => {
-  cfg = snap.val() || {};
-  if (cfg.eventOn === undefined) cfg.eventOn = false;
-  updateStatusUI();
-  updateDateInfo();
-  checkSchedValid();
-  si("mwg", cfg.maxWinnerGlobal  || 0);
-  si("mwd", cfg.maxWinPerDevice  || 0);
-  si("msp", cfg.maxSpinPerUser   || 0);
-  si("fsn", cfg.freeSpinNewUser  || 5);
-  document.getElementById("schedCb").checked = !!cfg.scheduleEnabled;
-  if (cfg.eventStart > 0) document.getElementById("evStart").value = toDT(cfg.eventStart);
-  if (cfg.eventEnd   > 0) document.getElementById("evEnd").value   = toDT(cfg.eventEnd);
-});
-
-// 2. INFO BOARD
-db.ref("infoBoard").on("value", snap => {
-  infoVal = (typeof snap.val()==="string" && snap.val()) ? snap.val() : "Tidak ada informasi.";
-  document.getElementById("infoContent").innerText = infoVal;
-  const el = document.getElementById("admInfo");
-  if (document.activeElement !== el) el.value = infoVal;
-});
-
-// 3. WINNERS — using push() keys, stored as object
-db.ref("winners").on("value", snap => {
-  const raw  = snap.val();
-  const list = raw ? Object.values(raw) : [];
-  totalWin   = list.length;
-  document.getElementById("sWin").innerText = totalWin;
-  updateSlotDisplay();
-  const cont = document.getElementById("winContent");
-  if (!list.length) { cont.innerHTML="<div style='color:#aaa;font-size:11px;text-align:center;padding:7px'>Belum ada pemenang.</div>"; return; }
-  cont.innerHTML = "";
-  [...list].reverse().slice(0,15).forEach((w,i) => {
-    const d = document.createElement("div");
-    d.style.cssText = "padding:4px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:11px";
-    d.innerHTML = `<div style="color:#fff">${i+1}. <b>${escH(w.name)}</b></div><div style="color:#00ffd5;font-size:10px">${escH(w.prize)}</div><div style="color:#aaa;font-size:9px">${w.time||""}</div>`;
-    cont.appendChild(d);
-  });
-});
-
-// 4. WHEEL ITEMS
-db.ref("wheelItems").on("value", snap => {
-  prizes = snap.val() || [];
-  drawRNG();
-  renderWList();
-  checkSchedValid();
-});
-
-// 5. CODES
-db.ref("codes").on("value", snap => { renderCodes(snap.val() || {}); });
-
-// 6. MY SPIN COUNT — Firebase, NOT localStorage
-// FIX: wait until settings are loaded before initializing free spins
-db.ref("spins/" + deviceId).on("value", snap => {
-  const val = snap.val();
-  if (val === null) {
-    // New user or spin data missing
-    if (!spinInited) {
-      spinInited = true;
-      // Read current freeSpinNewUser from Firebase directly (don't rely on cfg timing)
-      db.ref("settings/freeSpinNewUser").once("value").then(s => {
-        const free = s.val() || 5;
-        db.ref("spins/" + deviceId).set(free).then(() => {
-          document.getElementById("spinNote").innerText = `🎁 Selamat datang! Bonus ${free} Spin Gratis!`;
-          setTimeout(() => document.getElementById("spinNote").innerText = "", 7000);
-        });
-      });
-    }
-  } else {
-    spinInited = true;
-    mySpins = val;
-    document.getElementById("spinInfo").innerText = `🎟 Sisa Spin: ${mySpins}`;
-    document.getElementById("sSpin").innerText = mySpins;
+  if (s==='login') {
+    document.getElementById('loginWrap').classList.add('show');
+  } else if (s==='app') {
+    document.getElementById('appWrap').classList.add('show');
+    document.getElementById('mobileNavWrap').classList.add('show');
+  } else if (s==='denied') {
+    document.getElementById('deniedWrap').classList.add('show');
   }
-});
+}
 
-// 7. MY WIN COUNT
-db.ref("deviceWins/" + deviceId).on("value", snap => { myWins = snap.val() || 0; });
-
-// 8. MANUAL SPIN FROM ADMIN
-db.ref("manualSpin/" + deviceId).on("value", snap => {
-  const ex = snap.val() || 0;
-  if (ex > 0) {
-    // Clear first to avoid re-trigger
-    db.ref("manualSpin/" + deviceId).set(0);
-    db.ref("spins/" + deviceId).transaction(cur => (cur || 0) + ex).then(() => {
-      alert(`🎁 +${ex} spin dari admin!`);
-    });
-  }
-});
-
-// 9. DEVICE LOCK
-db.ref("deviceLock/" + deviceId).on("value", snap => { myLockUntil = snap.val() || 0; });
-
-// 10. PRESENCE — online users
-db.ref("presence").on("value", snap => {
-  const data  = snap.val() || {};
-  const cont  = document.getElementById("userList");
-  const title = document.getElementById("onlineTitle");
-  const users = Object.values(data).filter(u => u.online);
-  if (title) title.innerHTML = `👥 USER AKTIF (${users.length}) <span class="rtdot"></span>`;
-  if (!users.length) { cont.innerHTML = "<div style='color:#aaa;text-align:center;padding:5px'>Tidak ada user online</div>"; return; }
-  cont.innerHTML = "";
-  users.forEach(u => {
-    const d = document.createElement("div");
-    d.style.cssText = "padding:3px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:10px;display:flex;align-items:center;gap:6px";
-    d.innerHTML = `<span style="color:#4ade80">●</span><span style="color:#00ffd5">${escH(u.deviceId||"")}</span>`;
-    cont.appendChild(d);
-  });
-});
-
-// ══════════════════════════════════════
-// TIMER — every second
-// ══════════════════════════════════════
-setInterval(() => {
-  const hs = cfg.scheduleEnabled;
-  const st = Number(cfg.eventStart || 0);
-  const en = Number(cfg.eventEnd   || 0);
-  const now = Date.now();
-
-  if (!hs) {
-    // Schedule OFF — show countdown info only, don't touch eventOn
-    if (st > 0 && en > 0) {
-      if (now < st)       showTimer(st - now, "Dijadwalkan Mulai Dalam:");
-      else if (now <= en) showTimer(en - now, "Dijadwalkan Berakhir Dalam:");
-      else { document.getElementById("timerClk").innerText="— selesai —"; document.getElementById("timerLbl").innerText="Jadwal Lewat"; }
-    } else {
-      document.getElementById("timerClk").innerText = "-- : -- : --";
-      document.getElementById("timerLbl").innerText = "Belum ada jadwal";
-    }
+// ── AUTH STATE ────────────────────────────────────────────────
+onAuthStateChanged(auth, async user => {
+  if (!user) {
+    currentUser = null;
+    unsubs.forEach(u=>u()); unsubs=[];
+    showScreen('login');
     return;
   }
 
-  if (!st || !en) {
-    document.getElementById("timerClk").innerText = "-- : -- : --";
-    document.getElementById("timerLbl").innerText = "Jadwal belum diset";
-    return;
-  }
+  try {
+    // Cek user doc di Firestore
+    const snap = await getDoc(doc(db,'users',user.uid));
 
-  let want = false;
-  if (now < st) {
-    showTimer(st-now, "Event Dimulai Dalam:");
-    setSt("s-wait", "⏳ AKAN DATANG");
-    want = false;
-  } else if (now <= en) {
-    showTimer(en-now, "Event Berakhir Dalam:");
-    setSt("s-on", "🟢 EVENT BERJALAN");
-    want = true;
-  } else {
-    document.getElementById("timerClk").innerText = "00:00:00";
-    document.getElementById("timerLbl").innerText = "Event Berakhir";
-    setSt("s-off", "🔴 EVENT BERAKHIR");
-    want = false;
-  }
-
-  // Write to Firebase ONLY when state actually changes
-  if (_autoLast !== want) {
-    _autoLast = want;
-    if (want && !vReqQ()) { console.warn("Auto-ON blocked: data belum lengkap"); return; }
-    db.ref("settings/eventOn").set(want);
-  }
-}, 1000);
-
-function showTimer(ms, label) {
-  const s=Math.floor(ms/1000), d=Math.floor(s/86400), h=Math.floor((s%86400)/3600), m=Math.floor((s%3600)/60), sc=s%60;
-  document.getElementById("timerLbl").innerText = label;
-  document.getElementById("timerClk").innerHTML =
-    `<span class="tu">${d}h</span>:<span class="tu">${pad(h)}j</span>:<span class="tu">${pad(m)}m</span>:<span class="tu">${pad(sc)}d</span>`;
-}
-
-// ══════════════════════════════════════
-// SPIN — fully transactional
-// ══════════════════════════════════════
-document.getElementById("spinBtn").onclick = async () => {
-  if (isSpinning) { alert("⏳ Tunggu spin selesai..."); return; }
-  if (myLockUntil && Date.now() < myLockUntil) { alert("🔒 Device di-lock hingga: " + new Date(myLockUntil).toLocaleString("id-ID")); return; }
-  if (!cfg.eventOn) { alert("❌ Event sedang OFF."); return; }
-  if (!prizes.length) { alert("❌ Admin belum setup hadiah!"); return; }
-
-  const name = document.getElementById("nameInp").value.trim();
-  if (!name) { alert("❌ Masukkan nama kamu dulu!"); return; }
-  if (mySpins <= 0) { alert("❌ Spin habis! Redeem kode atau hubungi admin."); return; }
-
-  if (cfg.maxSpinPerUser > 0) {
-    const snap = await db.ref("spinUsed/" + deviceId).once("value");
-    if ((snap.val()||0) >= cfg.maxSpinPerUser) { alert("❌ Batas spin event tercapai."); return; }
-  }
-
-  // Deduct spin — atomic transaction
-  let ok = false;
-  await db.ref("spins/" + deviceId).transaction(cur => {
-    if ((cur||0) > 0) { ok = true; return cur - 1; }
-    return cur;
-  });
-  if (!ok) { alert("❌ Spin habis!"); return; }
-
-  if (cfg.maxSpinPerUser > 0) db.ref("spinUsed/" + deviceId).transaction(c => (c||0)+1);
-
-  // Pick result by weight
-  const tw = prizes.reduce((s,p) => s+(p.weight||1), 0);
-  let rnd = Math.random()*tw, sel = prizes.length-1;
-  for (let i=0; i<prizes.length; i++) { rnd -= (prizes[i].weight||1); if (rnd<=0){sel=i;break;} }
-
-  isSpinning = true;
-  const btn = document.getElementById("spinBtn");
-  btn.disabled = true; btn.innerText = "🌀 SPINNING...";
-  document.getElementById("result").className = "";
-  document.getElementById("result").innerText = "...";
-  document.getElementById("claimBtn").style.display = "none";
-
-  spinTo(sel, () => {
-    const item = prizes[sel];
-    document.getElementById("result").innerText = "🎯 " + item.label;
-    document.getElementById("result").className = item.win ? "wr" : "lr";
-    addLog(name, item.label, item.win);
-    if (item.win) handleWin(name, item.label);
-    isSpinning = false; btn.disabled = false; btn.innerText = "🌀 SPIN RNG";
-  });
-};
-
-function handleWin(name, prize) {
-  // Check quotas fresh from Firebase
-  db.ref("winners").once("value", snap => {
-    const cnt = snap.val() ? Object.keys(snap.val()).length : 0;
-    if (cfg.maxWinnerGlobal > 0 && cnt >= cfg.maxWinnerGlobal) { alert("❌ Kuota pemenang global penuh."); return; }
-    if (cfg.maxWinPerDevice > 0 && myWins >= cfg.maxWinPerDevice) { alert("❌ Batas menang per device."); return; }
-    // push() = unique key, no race condition
-    db.ref("winners").push({ name, prize, deviceId, time: new Date().toLocaleString("id-ID") }).then(() => {
-      db.ref("deviceWins/" + deviceId).transaction(c => (c||0)+1);
-      document.getElementById("claimBtn").style.display = "block";
-      document.getElementById("winTxt").innerText = `${name}\nmemenangkan:\n${prize}`;
-      document.getElementById("winOv").style.display = "flex";
-      launchConfetti();
-    });
-  });
-}
-
-document.getElementById("winCloseBtn").onclick = () => document.getElementById("winOv").style.display = "none";
-document.getElementById("claimBtn").onclick = () => {
-  if (myLockUntil && Date.now() < myLockUntil) { alert("🔒 Device di-lock."); return; }
-  const name = document.getElementById("nameInp").value.trim() || "User";
-  const res  = document.getElementById("result").innerText;
-  window.open(`https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(`Halo Admin XREZZKYSTORE, saya *${name}* menang *${res}*.\nDevice ID: ${deviceId}`)}`, "_blank");
-};
-
-// ══════════════════════════════════════
-// REDEEM CODE — transactional
-// ══════════════════════════════════════
-document.getElementById("redeemBtn").onclick = () => {
-  const code = document.getElementById("codeInp").value.trim().toUpperCase();
-  if (!code) { alert("❌ Masukkan kode!"); return; }
-  const usedLocal = JSON.parse(localStorage.getItem("usedCodes") || "{}");
-  if (usedLocal[code]) { alert("❌ Kode sudah pernah kamu pakai!"); return; }
-
-  db.ref("codes/" + code).transaction(data => {
-    if (!data) return; // abort — not found
-    if ((data.used||0) >= data.maxUse) return; // abort — quota habis
-    return { ...data, used: (data.used||0) + 1 };
-  }).then(res => {
-    if (!res.committed) {
-      db.ref("codes/" + code).once("value").then(s => {
-        alert(!s.val() ? "❌ Kode tidak valid!" : "❌ Kode sudah habis kuota!");
-      });
+    if (!snap.exists()) {
+      // Coba cari by uid field (kalau ID-nya beda dengan uid)
+      await signOut(auth);
+      document.getElementById('deniedMsg').textContent = 'Akun belum terdaftar di database. Daftar lewat bot atau hubungi owner.';
+      showScreen('denied');
       return;
     }
-    const spins = res.snapshot.val().spin;
-    db.ref("spins/" + deviceId).transaction(c => (c||0) + spins);
-    usedLocal[code] = true; localStorage.setItem("usedCodes", JSON.stringify(usedLocal));
-    document.getElementById("codeInp").value = "";
-    alert(`✅ Berhasil redeem +${spins} spin!`);
-  });
-};
 
-// ══════════════════════════════════════
-// ADMIN ACTIONS
-// ══════════════════════════════════════
-document.getElementById("toggleBtn").onclick = () => {
-  if (cfg.scheduleEnabled) { alert("❌ Auto Schedule aktif. Nonaktifkan dulu via SIMPAN SETTINGS."); return; }
-  const next = !cfg.eventOn;
-  if (next && !vReq(true)) return;
-  db.ref("settings/eventOn").set(next).then(() => alert(next ? "✅ Event HIDUP!" : "✅ Event MATI!"));
-};
+    const data = snap.data();
 
-document.getElementById("saveBtn").onclick = () => {
-  const info = document.getElementById("admInfo").value.trim();
-  if (!info) { alert("❌ Isi deskripsi event dulu!"); return; }
-  const sv = document.getElementById("evStart").value;
-  const ev = document.getElementById("evEnd").value;
-  const ws = document.getElementById("schedCb").checked;
-  const sTs = sv ? new Date(sv).getTime() : 0;
-  const eTs = ev ? new Date(ev).getTime() : 0;
-  if (ws) {
-    if (!sTs||!eTs) { alert("❌ Isi waktu Mulai dan Akhir!"); return; }
-    if (eTs<=sTs)   { alert("❌ Waktu Akhir harus setelah Mulai!"); return; }
-    if (!vReq(true)) return;
-  }
-  const data = {
-    maxWinnerGlobal: parseInt(document.getElementById("mwg").value)||0,
-    maxWinPerDevice: parseInt(document.getElementById("mwd").value)||0,
-    maxSpinPerUser:  parseInt(document.getElementById("msp").value)||0,
-    freeSpinNewUser: parseInt(document.getElementById("fsn").value)||5,
-    eventStart: sTs, eventEnd: eTs, scheduleEnabled: ws
-  };
-  db.ref("settings").update(data)
-    .then(() => db.ref("infoBoard").set(info))
-    .then(() => { _autoLast = null; alert("✅ Settings disimpan! Semua user update otomatis."); })
-    .catch(e => alert("Error: " + e.message));
-};
-
-document.getElementById("addWheelBtn").onclick = () => {
-  const label  = document.getElementById("newLbl").value.trim();
-  const type   = document.getElementById("newType").value;
-  const weight = parseInt(document.getElementById("newWt").value) || 1;
-  if (!label) { alert("❌ Masukkan nama hadiah!"); return; }
-  db.ref("wheelItems").set([...prizes, { label, win: type==="win", weight: weight>0?weight:1 }]).then(() => {
-    document.getElementById("newLbl").value = ""; document.getElementById("newWt").value = "1";
-  });
-};
-window.deletePrize = i => {
-  if (!confirm("Hapus item ini?")) return;
-  const np = [...prizes]; np.splice(i,1);
-  db.ref("wheelItems").set(np.length ? np : null);
-};
-
-document.getElementById("addCodeBtn").onclick = () => {
-  const name   = document.getElementById("newCode").value.trim().toUpperCase();
-  const spin   = parseInt(document.getElementById("newCodeSpin").value);
-  const maxUse = parseInt(document.getElementById("newCodeMax").value);
-  if (!name||!spin||!maxUse||spin<=0||maxUse<=0) { alert("❌ Isi semua field!"); return; }
-  db.ref("codes/" + name).set({ spin, maxUse, used:0 }).then(() => {
-    ["newCode","newCodeSpin","newCodeMax"].forEach(id => document.getElementById(id).value = "");
-  });
-};
-window.deleteCode = code => { if (!confirm(`Hapus "${code}"?`)) return; db.ref("codes/" + code).remove(); };
-
-document.getElementById("lockBtn").onclick = () => {
-  const t=document.getElementById("lockId").value.trim(), h=parseInt(document.getElementById("lockHr").value);
-  if (!t||!h||h<=0) { alert("❌ Isi Device ID & durasi!"); return; }
-  db.ref("deviceLock/"+t).set(Date.now()+h*3600000).then(()=>{
-    alert(`✅ Di-lock ${h} jam!`); document.getElementById("lockId").value=""; document.getElementById("lockHr").value="";
-  });
-};
-document.getElementById("unlockBtn").onclick = () => {
-  const t=document.getElementById("lockId").value.trim();
-  if (!t) { alert("❌ Masukkan Device ID!"); return; }
-  db.ref("deviceLock/"+t).remove().then(()=>{ alert("✅ Di-unlock!"); document.getElementById("lockId").value=""; });
-};
-
-document.getElementById("addSpinBtn").onclick = () => {
-  const id=document.getElementById("tgtDev").value.trim(), amt=parseInt(document.getElementById("tgtAmt").value);
-  if (!id||!amt||amt<=0) { alert("❌ Isi ID & jumlah!"); return; }
-  db.ref("manualSpin/"+id).transaction(c=>(c||0)+amt).then(()=>{
-    alert(`✅ +${amt} spin dikirim ke ${id}!`);
-    document.getElementById("tgtDev").value=""; document.getElementById("tgtAmt").value="";
-  });
-};
-
-document.getElementById("grantBtn").onclick = () => {
-  const id=document.getElementById("grantId").value.trim();
-  if (!id) { alert("❌ Masukkan Device ID!"); return; }
-  db.ref("accountData/"+id).update({ editAllowed:true, editExpire:Date.now()+86400000 }).then(()=>{
-    alert(`✅ Izin edit → ${id}`); document.getElementById("grantId").value="";
-  });
-};
-
-document.getElementById("exportBtn").onclick = () => {
-  db.ref("winners").once("value", snap => {
-    const list = snap.val() ? Object.values(snap.val()) : [];
-    let txt = "=== PEMENANG XREZZKYSTORE ===\nExport: "+new Date().toLocaleString("id-ID")+"\nTotal: "+list.length+"\n\n";
-    list.forEach((w,i) => { txt += `${i+1}. ${w.name} | ${w.prize} | ${w.time} | ${w.deviceId}\n`; });
-    document.getElementById("exportArea").value = txt;
-    document.getElementById("exportModal").style.display = "flex";
-  });
-};
-
-document.getElementById("resetAllBtn").onclick = () => {
-  if (!confirm("⚠️ Hapus semua data pemenang?")) return;
-  if (!confirm("Konfirmasi final?")) return;
-  db.ref("winners").remove();
-  db.ref("deviceWins").remove();
-  db.ref("manualSpin").remove();
-  db.ref("spinUsed").remove();
-  alert("✅ Data pemenang dibersihkan.");
-};
-
-document.getElementById("resetEvBtn").onclick = () => {
-  if (!confirm("♻️ Reset event ke default?")) return;
-  db.ref("settings").set({ eventOn:false,maxWinnerGlobal:0,maxWinPerDevice:0,maxSpinPerUser:0,freeSpinNewUser:5,eventStart:0,eventEnd:0,scheduleEnabled:false })
-    .then(() => { _autoLast=null; alert("✅ Event direset."); });
-};
-
-// ══════════════════════════════════════
-// ACCOUNT
-// ══════════════════════════════════════
-document.getElementById("accountBtn").onclick = openAcc;
-async function openAcc() {
-  document.getElementById("accModal").style.display = "flex";
-  document.getElementById("accDevId").innerText = deviceId;
-  const ns = await db.ref("lockedNames/"+deviceId).once("value");
-  document.getElementById("accName").innerText = ns.val() || "—";
-  const hs = await db.ref("nameHistory/"+deviceId).once("value");
-  const nh = hs.val() || [];
-  const nc = document.getElementById("accNH"); nc.innerHTML="";
-  if (!nh.length) nc.innerHTML="<div style='color:#aaa;font-size:10px;text-align:center;padding:5px'>Belum ada riwayat</div>";
-  else nh.slice().reverse().forEach((h,i)=>{ const d=document.createElement("div"); d.className="nhi"; d.innerHTML=`<span style="color:#00ffd5">${i===0?"⭐ ":""}${escH(h.name)}</span> <span style="color:#aaa;font-size:9px">${h.time}</span>`; nc.appendChild(d); });
-  const ws = await db.ref("winners").once("value");
-  const wins = ws.val() ? Object.values(ws.val()).filter(w=>w.deviceId===deviceId) : [];
-  const hc = document.getElementById("accHist"); hc.innerHTML="";
-  if (!wins.length) hc.innerHTML="<div style='color:#aaa;font-size:10px;text-align:center;padding:5px'>Belum ada kemenangan</div>";
-  else wins.slice().reverse().forEach(w=>{ const d=document.createElement("div"); d.style.cssText="padding:3px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:10px"; d.innerHTML=`<div style="color:#00ffd5">${escH(w.prize)}</div><div style="color:#aaa">${w.time||""}</div>`; hc.appendChild(d); });
-}
-function closeAccount() { document.getElementById("accModal").style.display="none"; }
-document.getElementById("copyIdBtn").onclick = () => {
-  navigator.clipboard.writeText(deviceId).then(()=>{ const b=document.getElementById("copyIdBtn"); b.innerText="✅ Disalin!"; setTimeout(()=>b.innerText="📋 Copy ID",2000); });
-};
-document.getElementById("reqEditBtn").onclick = async () => {
-  const snap=await db.ref("accountData/"+deviceId).once("value"); const data=snap.val()||{};
-  if (data.editAllowed && Date.now()<(data.editExpire||0)) {
-    const nn=prompt("Nama baru:"); if (!nn||!nn.trim()) return;
-    await db.ref("lockedNames/"+deviceId).set(nn.trim());
-    await saveNH(deviceId, nn.trim());
-    await db.ref("accountData/"+deviceId).update({editAllowed:false});
-    document.getElementById("accName").innerText=nn.trim(); alert("✅ Nama diubah!"); return;
-  }
-  let cnt=data.waRequestCount||0, rst=data.waResetTime||0;
-  if (Date.now()>rst){cnt=0;rst=Date.now()+86400000;}
-  if (cnt>=2){alert("❌ Max 2x per 24 jam. Reset: "+new Date(rst).toLocaleString("id-ID"));return;}
-  cnt++; await db.ref("accountData/"+deviceId).update({waRequestCount:cnt,waResetTime:rst});
-  window.open(`https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(`Halo Admin, minta edit nama.\nDevice ID: ${deviceId}\nNama baru: ...`)}`, "_blank");
-  alert(`✅ Permintaan dikirim. Sisa: ${2-cnt}x`);
-};
-document.getElementById("logoutBtn").onclick = () => {
-  if (!confirm("Yakin Log Out?")) return;
-  presRef.update({online:false}); // mark offline first
-  localStorage.removeItem("devId"); localStorage.removeItem("usedCodes");
-  location.reload();
-};
-async function saveNH(devId, newName) {
-  const snap=await db.ref("nameHistory/"+devId).once("value"); const h=snap.val()||[];
-  if (!h.length||h[h.length-1].name!==newName) { h.push({name:newName,time:new Date().toLocaleString("id-ID")}); await db.ref("nameHistory/"+devId).set(h); }
-}
-
-// ══════════════════════════════════════
-// CONFETTI
-// ══════════════════════════════════════
-function launchConfetti(){
-  const c=document.getElementById("confetti"); c.width=window.innerWidth; c.height=window.innerHeight;
-  const ct=c.getContext("2d");
-  const P=Array.from({length:100},()=>({x:Math.random()*c.width,y:-10,vx:(Math.random()-.5)*4,vy:Math.random()*4+2,r:Math.random()*7+3,col:["#00ffd5","#ffcc00","#ff4444","#4ade80","#60a5fa","#f472b6"][Math.floor(Math.random()*6)],rot:Math.random()*360,rv:(Math.random()-.5)*8}));
-  let fr; function draw(){ct.clearRect(0,0,c.width,c.height);P.forEach(p=>{ct.save();ct.translate(p.x,p.y);ct.rotate(p.rot*Math.PI/180);ct.fillStyle=p.col;ct.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);ct.restore();p.x+=p.vx;p.y+=p.vy;p.rot+=p.rv;});fr=requestAnimationFrame(draw);if(P.every(p=>p.y>c.height+20)){cancelAnimationFrame(fr);ct.clearRect(0,0,c.width,c.height);}} draw();
-}
-
-// ══════════════════════════════════════
-// INIT
-// ══════════════════════════════════════
-window.addEventListener("load", () => {
-  const el = document.getElementById("devInfo");
-  el.innerText = "📱 " + deviceId;
-  el.onclick = () => { navigator.clipboard.writeText(deviceId).then(()=>{ const o=el.innerText; el.innerText="✅ ID Disalin!"; setTimeout(()=>el.innerText=o,2000); }); };
-
-  // Admin — 5 taps on title
-  let cc = 0;
-  document.getElementById("title").onclick = () => {
-    cc++;
-    if (cc >= 5) {
-      const p = prompt("🔐 PIN Admin:");
-      if (p === ADMIN_PIN) { document.getElementById("admPanel").style.display="block"; alert("✅ Admin Mode Aktif."); }
-      else alert("❌ PIN salah!");
-      cc = 0;
+    if (data.role !== 'admin') {
+      await signOut(auth);
+      document.getElementById('deniedMsg').textContent =
+        `Role kamu: "${data.role||'user'}". Hanya admin yang bisa masuk. Minta owner ubah role kamu di Role Manager.`;
+      showScreen('denied');
+      return;
     }
-  };
 
-  drawRNG(); drawName(); renderNTags(); renderNHist();
+    if (data.isBanned) {
+      await signOut(auth);
+      document.getElementById('deniedMsg').textContent = 'Akun kamu dibanned. Hubungi owner.';
+      showScreen('denied');
+      return;
+    }
+
+    // ✅ Admin verified
+    currentUser = user;
+    document.getElementById('tbEmail').textContent = user.email || data.name || user.uid;
+    document.getElementById('dbPing').classList.add('live');
+
+    // Update lastActive
+    updateDoc(doc(db,'users',user.uid),{lastActive:serverTimestamp()}).catch(()=>{});
+
+    showScreen('app');
+    loadAll();
+
+  } catch(e) {
+    console.error('Auth check error:',e);
+    await signOut(auth);
+    showScreen('login');
+    showLoginErr('Gagal cek akses: '+e.message);
+  }
 });
 
-// ══════════════════════════════════════
-// HELPERS
-// ══════════════════════════════════════
-function updateStatusUI() {
-  const btn = document.getElementById("toggleBtn");
-  if (cfg.scheduleEnabled) { btn.innerText="⏰ AUTO MODE AKTIF"; btn.style.background="#555"; btn.style.color="#fff"; btn.disabled=true; return; }
-  btn.disabled = false;
-  if (cfg.eventOn) { btn.innerText="⏹ MATIKAN EVENT"; btn.style.background="#ef4444"; btn.style.color="#fff"; setSt("s-on","🟢 EVENT BERJALAN"); }
-  else             { btn.innerText="▶ HIDUPKAN EVENT"; btn.style.background="#16a34a"; btn.style.color="#fff"; setSt("s-off","🔴 EVENT OFFLINE"); }
-}
-function updateDateInfo() {
-  const el = document.getElementById("evDateInfo");
-  if (!cfg.eventStart || cfg.eventStart===0) { el.innerHTML=""; return; }
-  const fmt = {day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit",hour12:false,timeZone:"Asia/Jakarta"};
-  el.innerHTML = `📅 ${new Date(cfg.eventStart).toLocaleString("id-ID",fmt)} → ${new Date(cfg.eventEnd||0).toLocaleString("id-ID",fmt)} WIB`;
-}
-function setSt(cls, txt) { const el=document.getElementById("evInd"); el.className=cls; el.innerText=txt; }
-function updateSlotDisplay() {
-  const mwg=cfg.maxWinnerGlobal||0, el=document.getElementById("sSlot");
-  if (mwg>0) { const l=Math.max(0,mwg-totalWin); el.innerText=l; el.style.color=l<=2?"#ef4444":l<=5?"#f59e0b":"#00ffd5"; }
-  else { el.innerText="∞"; el.style.color="#00ffd5"; }
-}
-function addLog(name, result, win) {
-  const log=document.getElementById("logInner");
-  const d=document.createElement("div"); d.style.cssText="padding:3px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:10px";
-  d.innerHTML=`<span style="color:rgba(0,255,213,.5)">${new Date().toLocaleTimeString()}</span> <span style="color:${win?"#4ade80":"#f87171"}">${win?"✓":"✗"} ${escH(result)}</span> <span style="color:#aaa">(${escH(name)})</span>`;
-  log.appendChild(d); log.scrollTop=log.scrollHeight;
-}
-function vReq(show) {
-  const info=document.getElementById("admInfo").value.trim();
-  const mwg=parseInt(document.getElementById("mwg").value)||0;
-  const mwd=parseInt(document.getElementById("mwd").value)||0;
-  const ok=info&&mwg>0&&mwd>0&&prizes.some(p=>p.win)&&prizes.some(p=>!p.win);
-  if (!ok&&show) {
-    let msg="❌ Belum bisa:\n";
-    if(!info) msg+="• Isi deskripsi event\n"; if(!mwg) msg+="• Limit pemenang global > 0\n";
-    if(!mwd)  msg+="• Limit menang/user > 0\n";
-    if(!prizes.some(p=>p.win))  msg+="• Tambah min 1 HADIAH di roda\n";
-    if(!prizes.some(p=>!p.win)) msg+="• Tambah min 1 ZONK di roda";
-    alert(msg);
+// ── LOGIN ─────────────────────────────────────────────────────
+window.doLogin = async () => {
+  const email = document.getElementById('liEmail').value.trim();
+  const pass  = document.getElementById('liPass').value;
+  const btn   = document.getElementById('loginBtn');
+  showLoginErr('');
+  if (!email||!pass) { showLoginErr('Email dan password wajib diisi.'); return; }
+  btn.textContent='Masuk…'; btn.disabled=true;
+  try {
+    await signInWithEmailAndPassword(auth, email, pass);
+  } catch(e) {
+    showLoginErr(mapAuthErr(e.code));
+    btn.textContent='Masuk ke Panel'; btn.disabled=false;
   }
-  return ok;
+};
+
+// ── REGISTER ──────────────────────────────────────────────────
+window.doRegister = async () => {
+  const email = document.getElementById('regEmail').value.trim();
+  const name  = document.getElementById('regName').value.trim();
+  const pass  = document.getElementById('regPass').value;
+  const pass2 = document.getElementById('regPass2').value;
+  showLoginErr('');
+  if (!email||!name||!pass) { showLoginErr('Semua field wajib diisi.'); return; }
+  if (pass!==pass2) { showLoginErr('Password tidak sama.'); return; }
+  if (pass.length<6) { showLoginErr('Password minimal 6 karakter.'); return; }
+  const btn = document.getElementById('regBtn');
+  btn.textContent='Mendaftar…'; btn.disabled=true;
+  try {
+    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    const uid  = cred.user.uid;
+
+    // Simpan ke users/ dengan role: 'user' — bukan admin
+    await setDoc(doc(db,'users',uid), {
+      uid,
+      email,
+      name,
+      phone: null,
+      role: 'user',             // ← default user
+      saldo: 0,
+      totalDeposit: 0,
+      totalOrder: 0,
+      isActive: true,
+      isBanned: false,
+      registeredFrom: 'web-panel',
+      createdAt: serverTimestamp(),
+      lastActive: serverTimestamp()
+    });
+
+    await signOut(auth);      // logout langsung, role user tidak bisa masuk
+    showView('login');
+    showLoginErr('');
+    toast('Akun dibuat! Role: user. Minta owner ubah ke admin via Role Manager.','warn');
+  } catch(e) {
+    showLoginErr(mapAuthErr(e.code));
+  }
+  btn.textContent='Daftar'; btn.disabled=false;
+};
+
+// ── FORGOT PASSWORD ───────────────────────────────────────────
+window.doForgotSend = async () => {
+  const email = document.getElementById('forgotEmail').value.trim();
+  if (!email) { showLoginErr('Isi email dulu.'); return; }
+  const btn = document.getElementById('forgotBtn');
+  btn.textContent='Mengirim…'; btn.disabled=true;
+  try {
+    await sendPasswordResetEmail(auth, email);
+    showView('login');
+    toast('Link reset dikirim! Cek inbox/spam kamu ✅');
+  } catch(e) { showLoginErr(mapAuthErr(e.code)); }
+  btn.textContent='📧 Kirim Link Reset'; btn.disabled=false;
+};
+
+window.doLogout = async () => { await signOut(auth); };
+
+const mapAuthErr = code => ({
+  'auth/user-not-found':'Email tidak ditemukan.',
+  'auth/wrong-password':'Password salah.',
+  'auth/invalid-credential':'Email atau password salah.',
+  'auth/email-already-in-use':'Email sudah terdaftar.',
+  'auth/weak-password':'Password terlalu lemah.',
+  'auth/invalid-email':'Format email tidak valid.',
+  'auth/too-many-requests':'Terlalu banyak percobaan. Coba lagi nanti.',
+  'auth/network-request-failed':'Koneksi gagal. Cek internet.'
+})[code] || 'Error: '+code;
+
+const showLoginErr = msg => { document.getElementById('loginErr').textContent = msg; };
+
+window.showView = v => {
+  document.getElementById('viewLogin').style.display    = v==='login'    ?'block':'none';
+  document.getElementById('viewRegister').style.display = v==='register' ?'block':'none';
+  document.getElementById('viewForgot').style.display   = v==='forgot'   ?'block':'none';
+  showLoginErr('');
+};
+
+document.addEventListener('keydown', e => {
+  if (e.key==='Enter' && document.getElementById('loginWrap').classList.contains('show')) doLogin();
+});
+
+// ── NAVIGATION ────────────────────────────────────────────────
+window.goTab = (tab, el) => {
+  document.querySelectorAll('.tabPane').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.navBtn,.mobileNavBtn').forEach(b=>b.classList.remove('on'));
+  document.getElementById('tab-'+tab).classList.add('on');
+  if (el) el.classList.add('on');
+};
+
+// ── LOAD ALL ──────────────────────────────────────────────────
+function loadAll() {
+  loadDeposits(); loadOrders(); loadUsers(); loadSaldoOtp(); loadSettings();
 }
-// Quiet validation — reads from Firebase state vars, NOT DOM
-function vReqQ() {
-  return !!(infoVal&&infoVal.trim()&&(cfg.maxWinnerGlobal||0)>0&&(cfg.maxWinPerDevice||0)>0&&prizes.some(p=>p.win)&&prizes.some(p=>!p.win));
+
+function updateStats() {
+  const td = allDeposits.filter(d=>d.status==='approved').reduce((s,d)=>s+(d.amount||0),0);
+  document.getElementById('sTotalDep').textContent = fmt(td);
+  document.getElementById('sTotalOrd').textContent = allOrders.length;
+  document.getElementById('sPendDep').textContent  = allDeposits.filter(d=>d.status==='pending').length;
+  document.getElementById('sPendOrd').textContent  = allOrders.filter(d=>d.status==='pending').length;
+  document.getElementById('sTotalUsr').textContent = allUsers.length;
 }
-function checkSchedValid() {
-  const el=document.getElementById("schedMsg");
-  const ok=vReqQ();
-  const sv=document.getElementById("evStart").value, ev=document.getElementById("evEnd").value;
-  const hasTime=sv&&ev&&new Date(ev)>new Date(sv);
-  if(ok&&hasTime){el.style.color="#4ade80";el.innerText="✅ Semua data lengkap. Schedule siap diaktifkan.";}
-  else{el.style.color="#f87171";el.innerText="⚠️ Lengkapi data event dulu sebelum aktifkan schedule.";}
+
+// ── DEPOSITS ──────────────────────────────────────────────────
+function loadDeposits() {
+  const q = query(collection(db,'deposits'), orderBy('createdAt','desc'), limit(200));
+  unsubs.push(onSnapshot(q, snap => {
+    allDeposits = snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderDeposits(); renderDashDepPending(); updateStats();
+    document.getElementById('dotDeposit').classList.toggle('show', allDeposits.filter(d=>d.status==='pending').length>0);
+  }, e=>console.error('deposits',e)));
 }
-function renderWList() {
-  const c=document.getElementById("wList"); c.innerHTML="";
-  if (!prizes.length){c.innerHTML="<div style='color:#aaa;text-align:center;padding:7px;font-size:10px'>Belum ada item</div>";return;}
-  prizes.forEach((p,i)=>{
-    const d=document.createElement("div"); d.className="wia "+(p.win?"wi":"lo");
-    d.innerHTML=`<div class="nfo"><span style="color:${p.win?"#4ade80":"#f87171"}">${p.win?"✓ WIN":"✗ ZONK"}</span> <span style="color:#fff">${escH(p.label)}</span> <span style="color:#aaa;font-size:10px">(w:${p.weight||1})</span></div><button class="db" onclick="deletePrize(${i})">✕</button>`;
-    c.appendChild(d);
-  });
+
+window.renderDeposits = () => {
+  const st = document.getElementById('fDepStatus').value;
+  const q  = document.getElementById('fDepQ').value.toLowerCase();
+  let d = allDeposits;
+  if (st) d=d.filter(x=>x.status===st);
+  if (q)  d=d.filter(x=>(x.id||'').toLowerCase().includes(q)||(x.phone||'').includes(q)||(x.name||'').toLowerCase().includes(q)||(x.refCode||'').toLowerCase().includes(q));
+  const el = document.getElementById('depTable');
+  if (!d.length){el.innerHTML=empty('Tidak ada deposit');return;}
+  el.innerHTML=`<table><thead><tr><th>ID</th><th>Waktu</th><th>Nama</th><th>Nomor</th><th>Nominal</th><th>Metode</th><th>Status</th><th>Aksi</th></tr></thead><tbody>
+  ${d.map(x=>`<tr><td class="mono">${x.id.slice(-8)}</td><td class="nowrap">${fmtDate(x.createdAt)}</td>
+    <td class="bold">${x.name||'–'}</td><td class="mono">${x.phone||x.userId||'–'}</td>
+    <td class="bold">${fmt(x.amount)}</td><td>${x.method||'–'}</td><td>${badge(x.status||'pending')}</td>
+    <td><div class="btnRow">
+      ${x.status==='pending'?`<button class="btn btnSuc btnSm" onclick="approveDep('${x.id}',${x.amount},'${x.phone||x.userId||''}')">✅ ACC</button><button class="btn btnDng btnSm" onclick="rejectDep('${x.id}')">❌ Tolak</button>`:''}
+      <button class="btn btnGry btnSm" onclick="openDepDetail('${x.id}')">🔍</button>
+    </div></td></tr>`).join('')}</tbody></table>`;
+};
+
+function renderDashDepPending() {
+  const d = allDeposits.filter(x=>x.status==='pending').slice(0,5);
+  const el = document.getElementById('dashDepPending');
+  if (!d.length){el.innerHTML=empty('Tidak ada deposit pending');return;}
+  el.innerHTML=`<table><thead><tr><th>ID</th><th>Waktu</th><th>Nama</th><th>Nomor</th><th>Nominal</th><th>Aksi</th></tr></thead><tbody>
+  ${d.map(x=>`<tr><td class="mono">${x.id.slice(-8)}</td><td class="nowrap">${fmtDate(x.createdAt)}</td>
+    <td class="bold">${x.name||'–'}</td><td class="mono">${x.phone||x.userId||'–'}</td><td class="bold">${fmt(x.amount)}</td>
+    <td><div class="btnRow">
+      <button class="btn btnSuc btnSm" onclick="approveDep('${x.id}',${x.amount},'${x.phone||x.userId||''}')">✅ ACC</button>
+      <button class="btn btnDng btnSm" onclick="rejectDep('${x.id}')">❌ Tolak</button>
+    </div></td></tr>`).join('')}</tbody></table>`;
 }
-function renderCodes(data) {
-  const c=document.getElementById("codeList"); c.innerHTML="";
-  const keys=Object.keys(data);
-  if(!keys.length){c.innerHTML="<div style='color:#aaa;text-align:center;padding:6px;font-size:10px'>Belum ada code</div>";return;}
-  keys.forEach(code=>{
-    const cd=data[code]; const d=document.createElement("div"); d.className="ci";
-    const pct=cd.maxUse>0?Math.round((cd.used/cd.maxUse)*100):0;
-    d.innerHTML=`<div><div style="color:#00ffd5;font-weight:bold;font-size:11px">${code}</div><div style="color:#aaa;font-size:10px">+${cd.spin} spin | ${cd.used}/${cd.maxUse} (${pct}%)</div></div><button class="db" onclick="deleteCode('${code}')">✕</button>`;
-    c.appendChild(d);
-  });
+
+window.approveDep = async (id, amount, userId) => {
+  if (!confirm(`Approve deposit ${fmt(amount)} untuk ${userId}?`)) return;
+  try {
+    const b = writeBatch(db);
+    b.update(doc(db,'deposits',id),{status:'approved',approvedAt:serverTimestamp(),approvedBy:currentUser.email});
+    if (userId) {
+      const u = await getDoc(doc(db,'users',userId));
+      if (u.exists()) b.update(doc(db,'users',userId),{saldo:increment(amount),totalDeposit:increment(amount)});
+    }
+    await b.commit();
+    toast(`Deposit ${fmt(amount)} approved! Saldo +${fmt(amount)} ✅`);
+  } catch(e){toast('Gagal: '+e.message,'err');}
+};
+
+window.rejectDep = async id => {
+  const alasan = prompt('Alasan penolakan (opsional):') || '';
+  try {
+    await updateDoc(doc(db,'deposits',id),{status:'rejected',rejectedAt:serverTimestamp(),rejectedBy:currentUser.email,alasan});
+    toast('Deposit ditolak','err');
+  } catch(e){toast('Gagal: '+e.message,'err');}
+};
+
+window.openDepDetail = id => {
+  const x = allDeposits.find(d=>d.id===id); if(!x) return;
+  openModal('Detail Deposit',`<div class="detailBox">
+    ${detRow('ID',x.id)}${detRow('Status',badge(x.status))}${detRow('Nama',x.name)}
+    ${detRow('Nomor WA',x.phone||x.userId)}${detRow('Nominal',fmt(x.amount))}
+    ${detRow('Metode',x.method)}${detRow('Ref Code',x.refCode)}${detRow('Catatan',x.note)}
+    ${detRow('Dibuat',fmtDate(x.createdAt))}${detRow('Diapprove',fmtDate(x.approvedAt))}
+    ${detRow('Approve By',x.approvedBy)}${detRow('Ditolak',fmtDate(x.rejectedAt))}${detRow('Alasan',x.alasan)}
+  </div>`);
+};
+
+window.addManualDeposit = async () => {
+  const userId = document.getElementById('manDepUser').value.trim();
+  const amount = parseInt(document.getElementById('manDepAmt').value)||0;
+  const method = document.getElementById('manDepMethod').value;
+  const note   = document.getElementById('manDepNote').value.trim();
+  if (!userId||!amount){toast('Isi user ID dan nominal','err');return;}
+  if (!confirm(`Tambah & auto-approve deposit ${fmt(amount)} untuk ${userId}?`)) return;
+  try {
+    const b = writeBatch(db);
+    const r = doc(collection(db,'deposits'));
+    b.set(r,{userId,phone:userId,amount,method,note,status:'approved',createdAt:serverTimestamp(),approvedAt:serverTimestamp(),approvedBy:currentUser.email,isManual:true});
+    const u = await getDoc(doc(db,'users',userId));
+    if (u.exists()) b.update(doc(db,'users',userId),{saldo:increment(amount),totalDeposit:increment(amount)});
+    await b.commit();
+    document.getElementById('manDepUser').value='';
+    document.getElementById('manDepAmt').value='';
+    document.getElementById('manDepNote').value='';
+    toast(`Deposit manual ${fmt(amount)} berhasil ✅`);
+  } catch(e){toast('Gagal: '+e.message,'err');}
+};
+
+// ── ORDERS ────────────────────────────────────────────────────
+function loadOrders() {
+  const q = query(collection(db,'orders'), orderBy('createdAt','desc'), limit(300));
+  unsubs.push(onSnapshot(q, snap => {
+    allOrders = snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderOrders(); renderDashOrdPending(); updateStats();
+    document.getElementById('dotOrder').classList.toggle('show', allOrders.filter(d=>d.status==='pending').length>0);
+  }, e=>console.error('orders',e)));
 }
-function si(id, val) { const el=document.getElementById(id); if(el&&document.activeElement!==el) el.value=val; }
-function toDT(ts) { const d=new Date(ts),p=n=>String(n).padStart(2,"0"); return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`; }
-function pad(n) { return n<10?"0"+n:n; }
-function escH(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+
+window.renderOrders = () => {
+  const st = document.getElementById('fOrdStatus').value;
+  const q  = document.getElementById('fOrdQ').value.toLowerCase();
+  let d = allOrders;
+  if (st) d=d.filter(x=>x.status===st);
+  if (q)  d=d.filter(x=>(x.id||'').toLowerCase().includes(q)||(x.phone||'').includes(q)||(x.target||'').toLowerCase().includes(q)||(x.service||'').toLowerCase().includes(q));
+  const el = document.getElementById('ordTable');
+  if (!d.length){el.innerHTML=empty('Tidak ada order');return;}
+  el.innerHTML=`<table><thead><tr><th>ID</th><th>Waktu</th><th>Nomor</th><th>Layanan</th><th>Target</th><th>Harga</th><th>Status</th><th>Aksi</th></tr></thead><tbody>
+  ${d.map(x=>`<tr><td class="mono">${x.id.slice(-8)}</td><td class="nowrap">${fmtDate(x.createdAt)}</td>
+    <td class="mono">${x.phone||x.userId||'–'}</td><td>${x.service||x.layanan||'–'}</td>
+    <td class="mono">${(x.target||'–').slice(0,25)}</td><td class="bold">${fmt(x.harga||x.price||0)}</td>
+    <td>${badge(x.status||'pending')}</td>
+    <td><div class="btnRow">
+      ${x.status==='pending'?`<button class="btn btnBlu btnSm" onclick="updateOrdStatus('${x.id}','diproses')">🔄 Proses</button>`:''}
+      ${x.status==='diproses'?`<button class="btn btnSuc btnSm" onclick="updateOrdStatus('${x.id}','selesai')">✅ Selesai</button>`:''}
+      ${['pending','diproses'].includes(x.status)?`<button class="btn btnDng btnSm" onclick="cancelOrder('${x.id}',${x.harga||x.price||0},'${x.phone||x.userId||''}')">❌ Batal</button>`:''}
+      <button class="btn btnGry btnSm" onclick="openOrdDetail('${x.id}')">🔍</button>
+    </div></td></tr>`).join('')}</tbody></table>`;
+};
+
+function renderDashOrdPending() {
+  const d = allOrders.filter(x=>x.status==='pending').slice(0,5);
+  const el = document.getElementById('dashOrdPending');
+  if (!d.length){el.innerHTML=empty('Tidak ada order pending');return;}
+  el.innerHTML=`<table><thead><tr><th>ID</th><th>Waktu</th><th>Nomor</th><th>Layanan</th><th>Harga</th><th>Aksi</th></tr></thead><tbody>
+  ${d.map(x=>`<tr><td class="mono">${x.id.slice(-8)}</td><td class="nowrap">${fmtDate(x.createdAt)}</td>
+    <td class="mono">${x.phone||x.userId||'–'}</td><td>${x.service||x.layanan||'–'}</td><td class="bold">${fmt(x.harga||x.price||0)}</td>
+    <td><div class="btnRow">
+      <button class="btn btnBlu btnSm" onclick="updateOrdStatus('${x.id}','diproses')">🔄 Proses</button>
+      <button class="btn btnDng btnSm" onclick="cancelOrder('${x.id}',${x.harga||x.price||0},'${x.phone||x.userId||''}')">❌ Batal</button>
+    </div></td></tr>`).join('')}</tbody></table>`;
+}
+
+window.updateOrdStatus = async (id, status) => {
+  try {
+    await updateDoc(doc(db,'orders',id),{status,updatedAt:serverTimestamp(),updatedBy:currentUser.email});
+    toast(`Status → ${status} ✅`);
+  } catch(e){toast('Gagal: '+e.message,'err');}
+};
+
+window.cancelOrder = async (id, harga, userId) => {
+  if (!confirm(`Batalkan order & refund ${fmt(harga)} ke ${userId}?`)) return;
+  try {
+    const b = writeBatch(db);
+    b.update(doc(db,'orders',id),{status:'dibatalkan',cancelledAt:serverTimestamp(),cancelledBy:currentUser.email});
+    if (userId&&harga>0) {
+      const u = await getDoc(doc(db,'users',userId));
+      if (u.exists()) b.update(doc(db,'users',userId),{saldo:increment(harga)});
+    }
+    await b.commit();
+    toast(`Order dibatalkan, saldo ${fmt(harga)} dikembalikan ✅`);
+  } catch(e){toast('Gagal: '+e.message,'err');}
+};
+
+window.openOrdDetail = id => {
+  const x = allOrders.find(d=>d.id===id); if(!x) return;
+  openModal('Detail Order',`<div class="detailBox">
+    ${detRow('ID',x.id)}${detRow('Status',badge(x.status))}
+    ${detRow('Nomor WA',x.phone||x.userId)}${detRow('Layanan',x.service||x.layanan)}
+    ${detRow('Kategori',x.kategori)}${detRow('Target',x.target)}
+    ${detRow('Harga',fmt(x.harga||x.price||0))}${detRow('Catatan',x.catatan||x.note)}
+    ${detRow('External ID',x.externalId)}${detRow('Dibuat',fmtDate(x.createdAt))}
+    ${detRow('Diupdate',fmtDate(x.updatedAt))}
+  </div>`);
+};
+
+// ── USERS ─────────────────────────────────────────────────────
+function loadUsers() {
+  const q = query(collection(db,'users'), orderBy('createdAt','desc'), limit(500));
+  unsubs.push(onSnapshot(q, snap => {
+    allUsers = snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderUsers(); renderRoleManager(); updateStats();
+  }, e=>console.error('users',e)));
+}
+
+window.renderUsers = () => {
+  const rf = document.getElementById('fUserRole').value;
+  const q  = document.getElementById('fUserQ').value.toLowerCase();
+  let d = allUsers;
+  if (rf) d=d.filter(x=>x.role===rf);
+  if (q)  d=d.filter(x=>(x.id||'').includes(q)||(x.phone||'').includes(q)||(x.name||'').toLowerCase().includes(q)||(x.email||'').toLowerCase().includes(q));
+  const el = document.getElementById('userTable');
+  if (!d.length){el.innerHTML=empty('Tidak ada user');return;}
+  el.innerHTML=`<table><thead><tr><th>ID/Nomor WA</th><th>Nama</th><th>Email</th><th>Role</th><th>Saldo</th><th>Join</th><th>Aksi</th></tr></thead><tbody>
+  ${d.map(x=>`<tr><td class="mono">${x.id||x.phone||'–'}</td><td class="bold">${x.name||x.pushName||'–'}</td>
+    <td class="mono" style="font-size:.73rem">${x.email||'–'}</td><td>${badge(x.role||'user')}</td>
+    <td class="bold" style="color:var(--ac)">${fmt(x.saldo||0)}</td><td class="nowrap">${fmtDate(x.createdAt)}</td>
+    <td><div class="btnRow">
+      <button class="btn btnSuc btnSm" onclick="openAdjSaldo('${x.id}',${x.saldo||0})">💰</button>
+      <button class="btn btnGry btnSm" onclick="openUserDetail('${x.id}')">🔍</button>
+    </div></td></tr>`).join('')}</tbody></table>`;
+};
+
+window.openUserDetail = id => {
+  const u = allUsers.find(x=>x.id===id); if(!u) return;
+  const ordH = allOrders.filter(o=>(o.phone||o.userId)===id).slice(0,10);
+  const depH = allDeposits.filter(d=>(d.phone||d.userId)===id).slice(0,10);
+  openModal(`User: ${u.name||id}`,`
+    <div class="detailBox" style="margin-bottom:14px">
+      ${detRow('ID',id)}${detRow('Nama',u.name||u.pushName)}${detRow('Email',u.email)}
+      ${detRow('Role',badge(u.role||'user'))}${detRow('Saldo',fmt(u.saldo||0))}
+      ${detRow('Total Deposit',fmt(u.totalDeposit||0))}${detRow('Total Order',u.totalOrder||0)}
+      ${detRow('Join',fmtDate(u.createdAt))}${detRow('Last Active',fmtDate(u.lastActive||u.updatedAt))}
+      ${detRow('Status',u.isBanned?'🚫 Banned':'✅ Aktif')}
+    </div>
+    <p style="font-size:.8rem;color:var(--t3);margin-bottom:6px">📦 Order Terkini</p>
+    <div class="userHist">${ordH.length?ordH.map(o=>`<div class="userHistItem"><span>${o.service||o.layanan||'–'} — ${o.target||''}</span><span style="color:${o.status==='selesai'?'var(--ac)':o.status==='dibatalkan'?'var(--red)':'var(--yel)'}">${o.status}</span></div>`).join(''):'<div style="padding:10px;color:var(--t3)">Belum ada order</div>'}</div>
+    <p style="font-size:.8rem;color:var(--t3);margin:12px 0 6px">💰 Deposit Terkini</p>
+    <div class="userHist">${depH.length?depH.map(d=>`<div class="userHistItem"><span>${d.method||'–'} — ${fmt(d.amount)}</span><span style="color:${d.status==='approved'?'var(--ac)':d.status==='rejected'?'var(--red)':'var(--yel)'}">${d.status}</span></div>`).join(''):'<div style="padding:10px;color:var(--t3)">Belum ada deposit</div>'}</div>
+    <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap">
+      <button class="btn btnSuc" onclick="closeModal();setTimeout(()=>openAdjSaldo('${id}',${u.saldo||0}),200)">💰 Saldo</button>
+      ${u.isBanned?`<button class="btn btnBlu" onclick="setBanned('${id}',false)">✅ Unban</button>`:`<button class="btn btnDng" onclick="setBanned('${id}',true)">🚫 Ban</button>`}
+      <button class="btn btnGry" onclick="closeModal()">Tutup</button>
+    </div>
+  `);
+};
+
+window.openAdjSaldo = (id, cur) => {
+  openModal(`Adjust Saldo: ${id}`,`
+    <div class="detailBox" style="margin-bottom:14px">
+      ${detRow('User ID',id)}${detRow('Saldo Saat Ini',fmt(cur))}
+    </div>
+    <div class="formGrp"><label>Tipe</label>
+      <select id="adjType" class="formSel">
+        <option value="set">Set Saldo (langsung ke nilai ini)</option>
+        <option value="add">Tambah Saldo</option>
+        <option value="sub">Kurangi Saldo</option>
+      </select></div>
+    <div class="formGrp"><label>Nominal (Rp)</label><input id="adjAmt" class="formInp" type="number" placeholder="0" min="0"/></div>
+    <div class="formGrp"><label>Alasan</label><input id="adjNote" class="formInp" placeholder="Bonus, koreksi, dll"/></div>
+    <p class="adjNote">⚠️ Langsung mengubah saldo di database.</p>
+    <div style="display:flex;gap:8px;margin-top:14px">
+      <button class="btn btnPrimary" style="flex:1;justify-content:center" onclick="doAdjSaldo('${id}',${cur})">💾 Simpan</button>
+      <button class="btn btnGry" onclick="closeModal()">Batal</button>
+    </div>
+  `);
+};
+
+window.doAdjSaldo = async (id, cur) => {
+  const type = document.getElementById('adjType').value;
+  const amt  = parseInt(document.getElementById('adjAmt').value)||0;
+  const note = document.getElementById('adjNote').value.trim();
+  const ns   = type==='set'?amt:type==='add'?cur+amt:Math.max(0,cur-amt);
+  if (!confirm(`Ubah saldo: ${fmt(cur)} → ${fmt(ns)}?`)) return;
+  try {
+    await updateDoc(doc(db,'users',id),{saldo:ns,saldoUpdatedAt:serverTimestamp(),saldoUpdatedBy:currentUser.email,saldoNote:note||null});
+    closeModal();
+    toast(`Saldo ${id} → ${fmt(ns)} ✅`);
+  } catch(e){toast('Gagal: '+e.message,'err');}
+};
+
+window.setBanned = async (id, banned) => {
+  if (!confirm(`${banned?'Ban':'Unban'} user ${id}?`)) return;
+  try {
+    await updateDoc(doc(db,'users',id),{isBanned:banned,updatedAt:serverTimestamp()});
+    closeModal();
+    toast(`User ${id} ${banned?'dibanned':'diunban'} ✅`);
+  } catch(e){toast('Gagal: '+e.message,'err');}
+};
+
+// ── ROLE MANAGER ──────────────────────────────────────────────
+function renderRoleManager() {
+  const el = document.getElementById('roleMgrList');
+  if (!el) return;
+  if (!allUsers.length){el.innerHTML=empty('Belum ada user');return;}
+  el.innerHTML = allUsers.map(u=>`
+    <div class="reqCard">
+      <div class="reqAvatar">${u.role==='admin'?'🛡️':'👤'}</div>
+      <div class="reqInfo">
+        <div class="reqEmail">${u.email||u.name||u.id}</div>
+        <div class="reqDate">${u.name||'–'} · ${fmtDate(u.createdAt)} · ${badge(u.role||'user')}</div>
+      </div>
+      <div class="reqActions">
+        ${u.id===currentUser.uid?`<span style="font-size:.72rem;color:var(--t3)">👋 Ini kamu</span>`:''}
+        ${u.role!=='admin'&&u.id!==currentUser.uid?`<button class="btn btnPur btnSm" onclick="setUserRole('${u.id}','admin')">⬆️ Jadikan Admin</button>`:''}
+        ${u.role==='admin'&&u.id!==currentUser.uid?`<button class="btn btnYel btnSm" onclick="setUserRole('${u.id}','user')">⬇️ Turunkan User</button>`:''}
+      </div>
+    </div>
+  `).join('');
+}
+
+window.setUserRole = async (id, role) => {
+  if (!confirm(`Ubah role ${id} → "${role}"?`)) return;
+  try {
+    await updateDoc(doc(db,'users',id),{role,roleUpdatedAt:serverTimestamp(),roleUpdatedBy:currentUser.email});
+    toast(`Role ${id} → ${role} ✅`);
+  } catch(e){toast('Gagal: '+e.message,'err');}
+};
+
+// ── SALDO OTP ─────────────────────────────────────────────────
+function loadSaldoOtp() {
+  unsubs.push(onSnapshot(doc(db,'config','saldootp'), snap => {
+    renderSaldoOtp(snap.exists()?snap.data():{});
+  }, e => { console.error('saldootp',e); renderSaldoOtp({}); }));
+}
+
+function renderSaldoOtp(d) {
+  document.getElementById('sotpContent').innerHTML=`
+    <div class="sotpCard">
+      <div class="sotpHeader">
+        <div><div class="sotpBalLbl">Saldo OTP Tersisa</div><div class="sotpBalance">${fmt(d.saldo||0)}</div></div>
+        <button class="btn btnPrimary" onclick="openTopupOtp(${d.saldo||0})">➕ Top-up Saldo</button>
+      </div>
+      <div class="detailBox">
+        ${detRow('Provider',d.provider)}${detRow('API Key',d.apiKey?'••••'+d.apiKey.slice(-4):'–')}
+        ${detRow('Rate/OTP',fmt(d.ratePerOtp||0))}${detRow('Total Terpakai',fmt(d.totalUsed||0))}
+        ${detRow('Last Updated',fmtDate(d.updatedAt))}
+      </div>
+    </div>
+    <div class="settCard">
+      <h3>⚙️ Config OTP</h3>
+      <div class="settGrid">
+        <div class="formGrp"><label>Provider</label><input id="sotpProvider" class="formInp" value="${d.provider||''}" placeholder="zenziva / wablas / dll"/></div>
+        <div class="formGrp"><label>API Key</label><input id="sotpApiKey" class="formInp" value="${d.apiKey||''}" placeholder="API key"/></div>
+        <div class="formGrp"><label>Rate per OTP (Rp)</label><input id="sotpRate" class="formInp" type="number" value="${d.ratePerOtp||0}"/></div>
+        <div class="formGrp"><label>Set Saldo Manual (Rp)</label><input id="sotpSaldo" class="formInp" type="number" value="${d.saldo||0}"/></div>
+      </div>
+      <button class="btn btnPrimary" onclick="saveSaldoOtp()">💾 Simpan Config</button>
+    </div>
+    <div class="settCard">
+      <h3>📋 Log OTP (50 Terbaru)</h3>
+      <div id="sotpLogList"><div class="loading"><span class="spin"></span>Memuat…</div></div>
+    </div>
+  `;
+  loadSaldoOtpLog();
+}
+
+async function loadSaldoOtpLog() {
+  try {
+    const q = query(collection(db,'otp_logs'), orderBy('createdAt','desc'), limit(50));
+    const snap = await getDocs(q);
+    const el = document.getElementById('sotpLogList');
+    if (!el) return;
+    if (snap.empty){el.innerHTML=empty('Belum ada log OTP');return;}
+    el.innerHTML=`<table><thead><tr><th>ID</th><th>Waktu</th><th>Nomor</th><th>Status</th><th>Biaya</th></tr></thead><tbody>
+    ${snap.docs.map(d=>{const x=d.data();return`<tr><td class="mono">${d.id.slice(-8)}</td><td class="nowrap">${fmtDate(x.createdAt)}</td><td class="mono">${x.phone||'–'}</td><td>${badge(x.status||'sent')}</td><td class="bold">${fmt(x.cost||0)}</td></tr>`;}).join('')}</tbody></table>`;
+  } catch(e){ const el=document.getElementById('sotpLogList'); if(el) el.innerHTML=empty('otp_logs tidak ada'); }
+}
+
+window.openTopupOtp = cur => {
+  openModal('Top-up Saldo OTP',`
+    <div class="detailBox" style="margin-bottom:14px">${detRow('Saldo Saat Ini',fmt(cur))}</div>
+    <div class="formGrp"><label>Jumlah Top-up (Rp)</label><input id="otpTopupAmt" class="formInp" type="number" placeholder="100000"/></div>
+    <div class="formGrp"><label>Catatan</label><input id="otpTopupNote" class="formInp" placeholder="Via transfer, dll"/></div>
+    <div style="display:flex;gap:8px;margin-top:14px">
+      <button class="btn btnPrimary" style="flex:1;justify-content:center" onclick="doTopupOtp(${cur})">✅ Top-up</button>
+      <button class="btn btnGry" onclick="closeModal()">Batal</button>
+    </div>
+  `);
+};
+
+window.doTopupOtp = async cur => {
+  const amt  = parseInt(document.getElementById('otpTopupAmt').value)||0;
+  const note = document.getElementById('otpTopupNote').value.trim();
+  if (!amt){toast('Isi jumlah top-up','err');return;}
+  try {
+    await setDoc(doc(db,'config','saldootp'),{saldo:increment(amt),updatedAt:serverTimestamp(),updatedBy:currentUser.email},{merge:true});
+    await addDoc(collection(db,'otp_topup_log'),{amount:amt,note,by:currentUser.email,createdAt:serverTimestamp()});
+    closeModal();
+    toast(`Saldo OTP +${fmt(amt)} ✅`);
+  } catch(e){toast('Gagal: '+e.message,'err');}
+};
+
+window.saveSaldoOtp = async () => {
+  try {
+    await setDoc(doc(db,'config','saldootp'),{
+      provider:document.getElementById('sotpProvider').value.trim(),
+      apiKey:document.getElementById('sotpApiKey').value.trim(),
+      ratePerOtp:parseInt(document.getElementById('sotpRate').value)||0,
+      saldo:parseInt(document.getElementById('sotpSaldo').value)||0,
+      updatedAt:serverTimestamp(),updatedBy:currentUser.email
+    },{merge:true});
+    toast('Config OTP disimpan ✅');
+  } catch(e){toast('Gagal: '+e.message,'err');}
+};
+
+// ── SETTINGS ──────────────────────────────────────────────────
+function loadSettings() {
+  getDoc(doc(db,'config','site')).then(snap=>{
+    if(!snap.exists()) return;
+    const d=snap.data();
+    document.getElementById('sCfgNama').value         = d.nama||'';
+    document.getElementById('sCfgWA').value           = d.waAdmin||'';
+    document.getElementById('sCfgTagline').value      = d.tagline||'';
+    document.getElementById('sCfgColor').value        = d.accentColor||'';
+    document.getElementById('sCfgPayName').value      = d.payName||'';
+    document.getElementById('sCfgPayNo').value        = d.payNo||'';
+    document.getElementById('sCfgPayOwner').value     = d.payOwner||'';
+    document.getElementById('sCfgMinDep').value       = d.minDeposit||'';
+    document.getElementById('sCfgAnnounce').value     = d.announcement||'';
+    document.getElementById('sCfgShowAnnounce').value = d.showAnnouncement?'true':'false';
+    document.getElementById('sCfgMaintenance').value  = d.maintenance?'true':'false';
+    document.getElementById('sCfgMaintMsg').value     = d.maintenanceMsg||'';
+  }).catch(e=>console.error('settings',e));
+}
+
+window.saveSettings = async () => {
+  try {
+    await setDoc(doc(db,'config','site'),{
+      nama:            document.getElementById('sCfgNama').value.trim(),
+      waAdmin:         document.getElementById('sCfgWA').value.trim(),
+      tagline:         document.getElementById('sCfgTagline').value.trim(),
+      accentColor:     document.getElementById('sCfgColor').value.trim(),
+      payName:         document.getElementById('sCfgPayName').value.trim(),
+      payNo:           document.getElementById('sCfgPayNo').value.trim(),
+      payOwner:        document.getElementById('sCfgPayOwner').value.trim(),
+      minDeposit:      parseInt(document.getElementById('sCfgMinDep').value)||0,
+      announcement:    document.getElementById('sCfgAnnounce').value.trim(),
+      showAnnouncement:document.getElementById('sCfgShowAnnounce').value==='true',
+      maintenance:     document.getElementById('sCfgMaintenance').value==='true',
+      maintenanceMsg:  document.getElementById('sCfgMaintMsg').value.trim(),
+      updatedAt:       serverTimestamp(),updatedBy:currentUser.email
+    },{merge:true});
+    toast('Settings disimpan ✅');
+  } catch(e){toast('Gagal: '+e.message,'err');}
+};
 </script>
 </body>
 </html>
