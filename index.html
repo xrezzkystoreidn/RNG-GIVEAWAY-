@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>ANDIKZ – Admin Panel</title>
+<title>ANDIKZ – Admin Panel (Fixed)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
@@ -52,7 +52,7 @@ input,select,textarea{font-family:var(--font)}
 .modalClose:hover{background:var(--bg4);color:var(--t1)}
 .modalBody{padding:20px;overflow-y:auto;flex:1}
 
-/* LOGIN — hidden default */
+/* LOGIN */
 #loginWrap{display:none;min-height:100vh;align-items:center;justify-content:center;padding:20px;background:var(--bg);position:relative;overflow:hidden}
 #loginWrap.show{display:flex}
 #loginWrap::before{content:'';position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(0,229,160,.08) 0%,transparent 70%);top:-150px;right:-150px;pointer-events:none}
@@ -89,7 +89,7 @@ input,select,textarea{font-family:var(--font)}
 .deniedTitle{font-family:var(--disp);font-size:1.5rem;font-weight:800;color:var(--red)}
 .deniedMsg{color:var(--t3);font-size:.875rem;max-width:360px;line-height:1.6}
 
-/* APP — hidden default */
+/* APP */
 #appWrap{display:none;min-height:100vh;flex-direction:column}
 #appWrap.show{display:flex}
 .topBar{height:52px;background:var(--bg2);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 20px;gap:12px;position:sticky;top:0;z-index:200}
@@ -498,181 +498,16 @@ tbody tr:hover{background:rgba(255,255,255,.02)}
       <div id="tab-botdocs" class="tabPane">
         <div class="pageTitle">🤖 Bot <span>Integration Docs</span></div>
         <p style="font-size:.85rem;color:var(--t3);margin-bottom:20px">Semua data pakai <strong style="color:var(--ac)">Firebase Realtime Database</strong> — bukan Firestore. Project: <strong style="color:var(--ac);font-family:var(--mono)">wa-bot-fa92c</strong>.</p>
-
         <div class="docSection">
           <h3>📁 Struktur Realtime Database</h3>
           <div class="codeBlock"><span class="cm">// Realtime Database tree:</span>
 {
-  "users": {
-    "6281234567890": { <span class="cm">// key = nomor WA</span>
-      "name": "Budi",
-      "phone": "6281234567890",
-      "role": "user",        <span class="cm">// "user" | "admin"</span>
-      "saldo": 50000,
-      "totalDeposit": 100000,
-      "totalOrder": 3,
-      "isBanned": false,
-      "createdAt": 1700000000000
-    }
-  },
-  "deposits": {
-    "-NxAutoKey": {
-      "phone": "6281234567890",
-      "name": "Budi",
-      "amount": 50000,
-      "method": "Transfer Bank",
-      "status": "pending",   <span class="cm">// "pending" | "approved" | "rejected"</span>
-      "hasBukti": true,
-      "buktiUrl": "https://res.cloudinary.com/...",
-      "createdAt": 1700000000000
-    }
-  },
-  "orders": {
-    "-NxAutoKey": {
-      "phone": "6281234567890",
-      "service": "ML 86 Diamond",
-      "target": "123456789",
-      "harga": 15000,
-      "status": "pending",   <span class="cm">// "pending"|"diproses"|"selesai"|"dibatalkan"</span>
-      "createdAt": 1700000000000
-    }
-  },
-  "config": {
-    "site": { "nama": "ANDIKZ", "waAdmin": "628xxx", ... },
-    "saldootp": { "saldo": 100000, "ratePerOtp": 350, ... }
-  },
-  "otp_logs": {
-    "-NxAutoKey": { "phone": "628xxx", "status": "sent", "cost": 350, "createdAt": 1700000000000 }
-  }
+  "users": { "6281234567890": { "name": "Budi", "role": "user", "saldo": 50000, ... } },
+  "deposits": { "-NxAutoKey": { "phone": "628...", "amount": 50000, "status": "pending", ... } },
+  "orders": { "-NxAutoKey": { "phone": "628...", "service": "ML", "status": "pending", ... } },
+  "config": { "site": {...}, "saldootp": {...} },
+  "otp_logs": { ... }
 }</div>
-        </div>
-
-        <div class="docSection">
-          <h3>👤 1. User Daftar via Bot</h3>
-          <div class="codeBlock"><span class="cm">// Node.js — Firebase Admin SDK (Realtime Database)</span>
-const db = admin.database();
-
-await db.ref(`users/${phoneNumber}`).set({
-  uid: phoneNumber,
-  phone: phoneNumber,
-  name: namaUser,
-  pushName: waPushName,
-  email: null,
-  role: 'user',              <span class="cm">// ← SELALU 'user'</span>
-  saldo: 0,
-  totalDeposit: 0,
-  totalOrder: 0,
-  isActive: true,
-  isBanned: false,
-  registeredFrom: 'whatsapp-bot',
-  createdAt: Date.now()
-});</div>
-        </div>
-
-        <div class="docSection">
-          <h3>💰 2. User Request Deposit</h3>
-          <div class="codeBlock"><span class="cm">// Push ke deposits/ — key auto generate</span>
-const depRef = db.ref('deposits').push();
-await depRef.set({
-  userId: phoneNumber,
-  phone: phoneNumber,
-  name: namaUser,
-  amount: nominalDeposit,
-  method: 'Transfer Bank',
-  refCode: generateRefCode(),
-  note: catatanUser,
-  status: 'pending',
-  hasBukti: false,
-  buktiUrl: null,
-  createdAt: Date.now()
-});</div>
-        </div>
-
-        <div class="docSection">
-          <h3>📦 3. User Order / Checkout</h3>
-          <div class="codeBlock"><span class="cm">// 1. Cek saldo dulu</span>
-const userSnap = await db.ref(`users/${phoneNumber}`).get();
-const { saldo, isBanned } = userSnap.val();
-if (isBanned) return bot.reply('❌ Akun dibanned.');
-if (saldo &lt; harga) return bot.reply('❌ Saldo tidak cukup.');
-
-<span class="cm">// 2. Buat order + kurangi saldo (pakai transaction)</span>
-const orderRef = db.ref('orders').push();
-await orderRef.set({
-  userId: phoneNumber,
-  phone: phoneNumber,
-  service: namaLayanan,
-  layanan: namaLayanan,
-  kategori: kategori,
-  target: targetId,
-  harga: harga,
-  status: 'pending',
-  externalId: null,
-  createdAt: Date.now()
-});
-<span class="cm">// Kurangi saldo (atomic)</span>
-await db.ref(`users/${phoneNumber}/saldo`).transaction(cur => (cur||0) - harga);
-await db.ref(`users/${phoneNumber}/totalOrder`).transaction(cur => (cur||0) + 1);</div>
-        </div>
-
-        <div class="docSection">
-          <h3>🔔 4. Notifikasi Approve Deposit (Bot Listen)</h3>
-          <div class="codeBlock"><span class="cm">// Bot listen field notifApproved di setiap deposit:</span>
-db.ref('deposits').on('child_changed', async snap => {
-  const d = snap.val();
-  if (d.status === 'approved' && d.notifApproved === true) {
-    <span class="cm">// Kirim WA ke user</span>
-    await bot.sendMessage(d.phone, d.notifMsg);
-    <span class="cm">// Reset flag supaya tidak kirim dua kali</span>
-    await snap.ref.update({ notifApproved: false });
-  }
-  if (d.status === 'rejected' && d.notifRejected === true) {
-    await bot.sendMessage(d.phone,
-      `❌ Deposit ${formatRp(d.amount)} ditolak.\nAlasan: ${d.alasan||'-'}`
-    );
-    await snap.ref.update({ notifRejected: false });
-  }
-});</div>
-        </div>
-
-        <div class="docSection">
-          <h3>⚙️ 5. Baca Config Toko</h3>
-          <div class="codeBlock"><span class="cm">// Baca sekali saat bot start:</span>
-const cfgSnap = await db.ref('config/site').get();
-const cfg = cfgSnap.val();
-if (cfg.maintenance) return bot.reply(cfg.maintenanceMsg);
-
-<span class="cm">// Atau listen realtime (auto update kalau admin ubah):</span>
-db.ref('config/site').on('value', snap => {
-  globalConfig = snap.val();
-});</div>
-        </div>
-
-        <div class="docSection">
-          <h3>🔑 6. Log OTP & Kurangi Saldo OTP</h3>
-          <div class="codeBlock"><span class="cm">// Cek saldo OTP dulu</span>
-const otpCfg = (await db.ref('config/saldootp').get()).val();
-if ((otpCfg.saldo||0) &lt; (otpCfg.ratePerOtp||0)) {
-  console.error('Saldo OTP habis!'); return;
-}
-<span class="cm">// Log + kurangi saldo</span>
-await db.ref('otp_logs').push({
-  phone: targetPhone, status: 'sent',
-  cost: otpCfg.ratePerOtp, provider: otpCfg.provider,
-  createdAt: Date.now()
-});
-await db.ref('config/saldootp/saldo').transaction(cur => (cur||0) - otpCfg.ratePerOtp);
-await db.ref('config/saldootp/totalUsed').transaction(cur => (cur||0) + otpCfg.ratePerOtp);</div>
-        </div>
-
-        <div class="settCard" style="border-color:rgba(0,229,160,.2)">
-          <h3>✅ Checklist Path RTDB</h3>
-          <div class="docItem"><strong>users/{phone}</strong> — set saat /daftar, role: 'user'<p>Panel: tabel users, adjust saldo, role manager, ban/unban</p></div>
-          <div class="docItem"><strong>deposits/{pushKey}</strong> — push saat request deposit<p>Panel: approve → saldo bertambah otomatis, reject, lihat bukti foto</p></div>
-          <div class="docItem"><strong>orders/{pushKey}</strong> — push saat checkout<p>Panel: update status, cancel → refund saldo</p></div>
-          <div class="docItem"><strong>config/site</strong> — setting toko<p>Diupdate dari panel Settings, dibaca bot untuk maintenance, WA admin, dll</p></div>
-          <div class="docItem"><strong>config/saldootp</strong> — saldo & config OTP provider<p>Top-up dari panel, dikurangi tiap bot kirim OTP</p></div>
-          <div class="docItem"><strong>otp_logs/{pushKey}</strong> — log tiap OTP<p>Ditampilkan di panel tab Saldo OTP</p></div>
         </div>
       </div>
 
@@ -688,15 +523,12 @@ await db.ref('config/saldootp/totalUsed').transaction(cur => (cur||0) + otpCfg.r
   <button class="mobileNavBtn" onclick="goTab('settings',this)"><span class="ico">⚙️</span>Settings</button>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════
-     FIREBASE REALTIME DATABASE — 100% RTDB, ZERO FIRESTORE
-════════════════════════════════════════════════════════════ -->
 <script type="module">
-import { initializeApp }       from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,
          onAuthStateChanged, signOut, sendPasswordResetEmail }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getDatabase, ref, set, get, update, remove, push, onValue, off, serverTimestamp as rtServerTs }
+import { getDatabase, ref, set, get, update, remove, push, onValue, off }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const firebaseConfig = {
@@ -709,18 +541,18 @@ const firebaseConfig = {
   databaseURL:       "https://wa-bot-fa92c-default-rtdb.firebaseio.com"
 };
 
-const app  = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db   = getDatabase(app);
+const db = getDatabase(app);
 
-// ── STATE ────────────────────────────────────────────────────
+// STATE
 let currentUser = null;
-let allDeposits = [];   // [{key, ...data}]
-let allOrders   = [];
-let allUsers    = [];
-let rtListeners = [];   // [{ref, handler}] untuk cleanup
+let allDeposits = [];
+let allOrders = [];
+let allUsers = [];
+let rtListeners = [];
 
-// ── HELPERS ──────────────────────────────────────────────────
+// HELPERS
 const fmt = n => 'Rp ' + Number(n||0).toLocaleString('id-ID');
 const fmtDate = ts => {
   if (!ts) return '–';
@@ -742,16 +574,14 @@ const badge = s => {
 };
 const empty = msg => `<div class="empty"><div class="eico">📭</div><p>${msg||'Tidak ada data'}</p></div>`;
 const detRow = (k,v) => `<div class="detRow"><div class="detKey">${k}</div><div class="detVal">${v??'–'}</div></div>`;
-
-// RTDB snapshot → array [{key, ...val}]
 const snapToArr = snap => {
   if (!snap.exists()) return [];
   const result = [];
   snap.forEach(child => result.push({key: child.key, ...child.val()}));
-  return result.reverse(); // newest first
+  return result.reverse();
 };
 
-// ── MODAL ─────────────────────────────────────────────────────
+// MODAL
 window.openModal = (title, html) => {
   document.getElementById('modalTitle').textContent = title;
   document.getElementById('modalBody').innerHTML = html;
@@ -760,7 +590,7 @@ window.openModal = (title, html) => {
 window.closeModal = () => document.getElementById('modalBack').classList.remove('open');
 window.closeModalBack = e => { if(e.target===document.getElementById('modalBack')) closeModal(); };
 
-// ── SCREEN MANAGER ────────────────────────────────────────────
+// SCREEN
 function showScreen(s) {
   document.getElementById('loadingScreen').classList.add('gone');
   ['loginWrap','appWrap','deniedWrap'].forEach(id => document.getElementById(id).classList.remove('show'));
@@ -773,7 +603,7 @@ function showScreen(s) {
   else if (s==='denied') document.getElementById('deniedWrap').classList.add('show');
 }
 
-// ── AUTH STATE ────────────────────────────────────────────────
+// AUTH STATE
 onAuthStateChanged(auth, async user => {
   if (!user) {
     currentUser = null;
@@ -782,7 +612,6 @@ onAuthStateChanged(auth, async user => {
     return;
   }
   try {
-    // Cek role di RTDB users/{uid}
     const snap = await get(ref(db, `users/${user.uid}`));
     if (!snap.exists()) {
       await signOut(auth);
@@ -803,12 +632,11 @@ onAuthStateChanged(auth, async user => {
     currentUser = user;
     document.getElementById('tbEmail').textContent = user.email || data.name || user.uid;
     document.getElementById('dbPing').classList.add('live');
-    // Update lastActive
     update(ref(db, `users/${user.uid}`), {lastActive: Date.now()}).catch(()=>{});
     showScreen('app');
     loadAll();
   } catch(e) {
-    console.error('Auth check:', e);
+    console.error(e);
     await signOut(auth);
     showScreen('login');
     showLoginErr('Gagal cek akses: ' + e.message);
@@ -820,7 +648,7 @@ function cleanupListeners() {
   rtListeners = [];
 }
 
-// ── LOGIN ─────────────────────────────────────────────────────
+// LOGIN
 window.doLogin = async () => {
   const email = document.getElementById('liEmail').value.trim();
   const pass  = document.getElementById('liPass').value;
@@ -832,7 +660,7 @@ window.doLogin = async () => {
   catch(e){ showLoginErr(mapAuthErr(e.code)); btn.textContent='Masuk ke Panel'; btn.disabled=false; }
 };
 
-// ── REGISTER ──────────────────────────────────────────────────
+// REGISTER (FIXED: writes to Realtime Database)
 window.doRegister = async () => {
   const email = document.getElementById('regEmail').value.trim();
   const name  = document.getElementById('regName').value.trim();
@@ -845,25 +673,35 @@ window.doRegister = async () => {
   const btn = document.getElementById('regBtn');
   btn.textContent='Mendaftar…'; btn.disabled=true;
   try {
-    const cred = await createUserWithEmailAndPassword(auth,email,pass);
-    const uid  = cred.user.uid;
-    // Simpan ke RTDB users/{uid} — role: 'user'
-    await set(ref(db,`users/${uid}`), {
-      uid, email, name, phone: null,
-      role: 'user',        // ← default user, bukan admin
-      saldo: 0, totalDeposit: 0, totalOrder: 0,
-      isActive: true, isBanned: false,
+    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    const uid = cred.user.uid;
+    // Tulis ke Realtime Database dengan role default 'user'
+    await set(ref(db, `users/${uid}`), {
+      uid: uid,
+      email: email,
+      name: name,
+      phone: null,
+      role: 'user',
+      saldo: 0,
+      totalDeposit: 0,
+      totalOrder: 0,
+      isActive: true,
+      isBanned: false,
       registeredFrom: 'web-panel',
-      createdAt: Date.now(), lastActive: Date.now()
+      createdAt: Date.now(),
+      lastActive: Date.now()
     });
     await signOut(auth);
     showView('login');
-    toast('Akun dibuat! Role: user. Minta owner ubah ke admin via Role Manager.','warn');
-  } catch(e){ showLoginErr(mapAuthErr(e.code)); }
+    toast('Akun berhasil dibuat! Role: user. Minta admin ubah ke admin via Role Manager.','warn');
+  } catch(e) {
+    console.error(e);
+    showLoginErr(mapAuthErr(e.code));
+  }
   btn.textContent='Daftar'; btn.disabled=false;
 };
 
-// ── FORGOT PASSWORD ───────────────────────────────────────────
+// FORGOT
 window.doForgotSend = async () => {
   const email = document.getElementById('forgotEmail').value.trim();
   if(!email){showLoginErr('Isi email dulu.');return;}
@@ -902,7 +740,7 @@ document.addEventListener('keydown', e => {
   if(e.key==='Enter' && document.getElementById('loginWrap').classList.contains('show')) doLogin();
 });
 
-// ── NAVIGATION ────────────────────────────────────────────────
+// NAVIGATION
 window.goTab = (tab, el) => {
   document.querySelectorAll('.tabPane').forEach(p=>p.classList.remove('on'));
   document.querySelectorAll('.navBtn,.mobileNavBtn').forEach(b=>b.classList.remove('on'));
@@ -910,7 +748,7 @@ window.goTab = (tab, el) => {
   if(el) el.classList.add('on');
 };
 
-// ── LOAD ALL (RTDB onValue listeners) ────────────────────────
+// LOAD ALL
 function loadAll() {
   listenDeposits();
   listenOrders();
@@ -928,7 +766,7 @@ function updateStats() {
   document.getElementById('sTotalUsr').textContent = allUsers.length;
 }
 
-// ── DEPOSITS — RTDB onValue ───────────────────────────────────
+// DEPOSITS
 function listenDeposits() {
   const r = ref(db,'deposits');
   const fn = snap => {
@@ -956,7 +794,7 @@ window.renderDeposits = () => {
   if(!d.length){el.innerHTML=empty('Tidak ada deposit');return;}
   el.innerHTML=`<table><thead><tr>
     <th>Waktu</th><th>Nama</th><th>Nomor</th><th>Nominal</th><th>Metode</th><th>Bukti</th><th>Status</th><th>Aksi</th>
-  </tr></thead><tbody>
+   </tr></thead><tbody>
   ${d.map(x=>`<tr>
     <td class="nowrap">${fmtDate(x.createdAt)}</td>
     <td class="bold">${x.name||'–'}</td>
@@ -974,7 +812,7 @@ window.renderDeposits = () => {
           <button class="btn btnDng btnSm" onclick="rejectDep('${x.key}')">❌ Tolak</button>`:''}
       <button class="btn btnGry btnSm" onclick="openDepDetail('${x.key}')">🔍</button>
     </div></td>
-  </tr>`).join('')}</tbody></table>`;
+   </tr>`).join('')}</tbody></table>`;
 };
 
 function renderDashDepPending() {
@@ -992,21 +830,19 @@ function renderDashDepPending() {
       <button class="btn btnSuc btnSm" onclick="approveDep('${x.key}',${x.amount},'${x.phone||''}')">✅ ACC</button>
       <button class="btn btnDng btnSm" onclick="rejectDep('${x.key}')">❌ Tolak</button>
     </div></td>
-  </tr>`).join('')}</tbody></table>`;
+   </tr>`).join('')}</tbody></table>`;
 }
 
 window.approveDep = async (key, amount, phone) => {
   if(!confirm(`Approve deposit ${fmt(amount)} untuk ${phone}?`)) return;
   try {
-    // Update deposit status di RTDB
     await update(ref(db,`deposits/${key}`), {
       status: 'approved',
       approvedAt: Date.now(),
       approvedBy: currentUser.email,
       notifApproved: true,
-      notifMsg: `✅ Deposit kamu sebesar ${fmt(amount)} sudah masuk! Saldo telah ditambahkan. Terima kasih 🎉`
+      notifMsg: `✅ Deposit kamu sebesar ${fmt(amount)} sudah masuk! Saldo telah ditambahkan.`
     });
-    // Tambah saldo user di RTDB
     if(phone) {
       const uSnap = await get(ref(db,`users/${phone}`));
       if(uSnap.exists()) {
@@ -1097,7 +933,6 @@ window.addManualDeposit = async () => {
   if(!phone||!amount){toast('Isi nomor & nominal','err');return;}
   if(!confirm(`Tambah & auto-approve deposit ${fmt(amount)} untuk ${phone}?`)) return;
   try {
-    // Push deposit ke RTDB
     const depRef = push(ref(db,'deposits'));
     await set(depRef, {
       userId:phone, phone, amount, method, note,
@@ -1105,7 +940,6 @@ window.addManualDeposit = async () => {
       isManual:true, createdAt:Date.now(),
       approvedAt:Date.now(), approvedBy:currentUser.email
     });
-    // Tambah saldo
     const uSnap = await get(ref(db,`users/${phone}`));
     if(uSnap.exists()) {
       const cur = uSnap.val().saldo||0;
@@ -1119,7 +953,7 @@ window.addManualDeposit = async () => {
   } catch(e){toast('Gagal: '+e.message,'err');}
 };
 
-// ── ORDERS — RTDB onValue ─────────────────────────────────────
+// ORDERS
 function listenOrders() {
   const r = ref(db,'orders');
   const fn = snap => {
@@ -1144,7 +978,7 @@ window.renderOrders = () => {
   if(!d.length){el.innerHTML=empty('Tidak ada order');return;}
   el.innerHTML=`<table><thead><tr>
     <th>Waktu</th><th>Nomor</th><th>Layanan</th><th>Target</th><th>Harga</th><th>Status</th><th>Aksi</th>
-  </tr></thead><tbody>
+   </tr></thead><tbody>
   ${d.map(x=>`<tr>
     <td class="nowrap">${fmtDate(x.createdAt)}</td>
     <td class="mono">${x.phone||'–'}</td>
@@ -1158,7 +992,7 @@ window.renderOrders = () => {
       ${['pending','diproses'].includes(x.status)?`<button class="btn btnDng btnSm" onclick="cancelOrder('${x.key}',${x.harga||x.price||0},'${x.phone||''}')">❌ Batal</button>`:''}
       <button class="btn btnGry btnSm" onclick="openOrdDetail('${x.key}')">🔍</button>
     </div></td>
-  </tr>`).join('')}</tbody></table>`;
+   </tr>`).join('')}</tbody></table>`;
 };
 
 function renderDashOrdPending() {
@@ -1175,7 +1009,7 @@ function renderDashOrdPending() {
       <button class="btn btnBlu btnSm" onclick="updateOrdStatus('${x.key}','diproses')">🔄 Proses</button>
       <button class="btn btnDng btnSm" onclick="cancelOrder('${x.key}',${x.harga||x.price||0},'${x.phone||''}')">❌ Batal</button>
     </div></td>
-  </tr>`).join('')}</tbody></table>`;
+   </tr>`).join('')}</tbody></table>`;
 }
 
 window.updateOrdStatus = async (key, status) => {
@@ -1212,7 +1046,7 @@ window.openOrdDetail = key => {
   </div>`);
 };
 
-// ── USERS — RTDB onValue ──────────────────────────────────────
+// USERS
 function listenUsers() {
   const r = ref(db,'users');
   const fn = snap => {
@@ -1233,7 +1067,7 @@ window.renderUsers = () => {
   if(!d.length){el.innerHTML=empty('Tidak ada user');return;}
   el.innerHTML=`<table><thead><tr>
     <th>ID/Nomor WA</th><th>Nama</th><th>Email</th><th>Role</th><th>Saldo</th><th>Join</th><th>Aksi</th>
-  </tr></thead><tbody>
+   </tr></thead><tbody>
   ${d.map(x=>`<tr>
     <td class="mono">${x.key||x.phone||'–'}</td>
     <td class="bold">${x.name||x.pushName||'–'}</td>
@@ -1245,7 +1079,7 @@ window.renderUsers = () => {
       <button class="btn btnSuc btnSm" onclick="openAdjSaldo('${x.key}',${x.saldo||0})">💰</button>
       <button class="btn btnGry btnSm" onclick="openUserDetail('${x.key}')">🔍</button>
     </div></td>
-  </tr>`).join('')}</tbody></table>`;
+   </tr>`).join('')}</tbody></table>`;
 };
 
 window.openUserDetail = key => {
@@ -1327,7 +1161,7 @@ window.setBanned = async (key, banned) => {
   } catch(e){toast('Gagal: '+e.message,'err');}
 };
 
-// ── ROLE MANAGER ──────────────────────────────────────────────
+// ROLE MANAGER
 function renderRoleManager() {
   const el = document.getElementById('roleMgrList');
   if(!el) return;
@@ -1340,10 +1174,10 @@ function renderRoleManager() {
         <div class="reqDate">${u.name||'–'} · ${fmtDate(u.createdAt)} · ${badge(u.role||'user')}</div>
       </div>
       <div class="reqActions">
-        ${u.key===currentUser.uid?`<span style="font-size:.72rem;color:var(--t3)">👋 Ini kamu</span>`:''}
-        ${u.role!=='admin'&&u.key!==currentUser.uid
+        ${u.key===currentUser?.uid?`<span style="font-size:.72rem;color:var(--t3)">👋 Ini kamu</span>`:''}
+        ${u.role!=='admin'&&u.key!==currentUser?.uid
           ?`<button class="btn btnPur btnSm" onclick="setUserRole('${u.key}','admin')">⬆️ Jadikan Admin</button>`:''}
-        ${u.role==='admin'&&u.key!==currentUser.uid
+        ${u.role==='admin'&&u.key!==currentUser?.uid
           ?`<button class="btn btnYel btnSm" onclick="setUserRole('${u.key}','user')">⬇️ Turunkan User</button>`:''}
       </div>
     </div>
@@ -1358,7 +1192,7 @@ window.setUserRole = async (key, role) => {
   } catch(e){toast('Gagal: '+e.message,'err');}
 };
 
-// ── SALDO OTP — RTDB onValue ──────────────────────────────────
+// SALDO OTP
 function listenSaldoOtp() {
   const r = ref(db,'config/saldootp');
   const fn = snap => renderSaldoOtp(snap.exists()?snap.val():{});
@@ -1412,7 +1246,7 @@ async function loadOtpLog() {
       <td class="mono">${x.phone||'–'}</td>
       <td>${badge(x.status||'sent')}</td>
       <td class="bold">${fmt(x.cost||0)}</td>
-    </tr>`).join('')}</tbody></table>`;
+     </tr>`).join('')}</tbody></table>`;
   } catch(e){ const el=document.getElementById('sotpLogList'); if(el) el.innerHTML=empty('otp_logs tidak ada'); }
 }
 
@@ -1454,7 +1288,7 @@ window.saveSaldoOtp = async () => {
   } catch(e){toast('Gagal: '+e.message,'err');}
 };
 
-// ── SETTINGS — RTDB ───────────────────────────────────────────
+// SETTINGS
 function loadSettings() {
   get(ref(db,'config/site')).then(snap=>{
     if(!snap.exists()) return;
@@ -1496,4 +1330,4 @@ window.saveSettings = async () => {
 };
 </script>
 </body>
-</html>
+  </html>
