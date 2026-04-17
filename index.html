@@ -44,15 +44,15 @@ input,select,textarea{font-family:var(--font)}
 /* MODAL */
 #modalBack{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:800;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}
 #modalBack.open{display:flex}
-.modalBox{background:var(--bg2);border:1px solid var(--bdr2);border-radius:var(--r);width:100%;max-width:560px;max-height:88vh;display:flex;flex-direction:column;box-shadow:var(--shadow);animation:popIn .25s ease}
+.modalBox{background:var(--bg2);border:1px solid var(--bdr2);border-radius:var(--r);width:100%;max-width:580px;max-height:90vh;display:flex;flex-direction:column;box-shadow:var(--shadow);animation:popIn .25s ease}
 @keyframes popIn{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
 .modalHead{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--bdr)}
 .modalHead h3{font-family:var(--disp);font-size:1rem;font-weight:700}
-.modalClose{background:none;border:none;color:var(--t3);font-size:1.3rem;padding:2px 6px;border-radius:4px;transition:.2s}
+.modalClose{background:none;border:none;color:var(--t3);font-size:1.3rem;padding:2px 6px;border-radius:4px;transition:.2s;cursor:pointer}
 .modalClose:hover{background:var(--bg4);color:var(--t1)}
 .modalBody{padding:20px;overflow-y:auto;flex:1}
 
-/* LOGIN — default hidden */
+/* LOGIN — hidden default */
 #loginWrap{display:none;min-height:100vh;align-items:center;justify-content:center;padding:20px;background:var(--bg);position:relative;overflow:hidden}
 #loginWrap.show{display:flex}
 #loginWrap::before{content:'';position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(0,229,160,.08) 0%,transparent 70%);top:-150px;right:-150px;pointer-events:none}
@@ -69,12 +69,11 @@ input,select,textarea{font-family:var(--font)}
 .fInp:focus{border-color:var(--ac);box-shadow:0 0 0 3px rgba(0,229,160,.1)}
 .fInp::placeholder{color:var(--t3)}
 .loginErr{color:var(--red);font-size:.8rem;margin-bottom:12px;min-height:18px;text-align:center;line-height:1.5}
-.loginBtn{width:100%;background:var(--ac);color:#0a0b0f;border:none;border-radius:var(--r2);padding:11px;font-size:.9rem;font-weight:700;font-family:var(--disp);letter-spacing:.04em;transition:.2s;margin-top:4px}
+.loginBtn{width:100%;background:var(--ac);color:#0a0b0f;border:none;border-radius:var(--r2);padding:11px;font-size:.9rem;font-weight:700;font-family:var(--disp);letter-spacing:.04em;transition:.2s;margin-top:4px;cursor:pointer}
 .loginBtn:hover{background:var(--ac2);transform:translateY(-1px)}
 .loginBtn:disabled{opacity:.6;transform:none;cursor:not-allowed}
 .loginSwitch{margin-top:18px;text-align:center;font-size:.8rem;color:var(--t3)}
 .loginSwitch a{color:var(--ac);font-weight:600;cursor:pointer}
-.loginSwitch a:hover{text-decoration:underline}
 .forgotLink{text-align:right;margin-top:-8px;margin-bottom:12px}
 .forgotLink a{font-size:.77rem;color:var(--t3);cursor:pointer}
 .forgotLink a:hover{color:var(--ac)}
@@ -90,7 +89,7 @@ input,select,textarea{font-family:var(--font)}
 .deniedTitle{font-family:var(--disp);font-size:1.5rem;font-weight:800;color:var(--red)}
 .deniedMsg{color:var(--t3);font-size:.875rem;max-width:360px;line-height:1.6}
 
-/* APP — default hidden */
+/* APP — hidden default */
 #appWrap{display:none;min-height:100vh;flex-direction:column}
 #appWrap.show{display:flex}
 .topBar{height:52px;background:var(--bg2);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 20px;gap:12px;position:sticky;top:0;z-index:200}
@@ -191,7 +190,7 @@ tbody tr:hover{background:rgba(255,255,255,.02)}
 .btnPrimary:hover{background:var(--ac2)}
 .btnRow{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 
-/* EMPTY/LOADING */
+/* EMPTY / LOADING */
 .empty{text-align:center;padding:48px 20px;color:var(--t3)}
 .eico{font-size:2.5rem;margin-bottom:10px}
 .empty p{font-size:.875rem}
@@ -234,10 +233,12 @@ tbody tr:hover{background:rgba(255,255,255,.02)}
 .userHistItem{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--bdr);font-size:.8rem;gap:8px}
 .userHistItem:last-child{border-bottom:none}
 .adjNote{font-size:.8rem;color:var(--t3);margin-top:8px}
+.buktiImg{width:100%;border-radius:8px;border:2px solid rgba(0,229,160,.2);display:block;max-height:320px;object-fit:contain;background:var(--bg);cursor:pointer;margin-bottom:6px}
+.buktiTag{display:inline-flex;align-items:center;gap:4px;background:rgba(0,229,160,.1);border:1px solid rgba(0,229,160,.2);color:var(--ac);font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:99px}
 
-/* BOT DOCS */
+/* DOCS */
 .docSection{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:22px;margin-bottom:14px}
-.docSection h3{font-size:.9rem;font-weight:700;color:var(--t2);margin-bottom:14px;font-family:var(--disp)}
+.docSection h3{font-size:.875rem;font-weight:700;color:var(--t2);margin-bottom:14px;font-family:var(--disp)}
 .codeBlock{background:var(--bg);border:1px solid var(--bdr2);border-radius:var(--r2);padding:14px;font-family:var(--mono);font-size:.72rem;color:var(--ac);line-height:1.9;overflow-x:auto;margin:10px 0;white-space:pre-wrap;word-break:break-word}
 .codeBlock .cm{color:var(--t3)}
 .docItem{padding:9px 0;border-bottom:1px solid var(--bdr);font-size:.82rem}
@@ -265,7 +266,6 @@ tbody tr:hover{background:rgba(255,255,255,.02)}
 </head>
 <body>
 
-<!-- LOADING SCREEN -->
 <div id="loadingScreen">
   <div class="loadLogo">ANDIKZ<span>.</span></div>
   <div class="loadSpin"></div>
@@ -273,7 +273,6 @@ tbody tr:hover{background:rgba(255,255,255,.02)}
 
 <div id="toast"></div>
 
-<!-- MODAL -->
 <div id="modalBack" onclick="closeModalBack(event)">
   <div class="modalBox">
     <div class="modalHead">
@@ -284,7 +283,7 @@ tbody tr:hover{background:rgba(255,255,255,.02)}
   </div>
 </div>
 
-<!-- ═══ LOGIN (hidden by default) ═════════════════════════════ -->
+<!-- LOGIN -->
 <div id="loginWrap">
   <div class="loginCard">
     <div class="loginLogo">
@@ -293,24 +292,16 @@ tbody tr:hover{background:rgba(255,255,255,.02)}
     </div>
     <div id="loginErr" class="loginErr"></div>
 
-    <!-- Login View -->
     <div id="viewLogin">
       <div class="loginTitle">Masuk ke Panel</div>
-      <div class="fGrp">
-        <label>Email</label>
-        <input id="liEmail" class="fInp" type="email" placeholder="admin@email.com" autocomplete="email"/>
-      </div>
-      <div class="fGrp">
-        <label>Password</label>
-        <input id="liPass" class="fInp" type="password" placeholder="••••••••" autocomplete="current-password"/>
-      </div>
+      <div class="fGrp"><label>Email</label><input id="liEmail" class="fInp" type="email" placeholder="admin@email.com" autocomplete="email"/></div>
+      <div class="fGrp"><label>Password</label><input id="liPass" class="fInp" type="password" placeholder="••••••••"/></div>
       <div class="forgotLink"><a onclick="showView('forgot')">Lupa password?</a></div>
       <button id="loginBtn" class="loginBtn" onclick="doLogin()">Masuk ke Panel</button>
-      <div class="loginSwitch">Belum punya akun? <a onclick="showView('register')">Daftar di sini</a></div>
+      <div class="loginSwitch">Belum punya akun? <a onclick="showView('register')">Daftar</a></div>
       <div class="infoBoxBlue">🔒 Hanya akun dengan role <strong>admin</strong> yang bisa akses panel ini.</div>
     </div>
 
-    <!-- Register View -->
     <div id="viewRegister" style="display:none">
       <div class="loginTitle">Daftar Akun</div>
       <div class="fGrp"><label>Email</label><input id="regEmail" class="fInp" type="email" placeholder="email@kamu.com"/></div>
@@ -320,28 +311,27 @@ tbody tr:hover{background:rgba(255,255,255,.02)}
       <button id="regBtn" class="loginBtn" onclick="doRegister()">Daftar</button>
       <div class="divider">atau</div>
       <div class="loginSwitch">Sudah punya akun? <a onclick="showView('login')">Masuk</a></div>
-      <div class="infoBox">⚠️ Akun baru otomatis role <strong>user</strong>. Minta owner ubah ke <strong>admin</strong> via Role Manager supaya bisa login.</div>
+      <div class="infoBox">⚠️ Akun baru otomatis role <strong>user</strong>. Minta owner ubah ke <strong>admin</strong> via Role Manager.</div>
     </div>
 
-    <!-- Forgot View -->
     <div id="viewForgot" style="display:none">
       <div class="loginTitle">Reset Password</div>
-      <div class="fGrp"><label>Email Terdaftar</label><input id="forgotEmail" class="fInp" type="email" placeholder="email@kamu.com"/></div>
+      <div class="fGrp"><label>Email</label><input id="forgotEmail" class="fInp" type="email" placeholder="email@kamu.com"/></div>
       <button id="forgotBtn" class="loginBtn" onclick="doForgotSend()">📧 Kirim Link Reset</button>
-      <div class="loginSwitch" style="margin-top:14px"><a onclick="showView('login')">← Kembali ke Login</a></div>
+      <div class="loginSwitch" style="margin-top:14px"><a onclick="showView('login')">← Kembali Login</a></div>
     </div>
   </div>
 </div>
 
-<!-- ═══ DENIED (hidden by default) ════════════════════════════ -->
+<!-- DENIED -->
 <div id="deniedWrap">
   <div class="deniedIco">🚫</div>
   <div class="deniedTitle">Akses Ditolak</div>
-  <div class="deniedMsg" id="deniedMsg">Akun kamu tidak memiliki akses admin.</div>
+  <div class="deniedMsg" id="deniedMsg">Akun kamu tidak punya akses admin.</div>
   <button class="btn btnDng" onclick="doLogout()" style="margin-top:8px">Logout</button>
 </div>
 
-<!-- ═══ APP (hidden by default, show kalau login & role admin) ═ -->
+<!-- APP -->
 <div id="appWrap">
   <div class="topBar">
     <div class="topBarLogo">ANDIKZ<span>.</span></div>
@@ -355,7 +345,6 @@ tbody tr:hover{background:rgba(255,255,255,.02)}
   </div>
 
   <div class="appBody">
-    <!-- SIDEBAR -->
     <div class="sidebar">
       <div class="navSec">Utama</div>
       <button class="navBtn on" onclick="goTab('dashboard',this)"><span class="ico">📊</span> Dashboard</button>
@@ -373,7 +362,6 @@ tbody tr:hover{background:rgba(255,255,255,.02)}
       </div>
     </div>
 
-    <!-- CONTENT -->
     <div class="mainContent">
 
       <!-- DASHBOARD -->
@@ -418,7 +406,12 @@ tbody tr:hover{background:rgba(255,255,255,.02)}
             <option value="">Semua Status</option><option value="pending">Pending</option>
             <option value="approved">Approved</option><option value="rejected">Rejected</option>
           </select>
-          <input id="fDepQ" class="fSearch" placeholder="Cari ID, nama, nomor, ref…" oninput="renderDeposits()"/>
+          <select id="fBukti" class="fSelect" onchange="renderDeposits()">
+            <option value="">Semua Bukti</option>
+            <option value="ada">📸 Ada Bukti</option>
+            <option value="belum">❌ Belum Ada</option>
+          </select>
+          <input id="fDepQ" class="fSearch" placeholder="Cari nama, nomor, metode…" oninput="renderDeposits()"/>
         </div>
         <div class="tableWrap" id="depTable"><div class="loading"><span class="spin"></span>Memuat…</div></div>
       </div>
@@ -431,7 +424,7 @@ tbody tr:hover{background:rgba(255,255,255,.02)}
             <option value="">Semua Status</option><option value="pending">Pending</option>
             <option value="diproses">Diproses</option><option value="selesai">Selesai</option><option value="dibatalkan">Dibatalkan</option>
           </select>
-          <input id="fOrdQ" class="fSearch" placeholder="Cari ID, nomor, layanan, target…" oninput="renderOrders()"/>
+          <input id="fOrdQ" class="fSearch" placeholder="Cari nomor, layanan, target…" oninput="renderOrders()"/>
         </div>
         <div class="tableWrap" id="ordTable"><div class="loading"><span class="spin"></span>Memuat…</div></div>
       </div>
@@ -457,7 +450,7 @@ tbody tr:hover{background:rgba(255,255,255,.02)}
       <!-- ROLE MANAGER -->
       <div id="tab-rolemgr" class="tabPane">
         <div class="pageTitle">Role <span>Manager</span></div>
-        <p style="font-size:.82rem;color:var(--t3);margin-bottom:16px">Ubah role user jadi <strong style="color:var(--pur)">admin</strong> supaya bisa login ke panel, atau turunkan balik ke <strong style="color:var(--t2)">user</strong>.</p>
+        <p style="font-size:.82rem;color:var(--t3);margin-bottom:16px">Ubah role user → <strong style="color:var(--pur)">admin</strong> supaya bisa login ke panel ini.</p>
         <div id="roleMgrList"><div class="loading"><span class="spin"></span>Memuat…</div></div>
       </div>
 
@@ -495,7 +488,7 @@ tbody tr:hover{background:rgba(255,255,255,.02)}
             <div class="formGrp"><label>Mode</label>
               <select id="sCfgMaintenance" class="formSel"><option value="false">Tidak Aktif</option><option value="true">Aktif</option></select>
             </div>
-            <div class="formGrp"><label>Pesan Maintenance</label><input id="sCfgMaintMsg" class="formInp" placeholder="Sedang maintenance…"/></div>
+            <div class="formGrp"><label>Pesan</label><input id="sCfgMaintMsg" class="formInp" placeholder="Sedang maintenance…"/></div>
           </div>
         </div>
         <button class="btn btnPrimary" style="width:100%;justify-content:center;padding:12px" onclick="saveSettings()">💾 Simpan Semua Settings</button>
@@ -504,188 +497,189 @@ tbody tr:hover{background:rgba(255,255,255,.02)}
       <!-- BOT DOCS -->
       <div id="tab-botdocs" class="tabPane">
         <div class="pageTitle">🤖 Bot <span>Integration Docs</span></div>
-        <p style="font-size:.85rem;color:var(--t3);margin-bottom:20px">Perintah Firestore yang perlu disambungkan dari bot ke Firebase project <strong style="color:var(--ac);font-family:var(--mono)">wa-bot-fa92c</strong>.</p>
+        <p style="font-size:.85rem;color:var(--t3);margin-bottom:20px">Semua data pakai <strong style="color:var(--ac)">Firebase Realtime Database</strong> — bukan Firestore. Project: <strong style="color:var(--ac);font-family:var(--mono)">wa-bot-fa92c</strong>.</p>
 
         <div class="docSection">
-          <h3>📁 Struktur Koleksi Firestore</h3>
-          <div class="codeBlock"><span class="cm">// Collections yang dipakai panel ini:</span>
-users/           → data semua user (role, saldo, nama, phone, dll)
-orders/          → semua transaksi order dari user
-deposits/        → semua request deposit dari user
-config/site      → setting toko (nama, WA, payment, dll)
-config/saldootp  → saldo & config OTP provider
-otp_logs/        → log setiap OTP yang terkirim
-otp_topup_log/   → log top-up saldo OTP oleh admin</div>
+          <h3>📁 Struktur Realtime Database</h3>
+          <div class="codeBlock"><span class="cm">// Realtime Database tree:</span>
+{
+  "users": {
+    "6281234567890": { <span class="cm">// key = nomor WA</span>
+      "name": "Budi",
+      "phone": "6281234567890",
+      "role": "user",        <span class="cm">// "user" | "admin"</span>
+      "saldo": 50000,
+      "totalDeposit": 100000,
+      "totalOrder": 3,
+      "isBanned": false,
+      "createdAt": 1700000000000
+    }
+  },
+  "deposits": {
+    "-NxAutoKey": {
+      "phone": "6281234567890",
+      "name": "Budi",
+      "amount": 50000,
+      "method": "Transfer Bank",
+      "status": "pending",   <span class="cm">// "pending" | "approved" | "rejected"</span>
+      "hasBukti": true,
+      "buktiUrl": "https://res.cloudinary.com/...",
+      "createdAt": 1700000000000
+    }
+  },
+  "orders": {
+    "-NxAutoKey": {
+      "phone": "6281234567890",
+      "service": "ML 86 Diamond",
+      "target": "123456789",
+      "harga": 15000,
+      "status": "pending",   <span class="cm">// "pending"|"diproses"|"selesai"|"dibatalkan"</span>
+      "createdAt": 1700000000000
+    }
+  },
+  "config": {
+    "site": { "nama": "ANDIKZ", "waAdmin": "628xxx", ... },
+    "saldootp": { "saldo": 100000, "ratePerOtp": 350, ... }
+  },
+  "otp_logs": {
+    "-NxAutoKey": { "phone": "628xxx", "status": "sent", "cost": 350, "createdAt": 1700000000000 }
+  }
+}</div>
         </div>
 
         <div class="docSection">
-          <h3>👤 1. User Daftar via Bot (/daftar)</h3>
-          <p style="font-size:.8rem;color:var(--t3);margin-bottom:8px">Simpan ke <code style="color:var(--ac)">users/{phoneNumber}</code> — role WAJIB 'user', bukan 'admin':</p>
-          <div class="codeBlock"><span class="cm">// Node.js / Firebase Admin SDK</span>
-await db.collection('users').doc(phoneNumber).set({
+          <h3>👤 1. User Daftar via Bot</h3>
+          <div class="codeBlock"><span class="cm">// Node.js — Firebase Admin SDK (Realtime Database)</span>
+const db = admin.database();
+
+await db.ref(`users/${phoneNumber}`).set({
   uid: phoneNumber,
-  phone: phoneNumber,         <span class="cm">// format: 6281234567890</span>
+  phone: phoneNumber,
   name: namaUser,
-  pushName: waPushName,       <span class="cm">// nama di WA</span>
+  pushName: waPushName,
   email: null,
-  role: 'user',               <span class="cm">// ← SELALU 'user', jangan 'admin'!</span>
+  role: 'user',              <span class="cm">// ← SELALU 'user'</span>
   saldo: 0,
   totalDeposit: 0,
   totalOrder: 0,
   isActive: true,
   isBanned: false,
   registeredFrom: 'whatsapp-bot',
-  createdAt: admin.firestore.FieldValue.serverTimestamp(),
-  lastActive: admin.firestore.FieldValue.serverTimestamp()
+  createdAt: Date.now()
 });</div>
         </div>
 
         <div class="docSection">
-          <h3>💰 2. User Request Deposit (/deposit)</h3>
-          <div class="codeBlock"><span class="cm">// Buat dokumen baru di deposits/, status 'pending'</span>
-await db.collection('deposits').add({
+          <h3>💰 2. User Request Deposit</h3>
+          <div class="codeBlock"><span class="cm">// Push ke deposits/ — key auto generate</span>
+const depRef = db.ref('deposits').push();
+await depRef.set({
   userId: phoneNumber,
   phone: phoneNumber,
   name: namaUser,
-  amount: nominalDeposit,     <span class="cm">// integer (Rp)</span>
+  amount: nominalDeposit,
   method: 'Transfer Bank',
-  refCode: generateRefCode(), <span class="cm">// kode unik opsional</span>
+  refCode: generateRefCode(),
   note: catatanUser,
-  status: 'pending',          <span class="cm">// admin panel yang approve</span>
-  createdAt: admin.firestore.FieldValue.serverTimestamp()
-});
-<span class="cm">// Admin approve → saldo user otomatis bertambah (handled panel)</span></div>
+  status: 'pending',
+  hasBukti: false,
+  buktiUrl: null,
+  createdAt: Date.now()
+});</div>
         </div>
 
         <div class="docSection">
-          <h3>📦 3. User Order (/order atau checkout)</h3>
+          <h3>📦 3. User Order / Checkout</h3>
           <div class="codeBlock"><span class="cm">// 1. Cek saldo dulu</span>
-const userDoc = await db.collection('users').doc(phoneNumber).get();
-const { saldo, isBanned } = userDoc.data();
-if (isBanned) return bot.reply('❌ Akun kamu dibanned.');
-if (saldo &lt; hargaProduk) return bot.reply('❌ Saldo tidak cukup.');
+const userSnap = await db.ref(`users/${phoneNumber}`).get();
+const { saldo, isBanned } = userSnap.val();
+if (isBanned) return bot.reply('❌ Akun dibanned.');
+if (saldo &lt; harga) return bot.reply('❌ Saldo tidak cukup.');
 
-<span class="cm">// 2. Buat order + kurangi saldo (pakai batch biar atomik)</span>
-const batch = db.batch();
-const orderRef = db.collection('orders').doc();
-batch.set(orderRef, {
+<span class="cm">// 2. Buat order + kurangi saldo (pakai transaction)</span>
+const orderRef = db.ref('orders').push();
+await orderRef.set({
   userId: phoneNumber,
   phone: phoneNumber,
-  service: namaLayanan,       <span class="cm">// 'Mobile Legends 86 Diamond'</span>
+  service: namaLayanan,
   layanan: namaLayanan,
-  kategori: kategoriProduk,   <span class="cm">// 'Mobile Legends'</span>
-  target: targetId,           <span class="cm">// ID game / nomor tujuan</span>
-  harga: hargaProduk,
-  price: hargaProduk,
-  catatan: catatanUser,
-  status: 'pending',          <span class="cm">// admin panel yang proses</span>
+  kategori: kategori,
+  target: targetId,
+  harga: harga,
+  status: 'pending',
   externalId: null,
-  createdAt: admin.firestore.FieldValue.serverTimestamp()
+  createdAt: Date.now()
 });
-batch.update(db.collection('users').doc(phoneNumber), {
-  saldo: admin.firestore.FieldValue.increment(-hargaProduk),
-  totalOrder: admin.firestore.FieldValue.increment(1),
-  lastActive: admin.firestore.FieldValue.serverTimestamp()
-});
-await batch.commit();
-bot.reply(`✅ Order dibuat! ID: ${orderRef.id.slice(-8)}`);</div>
+<span class="cm">// Kurangi saldo (atomic)</span>
+await db.ref(`users/${phoneNumber}/saldo`).transaction(cur => (cur||0) - harga);
+await db.ref(`users/${phoneNumber}/totalOrder`).transaction(cur => (cur||0) + 1);</div>
         </div>
 
         <div class="docSection">
-          <h3>🔔 4. Notifikasi Perubahan Status Order (Realtime)</h3>
-          <div class="codeBlock"><span class="cm">// Bot listen perubahan status order, kirim notif ke user:</span>
-db.collection('orders').doc(orderId).onSnapshot(snap => {
-  const { status, phone } = snap.data();
-  if (status === 'selesai') {
-    bot.sendMessage(phone, `✅ Order kamu selesai diproses!`);
+          <h3>🔔 4. Notifikasi Approve Deposit (Bot Listen)</h3>
+          <div class="codeBlock"><span class="cm">// Bot listen field notifApproved di setiap deposit:</span>
+db.ref('deposits').on('child_changed', async snap => {
+  const d = snap.val();
+  if (d.status === 'approved' && d.notifApproved === true) {
+    <span class="cm">// Kirim WA ke user</span>
+    await bot.sendMessage(d.phone, d.notifMsg);
+    <span class="cm">// Reset flag supaya tidak kirim dua kali</span>
+    await snap.ref.update({ notifApproved: false });
   }
-  if (status === 'dibatalkan') {
-    <span class="cm">// saldo sudah dikembalikan otomatis oleh panel</span>
-    bot.sendMessage(phone, `❌ Order dibatalkan, saldo dikembalikan.`);
-  }
-  if (status === 'diproses') {
-    bot.sendMessage(phone, `🔄 Order kamu sedang diproses admin.`);
+  if (d.status === 'rejected' && d.notifRejected === true) {
+    await bot.sendMessage(d.phone,
+      `❌ Deposit ${formatRp(d.amount)} ditolak.\nAlasan: ${d.alasan||'-'}`
+    );
+    await snap.ref.update({ notifRejected: false });
   }
 });</div>
         </div>
 
         <div class="docSection">
-          <h3>⚙️ 5. Baca Config Toko (untuk menu bot)</h3>
-          <div class="codeBlock"><span class="cm">// Baca sebelum proses request user:</span>
-const cfg = (await db.collection('config').doc('site').get()).data();
+          <h3>⚙️ 5. Baca Config Toko</h3>
+          <div class="codeBlock"><span class="cm">// Baca sekali saat bot start:</span>
+const cfgSnap = await db.ref('config/site').get();
+const cfg = cfgSnap.val();
+if (cfg.maintenance) return bot.reply(cfg.maintenanceMsg);
 
-if (cfg.maintenance) {
-  return bot.reply(cfg.maintenanceMsg || '🔧 Sedang maintenance.');
-}
-<span class="cm">// Pakai cfg.waAdmin, cfg.payName, cfg.payNo, cfg.minDeposit, dll</span></div>
+<span class="cm">// Atau listen realtime (auto update kalau admin ubah):</span>
+db.ref('config/site').on('value', snap => {
+  globalConfig = snap.val();
+});</div>
         </div>
 
         <div class="docSection">
-          <h3>🔑 6. Kirim OTP — Log & Kurangi Saldo</h3>
-          <div class="codeBlock"><span class="cm">// Tiap kirim OTP, log dan kurangi saldo OTP:</span>
-const otpCfg = (await db.collection('config').doc('saldootp').get()).data();
-const biaya = otpCfg.ratePerOtp || 0;
-
-if (otpCfg.saldo &lt; biaya) {
+          <h3>🔑 6. Log OTP & Kurangi Saldo OTP</h3>
+          <div class="codeBlock"><span class="cm">// Cek saldo OTP dulu</span>
+const otpCfg = (await db.ref('config/saldootp').get()).val();
+if ((otpCfg.saldo||0) &lt; (otpCfg.ratePerOtp||0)) {
   console.error('Saldo OTP habis!'); return;
 }
-
-const batch = db.batch();
-batch.set(db.collection('otp_logs').doc(), {
-  phone: targetPhone,
-  status: 'sent',             <span class="cm">// atau 'failed'</span>
-  cost: biaya,
-  provider: otpCfg.provider,
-  createdAt: admin.firestore.FieldValue.serverTimestamp()
+<span class="cm">// Log + kurangi saldo</span>
+await db.ref('otp_logs').push({
+  phone: targetPhone, status: 'sent',
+  cost: otpCfg.ratePerOtp, provider: otpCfg.provider,
+  createdAt: Date.now()
 });
-batch.update(db.collection('config').doc('saldootp'), {
-  saldo: admin.firestore.FieldValue.increment(-biaya),
-  totalUsed: admin.firestore.FieldValue.increment(biaya)
-});
-await batch.commit();</div>
-        </div>
-
-        <div class="docSection">
-          <h3>🚦 7. Auto-Complete Order (jika punya API provider)</h3>
-          <div class="codeBlock"><span class="cm">// Jika bot terintegrasi Digiflazz / Apigames / dll:</span>
-<span class="cm">// Setelah callback success dari provider:</span>
-const batch = db.batch();
-batch.update(db.collection('orders').doc(orderId), {
-  status: 'selesai',
-  externalId: providerTrxId,
-  updatedAt: admin.firestore.FieldValue.serverTimestamp(),
-  updatedBy: 'bot-auto'
-});
-await batch.commit();
-
-<span class="cm">// Jika gagal/dibatalkan → refund saldo:</span>
-const batch2 = db.batch();
-batch2.update(db.collection('orders').doc(orderId), {
-  status: 'dibatalkan',
-  updatedAt: admin.firestore.FieldValue.serverTimestamp()
-});
-batch2.update(db.collection('users').doc(phoneNumber), {
-  saldo: admin.firestore.FieldValue.increment(+hargaProduk)
-});
-await batch2.commit();</div>
+await db.ref('config/saldootp/saldo').transaction(cur => (cur||0) - otpCfg.ratePerOtp);
+await db.ref('config/saldootp/totalUsed').transaction(cur => (cur||0) + otpCfg.ratePerOtp);</div>
         </div>
 
         <div class="settCard" style="border-color:rgba(0,229,160,.2)">
-          <h3>✅ Checklist Integrasi Bot</h3>
-          <div class="docItem"><strong>users/{phone}</strong> — set saat /daftar, role: 'user'<p>Panel pakai: tabel users, adjust saldo, role manager, history</p></div>
-          <div class="docItem"><strong>deposits/{auto}</strong> — set saat /deposit, status: 'pending'<p>Panel pakai: approve → saldo user +amount otomatis</p></div>
-          <div class="docItem"><strong>orders/{auto}</strong> — set saat checkout, status: 'pending'<p>Panel pakai: update status, cancel → refund saldo</p></div>
-          <div class="docItem"><strong>config/site</strong> — baca untuk nama toko, WA, payment, maintenance<p>Di-update lewat panel Settings</p></div>
-          <div class="docItem"><strong>config/saldootp</strong> — baca rate, kurangi saldo tiap kirim OTP<p>Di-top-up dari panel Saldo OTP</p></div>
-          <div class="docItem"><strong>otp_logs/{auto}</strong> — log tiap OTP terkirim<p>Ditampilkan di panel tab Saldo OTP</p></div>
+          <h3>✅ Checklist Path RTDB</h3>
+          <div class="docItem"><strong>users/{phone}</strong> — set saat /daftar, role: 'user'<p>Panel: tabel users, adjust saldo, role manager, ban/unban</p></div>
+          <div class="docItem"><strong>deposits/{pushKey}</strong> — push saat request deposit<p>Panel: approve → saldo bertambah otomatis, reject, lihat bukti foto</p></div>
+          <div class="docItem"><strong>orders/{pushKey}</strong> — push saat checkout<p>Panel: update status, cancel → refund saldo</p></div>
+          <div class="docItem"><strong>config/site</strong> — setting toko<p>Diupdate dari panel Settings, dibaca bot untuk maintenance, WA admin, dll</p></div>
+          <div class="docItem"><strong>config/saldootp</strong> — saldo & config OTP provider<p>Top-up dari panel, dikurangi tiap bot kirim OTP</p></div>
+          <div class="docItem"><strong>otp_logs/{pushKey}</strong> — log tiap OTP<p>Ditampilkan di panel tab Saldo OTP</p></div>
         </div>
       </div>
 
-    </div><!-- /mainContent -->
-  </div><!-- /appBody -->
-</div><!-- /appWrap -->
+    </div>
+  </div>
+</div>
 
-<!-- MOBILE NAV -->
 <div id="mobileNavWrap">
   <button class="mobileNavBtn on" onclick="goTab('dashboard',this)"><span class="ico">📊</span>Dashboard</button>
   <button class="mobileNavBtn" onclick="goTab('deposit',this)"><span class="ico">💰</span>Deposit</button>
@@ -694,37 +688,43 @@ await batch2.commit();</div>
   <button class="mobileNavBtn" onclick="goTab('settings',this)"><span class="ico">⚙️</span>Settings</button>
 </div>
 
-<!-- ═══ SCRIPT ════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════════════
+     FIREBASE REALTIME DATABASE — 100% RTDB, ZERO FIRESTORE
+════════════════════════════════════════════════════════════ -->
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail }
+import { initializeApp }       from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,
+         onAuthStateChanged, signOut, sendPasswordResetEmail }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, collection, query, orderBy, limit, getDocs, updateDoc, addDoc, onSnapshot, serverTimestamp, writeBatch, increment }
-  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getDatabase, ref, set, get, update, remove, push, onValue, off, serverTimestamp as rtServerTs }
+  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBusamPr8Kk6V_IP63mYZt1whta__1mqzk",
-  authDomain: "wa-bot-fa92c.firebaseapp.com",
-  projectId: "wa-bot-fa92c",
-  storageBucket: "wa-bot-fa92c.firebasestorage.app",
+  apiKey:            "AIzaSyBusamPr8Kk6V_IP63mYZt1whta__1mqzk",
+  authDomain:        "wa-bot-fa92c.firebaseapp.com",
+  projectId:         "wa-bot-fa92c",
+  storageBucket:     "wa-bot-fa92c.firebasestorage.app",
   messagingSenderId: "166490184841",
-  appId: "1:166490184841:web:e6db8cc4f0d4d9f65f3a58"
+  appId:             "1:166490184841:web:e6db8cc4f0d4d9f65f3a58",
+  databaseURL:       "https://wa-bot-fa92c-default-rtdb.firebaseio.com"
 };
 
 const app  = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db   = getFirestore(app);
+const db   = getDatabase(app);
 
 // ── STATE ────────────────────────────────────────────────────
 let currentUser = null;
-let allDeposits = [], allOrders = [], allUsers = [];
-let unsubs = [];
+let allDeposits = [];   // [{key, ...data}]
+let allOrders   = [];
+let allUsers    = [];
+let rtListeners = [];   // [{ref, handler}] untuk cleanup
 
 // ── HELPERS ──────────────────────────────────────────────────
 const fmt = n => 'Rp ' + Number(n||0).toLocaleString('id-ID');
 const fmtDate = ts => {
   if (!ts) return '–';
-  const d = ts.toDate ? ts.toDate() : new Date(ts);
+  const d = new Date(typeof ts === 'number' ? ts : Number(ts));
   return d.toLocaleString('id-ID',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
 };
 const toast = (msg, type='ok') => {
@@ -735,11 +735,21 @@ const toast = (msg, type='ok') => {
   setTimeout(()=>el.remove(), 4000);
 };
 const badge = s => {
-  const m = {pending:'b-pending',approved:'b-approved',rejected:'b-rejected',diproses:'b-diproses',selesai:'b-selesai',dibatalkan:'b-dibatalkan',paid:'b-paid',success:'b-success',admin:'b-admin',user:'b-user'};
+  const m = {pending:'b-pending',approved:'b-approved',rejected:'b-rejected',
+             diproses:'b-diproses',selesai:'b-selesai',dibatalkan:'b-dibatalkan',
+             admin:'b-admin',user:'b-user'};
   return `<span class="badge ${m[s]||'b-pending'}">${s}</span>`;
 };
 const empty = msg => `<div class="empty"><div class="eico">📭</div><p>${msg||'Tidak ada data'}</p></div>`;
 const detRow = (k,v) => `<div class="detRow"><div class="detKey">${k}</div><div class="detVal">${v??'–'}</div></div>`;
+
+// RTDB snapshot → array [{key, ...val}]
+const snapToArr = snap => {
+  if (!snap.exists()) return [];
+  const result = [];
+  snap.forEach(child => result.push({key: child.key, ...child.val()}));
+  return result.reverse(); // newest first
+};
 
 // ── MODAL ─────────────────────────────────────────────────────
 window.openModal = (title, html) => {
@@ -748,83 +758,67 @@ window.openModal = (title, html) => {
   document.getElementById('modalBack').classList.add('open');
 };
 window.closeModal = () => document.getElementById('modalBack').classList.remove('open');
-window.closeModalBack = e => { if (e.target===document.getElementById('modalBack')) closeModal(); };
+window.closeModalBack = e => { if(e.target===document.getElementById('modalBack')) closeModal(); };
 
 // ── SCREEN MANAGER ────────────────────────────────────────────
-// Semua screen hidden by default di CSS, baru kelihatan kalau dikasih class .show
 function showScreen(s) {
   document.getElementById('loadingScreen').classList.add('gone');
-  ['loginWrap','appWrap','deniedWrap'].forEach(id => {
-    document.getElementById(id).classList.remove('show');
-  });
+  ['loginWrap','appWrap','deniedWrap'].forEach(id => document.getElementById(id).classList.remove('show'));
   document.getElementById('mobileNavWrap').classList.remove('show');
-
-  if (s==='login') {
-    document.getElementById('loginWrap').classList.add('show');
-  } else if (s==='app') {
+  if (s==='login') document.getElementById('loginWrap').classList.add('show');
+  else if (s==='app') {
     document.getElementById('appWrap').classList.add('show');
     document.getElementById('mobileNavWrap').classList.add('show');
-  } else if (s==='denied') {
-    document.getElementById('deniedWrap').classList.add('show');
   }
+  else if (s==='denied') document.getElementById('deniedWrap').classList.add('show');
 }
 
 // ── AUTH STATE ────────────────────────────────────────────────
 onAuthStateChanged(auth, async user => {
   if (!user) {
     currentUser = null;
-    unsubs.forEach(u=>u()); unsubs=[];
+    cleanupListeners();
     showScreen('login');
     return;
   }
-
   try {
-    // Cek user doc di Firestore
-    const snap = await getDoc(doc(db,'users',user.uid));
-
+    // Cek role di RTDB users/{uid}
+    const snap = await get(ref(db, `users/${user.uid}`));
     if (!snap.exists()) {
-      // Coba cari by uid field (kalau ID-nya beda dengan uid)
       await signOut(auth);
       document.getElementById('deniedMsg').textContent = 'Akun belum terdaftar di database. Daftar lewat bot atau hubungi owner.';
-      showScreen('denied');
-      return;
+      showScreen('denied'); return;
     }
-
-    const data = snap.data();
-
+    const data = snap.val();
     if (data.role !== 'admin') {
       await signOut(auth);
-      document.getElementById('deniedMsg').textContent =
-        `Role kamu: "${data.role||'user'}". Hanya admin yang bisa masuk. Minta owner ubah role kamu di Role Manager.`;
-      showScreen('denied');
-      return;
+      document.getElementById('deniedMsg').textContent = `Role kamu: "${data.role||'user'}". Hanya admin yang bisa masuk. Minta owner ubah role di Role Manager.`;
+      showScreen('denied'); return;
     }
-
     if (data.isBanned) {
       await signOut(auth);
-      document.getElementById('deniedMsg').textContent = 'Akun kamu dibanned. Hubungi owner.';
-      showScreen('denied');
-      return;
+      document.getElementById('deniedMsg').textContent = 'Akun kamu dibanned.';
+      showScreen('denied'); return;
     }
-
-    // ✅ Admin verified
     currentUser = user;
     document.getElementById('tbEmail').textContent = user.email || data.name || user.uid;
     document.getElementById('dbPing').classList.add('live');
-
     // Update lastActive
-    updateDoc(doc(db,'users',user.uid),{lastActive:serverTimestamp()}).catch(()=>{});
-
+    update(ref(db, `users/${user.uid}`), {lastActive: Date.now()}).catch(()=>{});
     showScreen('app');
     loadAll();
-
   } catch(e) {
-    console.error('Auth check error:',e);
+    console.error('Auth check:', e);
     await signOut(auth);
     showScreen('login');
-    showLoginErr('Gagal cek akses: '+e.message);
+    showLoginErr('Gagal cek akses: ' + e.message);
   }
 });
+
+function cleanupListeners() {
+  rtListeners.forEach(({r, fn}) => off(r, 'value', fn));
+  rtListeners = [];
+}
 
 // ── LOGIN ─────────────────────────────────────────────────────
 window.doLogin = async () => {
@@ -832,14 +826,10 @@ window.doLogin = async () => {
   const pass  = document.getElementById('liPass').value;
   const btn   = document.getElementById('loginBtn');
   showLoginErr('');
-  if (!email||!pass) { showLoginErr('Email dan password wajib diisi.'); return; }
+  if (!email||!pass){showLoginErr('Email & password wajib diisi.');return;}
   btn.textContent='Masuk…'; btn.disabled=true;
-  try {
-    await signInWithEmailAndPassword(auth, email, pass);
-  } catch(e) {
-    showLoginErr(mapAuthErr(e.code));
-    btn.textContent='Masuk ke Panel'; btn.disabled=false;
-  }
+  try { await signInWithEmailAndPassword(auth,email,pass); }
+  catch(e){ showLoginErr(mapAuthErr(e.code)); btn.textContent='Masuk ke Panel'; btn.disabled=false; }
 };
 
 // ── REGISTER ──────────────────────────────────────────────────
@@ -849,57 +839,45 @@ window.doRegister = async () => {
   const pass  = document.getElementById('regPass').value;
   const pass2 = document.getElementById('regPass2').value;
   showLoginErr('');
-  if (!email||!name||!pass) { showLoginErr('Semua field wajib diisi.'); return; }
-  if (pass!==pass2) { showLoginErr('Password tidak sama.'); return; }
-  if (pass.length<6) { showLoginErr('Password minimal 6 karakter.'); return; }
+  if(!email||!name||!pass){showLoginErr('Semua field wajib diisi.');return;}
+  if(pass!==pass2){showLoginErr('Password tidak sama.');return;}
+  if(pass.length<6){showLoginErr('Password min. 6 karakter.');return;}
   const btn = document.getElementById('regBtn');
   btn.textContent='Mendaftar…'; btn.disabled=true;
   try {
-    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    const cred = await createUserWithEmailAndPassword(auth,email,pass);
     const uid  = cred.user.uid;
-
-    // Simpan ke users/ dengan role: 'user' — bukan admin
-    await setDoc(doc(db,'users',uid), {
-      uid,
-      email,
-      name,
-      phone: null,
-      role: 'user',             // ← default user
-      saldo: 0,
-      totalDeposit: 0,
-      totalOrder: 0,
-      isActive: true,
-      isBanned: false,
+    // Simpan ke RTDB users/{uid} — role: 'user'
+    await set(ref(db,`users/${uid}`), {
+      uid, email, name, phone: null,
+      role: 'user',        // ← default user, bukan admin
+      saldo: 0, totalDeposit: 0, totalOrder: 0,
+      isActive: true, isBanned: false,
       registeredFrom: 'web-panel',
-      createdAt: serverTimestamp(),
-      lastActive: serverTimestamp()
+      createdAt: Date.now(), lastActive: Date.now()
     });
-
-    await signOut(auth);      // logout langsung, role user tidak bisa masuk
+    await signOut(auth);
     showView('login');
-    showLoginErr('');
     toast('Akun dibuat! Role: user. Minta owner ubah ke admin via Role Manager.','warn');
-  } catch(e) {
-    showLoginErr(mapAuthErr(e.code));
-  }
+  } catch(e){ showLoginErr(mapAuthErr(e.code)); }
   btn.textContent='Daftar'; btn.disabled=false;
 };
 
 // ── FORGOT PASSWORD ───────────────────────────────────────────
 window.doForgotSend = async () => {
   const email = document.getElementById('forgotEmail').value.trim();
-  if (!email) { showLoginErr('Isi email dulu.'); return; }
+  if(!email){showLoginErr('Isi email dulu.');return;}
   const btn = document.getElementById('forgotBtn');
   btn.textContent='Mengirim…'; btn.disabled=true;
   try {
-    await sendPasswordResetEmail(auth, email);
+    await sendPasswordResetEmail(auth,email);
     showView('login');
-    toast('Link reset dikirim! Cek inbox/spam kamu ✅');
-  } catch(e) { showLoginErr(mapAuthErr(e.code)); }
+    toast('Link reset dikirim! Cek inbox/spam ✅');
+  } catch(e){ showLoginErr(mapAuthErr(e.code)); }
   btn.textContent='📧 Kirim Link Reset'; btn.disabled=false;
 };
 
-window.doLogout = async () => { await signOut(auth); };
+window.doLogout = () => signOut(auth);
 
 const mapAuthErr = code => ({
   'auth/user-not-found':'Email tidak ditemukan.',
@@ -908,21 +886,20 @@ const mapAuthErr = code => ({
   'auth/email-already-in-use':'Email sudah terdaftar.',
   'auth/weak-password':'Password terlalu lemah.',
   'auth/invalid-email':'Format email tidak valid.',
-  'auth/too-many-requests':'Terlalu banyak percobaan. Coba lagi nanti.',
-  'auth/network-request-failed':'Koneksi gagal. Cek internet.'
+  'auth/too-many-requests':'Terlalu banyak percobaan.',
+  'auth/network-request-failed':'Koneksi gagal.'
 })[code] || 'Error: '+code;
 
 const showLoginErr = msg => { document.getElementById('loginErr').textContent = msg; };
-
 window.showView = v => {
-  document.getElementById('viewLogin').style.display    = v==='login'    ?'block':'none';
-  document.getElementById('viewRegister').style.display = v==='register' ?'block':'none';
-  document.getElementById('viewForgot').style.display   = v==='forgot'   ?'block':'none';
+  ['login','register','forgot'].forEach(n =>
+    document.getElementById('view'+n.charAt(0).toUpperCase()+n.slice(1)).style.display = v===n?'block':'none'
+  );
   showLoginErr('');
 };
 
 document.addEventListener('keydown', e => {
-  if (e.key==='Enter' && document.getElementById('loginWrap').classList.contains('show')) doLogin();
+  if(e.key==='Enter' && document.getElementById('loginWrap').classList.contains('show')) doLogin();
 });
 
 // ── NAVIGATION ────────────────────────────────────────────────
@@ -930,12 +907,16 @@ window.goTab = (tab, el) => {
   document.querySelectorAll('.tabPane').forEach(p=>p.classList.remove('on'));
   document.querySelectorAll('.navBtn,.mobileNavBtn').forEach(b=>b.classList.remove('on'));
   document.getElementById('tab-'+tab).classList.add('on');
-  if (el) el.classList.add('on');
+  if(el) el.classList.add('on');
 };
 
-// ── LOAD ALL ──────────────────────────────────────────────────
+// ── LOAD ALL (RTDB onValue listeners) ────────────────────────
 function loadAll() {
-  loadDeposits(); loadOrders(); loadUsers(); loadSaldoOtp(); loadSettings();
+  listenDeposits();
+  listenOrders();
+  listenUsers();
+  listenSaldoOtp();
+  loadSettings();
 }
 
 function updateStats() {
@@ -947,94 +928,190 @@ function updateStats() {
   document.getElementById('sTotalUsr').textContent = allUsers.length;
 }
 
-// ── DEPOSITS ──────────────────────────────────────────────────
-function loadDeposits() {
-  const q = query(collection(db,'deposits'), orderBy('createdAt','desc'), limit(200));
-  unsubs.push(onSnapshot(q, snap => {
-    allDeposits = snap.docs.map(d=>({id:d.id,...d.data()}));
-    renderDeposits(); renderDashDepPending(); updateStats();
-    document.getElementById('dotDeposit').classList.toggle('show', allDeposits.filter(d=>d.status==='pending').length>0);
-  }, e=>console.error('deposits',e)));
+// ── DEPOSITS — RTDB onValue ───────────────────────────────────
+function listenDeposits() {
+  const r = ref(db,'deposits');
+  const fn = snap => {
+    allDeposits = snapToArr(snap);
+    renderDeposits();
+    renderDashDepPending();
+    updateStats();
+    document.getElementById('dotDeposit').classList.toggle('show',
+      allDeposits.filter(d=>d.status==='pending').length > 0);
+  };
+  onValue(r, fn);
+  rtListeners.push({r, fn});
 }
 
 window.renderDeposits = () => {
   const st = document.getElementById('fDepStatus').value;
+  const bf = document.getElementById('fBukti').value;
   const q  = document.getElementById('fDepQ').value.toLowerCase();
   let d = allDeposits;
-  if (st) d=d.filter(x=>x.status===st);
-  if (q)  d=d.filter(x=>(x.id||'').toLowerCase().includes(q)||(x.phone||'').includes(q)||(x.name||'').toLowerCase().includes(q)||(x.refCode||'').toLowerCase().includes(q));
+  if(st) d=d.filter(x=>x.status===st);
+  if(bf==='ada') d=d.filter(x=>x.hasBukti);
+  if(bf==='belum') d=d.filter(x=>!x.hasBukti);
+  if(q) d=d.filter(x=>(x.phone||'').includes(q)||(x.name||'').toLowerCase().includes(q)||(x.method||'').toLowerCase().includes(q));
   const el = document.getElementById('depTable');
-  if (!d.length){el.innerHTML=empty('Tidak ada deposit');return;}
-  el.innerHTML=`<table><thead><tr><th>ID</th><th>Waktu</th><th>Nama</th><th>Nomor</th><th>Nominal</th><th>Metode</th><th>Status</th><th>Aksi</th></tr></thead><tbody>
-  ${d.map(x=>`<tr><td class="mono">${x.id.slice(-8)}</td><td class="nowrap">${fmtDate(x.createdAt)}</td>
-    <td class="bold">${x.name||'–'}</td><td class="mono">${x.phone||x.userId||'–'}</td>
-    <td class="bold">${fmt(x.amount)}</td><td>${x.method||'–'}</td><td>${badge(x.status||'pending')}</td>
+  if(!d.length){el.innerHTML=empty('Tidak ada deposit');return;}
+  el.innerHTML=`<table><thead><tr>
+    <th>Waktu</th><th>Nama</th><th>Nomor</th><th>Nominal</th><th>Metode</th><th>Bukti</th><th>Status</th><th>Aksi</th>
+  </tr></thead><tbody>
+  ${d.map(x=>`<tr>
+    <td class="nowrap">${fmtDate(x.createdAt)}</td>
+    <td class="bold">${x.name||'–'}</td>
+    <td class="mono">${x.phone||'–'}</td>
+    <td class="bold">${fmt(x.amount)}</td>
+    <td>${x.method||'–'}</td>
+    <td>${x.hasBukti
+      ?`<button class="btn btnSm btnSuc" onclick="openBuktiModal('${x.key}')">📸 Lihat</button>`
+      :`<span style="font-size:.72rem;color:var(--t3)">Belum</span>`
+    }</td>
+    <td>${badge(x.status||'pending')}</td>
     <td><div class="btnRow">
-      ${x.status==='pending'?`<button class="btn btnSuc btnSm" onclick="approveDep('${x.id}',${x.amount},'${x.phone||x.userId||''}')">✅ ACC</button><button class="btn btnDng btnSm" onclick="rejectDep('${x.id}')">❌ Tolak</button>`:''}
-      <button class="btn btnGry btnSm" onclick="openDepDetail('${x.id}')">🔍</button>
-    </div></td></tr>`).join('')}</tbody></table>`;
+      ${x.status==='pending'
+        ?`<button class="btn btnSuc btnSm" onclick="approveDep('${x.key}',${x.amount},'${x.phone||''}')">✅ ACC</button>
+          <button class="btn btnDng btnSm" onclick="rejectDep('${x.key}')">❌ Tolak</button>`:''}
+      <button class="btn btnGry btnSm" onclick="openDepDetail('${x.key}')">🔍</button>
+    </div></td>
+  </tr>`).join('')}</tbody></table>`;
 };
 
 function renderDashDepPending() {
   const d = allDeposits.filter(x=>x.status==='pending').slice(0,5);
   const el = document.getElementById('dashDepPending');
-  if (!d.length){el.innerHTML=empty('Tidak ada deposit pending');return;}
-  el.innerHTML=`<table><thead><tr><th>ID</th><th>Waktu</th><th>Nama</th><th>Nomor</th><th>Nominal</th><th>Aksi</th></tr></thead><tbody>
-  ${d.map(x=>`<tr><td class="mono">${x.id.slice(-8)}</td><td class="nowrap">${fmtDate(x.createdAt)}</td>
-    <td class="bold">${x.name||'–'}</td><td class="mono">${x.phone||x.userId||'–'}</td><td class="bold">${fmt(x.amount)}</td>
+  if(!d.length){el.innerHTML=empty('Tidak ada deposit pending');return;}
+  el.innerHTML=`<table><thead><tr><th>Waktu</th><th>Nama</th><th>Nomor</th><th>Nominal</th><th>Bukti</th><th>Aksi</th></tr></thead><tbody>
+  ${d.map(x=>`<tr>
+    <td class="nowrap">${fmtDate(x.createdAt)}</td>
+    <td class="bold">${x.name||'–'}</td>
+    <td class="mono">${x.phone||'–'}</td>
+    <td class="bold">${fmt(x.amount)}</td>
+    <td>${x.hasBukti?`<span class="buktiTag">📸 Ada</span>`:`<span style="color:var(--t3);font-size:.72rem">–</span>`}</td>
     <td><div class="btnRow">
-      <button class="btn btnSuc btnSm" onclick="approveDep('${x.id}',${x.amount},'${x.phone||x.userId||''}')">✅ ACC</button>
-      <button class="btn btnDng btnSm" onclick="rejectDep('${x.id}')">❌ Tolak</button>
-    </div></td></tr>`).join('')}</tbody></table>`;
+      <button class="btn btnSuc btnSm" onclick="approveDep('${x.key}',${x.amount},'${x.phone||''}')">✅ ACC</button>
+      <button class="btn btnDng btnSm" onclick="rejectDep('${x.key}')">❌ Tolak</button>
+    </div></td>
+  </tr>`).join('')}</tbody></table>`;
 }
 
-window.approveDep = async (id, amount, userId) => {
-  if (!confirm(`Approve deposit ${fmt(amount)} untuk ${userId}?`)) return;
+window.approveDep = async (key, amount, phone) => {
+  if(!confirm(`Approve deposit ${fmt(amount)} untuk ${phone}?`)) return;
   try {
-    const b = writeBatch(db);
-    b.update(doc(db,'deposits',id),{status:'approved',approvedAt:serverTimestamp(),approvedBy:currentUser.email});
-    if (userId) {
-      const u = await getDoc(doc(db,'users',userId));
-      if (u.exists()) b.update(doc(db,'users',userId),{saldo:increment(amount),totalDeposit:increment(amount)});
+    // Update deposit status di RTDB
+    await update(ref(db,`deposits/${key}`), {
+      status: 'approved',
+      approvedAt: Date.now(),
+      approvedBy: currentUser.email,
+      notifApproved: true,
+      notifMsg: `✅ Deposit kamu sebesar ${fmt(amount)} sudah masuk! Saldo telah ditambahkan. Terima kasih 🎉`
+    });
+    // Tambah saldo user di RTDB
+    if(phone) {
+      const uSnap = await get(ref(db,`users/${phone}`));
+      if(uSnap.exists()) {
+        const cur = uSnap.val().saldo || 0;
+        const curDep = uSnap.val().totalDeposit || 0;
+        await update(ref(db,`users/${phone}`), {
+          saldo: cur + amount,
+          totalDeposit: curDep + amount
+        });
+      }
     }
-    await b.commit();
     toast(`Deposit ${fmt(amount)} approved! Saldo +${fmt(amount)} ✅`);
   } catch(e){toast('Gagal: '+e.message,'err');}
 };
 
-window.rejectDep = async id => {
+window.rejectDep = async key => {
   const alasan = prompt('Alasan penolakan (opsional):') || '';
   try {
-    await updateDoc(doc(db,'deposits',id),{status:'rejected',rejectedAt:serverTimestamp(),rejectedBy:currentUser.email,alasan});
+    await update(ref(db,`deposits/${key}`), {
+      status: 'rejected',
+      rejectedAt: Date.now(),
+      rejectedBy: currentUser.email,
+      alasan,
+      notifRejected: true
+    });
     toast('Deposit ditolak','err');
   } catch(e){toast('Gagal: '+e.message,'err');}
 };
 
-window.openDepDetail = id => {
-  const x = allDeposits.find(d=>d.id===id); if(!x) return;
-  openModal('Detail Deposit',`<div class="detailBox">
-    ${detRow('ID',x.id)}${detRow('Status',badge(x.status))}${detRow('Nama',x.name)}
-    ${detRow('Nomor WA',x.phone||x.userId)}${detRow('Nominal',fmt(x.amount))}
-    ${detRow('Metode',x.method)}${detRow('Ref Code',x.refCode)}${detRow('Catatan',x.note)}
-    ${detRow('Dibuat',fmtDate(x.createdAt))}${detRow('Diapprove',fmtDate(x.approvedAt))}
-    ${detRow('Approve By',x.approvedBy)}${detRow('Ditolak',fmtDate(x.rejectedAt))}${detRow('Alasan',x.alasan)}
-  </div>`);
+window.openDepDetail = key => {
+  const x = allDeposits.find(d=>d.key===key); if(!x) return;
+  openModal('Detail Deposit',`
+    ${x.hasBukti && x.buktiUrl ? `
+      <div style="margin-bottom:16px">
+        <p style="font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-bottom:8px">📸 Bukti Transfer</p>
+        <img class="buktiImg" src="${x.buktiUrl}" onclick="window.open('${x.buktiUrl}','_blank')"
+          onerror="this.parentElement.innerHTML='<p style=color:var(--t3)>Gambar tidak bisa dimuat</p>'"/>
+        <p style="font-size:.7rem;color:var(--t3);text-align:center">Klik untuk buka full size</p>
+      </div>
+    ` : `<div style="text-align:center;padding:16px;background:var(--bg3);border-radius:8px;margin-bottom:16px;color:var(--t3);font-size:.82rem">📭 Belum ada bukti transfer diupload</div>`}
+    <div class="detailBox">
+      ${detRow('Status',badge(x.status))}
+      ${detRow('Nama',x.name)}${detRow('Nomor WA',x.phone)}
+      ${detRow('Nominal',fmt(x.amount))}${detRow('Metode',x.method)}
+      ${detRow('Ref Code',x.refCode)}${detRow('Catatan',x.note)}
+      ${detRow('Bukti Upload',x.hasBukti?`✅ ${fmtDate(x.buktiUploadedAt)}`:'❌ Belum')}
+      ${detRow('Dibuat',fmtDate(x.createdAt))}
+      ${detRow('Diapprove',fmtDate(x.approvedAt))}${detRow('Approve By',x.approvedBy)}
+      ${detRow('Ditolak',fmtDate(x.rejectedAt))}${detRow('Alasan',x.alasan)}
+    </div>
+    ${x.status==='pending'?`
+    <div style="display:flex;gap:8px;margin-top:16px">
+      <button class="btn btnSuc" style="flex:1;justify-content:center"
+        onclick="closeModal();approveDep('${x.key}',${x.amount},'${x.phone||''}')">✅ Approve & Saldo Masuk</button>
+      <button class="btn btnDng" onclick="closeModal();rejectDep('${x.key}')">❌ Tolak</button>
+    </div>`:''}
+  `);
+};
+
+window.openBuktiModal = key => {
+  const x = allDeposits.find(d=>d.key===key); if(!x||!x.buktiUrl) return;
+  openModal(`📸 Bukti — ${x.phone||'–'}`,`
+    <img class="buktiImg" src="${x.buktiUrl}" onclick="window.open('${x.buktiUrl}','_blank')"
+      style="max-height:380px" onerror="this.style.display='none'"/>
+    <p style="font-size:.7rem;color:var(--t3);text-align:center;margin-bottom:14px">Klik untuk buka full size</p>
+    <div style="background:var(--bg3);border-radius:8px;padding:12px 14px;margin-bottom:14px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div><div style="font-size:.7rem;color:var(--t3)">Nominal</div><div style="font-weight:700;color:var(--ac)">${fmt(x.amount)}</div></div>
+      <div><div style="font-size:.7rem;color:var(--t3)">Metode</div><div style="font-weight:600">${x.method||'–'}</div></div>
+      <div><div style="font-size:.7rem;color:var(--t3)">Nama</div><div style="font-weight:600">${x.name||'–'}</div></div>
+      <div><div style="font-size:.7rem;color:var(--t3)">Nomor WA</div><div style="font-family:var(--mono);font-size:.8rem">${x.phone||'–'}</div></div>
+      <div style="grid-column:span 2"><div style="font-size:.7rem;color:var(--t3)">Bukti dikirim</div><div style="font-size:.8rem">${fmtDate(x.buktiUploadedAt)}</div></div>
+    </div>
+    ${x.status==='pending'?`
+    <div style="display:flex;gap:8px">
+      <button class="btn btnSuc" style="flex:1;justify-content:center"
+        onclick="closeModal();approveDep('${x.key}',${x.amount},'${x.phone||''}')">✅ Approve — Saldo Masuk</button>
+      <button class="btn btnDng" onclick="closeModal();rejectDep('${x.key}')">❌ Tolak</button>
+    </div>`
+    :`<p style="text-align:center;font-size:.8rem;color:var(--t3)">Status: ${x.status}</p>`}
+  `);
 };
 
 window.addManualDeposit = async () => {
-  const userId = document.getElementById('manDepUser').value.trim();
+  const phone  = document.getElementById('manDepUser').value.trim();
   const amount = parseInt(document.getElementById('manDepAmt').value)||0;
   const method = document.getElementById('manDepMethod').value;
   const note   = document.getElementById('manDepNote').value.trim();
-  if (!userId||!amount){toast('Isi user ID dan nominal','err');return;}
-  if (!confirm(`Tambah & auto-approve deposit ${fmt(amount)} untuk ${userId}?`)) return;
+  if(!phone||!amount){toast('Isi nomor & nominal','err');return;}
+  if(!confirm(`Tambah & auto-approve deposit ${fmt(amount)} untuk ${phone}?`)) return;
   try {
-    const b = writeBatch(db);
-    const r = doc(collection(db,'deposits'));
-    b.set(r,{userId,phone:userId,amount,method,note,status:'approved',createdAt:serverTimestamp(),approvedAt:serverTimestamp(),approvedBy:currentUser.email,isManual:true});
-    const u = await getDoc(doc(db,'users',userId));
-    if (u.exists()) b.update(doc(db,'users',userId),{saldo:increment(amount),totalDeposit:increment(amount)});
-    await b.commit();
+    // Push deposit ke RTDB
+    const depRef = push(ref(db,'deposits'));
+    await set(depRef, {
+      userId:phone, phone, amount, method, note,
+      status:'approved', hasBukti:false, buktiUrl:null,
+      isManual:true, createdAt:Date.now(),
+      approvedAt:Date.now(), approvedBy:currentUser.email
+    });
+    // Tambah saldo
+    const uSnap = await get(ref(db,`users/${phone}`));
+    if(uSnap.exists()) {
+      const cur = uSnap.val().saldo||0;
+      const curDep = uSnap.val().totalDeposit||0;
+      await update(ref(db,`users/${phone}`),{saldo:cur+amount,totalDeposit:curDep+amount});
+    }
     document.getElementById('manDepUser').value='';
     document.getElementById('manDepAmt').value='';
     document.getElementById('manDepNote').value='';
@@ -1042,138 +1119,172 @@ window.addManualDeposit = async () => {
   } catch(e){toast('Gagal: '+e.message,'err');}
 };
 
-// ── ORDERS ────────────────────────────────────────────────────
-function loadOrders() {
-  const q = query(collection(db,'orders'), orderBy('createdAt','desc'), limit(300));
-  unsubs.push(onSnapshot(q, snap => {
-    allOrders = snap.docs.map(d=>({id:d.id,...d.data()}));
-    renderOrders(); renderDashOrdPending(); updateStats();
-    document.getElementById('dotOrder').classList.toggle('show', allOrders.filter(d=>d.status==='pending').length>0);
-  }, e=>console.error('orders',e)));
+// ── ORDERS — RTDB onValue ─────────────────────────────────────
+function listenOrders() {
+  const r = ref(db,'orders');
+  const fn = snap => {
+    allOrders = snapToArr(snap);
+    renderOrders();
+    renderDashOrdPending();
+    updateStats();
+    document.getElementById('dotOrder').classList.toggle('show',
+      allOrders.filter(d=>d.status==='pending').length > 0);
+  };
+  onValue(r, fn);
+  rtListeners.push({r, fn});
 }
 
 window.renderOrders = () => {
   const st = document.getElementById('fOrdStatus').value;
   const q  = document.getElementById('fOrdQ').value.toLowerCase();
   let d = allOrders;
-  if (st) d=d.filter(x=>x.status===st);
-  if (q)  d=d.filter(x=>(x.id||'').toLowerCase().includes(q)||(x.phone||'').includes(q)||(x.target||'').toLowerCase().includes(q)||(x.service||'').toLowerCase().includes(q));
+  if(st) d=d.filter(x=>x.status===st);
+  if(q) d=d.filter(x=>(x.phone||'').includes(q)||(x.target||'').toLowerCase().includes(q)||(x.service||'').toLowerCase().includes(q));
   const el = document.getElementById('ordTable');
-  if (!d.length){el.innerHTML=empty('Tidak ada order');return;}
-  el.innerHTML=`<table><thead><tr><th>ID</th><th>Waktu</th><th>Nomor</th><th>Layanan</th><th>Target</th><th>Harga</th><th>Status</th><th>Aksi</th></tr></thead><tbody>
-  ${d.map(x=>`<tr><td class="mono">${x.id.slice(-8)}</td><td class="nowrap">${fmtDate(x.createdAt)}</td>
-    <td class="mono">${x.phone||x.userId||'–'}</td><td>${x.service||x.layanan||'–'}</td>
-    <td class="mono">${(x.target||'–').slice(0,25)}</td><td class="bold">${fmt(x.harga||x.price||0)}</td>
+  if(!d.length){el.innerHTML=empty('Tidak ada order');return;}
+  el.innerHTML=`<table><thead><tr>
+    <th>Waktu</th><th>Nomor</th><th>Layanan</th><th>Target</th><th>Harga</th><th>Status</th><th>Aksi</th>
+  </tr></thead><tbody>
+  ${d.map(x=>`<tr>
+    <td class="nowrap">${fmtDate(x.createdAt)}</td>
+    <td class="mono">${x.phone||'–'}</td>
+    <td>${x.service||x.layanan||'–'}</td>
+    <td class="mono">${(x.target||'–').slice(0,25)}</td>
+    <td class="bold">${fmt(x.harga||x.price||0)}</td>
     <td>${badge(x.status||'pending')}</td>
     <td><div class="btnRow">
-      ${x.status==='pending'?`<button class="btn btnBlu btnSm" onclick="updateOrdStatus('${x.id}','diproses')">🔄 Proses</button>`:''}
-      ${x.status==='diproses'?`<button class="btn btnSuc btnSm" onclick="updateOrdStatus('${x.id}','selesai')">✅ Selesai</button>`:''}
-      ${['pending','diproses'].includes(x.status)?`<button class="btn btnDng btnSm" onclick="cancelOrder('${x.id}',${x.harga||x.price||0},'${x.phone||x.userId||''}')">❌ Batal</button>`:''}
-      <button class="btn btnGry btnSm" onclick="openOrdDetail('${x.id}')">🔍</button>
-    </div></td></tr>`).join('')}</tbody></table>`;
+      ${x.status==='pending'?`<button class="btn btnBlu btnSm" onclick="updateOrdStatus('${x.key}','diproses')">🔄 Proses</button>`:''}
+      ${x.status==='diproses'?`<button class="btn btnSuc btnSm" onclick="updateOrdStatus('${x.key}','selesai')">✅ Selesai</button>`:''}
+      ${['pending','diproses'].includes(x.status)?`<button class="btn btnDng btnSm" onclick="cancelOrder('${x.key}',${x.harga||x.price||0},'${x.phone||''}')">❌ Batal</button>`:''}
+      <button class="btn btnGry btnSm" onclick="openOrdDetail('${x.key}')">🔍</button>
+    </div></td>
+  </tr>`).join('')}</tbody></table>`;
 };
 
 function renderDashOrdPending() {
   const d = allOrders.filter(x=>x.status==='pending').slice(0,5);
   const el = document.getElementById('dashOrdPending');
-  if (!d.length){el.innerHTML=empty('Tidak ada order pending');return;}
-  el.innerHTML=`<table><thead><tr><th>ID</th><th>Waktu</th><th>Nomor</th><th>Layanan</th><th>Harga</th><th>Aksi</th></tr></thead><tbody>
-  ${d.map(x=>`<tr><td class="mono">${x.id.slice(-8)}</td><td class="nowrap">${fmtDate(x.createdAt)}</td>
-    <td class="mono">${x.phone||x.userId||'–'}</td><td>${x.service||x.layanan||'–'}</td><td class="bold">${fmt(x.harga||x.price||0)}</td>
+  if(!d.length){el.innerHTML=empty('Tidak ada order pending');return;}
+  el.innerHTML=`<table><thead><tr><th>Waktu</th><th>Nomor</th><th>Layanan</th><th>Harga</th><th>Aksi</th></tr></thead><tbody>
+  ${d.map(x=>`<tr>
+    <td class="nowrap">${fmtDate(x.createdAt)}</td>
+    <td class="mono">${x.phone||'–'}</td>
+    <td>${x.service||x.layanan||'–'}</td>
+    <td class="bold">${fmt(x.harga||x.price||0)}</td>
     <td><div class="btnRow">
-      <button class="btn btnBlu btnSm" onclick="updateOrdStatus('${x.id}','diproses')">🔄 Proses</button>
-      <button class="btn btnDng btnSm" onclick="cancelOrder('${x.id}',${x.harga||x.price||0},'${x.phone||x.userId||''}')">❌ Batal</button>
-    </div></td></tr>`).join('')}</tbody></table>`;
+      <button class="btn btnBlu btnSm" onclick="updateOrdStatus('${x.key}','diproses')">🔄 Proses</button>
+      <button class="btn btnDng btnSm" onclick="cancelOrder('${x.key}',${x.harga||x.price||0},'${x.phone||''}')">❌ Batal</button>
+    </div></td>
+  </tr>`).join('')}</tbody></table>`;
 }
 
-window.updateOrdStatus = async (id, status) => {
+window.updateOrdStatus = async (key, status) => {
   try {
-    await updateDoc(doc(db,'orders',id),{status,updatedAt:serverTimestamp(),updatedBy:currentUser.email});
+    await update(ref(db,`orders/${key}`),{status, updatedAt:Date.now(), updatedBy:currentUser.email});
     toast(`Status → ${status} ✅`);
   } catch(e){toast('Gagal: '+e.message,'err');}
 };
 
-window.cancelOrder = async (id, harga, userId) => {
-  if (!confirm(`Batalkan order & refund ${fmt(harga)} ke ${userId}?`)) return;
+window.cancelOrder = async (key, harga, phone) => {
+  if(!confirm(`Batalkan order & refund ${fmt(harga)} ke ${phone}?`)) return;
   try {
-    const b = writeBatch(db);
-    b.update(doc(db,'orders',id),{status:'dibatalkan',cancelledAt:serverTimestamp(),cancelledBy:currentUser.email});
-    if (userId&&harga>0) {
-      const u = await getDoc(doc(db,'users',userId));
-      if (u.exists()) b.update(doc(db,'users',userId),{saldo:increment(harga)});
+    await update(ref(db,`orders/${key}`),{status:'dibatalkan',cancelledAt:Date.now(),cancelledBy:currentUser.email});
+    if(phone && harga>0) {
+      const uSnap = await get(ref(db,`users/${phone}`));
+      if(uSnap.exists()){
+        const cur = uSnap.val().saldo||0;
+        await update(ref(db,`users/${phone}`),{saldo: cur+harga});
+      }
     }
-    await b.commit();
     toast(`Order dibatalkan, saldo ${fmt(harga)} dikembalikan ✅`);
   } catch(e){toast('Gagal: '+e.message,'err');}
 };
 
-window.openOrdDetail = id => {
-  const x = allOrders.find(d=>d.id===id); if(!x) return;
+window.openOrdDetail = key => {
+  const x = allOrders.find(d=>d.key===key); if(!x) return;
   openModal('Detail Order',`<div class="detailBox">
-    ${detRow('ID',x.id)}${detRow('Status',badge(x.status))}
-    ${detRow('Nomor WA',x.phone||x.userId)}${detRow('Layanan',x.service||x.layanan)}
+    ${detRow('Status',badge(x.status))}
+    ${detRow('Nomor WA',x.phone)}${detRow('Layanan',x.service||x.layanan)}
     ${detRow('Kategori',x.kategori)}${detRow('Target',x.target)}
     ${detRow('Harga',fmt(x.harga||x.price||0))}${detRow('Catatan',x.catatan||x.note)}
-    ${detRow('External ID',x.externalId)}${detRow('Dibuat',fmtDate(x.createdAt))}
-    ${detRow('Diupdate',fmtDate(x.updatedAt))}
+    ${detRow('External ID',x.externalId)}
+    ${detRow('Dibuat',fmtDate(x.createdAt))}${detRow('Diupdate',fmtDate(x.updatedAt))}
   </div>`);
 };
 
-// ── USERS ─────────────────────────────────────────────────────
-function loadUsers() {
-  const q = query(collection(db,'users'), orderBy('createdAt','desc'), limit(500));
-  unsubs.push(onSnapshot(q, snap => {
-    allUsers = snap.docs.map(d=>({id:d.id,...d.data()}));
+// ── USERS — RTDB onValue ──────────────────────────────────────
+function listenUsers() {
+  const r = ref(db,'users');
+  const fn = snap => {
+    allUsers = snapToArr(snap);
     renderUsers(); renderRoleManager(); updateStats();
-  }, e=>console.error('users',e)));
+  };
+  onValue(r, fn);
+  rtListeners.push({r, fn});
 }
 
 window.renderUsers = () => {
   const rf = document.getElementById('fUserRole').value;
   const q  = document.getElementById('fUserQ').value.toLowerCase();
   let d = allUsers;
-  if (rf) d=d.filter(x=>x.role===rf);
-  if (q)  d=d.filter(x=>(x.id||'').includes(q)||(x.phone||'').includes(q)||(x.name||'').toLowerCase().includes(q)||(x.email||'').toLowerCase().includes(q));
+  if(rf) d=d.filter(x=>x.role===rf);
+  if(q) d=d.filter(x=>(x.key||'').includes(q)||(x.phone||'').includes(q)||(x.name||'').toLowerCase().includes(q)||(x.email||'').toLowerCase().includes(q));
   const el = document.getElementById('userTable');
-  if (!d.length){el.innerHTML=empty('Tidak ada user');return;}
-  el.innerHTML=`<table><thead><tr><th>ID/Nomor WA</th><th>Nama</th><th>Email</th><th>Role</th><th>Saldo</th><th>Join</th><th>Aksi</th></tr></thead><tbody>
-  ${d.map(x=>`<tr><td class="mono">${x.id||x.phone||'–'}</td><td class="bold">${x.name||x.pushName||'–'}</td>
-    <td class="mono" style="font-size:.73rem">${x.email||'–'}</td><td>${badge(x.role||'user')}</td>
-    <td class="bold" style="color:var(--ac)">${fmt(x.saldo||0)}</td><td class="nowrap">${fmtDate(x.createdAt)}</td>
+  if(!d.length){el.innerHTML=empty('Tidak ada user');return;}
+  el.innerHTML=`<table><thead><tr>
+    <th>ID/Nomor WA</th><th>Nama</th><th>Email</th><th>Role</th><th>Saldo</th><th>Join</th><th>Aksi</th>
+  </tr></thead><tbody>
+  ${d.map(x=>`<tr>
+    <td class="mono">${x.key||x.phone||'–'}</td>
+    <td class="bold">${x.name||x.pushName||'–'}</td>
+    <td class="mono" style="font-size:.73rem">${x.email||'–'}</td>
+    <td>${badge(x.role||'user')}</td>
+    <td class="bold" style="color:var(--ac)">${fmt(x.saldo||0)}</td>
+    <td class="nowrap">${fmtDate(x.createdAt)}</td>
     <td><div class="btnRow">
-      <button class="btn btnSuc btnSm" onclick="openAdjSaldo('${x.id}',${x.saldo||0})">💰</button>
-      <button class="btn btnGry btnSm" onclick="openUserDetail('${x.id}')">🔍</button>
-    </div></td></tr>`).join('')}</tbody></table>`;
+      <button class="btn btnSuc btnSm" onclick="openAdjSaldo('${x.key}',${x.saldo||0})">💰</button>
+      <button class="btn btnGry btnSm" onclick="openUserDetail('${x.key}')">🔍</button>
+    </div></td>
+  </tr>`).join('')}</tbody></table>`;
 };
 
-window.openUserDetail = id => {
-  const u = allUsers.find(x=>x.id===id); if(!u) return;
-  const ordH = allOrders.filter(o=>(o.phone||o.userId)===id).slice(0,10);
-  const depH = allDeposits.filter(d=>(d.phone||d.userId)===id).slice(0,10);
-  openModal(`User: ${u.name||id}`,`
+window.openUserDetail = key => {
+  const u = allUsers.find(x=>x.key===key); if(!u) return;
+  const ordH = allOrders.filter(o=>o.phone===key||o.phone===u.phone).slice(0,10);
+  const depH = allDeposits.filter(d=>d.phone===key||d.phone===u.phone).slice(0,10);
+  openModal(`User: ${u.name||key}`,`
     <div class="detailBox" style="margin-bottom:14px">
-      ${detRow('ID',id)}${detRow('Nama',u.name||u.pushName)}${detRow('Email',u.email)}
-      ${detRow('Role',badge(u.role||'user'))}${detRow('Saldo',fmt(u.saldo||0))}
-      ${detRow('Total Deposit',fmt(u.totalDeposit||0))}${detRow('Total Order',u.totalOrder||0)}
-      ${detRow('Join',fmtDate(u.createdAt))}${detRow('Last Active',fmtDate(u.lastActive||u.updatedAt))}
+      ${detRow('ID/Key',key)}${detRow('Nama',u.name||u.pushName)}
+      ${detRow('Email',u.email)}${detRow('Role',badge(u.role||'user'))}
+      ${detRow('Saldo',fmt(u.saldo||0))}${detRow('Total Deposit',fmt(u.totalDeposit||0))}
+      ${detRow('Total Order',u.totalOrder||0)}
+      ${detRow('Join',fmtDate(u.createdAt))}${detRow('Last Active',fmtDate(u.lastActive))}
       ${detRow('Status',u.isBanned?'🚫 Banned':'✅ Aktif')}
     </div>
     <p style="font-size:.8rem;color:var(--t3);margin-bottom:6px">📦 Order Terkini</p>
-    <div class="userHist">${ordH.length?ordH.map(o=>`<div class="userHistItem"><span>${o.service||o.layanan||'–'} — ${o.target||''}</span><span style="color:${o.status==='selesai'?'var(--ac)':o.status==='dibatalkan'?'var(--red)':'var(--yel)'}">${o.status}</span></div>`).join(''):'<div style="padding:10px;color:var(--t3)">Belum ada order</div>'}</div>
+    <div class="userHist">${ordH.length?ordH.map(o=>`<div class="userHistItem">
+      <span>${o.service||o.layanan||'–'} — ${o.target||''}</span>
+      <span style="color:${o.status==='selesai'?'var(--ac)':o.status==='dibatalkan'?'var(--red)':'var(--yel)'}">${o.status}</span>
+    </div>`).join(''):'<div style="padding:10px;color:var(--t3)">Belum ada order</div>'}</div>
     <p style="font-size:.8rem;color:var(--t3);margin:12px 0 6px">💰 Deposit Terkini</p>
-    <div class="userHist">${depH.length?depH.map(d=>`<div class="userHistItem"><span>${d.method||'–'} — ${fmt(d.amount)}</span><span style="color:${d.status==='approved'?'var(--ac)':d.status==='rejected'?'var(--red)':'var(--yel)'}">${d.status}</span></div>`).join(''):'<div style="padding:10px;color:var(--t3)">Belum ada deposit</div>'}</div>
+    <div class="userHist">${depH.length?depH.map(d=>`<div class="userHistItem">
+      <span>${d.method||'–'} — ${fmt(d.amount)}</span>
+      <span style="color:${d.status==='approved'?'var(--ac)':d.status==='rejected'?'var(--red)':'var(--yel)'}">${d.status}</span>
+    </div>`).join(''):'<div style="padding:10px;color:var(--t3)">Belum ada deposit</div>'}</div>
     <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap">
-      <button class="btn btnSuc" onclick="closeModal();setTimeout(()=>openAdjSaldo('${id}',${u.saldo||0}),200)">💰 Saldo</button>
-      ${u.isBanned?`<button class="btn btnBlu" onclick="setBanned('${id}',false)">✅ Unban</button>`:`<button class="btn btnDng" onclick="setBanned('${id}',true)">🚫 Ban</button>`}
+      <button class="btn btnSuc" onclick="closeModal();setTimeout(()=>openAdjSaldo('${key}',${u.saldo||0}),200)">💰 Adjust Saldo</button>
+      ${u.isBanned
+        ?`<button class="btn btnBlu" onclick="setBanned('${key}',false)">✅ Unban</button>`
+        :`<button class="btn btnDng" onclick="setBanned('${key}',true)">🚫 Ban</button>`}
       <button class="btn btnGry" onclick="closeModal()">Tutup</button>
     </div>
   `);
 };
 
-window.openAdjSaldo = (id, cur) => {
-  openModal(`Adjust Saldo: ${id}`,`
+window.openAdjSaldo = (key, cur) => {
+  openModal(`Adjust Saldo: ${key}`,`
     <div class="detailBox" style="margin-bottom:14px">
-      ${detRow('User ID',id)}${detRow('Saldo Saat Ini',fmt(cur))}
+      ${detRow('User ID',key)}${detRow('Saldo Saat Ini',fmt(cur))}
     </div>
     <div class="formGrp"><label>Tipe</label>
       <select id="adjType" class="formSel">
@@ -1183,70 +1294,76 @@ window.openAdjSaldo = (id, cur) => {
       </select></div>
     <div class="formGrp"><label>Nominal (Rp)</label><input id="adjAmt" class="formInp" type="number" placeholder="0" min="0"/></div>
     <div class="formGrp"><label>Alasan</label><input id="adjNote" class="formInp" placeholder="Bonus, koreksi, dll"/></div>
-    <p class="adjNote">⚠️ Langsung mengubah saldo di database.</p>
+    <p style="font-size:.8rem;color:var(--t3);margin-top:4px">⚠️ Langsung mengubah saldo di RTDB.</p>
     <div style="display:flex;gap:8px;margin-top:14px">
-      <button class="btn btnPrimary" style="flex:1;justify-content:center" onclick="doAdjSaldo('${id}',${cur})">💾 Simpan</button>
+      <button class="btn btnPrimary" style="flex:1;justify-content:center" onclick="doAdjSaldo('${key}',${cur})">💾 Simpan</button>
       <button class="btn btnGry" onclick="closeModal()">Batal</button>
     </div>
   `);
 };
 
-window.doAdjSaldo = async (id, cur) => {
+window.doAdjSaldo = async (key, cur) => {
   const type = document.getElementById('adjType').value;
   const amt  = parseInt(document.getElementById('adjAmt').value)||0;
   const note = document.getElementById('adjNote').value.trim();
-  const ns   = type==='set'?amt:type==='add'?cur+amt:Math.max(0,cur-amt);
-  if (!confirm(`Ubah saldo: ${fmt(cur)} → ${fmt(ns)}?`)) return;
+  const ns   = type==='set'?amt : type==='add'?cur+amt : Math.max(0,cur-amt);
+  if(!confirm(`Ubah saldo: ${fmt(cur)} → ${fmt(ns)}?`)) return;
   try {
-    await updateDoc(doc(db,'users',id),{saldo:ns,saldoUpdatedAt:serverTimestamp(),saldoUpdatedBy:currentUser.email,saldoNote:note||null});
+    await update(ref(db,`users/${key}`),{
+      saldo:ns, saldoUpdatedAt:Date.now(),
+      saldoUpdatedBy:currentUser.email, saldoNote:note||null
+    });
     closeModal();
-    toast(`Saldo ${id} → ${fmt(ns)} ✅`);
+    toast(`Saldo ${key} → ${fmt(ns)} ✅`);
   } catch(e){toast('Gagal: '+e.message,'err');}
 };
 
-window.setBanned = async (id, banned) => {
-  if (!confirm(`${banned?'Ban':'Unban'} user ${id}?`)) return;
+window.setBanned = async (key, banned) => {
+  if(!confirm(`${banned?'Ban':'Unban'} user ${key}?`)) return;
   try {
-    await updateDoc(doc(db,'users',id),{isBanned:banned,updatedAt:serverTimestamp()});
+    await update(ref(db,`users/${key}`),{isBanned:banned, updatedAt:Date.now()});
     closeModal();
-    toast(`User ${id} ${banned?'dibanned':'diunban'} ✅`);
+    toast(`User ${key} ${banned?'dibanned':'diunban'} ✅`);
   } catch(e){toast('Gagal: '+e.message,'err');}
 };
 
 // ── ROLE MANAGER ──────────────────────────────────────────────
 function renderRoleManager() {
   const el = document.getElementById('roleMgrList');
-  if (!el) return;
-  if (!allUsers.length){el.innerHTML=empty('Belum ada user');return;}
+  if(!el) return;
+  if(!allUsers.length){el.innerHTML=empty('Belum ada user');return;}
   el.innerHTML = allUsers.map(u=>`
     <div class="reqCard">
       <div class="reqAvatar">${u.role==='admin'?'🛡️':'👤'}</div>
       <div class="reqInfo">
-        <div class="reqEmail">${u.email||u.name||u.id}</div>
+        <div class="reqEmail">${u.email||u.name||u.key}</div>
         <div class="reqDate">${u.name||'–'} · ${fmtDate(u.createdAt)} · ${badge(u.role||'user')}</div>
       </div>
       <div class="reqActions">
-        ${u.id===currentUser.uid?`<span style="font-size:.72rem;color:var(--t3)">👋 Ini kamu</span>`:''}
-        ${u.role!=='admin'&&u.id!==currentUser.uid?`<button class="btn btnPur btnSm" onclick="setUserRole('${u.id}','admin')">⬆️ Jadikan Admin</button>`:''}
-        ${u.role==='admin'&&u.id!==currentUser.uid?`<button class="btn btnYel btnSm" onclick="setUserRole('${u.id}','user')">⬇️ Turunkan User</button>`:''}
+        ${u.key===currentUser.uid?`<span style="font-size:.72rem;color:var(--t3)">👋 Ini kamu</span>`:''}
+        ${u.role!=='admin'&&u.key!==currentUser.uid
+          ?`<button class="btn btnPur btnSm" onclick="setUserRole('${u.key}','admin')">⬆️ Jadikan Admin</button>`:''}
+        ${u.role==='admin'&&u.key!==currentUser.uid
+          ?`<button class="btn btnYel btnSm" onclick="setUserRole('${u.key}','user')">⬇️ Turunkan User</button>`:''}
       </div>
     </div>
   `).join('');
 }
 
-window.setUserRole = async (id, role) => {
-  if (!confirm(`Ubah role ${id} → "${role}"?`)) return;
+window.setUserRole = async (key, role) => {
+  if(!confirm(`Ubah role ${key} → "${role}"?`)) return;
   try {
-    await updateDoc(doc(db,'users',id),{role,roleUpdatedAt:serverTimestamp(),roleUpdatedBy:currentUser.email});
-    toast(`Role ${id} → ${role} ✅`);
+    await update(ref(db,`users/${key}`),{role, roleUpdatedAt:Date.now(), roleUpdatedBy:currentUser.email});
+    toast(`Role ${key} → ${role} ✅`);
   } catch(e){toast('Gagal: '+e.message,'err');}
 };
 
-// ── SALDO OTP ─────────────────────────────────────────────────
-function loadSaldoOtp() {
-  unsubs.push(onSnapshot(doc(db,'config','saldootp'), snap => {
-    renderSaldoOtp(snap.exists()?snap.data():{});
-  }, e => { console.error('saldootp',e); renderSaldoOtp({}); }));
+// ── SALDO OTP — RTDB onValue ──────────────────────────────────
+function listenSaldoOtp() {
+  const r = ref(db,'config/saldootp');
+  const fn = snap => renderSaldoOtp(snap.exists()?snap.val():{});
+  onValue(r, fn, ()=>renderSaldoOtp({}));
+  rtListeners.push({r, fn});
 }
 
 function renderSaldoOtp(d) {
@@ -1257,8 +1374,10 @@ function renderSaldoOtp(d) {
         <button class="btn btnPrimary" onclick="openTopupOtp(${d.saldo||0})">➕ Top-up Saldo</button>
       </div>
       <div class="detailBox">
-        ${detRow('Provider',d.provider)}${detRow('API Key',d.apiKey?'••••'+d.apiKey.slice(-4):'–')}
-        ${detRow('Rate/OTP',fmt(d.ratePerOtp||0))}${detRow('Total Terpakai',fmt(d.totalUsed||0))}
+        ${detRow('Provider',d.provider)}
+        ${detRow('API Key',d.apiKey?'••••'+d.apiKey.slice(-4):'–')}
+        ${detRow('Rate/OTP',fmt(d.ratePerOtp||0))}
+        ${detRow('Total Terpakai',fmt(d.totalUsed||0))}
         ${detRow('Last Updated',fmtDate(d.updatedAt))}
       </div>
     </div>
@@ -1277,18 +1396,23 @@ function renderSaldoOtp(d) {
       <div id="sotpLogList"><div class="loading"><span class="spin"></span>Memuat…</div></div>
     </div>
   `;
-  loadSaldoOtpLog();
+  loadOtpLog();
 }
 
-async function loadSaldoOtpLog() {
+async function loadOtpLog() {
   try {
-    const q = query(collection(db,'otp_logs'), orderBy('createdAt','desc'), limit(50));
-    const snap = await getDocs(q);
-    const el = document.getElementById('sotpLogList');
-    if (!el) return;
-    if (snap.empty){el.innerHTML=empty('Belum ada log OTP');return;}
-    el.innerHTML=`<table><thead><tr><th>ID</th><th>Waktu</th><th>Nomor</th><th>Status</th><th>Biaya</th></tr></thead><tbody>
-    ${snap.docs.map(d=>{const x=d.data();return`<tr><td class="mono">${d.id.slice(-8)}</td><td class="nowrap">${fmtDate(x.createdAt)}</td><td class="mono">${x.phone||'–'}</td><td>${badge(x.status||'sent')}</td><td class="bold">${fmt(x.cost||0)}</td></tr>`;}).join('')}</tbody></table>`;
+    const snap = await get(ref(db,'otp_logs'));
+    const el   = document.getElementById('sotpLogList');
+    if(!el) return;
+    if(!snap.exists()){el.innerHTML=empty('Belum ada log OTP');return;}
+    const rows = snapToArr(snap).slice(0,50);
+    el.innerHTML=`<table><thead><tr><th>Waktu</th><th>Nomor</th><th>Status</th><th>Biaya</th></tr></thead><tbody>
+    ${rows.map(x=>`<tr>
+      <td class="nowrap">${fmtDate(x.createdAt)}</td>
+      <td class="mono">${x.phone||'–'}</td>
+      <td>${badge(x.status||'sent')}</td>
+      <td class="bold">${fmt(x.cost||0)}</td>
+    </tr>`).join('')}</tbody></table>`;
   } catch(e){ const el=document.getElementById('sotpLogList'); if(el) el.innerHTML=empty('otp_logs tidak ada'); }
 }
 
@@ -1307,10 +1431,11 @@ window.openTopupOtp = cur => {
 window.doTopupOtp = async cur => {
   const amt  = parseInt(document.getElementById('otpTopupAmt').value)||0;
   const note = document.getElementById('otpTopupNote').value.trim();
-  if (!amt){toast('Isi jumlah top-up','err');return;}
+  if(!amt){toast('Isi jumlah top-up','err');return;}
   try {
-    await setDoc(doc(db,'config','saldootp'),{saldo:increment(amt),updatedAt:serverTimestamp(),updatedBy:currentUser.email},{merge:true});
-    await addDoc(collection(db,'otp_topup_log'),{amount:amt,note,by:currentUser.email,createdAt:serverTimestamp()});
+    const cur2 = (await get(ref(db,'config/saldootp/saldo'))).val()||0;
+    await update(ref(db,'config/saldootp'),{saldo:cur2+amt, updatedAt:Date.now(), updatedBy:currentUser.email});
+    await push(ref(db,'otp_topup_log'),{amount:amt,note,by:currentUser.email,createdAt:Date.now()});
     closeModal();
     toast(`Saldo OTP +${fmt(amt)} ✅`);
   } catch(e){toast('Gagal: '+e.message,'err');}
@@ -1318,22 +1443,22 @@ window.doTopupOtp = async cur => {
 
 window.saveSaldoOtp = async () => {
   try {
-    await setDoc(doc(db,'config','saldootp'),{
-      provider:document.getElementById('sotpProvider').value.trim(),
-      apiKey:document.getElementById('sotpApiKey').value.trim(),
-      ratePerOtp:parseInt(document.getElementById('sotpRate').value)||0,
-      saldo:parseInt(document.getElementById('sotpSaldo').value)||0,
-      updatedAt:serverTimestamp(),updatedBy:currentUser.email
-    },{merge:true});
+    await update(ref(db,'config/saldootp'),{
+      provider: document.getElementById('sotpProvider').value.trim(),
+      apiKey:   document.getElementById('sotpApiKey').value.trim(),
+      ratePerOtp: parseInt(document.getElementById('sotpRate').value)||0,
+      saldo:    parseInt(document.getElementById('sotpSaldo').value)||0,
+      updatedAt: Date.now(), updatedBy: currentUser.email
+    });
     toast('Config OTP disimpan ✅');
   } catch(e){toast('Gagal: '+e.message,'err');}
 };
 
-// ── SETTINGS ──────────────────────────────────────────────────
+// ── SETTINGS — RTDB ───────────────────────────────────────────
 function loadSettings() {
-  getDoc(doc(db,'config','site')).then(snap=>{
+  get(ref(db,'config/site')).then(snap=>{
     if(!snap.exists()) return;
-    const d=snap.data();
+    const d = snap.val();
     document.getElementById('sCfgNama').value         = d.nama||'';
     document.getElementById('sCfgWA').value           = d.waAdmin||'';
     document.getElementById('sCfgTagline').value      = d.tagline||'';
@@ -1351,7 +1476,7 @@ function loadSettings() {
 
 window.saveSettings = async () => {
   try {
-    await setDoc(doc(db,'config','site'),{
+    await update(ref(db,'config/site'),{
       nama:            document.getElementById('sCfgNama').value.trim(),
       waAdmin:         document.getElementById('sCfgWA').value.trim(),
       tagline:         document.getElementById('sCfgTagline').value.trim(),
@@ -1364,8 +1489,8 @@ window.saveSettings = async () => {
       showAnnouncement:document.getElementById('sCfgShowAnnounce').value==='true',
       maintenance:     document.getElementById('sCfgMaintenance').value==='true',
       maintenanceMsg:  document.getElementById('sCfgMaintMsg').value.trim(),
-      updatedAt:       serverTimestamp(),updatedBy:currentUser.email
-    },{merge:true});
+      updatedAt:       Date.now(), updatedBy:currentUser.email
+    });
     toast('Settings disimpan ✅');
   } catch(e){toast('Gagal: '+e.message,'err');}
 };
