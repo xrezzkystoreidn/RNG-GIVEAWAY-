@@ -1012,17 +1012,24 @@ sb.auth.onAuthStateChange(async (event, session) => {
 });
 
 async function loadMyProfile() {
-  const {data} = await sb.from('users').select('*').eq('id',ME.id).single();
-  MY_PROFILE = data;
-  if(!MY_PROFILE) {
-    // auto-create profile if missing
-    await sb.from('users').insert({
-      id: ME.id, username: ME.email.split('@')[0], email: ME.email
-    });
-    const {data:d2} = await sb.from('users').select('*').eq('id',ME.id).single();
-    MY_PROFILE = d2;
+  try {
+    const {data} = await sb.from('users').select('*').eq('id',ME.id).single();
+    MY_PROFILE = data;
+    if(!MY_PROFILE) {
+      await sb.from('users').upsert({
+        id: ME.id, username: ME.email.split('@')[0], email: ME.email,
+        created_at: new Date().toISOString()
+      });
+      const {data:d2} = await sb.from('users').select('*').eq('id',ME.id).single();
+      MY_PROFILE = d2;
+    }
+    updateSidebarUI();
+  } catch(e) {
+    console.error('loadMyProfile error:', e);
+    // Fallback agar app tetap jalan
+    MY_PROFILE = { id: ME.id, username: ME.email.split('@')[0], email: ME.email };
+    updateSidebarUI();
   }
-  updateSidebarUI();
 }
 
 function updateSidebarUI() {
@@ -1069,13 +1076,18 @@ function cleanupChannels() {
 // ║            CONVERSATIONS                    ║
 // ╚════════════════════════════════════════════╝
 async function loadConvos() {
-  const {data} = await sb.from('conversations')
-    .select('*, partner:partner_id(*)')
-    .eq('owner_id', ME.id)
-    .order('updated_at', {ascending:false});
-
-  convos = data || [];
-  await renderConvoList(convos);
+  try {
+    const {data, error} = await sb.from('conversations')
+      .select('*, partner:partner_id(*)')
+      .eq('owner_id', ME.id)
+      .order('updated_at', {ascending:false});
+    if(error) throw error;
+    convos = data || [];
+    await renderConvoList(convos);
+  } catch(e) {
+    console.error('loadConvos error:', e);
+    showToast('Gagal memuat percakapan. Coba refresh.');
+  }
 }
 
 async function renderConvoList(list) {
@@ -1088,54 +1100,64 @@ async function renderConvoList(list) {
     </div>`; return;
   }
 
-  let html='';
-  let totalUnread=0;
+  const validList = list.filter(c => c.partner);
+  if(!validList.length) { el.innerHTML=''; return; }
 
-  for(const c of list) {
-    const partner = c.partner;
-    if(!partner) continue;
+  const convoIds   = validList.map(c => c.id);
+  const partnerIds = validList.map(c => c.partner.id);
 
-    const {data:lastMsgArr} = await sb.from('messages')
-      .select('text,sender_id,created_at,is_read')
-      .eq('conversation_id', c.id)
-      .order('created_at',{ascending:false}).limit(1);
-    const last = lastMsgArr?.[0];
+  // Batch fetch: last messages per convo
+  const {data:allMsgs} = await sb.from('messages')
+    .select('conversation_id,text,sender_id,created_at,is_read')
+    .in('conversation_id', convoIds)
+    .order('created_at', {ascending:false});
 
-    const {count:unread} = await sb.from('messages')
-      .select('*',{count:'exact',head:true})
-      .eq('conversation_id',c.id)
-      .eq('is_read',false)
-      .neq('sender_id',ME.id);
+  // Batch fetch: presence for all partners
+  const {data:presRows} = await sb.from('user_presence')
+    .select('user_id,is_online')
+    .in('user_id', partnerIds);
 
-    const u = unread||0;
-    totalUnread += u;
+  // Build lookup maps
+  const lastMsgMap = {};
+  const unreadMap  = {};
+  (allMsgs||[]).forEach(m => {
+    if(!lastMsgMap[m.conversation_id]) lastMsgMap[m.conversation_id] = m;
+    if(!m.is_read && m.sender_id !== ME.id) {
+      unreadMap[m.conversation_id] = (unreadMap[m.conversation_id]||0) + 1;
+    }
+  });
+  const presMap = {};
+  (presRows||[]).forEach(p => presMap[p.user_id] = p.is_online);
 
-    const {data:pres} = await sb.from('user_presence').select('is_online').eq('user_id',partner.id).single();
-    const isOnline = pres?.is_online||false;
-
+  let html = '';
+  validList.forEach(c => {
+    const partner  = c.partner;
+    const last     = lastMsgMap[c.id];
+    const u        = unreadMap[c.id] || 0;
+    const isOnline = presMap[partner.id] || false;
     const lastText = last
-      ? (last.sender_id===ME.id ? '✓ ' : '') + truncate(last.text,34)
+      ? (last.sender_id===ME.id ? '✓ ' : '') + truncate(last.text, 34)
       : 'Mulai percakapan...';
 
-    html += `<div class="convo-item${activeConvoId===c.id?' active':''}" 
+    html += `<div class="convo-item${activeConvoId===c.id?' active':''}"
       onclick="openConvo('${c.id}','${partner.id}','${esc(partner.username)}','${esc(partner.email)}')"
       data-name="${(partner.username||'').toLowerCase()}">
       <div class="convo-avatar">
         <img src="${avatarUrl(partner.username)}" alt="${partner.username}">
-        ${isOnline?`<div class="online-ring"></div>`:''}
+        ${isOnline ? `<div class="online-ring"></div>` : ''}
       </div>
       <div class="convo-info">
         <div class="convo-top">
           <span class="convo-name">${esc(partner.username)}</span>
-          <span class="convo-time">${last?fmtTime(last.created_at):''}</span>
+          <span class="convo-time">${last ? fmtTime(last.created_at) : ''}</span>
         </div>
         <div class="convo-bot">
           <span class="convo-last">${esc(lastText)}</span>
-          ${u>0?`<span class="unread-pill">${u>99?'99+':u}</span>`:''}
+          ${u>0 ? `<span class="unread-pill">${u>99?'99+':u}</span>` : ''}
         </div>
       </div>
     </div>`;
-  }
+  });
   el.innerHTML = html;
 }
 
@@ -1219,13 +1241,19 @@ async function refreshPartnerPresence() {
 // ║               MESSAGES                      ║
 // ╚════════════════════════════════════════════╝
 async function loadMessages() {
-  const {data} = await sb.from('messages')
-    .select('*')
-    .eq('conversation_id', activeConvoId)
-    .order('created_at',{ascending:true});
-  msgs = data||[];
-  renderMessages();
-  scrollBottom();
+  try {
+    const {data, error} = await sb.from('messages')
+      .select('*')
+      .eq('conversation_id', activeConvoId)
+      .order('created_at',{ascending:true});
+    if(error) throw error;
+    msgs = data||[];
+    renderMessages();
+    scrollBottom();
+  } catch(e) {
+    console.error('loadMessages error:', e);
+    showToast('Gagal memuat pesan.');
+  }
 }
 
 function renderMessages() {
@@ -1328,21 +1356,34 @@ async function sendMsg() {
   const input=document.getElementById('msg-input');
   const text=input.value.trim();
   if(!text||!activeConvoId) return;
+
+  const savedText = text;
+  const savedReply = replyTo;
   input.value=''; autoResize(input);
   hideTypingIndicator();
-
-  const msgData = {
-    conversation_id: activeConvoId,
-    sender_id: ME.id,
-    text, is_read:false,
-    reply_to_id: replyTo?.id||null,
-    reactions: {}
-  };
   cancelReply();
 
-  await sb.from('messages').insert(msgData);
-  // Bump convo updated_at for both sides
-  await sb.from('conversations').update({updated_at:new Date().toISOString()}).eq('id',activeConvoId);
+  try {
+    const msgData = {
+      conversation_id: activeConvoId,
+      sender_id: ME.id,
+      text, is_read:false,
+      reply_to_id: savedReply?.id||null,
+      reactions: {}
+    };
+    const {error} = await sb.from('messages').insert(msgData);
+    if(error) throw error;
+    // Bump convo updated_at
+    await sb.from('conversations')
+      .update({updated_at:new Date().toISOString()})
+      .eq('id',activeConvoId);
+  } catch(e) {
+    // Kembalikan text kalau gagal kirim
+    input.value = savedText;
+    autoResize(input);
+    showToast('Gagal mengirim pesan. Coba lagi.');
+    console.error('sendMsg error:', e);
+  }
 }
 
 function handleKey(e) {
@@ -1454,9 +1495,11 @@ function hideTypingIndicator() { document.getElementById('typing-row').style.dis
 // ── PRESENCE ──
 async function upsertPresence(online) {
   if(!ME) return;
-  await sb.from('user_presence').upsert({
-    user_id:ME.id, is_online:online, last_seen:new Date().toISOString()
-  },{onConflict:'user_id'});
+  try {
+    await sb.from('user_presence').upsert({
+      user_id:ME.id, is_online:online, last_seen:new Date().toISOString()
+    },{onConflict:'user_id'});
+  } catch(e) { /* silent - presence non-critical */ }
 }
 
 function subscribePartnerPresence(partnerId) {
