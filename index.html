@@ -920,10 +920,24 @@ async function doLogin() {
   const pass  = document.getElementById('l-pass').value;
   if(!email||!pass) return showError('Isi email dan password.');
   const btn = document.querySelector('#form-login .btn-primary');
+  const resetBtn = () => { btn.disabled=false; btn.innerText='Masuk'; };
   btn.disabled=true; btn.innerHTML='<span class="spinner"></span>';
-  const {error} = await sb.auth.signInWithPassword({email,password:pass});
-  btn.disabled=false; btn.innerText='Masuk';
-  if(error) showError(error.message === 'Invalid login credentials' ? 'Email atau password salah.' : error.message);
+
+  const timeout = setTimeout(() => {
+    resetBtn();
+    showError('Koneksi timeout. Cek internet / coba lagi.');
+  }, 15000);
+
+  try {
+    const {error} = await sb.auth.signInWithPassword({email, password:pass});
+    clearTimeout(timeout);
+    resetBtn();
+    if(error) showError(error.message === 'Invalid login credentials' ? 'Email atau password salah.' : error.message);
+  } catch(err) {
+    clearTimeout(timeout);
+    resetBtn();
+    showError('Gagal terhubung ke server: ' + (err.message || 'Unknown error'));
+  }
 }
 
 async function doRegister() {
@@ -936,22 +950,35 @@ async function doRegister() {
   if(pass.length<6) return showError('Password minimal 6 karakter.');
 
   const btn = document.querySelector('#form-register .btn-primary');
+  const resetBtn = () => { btn.disabled=false; btn.innerText='Buat Akun'; };
   btn.disabled=true; btn.innerHTML='<span class="spinner"></span>';
 
-  const {data, error} = await sb.auth.signUp({email, password:pass});
-  if(error) { btn.disabled=false; btn.innerText='Buat Akun'; return showError(error.message); }
+  const timeout = setTimeout(() => {
+    resetBtn();
+    showError('Koneksi timeout. Cek internet / coba lagi.');
+  }, 15000);
 
-  // Insert user profile
-  if(data.user) {
-    await sb.from('users').upsert({
-      id: data.user.id, username, email,
-      created_at: new Date().toISOString()
-    });
+  try {
+    const {data, error} = await sb.auth.signUp({email, password:pass});
+    clearTimeout(timeout);
+    if(error) { resetBtn(); return showError(error.message); }
+
+    if(data.user) {
+      const {error:e} = await sb.from('users').upsert({
+        id: data.user.id, username, email,
+        created_at: new Date().toISOString()
+      });
+      if(e) console.warn('upsert users error:', e.message);
+    }
+
+    resetBtn();
+    showSuccess('Akun dibuat! Cek email atau langsung login kalau verifikasi dimatiin.');
+    document.getElementById('auth-notice').style.display='block';
+  } catch(err) {
+    clearTimeout(timeout);
+    resetBtn();
+    showError('Gagal terhubung ke server: ' + (err.message || 'Unknown error'));
   }
-
-  btn.disabled=false; btn.innerText='Buat Akun';
-  showSuccess('Akun dibuat! ');
-  document.getElementById('auth-notice').style.display='block';
 }
 
 async function doForgot() {
