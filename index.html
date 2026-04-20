@@ -940,17 +940,25 @@ async function doRegister() {
   const {data, error} = await sb.auth.signUp({email, password:pass});
   if(error) { btn.disabled=false; btn.innerText='Buat Akun'; return showError(error.message); }
 
-  // Insert user profile
-  if(data.user) {
-    await sb.from('users').upsert({
-      id: data.user.id, username, email,
-      created_at: new Date().toISOString()
-    });
+  // Langsung login setelah daftar (tanpa perlu verifikasi email)
+  const {data:loginData, error:loginErr} = await sb.auth.signInWithPassword({email, password:pass});
+
+  if(loginErr || !loginData?.user) {
+    // Jika Supabase masih wajibkan verifikasi email
+    btn.disabled=false; btn.innerText='Buat Akun';
+    showSuccess('Akun dibuat! Cek email untuk verifikasi lalu login.');
+    document.getElementById('auth-notice').style.display='block';
+    return;
   }
 
+  // Simpan profil ke tabel users setelah login berhasil
+  await sb.from('users').upsert({
+    id: loginData.user.id, username, email,
+    created_at: new Date().toISOString()
+  });
+
   btn.disabled=false; btn.innerText='Buat Akun';
-  showSuccess('Akun dibuat! ');
-  document.getElementById('auth-notice').style.display='block';
+  // onAuthStateChange otomatis handle redirect ke app
 }
 
 async function doForgot() {
