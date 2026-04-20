@@ -857,8 +857,7 @@ body {
 // ╔════════════════════════════════════════════╗
 // ║            SUPABASE CLIENT                  ║
 // ╚════════════════════════════════════════════╝
-const { createClient } = window.supabase;
-const sb = createClient(
+const sb = window.supabase.createClient(
   'https://jouuclupxalghirpbstz.supabase.co',
   'sb_publishable_VFKiEn2t217qjoDISBliwQ_L4ruqKps'
 );
