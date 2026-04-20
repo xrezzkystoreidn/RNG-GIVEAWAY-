@@ -832,7 +832,7 @@ body {
     <div class="sheet-body">
       <div class="user-search-field">
         <i class="fa fa-magnifying-glass" style="color:var(--text3);font-size:14px;"></i>
-        <input type="email" id="search-email" placeholder="Cari email pengguna..." oninput="debounceSearch(this.value)" autocomplete="off">
+        <input type="text" id="search-email" placeholder="Cari nama atau email pengguna..." oninput="debounceSearch(this.value)" autocomplete="off">
       </div>
       <div id="search-results">
         <div style="text-align:center;padding:32px 0;color:var(--text3);">
@@ -1018,6 +1018,7 @@ function initApp() {
   loadConvos();
   upsertPresence(true);
   subscribeConvos();
+  subscribeSidebarPresence();
 
   // Heartbeat for presence
   window._presenceInterval = setInterval(() => upsertPresence(true), 25000);
@@ -1034,7 +1035,7 @@ function initApp() {
 }
 
 function cleanupChannels() {
-  [msgChannel, typingChannel, presenceChannel, convoChannel].forEach(c => { if(c) sb.removeChannel(c); });
+  [msgChannel, typingChannel, presenceChannel, convoChannel, sidebarPresenceChannel].forEach(c => { if(c) sb.removeChannel(c); });
   clearInterval(window._presenceInterval);
 }
 
@@ -1092,10 +1093,13 @@ async function renderConvoList(list) {
 
     html += `<div class="convo-item${activeConvoId===c.id?' active':''}" 
       onclick="openConvo('${c.id}','${partner.id}','${esc(partner.username)}','${esc(partner.email)}')"
-      data-name="${(partner.username||'').toLowerCase()}">
+      data-name="${(partner.username||'').toLowerCase()}"
+      data-email="${(partner.email||'').toLowerCase()}"
+      data-convo-id="${c.id}"
+      data-partner-id="${partner.id}">
       <div class="convo-avatar">
         <img src="${avatarUrl(partner.username)}" alt="${partner.username}">
-        ${isOnline?`<div class="online-ring"></div>`:''}
+        ${isOnline?`<div class="online-ring" id="ring-${partner.id}"></div>`:`<div class="online-ring" id="ring-${partner.id}" style="display:none;"></div>`}
       </div>
       <div class="convo-info">
         <div class="convo-top">
@@ -1103,7 +1107,7 @@ async function renderConvoList(list) {
           <span class="convo-time">${last?fmtTime(last.created_at):''}</span>
         </div>
         <div class="convo-bot">
-          <span class="convo-last">${esc(lastText)}</span>
+          <span class="convo-last" id="convo-status-${partner.id}">${isOnline?'<span style="color:var(--green);font-size:11px;">● Online</span>':esc(lastText)}</span>
           ${u>0?`<span class="unread-pill">${u>99?'99+':u}</span>`:''}
         </div>
       </div>
@@ -1120,9 +1124,43 @@ function subscribeConvos() {
     .subscribe();
 }
 
+// Realtime presence updates for all contacts in sidebar
+let sidebarPresenceChannel = null;
+function subscribeSidebarPresence() {
+  if(sidebarPresenceChannel) sb.removeChannel(sidebarPresenceChannel);
+  sidebarPresenceChannel = sb.channel('sidebar-presence-all')
+    .on('postgres_changes',{event:'*',schema:'public',table:'user_presence'},
+      (payload)=>{
+        const uid = payload.new?.user_id || payload.old?.user_id;
+        if(!uid) return;
+        const isOnline = payload.new?.is_online || false;
+        const lastSeen = payload.new?.last_seen;
+        // Update ring dot
+        const ring = document.getElementById('ring-'+uid);
+        if(ring) ring.style.display = isOnline ? 'block' : 'none';
+        // Update status text in sidebar (only if not currently open convo)
+        if(activePartner?.id === uid) {
+          refreshPartnerPresence();
+        }
+        // Update sidebar convo-last text
+        const statusEl = document.getElementById('convo-status-'+uid);
+        if(statusEl) {
+          if(isOnline) {
+            statusEl.innerHTML = '<span style="color:var(--green);font-size:11px;">● Online</span>';
+          } else if(lastSeen) {
+            statusEl.innerHTML = `<span style="color:var(--text3);font-size:11px;">Terakhir ${fmtTime(lastSeen)}</span>`;
+          }
+        }
+      })
+    .subscribe();
+}
+
 function filterConvos(v) {
+  const q = v.toLowerCase();
   document.querySelectorAll('.convo-item').forEach(el=>{
-    el.style.display = el.dataset.name?.includes(v.toLowerCase()) ? '' : 'none';
+    const name = (el.dataset.name||'').toLowerCase();
+    const email = (el.dataset.email||'').toLowerCase();
+    el.style.display = (name.includes(q)||email.includes(q)) ? '' : 'none';
   });
 }
 
@@ -1487,24 +1525,25 @@ function closeNewChat() { document.getElementById('modal-new-chat').classList.re
 function resetSearchResults() {
   document.getElementById('search-results').innerHTML=`
     <div style="text-align:center;padding:32px 0;color:var(--text3);">
-      <i class="fa fa-envelope" style="font-size:28px;opacity:.3;display:block;margin-bottom:8px;"></i>
-      <p style="font-size:13px;">Ketik email untuk mencari pengguna</p>
+      <i class="fa fa-magnifying-glass" style="font-size:28px;opacity:.3;display:block;margin-bottom:8px;"></i>
+      <p style="font-size:13px;">Ketik nama atau email untuk mencari pengguna</p>
     </div>`;
 }
 
 function debounceSearch(v) {
   clearTimeout(searchTimer);
-  if(!v||v.length<3) { resetSearchResults(); return; }
-  searchTimer=setTimeout(()=>searchUser(v),400);
+  if(!v||v.length<2) { resetSearchResults(); return; }
+  searchTimer=setTimeout(()=>searchUser(v),350);
 }
 
 async function searchUser(q) {
   const el=document.getElementById('search-results');
   el.innerHTML=`<div style="text-align:center;padding:20px;"><span class="spinner"></span></div>`;
 
+  // Search by both username AND email simultaneously
   const {data:users} = await sb.from('users')
     .select('id,username,email')
-    .ilike('email','%'+q+'%')
+    .or(`username.ilike.%${q}%,email.ilike.%${q}%`)
     .neq('id',ME.id)
     .limit(10);
 
@@ -1512,20 +1551,49 @@ async function searchUser(q) {
     el.innerHTML=`<div style="text-align:center;padding:32px 0;color:var(--text3);">
       <i class="fa fa-user-slash" style="font-size:28px;opacity:.3;display:block;margin-bottom:8px;"></i>
       <p style="font-size:13px;">Pengguna tidak ditemukan</p>
-      <p style="font-size:11px;margin-top:4px;opacity:.6;">Pastikan email sudah terdaftar</p>
+      <p style="font-size:11px;margin-top:4px;opacity:.6;">Coba kata kunci lain</p>
     </div>`;
     return;
   }
 
-  el.innerHTML = users.map(u=>`
+  // Fetch presence for all found users at once
+  const ids = users.map(u=>u.id);
+  const {data:presenceList} = await sb.from('user_presence')
+    .select('user_id,is_online,last_seen')
+    .in('user_id', ids);
+  const presMap = {};
+  (presenceList||[]).forEach(p=>{ presMap[p.user_id]=p; });
+
+  el.innerHTML = users.map(u=>{
+    const pres = presMap[u.id];
+    const isOnline = pres?.is_online||false;
+    const lastSeen = pres?.last_seen;
+    const statusBadge = isOnline
+      ? `<span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--green);font-weight:700;">
+           <span style="width:7px;height:7px;background:var(--green);border-radius:50%;display:inline-block;"></span>Online
+         </span>`
+      : lastSeen
+        ? `<span style="font-size:10px;color:var(--text3);">Terakhir ${fmtTime(lastSeen)}</span>`
+        : `<span style="font-size:10px;color:var(--text3);">Belum aktif</span>`;
+
+    // Highlight matched query in name/email
+    const hl = (s) => s.replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),
+      '<mark style="background:rgba(59,130,246,0.25);color:var(--accent);border-radius:3px;padding:0 2px;">$1</mark>');
+
+    return `
     <div class="user-result" onclick="startChat('${u.id}','${esc(u.username)}','${esc(u.email)}')">
-      <img src="${avatarUrl(u.username)}" alt="${u.username}">
-      <div>
-        <div class="user-result-name">${esc(u.username)}</div>
-        <div class="user-result-email">${esc(u.email)}</div>
+      <div style="position:relative;flex-shrink:0;">
+        <img src="${avatarUrl(u.username)}" alt="${u.username}">
+        ${isOnline?`<span style="position:absolute;bottom:1px;right:1px;width:10px;height:10px;background:var(--green);border-radius:50%;border:2px solid var(--surface);"></span>`:''}
+      </div>
+      <div style="flex:1;min-width:0;">
+        <div class="user-result-name">${hl(esc(u.username))}</div>
+        <div class="user-result-email">${hl(esc(u.email))}</div>
+        <div style="margin-top:3px;">${statusBadge}</div>
       </div>
       <button class="chat-btn">Chat</button>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
 async function startChat(partnerId, partnerUsername, partnerEmail) {
