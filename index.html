@@ -832,7 +832,7 @@ body {
     <div class="sheet-body">
       <div class="user-search-field">
         <i class="fa fa-magnifying-glass" style="color:var(--text3);font-size:14px;"></i>
-        <input type="text" id="search-email" placeholder="Cari nama atau email pengguna..." oninput="debounceSearch(this.value)" autocomplete="off">
+        <input type="text" id="search-email" placeholder="Cari nama atau email..." oninput="debounceSearch(this.value)" autocomplete="off">
       </div>
       <div id="search-results">
         <div style="text-align:center;padding:32px 0;color:var(--text3);">
@@ -857,10 +857,11 @@ body {
 // ╔════════════════════════════════════════════╗
 // ║            SUPABASE CLIENT                  ║
 // ╚════════════════════════════════════════════╝
-const sb = window.supabase.createClient(
+const supabase = window.supabase.createClient(
   'https://jouuclupxalghirpbstz.supabase.co',
   'sb_publishable_VFKiEn2t217qjoDISBliwQ_L4ruqKps'
 );
+const sb = supabase;
 
 // ╔════════════════════════════════════════════╗
 // ║                  STATE                      ║
@@ -940,25 +941,24 @@ async function doRegister() {
   const {data, error} = await sb.auth.signUp({email, password:pass});
   if(error) { btn.disabled=false; btn.innerText='Buat Akun'; return showError(error.message); }
 
-  // Langsung login setelah daftar (tanpa perlu verifikasi email)
+  // Langsung login setelah daftar
   const {data:loginData, error:loginErr} = await sb.auth.signInWithPassword({email, password:pass});
 
   if(loginErr || !loginData?.user) {
-    // Jika Supabase masih wajibkan verifikasi email
     btn.disabled=false; btn.innerText='Buat Akun';
     showSuccess('Akun dibuat! Cek email untuk verifikasi lalu login.');
     document.getElementById('auth-notice').style.display='block';
     return;
   }
 
-  // Simpan profil ke tabel users setelah login berhasil
+  // Simpan profil user
   await sb.from('users').upsert({
     id: loginData.user.id, username, email,
     created_at: new Date().toISOString()
   });
 
   btn.disabled=false; btn.innerText='Buat Akun';
-  // onAuthStateChange otomatis handle redirect ke app
+  // onAuthStateChange otomatis bawa masuk ke app
 }
 
 async function doForgot() {
@@ -1042,7 +1042,7 @@ function initApp() {
 }
 
 function cleanupChannels() {
-  [msgChannel, typingChannel, presenceChannel, convoChannel, sidebarPresenceChannel].forEach(c => { if(c) sb.removeChannel(c); });
+  [msgChannel, typingChannel, presenceChannel, convoChannel, sidebarPresChannel].forEach(c => { if(c) sb.removeChannel(c); });
   clearInterval(window._presenceInterval);
 }
 
@@ -1102,11 +1102,10 @@ async function renderConvoList(list) {
       onclick="openConvo('${c.id}','${partner.id}','${esc(partner.username)}','${esc(partner.email)}')"
       data-name="${(partner.username||'').toLowerCase()}"
       data-email="${(partner.email||'').toLowerCase()}"
-      data-convo-id="${c.id}"
       data-partner-id="${partner.id}">
       <div class="convo-avatar">
         <img src="${avatarUrl(partner.username)}" alt="${partner.username}">
-        ${isOnline?`<div class="online-ring" id="ring-${partner.id}"></div>`:`<div class="online-ring" id="ring-${partner.id}" style="display:none;"></div>`}
+        <div class="online-ring" id="ring-${partner.id}" style="${isOnline?'':'display:none;'}"></div>
       </div>
       <div class="convo-info">
         <div class="convo-top">
@@ -1114,7 +1113,7 @@ async function renderConvoList(list) {
           <span class="convo-time">${last?fmtTime(last.created_at):''}</span>
         </div>
         <div class="convo-bot">
-          <span class="convo-last" id="convo-status-${partner.id}">${isOnline?'<span style="color:var(--green);font-size:11px;">● Online</span>':esc(lastText)}</span>
+          <span class="convo-last" id="clast-${partner.id}">${isOnline?'<span style="color:var(--green);font-size:11px;font-weight:600;">● Online</span>':esc(lastText)}</span>
           ${u>0?`<span class="unread-pill">${u>99?'99+':u}</span>`:''}
         </div>
       </div>
@@ -1131,34 +1130,27 @@ function subscribeConvos() {
     .subscribe();
 }
 
-// Realtime presence updates for all contacts in sidebar
-let sidebarPresenceChannel = null;
+let sidebarPresChannel = null;
 function subscribeSidebarPresence() {
-  if(sidebarPresenceChannel) sb.removeChannel(sidebarPresenceChannel);
-  sidebarPresenceChannel = sb.channel('sidebar-presence-all')
-    .on('postgres_changes',{event:'*',schema:'public',table:'user_presence'},
-      (payload)=>{
-        const uid = payload.new?.user_id || payload.old?.user_id;
-        if(!uid) return;
-        const isOnline = payload.new?.is_online || false;
-        const lastSeen = payload.new?.last_seen;
-        // Update ring dot
-        const ring = document.getElementById('ring-'+uid);
-        if(ring) ring.style.display = isOnline ? 'block' : 'none';
-        // Update status text in sidebar (only if not currently open convo)
-        if(activePartner?.id === uid) {
-          refreshPartnerPresence();
-        }
-        // Update sidebar convo-last text
-        const statusEl = document.getElementById('convo-status-'+uid);
-        if(statusEl) {
-          if(isOnline) {
-            statusEl.innerHTML = '<span style="color:var(--green);font-size:11px;">● Online</span>';
-          } else if(lastSeen) {
-            statusEl.innerHTML = `<span style="color:var(--text3);font-size:11px;">Terakhir ${fmtTime(lastSeen)}</span>`;
-          }
-        }
-      })
+  if(sidebarPresChannel) sb.removeChannel(sidebarPresChannel);
+  sidebarPresChannel = sb.channel('sidebar-pres-all')
+    .on('postgres_changes',{event:'*',schema:'public',table:'user_presence'}, payload=>{
+      const uid = payload.new?.user_id||payload.old?.user_id;
+      if(!uid) return;
+      const isOnline = payload.new?.is_online||false;
+      const lastSeen = payload.new?.last_seen;
+      // Update dot di sidebar
+      const ring = document.getElementById('ring-'+uid);
+      if(ring) ring.style.display = isOnline?'':'none';
+      // Update teks status di sidebar
+      const clast = document.getElementById('clast-'+uid);
+      if(clast) {
+        if(isOnline) clast.innerHTML='<span style="color:var(--green);font-size:11px;font-weight:600;">● Online</span>';
+        else if(lastSeen) clast.innerHTML=`<span style="color:var(--text3);font-size:11px;">Terakhir ${fmtTime(lastSeen)}</span>`;
+      }
+      // Update header chat jika partner ini sedang aktif
+      if(activePartner?.id===uid) refreshPartnerPresence();
+    })
     .subscribe();
 }
 
@@ -1167,7 +1159,7 @@ function filterConvos(v) {
   document.querySelectorAll('.convo-item').forEach(el=>{
     const name = (el.dataset.name||'').toLowerCase();
     const email = (el.dataset.email||'').toLowerCase();
-    el.style.display = (name.includes(q)||email.includes(q)) ? '' : 'none';
+    el.style.display = (!q || name.includes(q) || email.includes(q)) ? '' : 'none';
   });
 }
 
@@ -1532,8 +1524,8 @@ function closeNewChat() { document.getElementById('modal-new-chat').classList.re
 function resetSearchResults() {
   document.getElementById('search-results').innerHTML=`
     <div style="text-align:center;padding:32px 0;color:var(--text3);">
-      <i class="fa fa-magnifying-glass" style="font-size:28px;opacity:.3;display:block;margin-bottom:8px;"></i>
-      <p style="font-size:13px;">Ketik nama atau email untuk mencari pengguna</p>
+      <i class="fa fa-envelope" style="font-size:28px;opacity:.3;display:block;margin-bottom:8px;"></i>
+      <p style="font-size:13px;">Ketik email untuk mencari pengguna</p>
     </div>`;
 }
 
@@ -1547,7 +1539,6 @@ async function searchUser(q) {
   const el=document.getElementById('search-results');
   el.innerHTML=`<div style="text-align:center;padding:20px;"><span class="spinner"></span></div>`;
 
-  // Search by both username AND email simultaneously
   const {data:users} = await sb.from('users')
     .select('id,username,email')
     .or(`username.ilike.%${q}%,email.ilike.%${q}%`)
@@ -1558,35 +1549,26 @@ async function searchUser(q) {
     el.innerHTML=`<div style="text-align:center;padding:32px 0;color:var(--text3);">
       <i class="fa fa-user-slash" style="font-size:28px;opacity:.3;display:block;margin-bottom:8px;"></i>
       <p style="font-size:13px;">Pengguna tidak ditemukan</p>
-      <p style="font-size:11px;margin-top:4px;opacity:.6;">Coba kata kunci lain</p>
+      <p style="font-size:11px;margin-top:4px;opacity:.6;">Coba nama atau email lain</p>
     </div>`;
     return;
   }
 
-  // Fetch presence for all found users at once
+  // Fetch presence semua user sekaligus
   const ids = users.map(u=>u.id);
-  const {data:presenceList} = await sb.from('user_presence')
-    .select('user_id,is_online,last_seen')
-    .in('user_id', ids);
+  const {data:presList} = await sb.from('user_presence').select('user_id,is_online,last_seen').in('user_id',ids);
   const presMap = {};
-  (presenceList||[]).forEach(p=>{ presMap[p.user_id]=p; });
+  (presList||[]).forEach(p=>{ presMap[p.user_id]=p; });
 
   el.innerHTML = users.map(u=>{
     const pres = presMap[u.id];
     const isOnline = pres?.is_online||false;
     const lastSeen = pres?.last_seen;
     const statusBadge = isOnline
-      ? `<span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--green);font-weight:700;">
-           <span style="width:7px;height:7px;background:var(--green);border-radius:50%;display:inline-block;"></span>Online
-         </span>`
+      ? `<span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--green);font-weight:700;"><span style="width:7px;height:7px;background:var(--green);border-radius:50%;display:inline-block;"></span>Online</span>`
       : lastSeen
         ? `<span style="font-size:10px;color:var(--text3);">Terakhir ${fmtTime(lastSeen)}</span>`
         : `<span style="font-size:10px;color:var(--text3);">Belum aktif</span>`;
-
-    // Highlight matched query in name/email
-    const hl = (s) => s.replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),
-      '<mark style="background:rgba(59,130,246,0.25);color:var(--accent);border-radius:3px;padding:0 2px;">$1</mark>');
-
     return `
     <div class="user-result" onclick="startChat('${u.id}','${esc(u.username)}','${esc(u.email)}')">
       <div style="position:relative;flex-shrink:0;">
@@ -1594,8 +1576,8 @@ async function searchUser(q) {
         ${isOnline?`<span style="position:absolute;bottom:1px;right:1px;width:10px;height:10px;background:var(--green);border-radius:50%;border:2px solid var(--surface);"></span>`:''}
       </div>
       <div style="flex:1;min-width:0;">
-        <div class="user-result-name">${hl(esc(u.username))}</div>
-        <div class="user-result-email">${hl(esc(u.email))}</div>
+        <div class="user-result-name">${esc(u.username)}</div>
+        <div class="user-result-email">${esc(u.email)}</div>
         <div style="margin-top:3px;">${statusBadge}</div>
       </div>
       <button class="chat-btn">Chat</button>
