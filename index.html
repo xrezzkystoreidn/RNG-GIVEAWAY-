@@ -1,1731 +1,1222 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>XREZZKY Chat</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>XREZZKYSTORE — RNG GIVEAWAY</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--c:#00ffd5;--bg:#020b0b;--card:#071414}
+body{background:radial-gradient(ellipse at 50% 0%,#0a2f2f,#020b0b 65%);min-height:100vh;font-family:'Share Tech Mono',monospace;color:#fff;display:flex;justify-content:center;padding:16px 10px 70px}
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* LOADING */
+#lo{position:fixed;inset:0;background:#020b0b;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:opacity .4s}
+.ring{width:48px;height:48px;border:3px solid rgba(0,255,213,.1);border-top-color:#00ffd5;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.lt{font-family:'Orbitron',sans-serif;color:#00ffd5;font-size:11px;letter-spacing:3px}
+#loStatus{font-size:10px;color:#aaa;margin-top:4px;letter-spacing:1px}
 
-:root {
-  --bg:       #0a0f1e;
-  --bg2:      #0e1629;
-  --bg3:      #111827;
-  --surface:  #151f35;
-  --surface2: #1a2540;
-  --border:   rgba(255,255,255,0.06);
-  --border2:  rgba(255,255,255,0.1);
-  --accent:   #3b82f6;
-  --accent2:  #2563eb;
-  --green:    #22c55e;
-  --red:      #ef4444;
-  --text:     #f1f5f9;
-  --text2:    #94a3b8;
-  --text3:    #475569;
-  --bubble-me: linear-gradient(135deg,#2563eb,#1d4ed8);
-  --bubble-them: #1a2540;
-  --safe-top: env(safe-area-inset-top, 0px);
-  --safe-bot: env(safe-area-inset-bottom, 0px);
-}
+/* MAIN */
+.box{width:100%;max-width:400px;background:#071414;border-radius:20px;padding:18px;box-shadow:0 0 40px rgba(0,255,213,.12);border:1px solid rgba(0,255,213,.18);display:flex;flex-direction:column;align-items:center;position:relative;overflow:hidden}
+.box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00ffd5,transparent)}
 
-html, body { height: 100%; overflow: hidden; }
+/* HEADER */
+.hdr{width:100%;display:flex;align-items:center;justify-content:center;position:relative;margin-bottom:4px}
+#accBtn{position:absolute;right:0;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#00ffd5,#007a6a);border:none;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(0,255,213,.3);transition:transform .2s}
+#accBtn:hover{transform:scale(1.1)}
+h2{font-family:'Orbitron',sans-serif;font-size:20px;color:#00ffd5;letter-spacing:3px;text-shadow:0 0 20px rgba(0,255,213,.6);cursor:pointer;text-align:center;user-select:none}
+.sub{font-size:10px;letter-spacing:4px;color:rgba(0,255,213,.5);text-align:center;margin-bottom:10px}
 
-body {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  -webkit-font-smoothing: antialiased;
-}
+/* BROADCAST */
+#bb{display:none;width:100%;padding:8px 12px;border-radius:8px;margin-bottom:10px;background:linear-gradient(135deg,#1a0a00,rgba(245,158,11,.1));border:1px solid #f59e0b;font-size:11px;color:#fcd34d;text-align:center;animation:bbPulse 2s ease-in-out infinite}
+@keyframes bbPulse{0%,100%{box-shadow:0 0 6px rgba(245,158,11,.2)}50%{box-shadow:0 0 18px rgba(245,158,11,.5)}}
 
-/* ── SCROLLBAR ── */
-::-webkit-scrollbar { width: 3px; height: 3px; }
-::-webkit-scrollbar-thumb { background: rgba(59,130,246,0.25); border-radius: 99px; }
+/* TICKER */
+#tkWrap{width:100%;background:rgba(0,255,213,.06);border:1px solid rgba(0,255,213,.12);border-radius:8px;overflow:hidden;height:26px;display:flex;align-items:center;margin-bottom:10px;position:relative}
+#tkWrap::before,#tkWrap::after{content:'';position:absolute;top:0;bottom:0;width:24px;z-index:2}
+#tkWrap::before{left:0;background:linear-gradient(90deg,#071414,transparent)}
+#tkWrap::after{right:0;background:linear-gradient(-90deg,#071414,transparent)}
+#tk{white-space:nowrap;display:inline-block;font-size:11px;color:#00ffd5;animation:tkScroll 30s linear infinite;padding-left:100%}
+@keyframes tkScroll{from{transform:translateX(0)}to{transform:translateX(-100%)}}
 
-/* ── LAYOUT SHELL ── */
-#app { display:flex; height:100dvh; overflow:hidden; position:relative; }
+/* STATUS */
+#evInd{width:100%;padding:8px 14px;border-radius:8px;text-align:center;font-family:'Orbitron',sans-serif;font-size:12px;letter-spacing:2px;font-weight:700;margin-bottom:10px;transition:all .3s}
+.st-on{background:linear-gradient(135deg,#064e1a,#16a34a);color:#4ade80;border:1px solid #16a34a;box-shadow:0 0 15px rgba(22,163,74,.3)}
+.st-off{background:linear-gradient(135deg,#4e0606,#ef4444);color:#fca5a5;border:1px solid #ef4444;box-shadow:0 0 15px rgba(239,68,68,.3)}
+.st-wait{background:linear-gradient(135deg,#4e2e06,#f59e0b);color:#fcd34d;border:1px solid #f59e0b;box-shadow:0 0 15px rgba(245,158,11,.3)}
 
-/* ── SCREENS ── */
-.screen { display:none; width:100%; height:100%; flex-direction:column; }
-.screen.active { display:flex; }
+/* TIMER */
+#timerBox{width:100%;background:rgba(0,0,0,.4);border:1px solid rgba(0,255,213,.15);border-radius:10px;padding:10px 12px;margin-bottom:12px}
+#timerDateInfo{font-size:10px;color:rgba(0,255,213,.6);margin-bottom:6px;line-height:1.5;min-height:14px}
+#timerLabel{font-size:10px;color:#aaa;margin-bottom:4px;letter-spacing:1px}
+#timerClock{font-family:'Orbitron',sans-serif;font-size:18px;color:#00ffd5;letter-spacing:2px}
+.tu{color:#ffcc66}
 
-/* ═══════════════════════════════════
-   AUTH SCREEN
-═══════════════════════════════════ */
-#screen-auth {
-  align-items:center; justify-content:center;
-  background: radial-gradient(ellipse at 50% -20%, rgba(59,130,246,0.18) 0%, transparent 65%),
-              var(--bg);
-  padding: 24px;
-}
+/* STATS */
+#stats{width:100%;display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:12px}
+.sb{background:rgba(0,0,0,.3);border:1px solid rgba(0,255,213,.1);border-radius:8px;padding:6px;text-align:center}
+.sb .v{font-family:'Orbitron',sans-serif;font-size:15px;color:#00ffd5}
+.sb .l{font-size:8px;color:#aaa;margin-top:2px}
 
-.auth-card {
-  width:100%; max-width:400px;
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: 28px;
-  padding: 40px 32px;
-  box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(59,130,246,0.08);
-}
+/* INPUTS */
+input,select,textarea{width:100%;padding:10px 12px;border-radius:8px;border:1px solid rgba(0,255,213,.2);background:rgba(0,0,0,.4);color:#fff;font-family:'Share Tech Mono',monospace;font-size:13px;margin-top:8px;outline:none;transition:border-color .2s,box-shadow .2s}
+input:focus,select:focus,textarea:focus{border-color:#00ffd5;box-shadow:0 0 8px rgba(0,255,213,.2)}
+input:disabled{opacity:.6;cursor:not-allowed}
+button{width:100%;padding:10px;border-radius:8px;border:none;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:13px;font-weight:700;transition:transform .15s,opacity .15s}
+button:active{transform:scale(.96)}
+button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.bp{background:linear-gradient(135deg,#00ffd5,#007a6a);color:#000}
+.bp:hover:not(:disabled){box-shadow:0 0 20px rgba(0,255,213,.4)}
+.bd{background:linear-gradient(135deg,#ef4444,#7f1d1d);color:#fff}
+.bs{background:linear-gradient(135deg,#16a34a,#052e16);color:#fff}
+.bw{background:linear-gradient(135deg,#f59e0b,#78350f);color:#fff}
 
-.auth-logo {
-  display:flex; align-items:center; gap:12px;
-  margin-bottom: 32px;
-}
-.auth-logo-icon {
-  width:48px; height:48px; border-radius:16px;
-  background: var(--accent);
-  display:flex; align-items:center; justify-content:center;
-  font-size:22px; box-shadow: 0 8px 24px rgba(59,130,246,0.4);
-}
-.auth-logo h1 { font-size:22px; font-weight:900; letter-spacing:-0.5px; }
-.auth-logo span { color: var(--accent); }
+.cw{display:flex;width:100%;gap:8px;align-items:flex-end;margin-top:8px}
+.cw input{flex:1;margin-top:0}
+#redeemBtn{width:90px;margin-top:0;flex-shrink:0}
 
-.auth-tabs {
-  display:flex; background:var(--bg3); border-radius:14px;
-  padding:4px; margin-bottom:28px; gap:4px;
-}
-.auth-tab {
-  flex:1; padding:10px; border-radius:10px; font-size:13px;
-  font-weight:700; color:var(--text2); cursor:pointer; border:none;
-  background:transparent; transition:.2s;
-}
-.auth-tab.active {
-  background:var(--surface2); color:var(--text);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-}
+/* WHEEL */
+#wSec{width:100%;display:flex;flex-direction:column;align-items:center;margin:14px 0}
+#wCon{position:relative;width:290px;height:290px}
+#wCanvas{width:290px;height:290px;border-radius:50%;border:4px solid rgba(0,255,213,.3);box-shadow:0 0 30px rgba(0,255,213,.2);display:block;transition:transform 4s cubic-bezier(.17,.67,.12,.99)}
+#wCanvas.glow{box-shadow:0 0 50px rgba(0,255,213,.6),0 0 100px rgba(0,255,213,.2)}
+#wCenter{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:42px;height:42px;background:linear-gradient(135deg,#00ffd5,#007a6a);border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-size:8px;color:#000;font-weight:900;box-shadow:0 0 15px rgba(0,255,213,.6);z-index:10;pointer-events:none}
+#arrow{position:absolute;top:-22px;left:50%;transform:translateX(-50%);z-index:20;filter:drop-shadow(0 0 6px #00ffd5)}
+#arrow svg{width:24px;height:28px}
 
-.field {
-  position:relative; margin-bottom:14px;
-}
-.field i {
-  position:absolute; left:16px; top:50%; transform:translateY(-50%);
-  color:var(--text3); font-size:14px; pointer-events:none;
-}
-.field input {
-  width:100%; padding:15px 16px 15px 44px;
-  background:var(--bg3); border:1px solid var(--border2);
-  border-radius:14px; color:var(--text); font-size:14px;
-  font-family:inherit; outline:none; transition:.2s;
-}
-.field input:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(59,130,246,0.12); }
-.field input::placeholder { color:var(--text3); }
+/* SPIN BTN */
+#spinBtn{font-family:'Orbitron',sans-serif;font-size:16px;letter-spacing:2px;padding:16px;background:linear-gradient(135deg,#00ffd5,#007a6a);color:#000;font-weight:900;box-shadow:0 4px 20px rgba(0,255,213,.3)}
+#spinBtn:hover:not(:disabled){box-shadow:0 4px 30px rgba(0,255,213,.5)}
 
-.btn-primary {
-  width:100%; padding:16px; border-radius:14px;
-  background: var(--accent); color:#fff;
-  font-size:14px; font-weight:800; border:none;
-  cursor:pointer; transition:.2s; font-family:inherit;
-  box-shadow: 0 8px 24px rgba(59,130,246,0.35);
-}
-.btn-primary:hover { background:var(--accent2); transform:translateY(-1px); }
-.btn-primary:active { transform:translateY(0); }
-.btn-primary:disabled { opacity:.5; pointer-events:none; }
+/* RESULT */
+#result{margin:12px 0 4px;font-family:'Orbitron',sans-serif;font-size:14px;font-weight:700;text-align:center;min-height:28px;color:#00ffd5;letter-spacing:1px}
+.rw{color:#4ade80;text-shadow:0 0 20px rgba(74,222,128,.6);animation:rPulse 1s infinite}
+.rl{color:#f87171}
+@keyframes rPulse{0%,100%{opacity:1}50%{opacity:.7}}
 
-.auth-error {
-  background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.25);
-  color:#fca5a5; border-radius:10px; padding:10px 14px;
-  font-size:12px; margin-bottom:14px; display:none;
-}
-.auth-success {
-  background:rgba(34,197,94,0.12); border:1px solid rgba(34,197,94,0.25);
-  color:#86efac; border-radius:10px; padding:10px 14px;
-  font-size:12px; margin-bottom:14px; display:none;
-}
+/* STREAK */
+#streak{display:none;background:linear-gradient(135deg,#7c3aed,#4c1d95);border:1px solid #a78bfa;color:#ddd6fe;border-radius:20px;padding:4px 12px;font-size:11px;letter-spacing:1px;margin-bottom:4px;text-align:center}
 
-/* ═══════════════════════════════════
-   MAIN APP (sidebar + chatroom)
-═══════════════════════════════════ */
-#screen-app {
-  flex-direction:row; overflow:hidden;
-}
+#claimBtn{display:none;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;margin-top:4px}
+#spinInfo{color:#aaa;font-size:11px;margin:6px 0 2px;text-align:center;display:block}
+#spinFree{color:#ffcc00;font-size:11px;margin:2px 0 6px;text-align:center;display:block;min-height:16px}
+#devInfo{color:rgba(0,255,213,.5);font-size:10px;cursor:pointer;margin-bottom:10px;text-align:center;display:block}
+#devInfo:hover{color:#00ffd5}
 
-/* ── SIDEBAR ── */
-#sidebar {
-  width:100%; max-width:380px; flex-shrink:0;
-  display:flex; flex-direction:column;
-  background:var(--bg2);
-  border-right:1px solid var(--border);
-  height:100dvh;
-}
+/* PANELS */
+.panel{background:rgba(0,0,0,.35);padding:10px;border-radius:10px;font-size:11px;width:100%;border:1px solid rgba(0,255,213,.1);margin-top:10px}
+.ptitle{color:#00ffd5;font-weight:700;margin-bottom:6px;font-size:11px;letter-spacing:1px;border-bottom:1px solid rgba(0,255,213,.1);padding-bottom:4px;display:flex;justify-content:space-between;align-items:center}
+#logPanel{height:110px;overflow:auto}
+.wi{padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.wi .wn{color:#fff;font-size:11px}.wi .wp{color:#00ffd5;font-size:10px}.wi .wt{color:#aaa;font-size:9px}
 
-/* On mobile, sidebar takes full width */
-@media(max-width:768px) {
-  #sidebar { max-width:100%; }
-  #sidebar.hidden-mobile { display:none; }
-  #chatroom { display:none; }
-  #chatroom.show-mobile { display:flex; }
-}
-@media(min-width:769px) {
-  #chatroom { display:flex !important; }
-}
+/* ADMIN */
+#adminPanel{display:none;background:rgba(0,0,0,.3);padding:14px;border-radius:12px;margin-top:15px;border:2px solid #ffcc00;width:100%}
+.as{background:rgba(0,0,0,.3);padding:12px;border-radius:10px;margin-bottom:12px;border:1px solid rgba(255,204,0,.2)}
+.ast{color:#ffcc00;font-size:12px;font-weight:700;letter-spacing:1px;margin-bottom:10px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.br{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.br button{flex:1}
+/* Test mode banner */
+#tmBanner{display:none;background:rgba(124,58,237,.2);border:1px solid #7c3aed;border-radius:6px;padding:6px 10px;font-size:11px;color:#c4b5fd;text-align:center;margin-bottom:8px}
+/* Wheel items */
+.witem{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;margin-bottom:5px}
+.witem.wi-w{background:rgba(22,163,74,.15);border:1px solid rgba(22,163,74,.3)}
+.witem.wi-l{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3)}
+.witem .inf{flex:1;font-size:11px}
+.dbtn{width:28px;height:28px;border-radius:50%;background:#ef4444;color:#fff;font-size:11px;padding:0;flex-shrink:0;border:none;cursor:pointer}
+/* Code items */
+.ci{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;border-radius:6px;margin-bottom:5px;background:rgba(0,255,213,.05);border:1px solid rgba(0,255,213,.1)}
 
-.sidebar-header {
-  padding: calc(var(--safe-top) + 14px) 18px 14px;
-  display:flex; align-items:center; justify-content:space-between;
-  border-bottom:1px solid var(--border);
-  flex-shrink:0;
-}
-.sidebar-logo {
-  display:flex; align-items:center; gap:10px;
-}
-.sidebar-logo-dot {
-  width:36px; height:36px; border-radius:12px;
-  background: var(--accent); display:flex; align-items:center; justify-content:center;
-  font-size:16px; box-shadow:0 4px 12px rgba(59,130,246,0.4);
-}
-.sidebar-logo h2 { font-size:17px; font-weight:900; letter-spacing:-0.3px; }
+/* MODALS */
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:8000;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.mb{width:340px;background:#071414;border:1px solid rgba(0,255,213,.3);padding:20px;border-radius:16px;box-shadow:0 0 40px rgba(0,255,213,.15);max-height:90vh;overflow-y:auto}
+.mb h3{font-family:'Orbitron',sans-serif;color:#00ffd5;text-align:center;margin-bottom:15px;font-size:15px;letter-spacing:2px}
+.air{margin-bottom:12px}
+.air label{font-size:10px;color:#aaa;display:block;margin-bottom:4px;letter-spacing:1px}
+.aiv{background:rgba(0,0,0,.4);border:1px solid rgba(0,255,213,.2);border-radius:6px;padding:8px 10px;font-size:12px;color:#00ffd5;word-break:break-all}
+.nhi{padding:5px 8px;border-radius:5px;margin-bottom:4px;background:rgba(0,255,213,.05);border:1px solid rgba(0,255,213,.1);font-size:11px}
+.nhn{color:#00ffd5}.nht{color:#aaa;font-size:10px}
 
-.sidebar-actions { display:flex; gap:8px; }
-.icon-btn {
-  width:36px; height:36px; border-radius:10px;
-  background:var(--surface); border:1px solid var(--border);
-  color:var(--text2); cursor:pointer; display:flex;
-  align-items:center; justify-content:center;
-  font-size:14px; transition:.15s;
-}
-.icon-btn:hover { background:var(--surface2); color:var(--text); }
+/* WIN OVERLAY */
+#wo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:7000;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:20px}
+.we{font-size:60px;animation:eb .5s ease infinite alternate}
+@keyframes eb{from{transform:scale(1) rotate(-5deg)}to{transform:scale(1.15) rotate(5deg)}}
+.wt2{font-family:'Orbitron',sans-serif;font-size:24px;color:#ffcc00;text-shadow:0 0 30px rgba(255,204,0,.8);margin:10px 0 6px;animation:tglow 1.5s ease-in-out infinite alternate}
+@keyframes tglow{from{text-shadow:0 0 10px #ffcc00}to{text-shadow:0 0 40px #ffcc00,0 0 60px #ff8800}}
 
-.search-wrap {
-  padding:12px 16px;
-  flex-shrink:0;
-}
-.search-box {
-  display:flex; align-items:center; gap:10px;
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:12px; padding:10px 14px;
-}
-.search-box i { color:var(--text3); font-size:13px; }
-.search-box input {
-  background:none; border:none; outline:none;
-  color:var(--text); font-size:13px; font-family:inherit;
-  flex:1;
-}
-.search-box input::placeholder { color:var(--text3); }
+/* CONFETTI */
+#cnf{position:fixed;inset:0;pointer-events:none;z-index:6999}
 
-.convo-list {
-  flex:1; overflow-y:auto; padding:0 8px 16px;
-}
+/* TOAST */
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:10px 18px;border-radius:10px;font-family:'Share Tech Mono',monospace;font-size:12px;z-index:9998;max-width:320px;text-align:center;transition:opacity .3s;pointer-events:none;opacity:0}
 
-.convo-empty {
-  display:flex; flex-direction:column; align-items:center;
-  justify-content:center; padding:60px 20px; gap:12px;
-  color:var(--text3);
-}
-.convo-empty i { font-size:36px; opacity:.4; }
-.convo-empty p { font-size:13px; text-align:center; }
-.convo-empty small { font-size:11px; opacity:.6; }
+/* CHANCE DISPLAY */
+.cd{background:rgba(0,0,0,.4);border:1px solid rgba(0,255,213,.12);border-radius:8px;padding:10px;margin-top:8px;font-size:11px}
+.cd-title{color:#00ffd5;font-weight:700;margin-bottom:8px;letter-spacing:1px}
+.cd-bar-wrap{display:flex;border-radius:6px;overflow:hidden;height:12px;margin-bottom:6px}
+.cd-summary{display:flex;justify-content:space-between;margin-bottom:8px;font-size:11px}
+.cd-item{margin-bottom:6px}
+.cd-item-row{display:flex;justify-content:space-between;margin-bottom:2px}
+.cd-item-bar{background:rgba(255,255,255,.08);border-radius:3px;height:6px;overflow:hidden}
+.cd-item-fill{height:100%;border-radius:3px;transition:width .5s}
 
-.convo-item {
-  display:flex; align-items:center; gap:12px;
-  padding:12px 10px; border-radius:14px; cursor:pointer;
-  transition:.15s; position:relative;
-}
-.convo-item:hover { background:var(--surface); }
-.convo-item.active { background:rgba(59,130,246,0.12); }
-
-.convo-avatar { position:relative; flex-shrink:0; }
-.convo-avatar img { width:48px; height:48px; border-radius:50%; object-fit:cover; border:2px solid var(--border2); }
-.online-ring {
-  position:absolute; bottom:1px; right:1px;
-  width:11px; height:11px; background:var(--green);
-  border-radius:50%; border:2px solid var(--bg2);
-}
-
-.convo-info { flex:1; min-width:0; }
-.convo-top { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:3px; }
-.convo-name { font-size:14px; font-weight:700; truncate:ellipsis; white-space:nowrap; overflow:hidden; max-width:160px; }
-.convo-time { font-size:10px; color:var(--text3); flex-shrink:0; margin-left:8px; }
-.convo-bot { display:flex; justify-content:space-between; align-items:center; }
-.convo-last { font-size:12px; color:var(--text3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:180px; }
-.unread-pill {
-  background:var(--accent); color:#fff; font-size:9px; font-weight:800;
-  border-radius:99px; min-width:18px; height:18px;
-  display:flex; align-items:center; justify-content:center;
-  padding:0 5px; flex-shrink:0; margin-left:6px;
-}
-
-/* ── PROFILE DRAWER ── */
-#profile-drawer {
-  position:absolute; top:0; left:0; right:0; bottom:0;
-  background:var(--bg2); z-index:50;
-  transform:translateX(-100%); transition:.3s cubic-bezier(.4,0,.2,1);
-  display:flex; flex-direction:column;
-}
-#profile-drawer.open { transform:translateX(0); }
-
-.drawer-header {
-  padding: calc(var(--safe-top) + 14px) 18px 14px;
-  display:flex; align-items:center; gap:12px;
-  border-bottom:1px solid var(--border);
-}
-.drawer-header h2 { font-size:17px; font-weight:800; }
-
-.profile-content {
-  flex:1; overflow-y:auto; padding:24px 18px;
-}
-.profile-avatar-wrap {
-  display:flex; flex-direction:column; align-items:center; gap:10px;
-  margin-bottom:28px;
-}
-.profile-avatar-wrap img {
-  width:80px; height:80px; border-radius:50%;
-  border:3px solid var(--accent); box-shadow:0 0 24px rgba(59,130,246,0.3);
-}
-.profile-avatar-wrap h3 { font-size:18px; font-weight:800; }
-.profile-avatar-wrap p { font-size:12px; color:var(--text2); }
-
-.setting-row {
-  display:flex; align-items:center; justify-content:space-between;
-  padding:14px 16px; background:var(--surface);
-  border-radius:14px; margin-bottom:8px; cursor:pointer;
-  transition:.15s; border:1px solid var(--border);
-}
-.setting-row:hover { background:var(--surface2); }
-.setting-row-left { display:flex; align-items:center; gap:12px; }
-.setting-icon { width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:15px; }
-.setting-label { font-size:13px; font-weight:600; }
-.setting-sub { font-size:11px; color:var(--text3); margin-top:1px; }
-
-/* ── CHATROOM ── */
-#chatroom {
-  flex:1; flex-direction:column; background:var(--bg);
-  height:100dvh; position:relative; min-width:0;
-}
-
-.chat-empty-state {
-  flex:1; display:flex; flex-direction:column;
-  align-items:center; justify-content:center; gap:14px;
-  color:var(--text3);
-}
-.chat-empty-state i { font-size:48px; opacity:.2; }
-.chat-empty-state h3 { font-size:16px; font-weight:700; color:var(--text2); }
-.chat-empty-state p { font-size:13px; text-align:center; max-width:240px; line-height:1.6; }
-
-/* Chat header */
-#chat-header {
-  padding: calc(var(--safe-top) + 12px) 16px 12px;
-  display:flex; align-items:center; gap:12px;
-  background:var(--bg2); border-bottom:1px solid var(--border);
-  flex-shrink:0; z-index:10;
-}
-.back-btn {
-  width:34px; height:34px; border-radius:10px; display:flex;
-  align-items:center; justify-content:center;
-  color:var(--text2); cursor:pointer; font-size:16px;
-  transition:.15s; flex-shrink:0;
-}
-.back-btn:hover { color:var(--text); }
-@media(min-width:769px) { .back-btn { display:none; } }
-
-.chat-partner-info { display:flex; align-items:center; gap:10px; flex:1; min-width:0; cursor:pointer; }
-.chat-partner-info img { width:36px; height:36px; border-radius:50%; border:2px solid var(--border2); }
-.chat-partner-name { font-size:14px; font-weight:800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.chat-partner-status { font-size:11px; color:var(--text3); }
-.chat-partner-status.online { color:var(--green); }
-
-.chat-header-actions { display:flex; gap:6px; flex-shrink:0; }
-
-/* Messages area */
-#msg-area {
-  flex:1; overflow-y:auto; padding:16px 12px;
-  display:flex; flex-direction:column; gap:2px;
-  scroll-behavior:smooth;
-  background:
-    radial-gradient(ellipse at 20% 80%, rgba(37,99,235,0.04) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(37,99,235,0.04) 0%, transparent 50%),
-    var(--bg);
-}
-
-.date-sep {
-  display:flex; align-items:center; gap:10px;
-  margin:12px 0;
-}
-.date-sep-line { flex:1; height:1px; background:var(--border); }
-.date-sep-label {
-  font-size:10px; color:var(--text3); font-weight:700;
-  padding:4px 12px; background:var(--surface);
-  border-radius:99px; border:1px solid var(--border);
-}
-
-/* Message bubbles */
-.msg-row {
-  display:flex; gap:8px;
-  animation: msgPop .22s cubic-bezier(.34,1.56,.64,1);
-}
-@keyframes msgPop {
-  from { opacity:0; transform:translateY(10px) scale(.95); }
-  to   { opacity:1; transform:translateY(0) scale(1); }
-}
-.msg-row.me { flex-direction:row-reverse; }
-
-.msg-avatar { width:28px; height:28px; border-radius:50%; object-fit:cover; flex-shrink:0; align-self:flex-end; }
-.msg-row.me .msg-avatar { display:none; }
-
-.msg-bubble-wrap { max-width:72%; display:flex; flex-direction:column; gap:3px; }
-.msg-row.me .msg-bubble-wrap { align-items:flex-end; }
-
-.msg-bubble {
-  padding:10px 14px; border-radius:18px;
-  font-size:14px; line-height:1.5; word-break:break-word;
-  position:relative; cursor:pointer; transition:filter .15s;
-}
-.msg-bubble:active { filter:brightness(.85); }
-.msg-row.me .msg-bubble {
-  background:var(--bubble-me); background:linear-gradient(135deg,#2563eb,#1d4ed8);
-  border-bottom-right-radius:4px;
-  box-shadow:0 3px 14px rgba(37,99,235,0.35);
-}
-.msg-row.them .msg-bubble {
-  background:var(--surface2);
-  border:1px solid var(--border);
-  border-bottom-left-radius:4px;
-}
-
-.msg-reply-quote {
-  border-left:3px solid var(--accent); padding:6px 10px;
-  background:rgba(59,130,246,0.1); border-radius:0 8px 8px 0;
-  margin-bottom:6px; font-size:11px; color:var(--text2); line-height:1.4;
-}
-.msg-reply-quote strong { color:var(--accent); display:block; margin-bottom:2px; font-size:10px; }
-
-.msg-meta {
-  display:flex; align-items:center; gap:5px;
-  font-size:10px; color:var(--text3); padding:0 4px;
-}
-.msg-row.me .msg-meta { flex-direction:row-reverse; }
-
-.tick { font-size:11px; }
-.tick.read { color:var(--accent); }
-
-.reactions-wrap { display:flex; flex-wrap:wrap; gap:4px; margin-top:2px; }
-.msg-row.me .reactions-wrap { justify-content:flex-end; }
-.reaction-chip {
-  background:var(--surface2); border:1px solid var(--border2);
-  border-radius:99px; padding:2px 7px; font-size:12px;
-  cursor:pointer; transition:transform .12s;
-  display:flex; align-items:center; gap:3px;
-}
-.reaction-chip:hover { transform:scale(1.15); }
-.reaction-count { font-size:10px; color:var(--text2); font-weight:600; }
-
-/* Typing */
-.typing-bubble {
-  display:flex; gap:5px; padding:12px 16px;
-  background:var(--surface2); border:1px solid var(--border);
-  border-radius:18px; border-bottom-left-radius:4px;
-  align-items:center;
-}
-.typing-dot {
-  width:6px; height:6px; background:var(--text3);
-  border-radius:50%; animation:typingBounce 1.2s infinite;
-}
-.typing-dot:nth-child(2) { animation-delay:.2s; }
-.typing-dot:nth-child(3) { animation-delay:.4s; }
-@keyframes typingBounce {
-  0%,60%,100% { transform:translateY(0); }
-  30% { transform:translateY(-7px); }
-}
-
-/* Reply bar */
-#reply-bar {
-  background:var(--bg2); border-top:1px solid var(--border);
-  padding:10px 16px; display:none; flex-shrink:0;
-}
-.reply-inner {
-  border-left:3px solid var(--accent);
-  padding:6px 10px; background:rgba(59,130,246,0.08);
-  border-radius:0 10px 10px 0;
-  display:flex; align-items:center; justify-content:space-between; gap:10px;
-}
-.reply-close { color:var(--text3); font-size:16px; cursor:pointer; }
-.reply-close:hover { color:var(--text); }
-
-/* Input bar */
-#input-bar {
-  padding:10px 12px;
-  padding-bottom:calc(var(--safe-bot) + 10px);
-  background:var(--bg2); border-top:1px solid var(--border);
-  flex-shrink:0;
-}
-.input-row { display:flex; align-items:flex-end; gap:8px; }
-
-.emoji-toggle {
-  width:40px; height:40px; border-radius:12px; flex-shrink:0;
-  background:var(--surface); border:1px solid var(--border);
-  color:var(--text2); cursor:pointer; display:flex;
-  align-items:center; justify-content:center; font-size:18px;
-  transition:.15s;
-}
-.emoji-toggle:hover { background:var(--surface2); }
-
-.input-box {
-  flex:1; background:var(--surface); border:1px solid var(--border2);
-  border-radius:16px; padding:10px 14px;
-  display:flex; align-items:flex-end; gap:8px; min-height:42px;
-}
-.input-box textarea {
-  flex:1; background:none; border:none; outline:none;
-  color:var(--text); font-size:14px; font-family:inherit;
-  resize:none; max-height:120px; line-height:1.5;
-  padding:0;
-}
-.input-box textarea::placeholder { color:var(--text3); }
-
-.send-btn {
-  width:42px; height:42px; border-radius:12px; flex-shrink:0;
-  background:var(--accent); border:none; color:#fff;
-  cursor:pointer; display:flex; align-items:center; justify-content:center;
-  font-size:15px; transition:.15s;
-  box-shadow:0 4px 14px rgba(59,130,246,0.4);
-}
-.send-btn:hover { background:var(--accent2); transform:scale(1.05); }
-.send-btn:active { transform:scale(.95); }
-
-/* Emoji picker */
-#emoji-picker {
-  background:var(--bg2); border-top:1px solid var(--border);
-  padding:12px; display:none; flex-shrink:0;
-}
-.emoji-grid { display:grid; grid-template-columns:repeat(8,1fr); gap:4px; }
-.emoji-cell {
-  font-size:22px; padding:6px; border-radius:10px; cursor:pointer;
-  text-align:center; transition:.1s; line-height:1;
-}
-.emoji-cell:hover { background:var(--surface); transform:scale(1.2); }
-
-/* ── MODALS ── */
-.modal-overlay {
-  position:fixed; inset:0; background:rgba(0,0,0,.75);
-  z-index:200; display:none; align-items:flex-end; justify-content:center;
-}
-.modal-overlay.open { display:flex; }
-
-.bottom-sheet {
-  width:100%; max-width:480px; max-height:85dvh;
-  background:var(--bg2); border-radius:24px 24px 0 0;
-  border:1px solid var(--border); overflow:hidden;
-  display:flex; flex-direction:column;
-  animation:slideUp .28s cubic-bezier(.4,0,.2,1);
-}
-@keyframes slideUp {
-  from { transform:translateY(100%); }
-  to   { transform:translateY(0); }
-}
-.sheet-handle {
-  width:36px; height:4px; background:var(--surface2);
-  border-radius:99px; margin:12px auto 0;
-}
-.sheet-title {
-  padding:16px 20px 12px; font-size:17px; font-weight:800;
-  border-bottom:1px solid var(--border);
-}
-.sheet-body { flex:1; overflow-y:auto; padding:16px 20px 32px; }
-
-/* New chat search */
-.user-search-field {
-  display:flex; align-items:center; gap:10px;
-  background:var(--surface); border:1px solid var(--border2);
-  border-radius:14px; padding:12px 14px; margin-bottom:16px;
-}
-.user-search-field input {
-  flex:1; background:none; border:none; outline:none;
-  color:var(--text); font-size:14px; font-family:inherit;
-}
-.user-search-field input::placeholder { color:var(--text3); }
-
-.user-result {
-  display:flex; align-items:center; gap:12px;
-  padding:12px; border-radius:14px; cursor:pointer;
-  transition:.15s; border:1px solid transparent;
-}
-.user-result:hover { background:var(--surface); border-color:var(--border); }
-.user-result img { width:44px; height:44px; border-radius:50%; border:2px solid var(--border2); }
-.user-result-name { font-size:14px; font-weight:700; }
-.user-result-email { font-size:11px; color:var(--text3); margin-top:1px; }
-
-.chat-btn {
-  margin-left:auto; background:rgba(59,130,246,0.15);
-  color:var(--accent); border:1px solid rgba(59,130,246,0.3);
-  border-radius:10px; padding:7px 14px; font-size:12px;
-  font-weight:700; cursor:pointer; font-family:inherit;
-  transition:.15s; white-space:nowrap;
-}
-.chat-btn:hover { background:rgba(59,130,246,0.25); }
-
-/* Context menu (reaction picker) */
-#ctx-menu {
-  position:fixed; z-index:300;
-  background:var(--surface2); border:1px solid var(--border2);
-  border-radius:16px; padding:10px 12px;
-  box-shadow:0 16px 48px rgba(0,0,0,0.5);
-  display:none;
-}
-.ctx-reactions { display:flex; gap:4px; margin-bottom:8px; }
-.ctx-react-btn {
-  font-size:22px; padding:6px; border-radius:10px; cursor:pointer;
-  transition:.1s;
-}
-.ctx-react-btn:hover { background:var(--surface); transform:scale(1.2); }
-.ctx-actions { display:flex; flex-direction:column; gap:2px; }
-.ctx-action {
-  display:flex; align-items:center; gap:10px;
-  padding:8px 10px; border-radius:10px; cursor:pointer;
-  font-size:13px; font-weight:600; transition:.15s;
-}
-.ctx-action:hover { background:var(--surface); }
-.ctx-action.danger { color:var(--red); }
-
-/* Spinner */
-.spinner {
-  width:20px; height:20px; border:2px solid var(--border2);
-  border-top-color:var(--accent); border-radius:50%;
-  animation:spin .6s linear infinite; display:inline-block;
-}
-@keyframes spin { to { transform:rotate(360deg); } }
-
-/* Toast */
-#toast {
-  position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
-  background:var(--surface2); border:1px solid var(--border2);
-  color:var(--text); padding:10px 20px; border-radius:12px;
-  font-size:13px; font-weight:600; z-index:500;
-  opacity:0; transition:.25s; pointer-events:none; white-space:nowrap;
-  box-shadow:0 8px 24px rgba(0,0,0,.4);
-}
-#toast.show { opacity:1; }
-
-/* Unverified email notice */
-.notice {
-  background:rgba(251,191,36,0.1); border:1px solid rgba(251,191,36,0.25);
-  color:#fde68a; border-radius:10px; padding:10px 14px;
-  font-size:12px; margin-bottom:14px; display:none;
-}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:rgba(0,0,0,.2)}
+::-webkit-scrollbar-thumb{background:#00ffd5;border-radius:2px}
 </style>
 </head>
 <body>
-<div id="app">
+<canvas id="cnf"></canvas>
 
-  <!-- ═══════ AUTH SCREEN ═══════ -->
-  <div id="screen-auth" class="screen active">
-    <div class="auth-card">
-      <div class="auth-logo">
-        <div class="auth-logo-icon">💬</div>
-        <h1>XREZZKY<span>Chat</span></h1>
-      </div>
+<!-- LOADING -->
+<div id="lo">
+  <div class="ring"></div>
+  <div class="lt">XREZZKYSTORE</div>
+  <div id="loStatus">Menghubungkan...</div>
+</div>
 
-      <div class="auth-tabs">
-        <button class="auth-tab active" onclick="switchAuthTab('login')">Masuk</button>
-        <button class="auth-tab" onclick="switchAuthTab('register')">Daftar</button>
-      </div>
+<!-- WIN OVERLAY -->
+<div id="wo">
+  <div class="we">🎉</div>
+  <div class="wt2">SELAMAT!</div>
+  <div id="woPrize" style="font-family:'Orbitron',sans-serif;font-size:15px;color:#00ffd5;margin-bottom:6px;padding:0 10px"></div>
+  <div id="woName" style="color:#aaa;font-size:12px;margin-bottom:20px"></div>
+  <button id="woClose" style="width:220px;background:linear-gradient(135deg,#ffcc00,#f59e0b);color:#000;font-family:'Orbitron',sans-serif;font-weight:900;padding:13px;border-radius:12px;border:none;cursor:pointer;font-size:14px">🎁 KLAIM HADIAH</button>
+</div>
 
-      <div id="auth-error" class="auth-error"></div>
-      <div id="auth-success" class="auth-success"></div>
-      <div id="auth-notice" class="notice">📧 Cek email kamu dan klik link verifikasi, lalu login.</div>
-
-      <!-- LOGIN -->
-      <div id="form-login">
-        <div class="field">
-          <i class="fa fa-envelope"></i>
-          <input type="email" id="l-email" placeholder="Email" autocomplete="email">
-        </div>
-        <div class="field">
-          <i class="fa fa-lock"></i>
-          <input type="password" id="l-pass" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
-        </div>
-        <button class="btn-primary" onclick="doLogin()">Masuk</button>
-        <p style="text-align:center;margin-top:14px;font-size:12px;color:var(--text3);cursor:pointer;" onclick="switchAuthTab('forgot')">Lupa password?</p>
-      </div>
-
-      <!-- REGISTER -->
-      <div id="form-register" style="display:none">
-        <div class="field">
-          <i class="fa fa-user"></i>
-          <input type="text" id="r-user" placeholder="Username" autocomplete="username">
-        </div>
-        <div class="field">
-          <i class="fa fa-envelope"></i>
-          <input type="email" id="r-email" placeholder="Email" autocomplete="email">
-        </div>
-        <div class="field">
-          <i class="fa fa-lock"></i>
-          <input type="password" id="r-pass" placeholder="Password (min 6 karakter)" autocomplete="new-password" onkeydown="if(event.key==='Enter')doRegister()">
-        </div>
-        <button class="btn-primary" onclick="doRegister()">Buat Akun</button>
-      </div>
-
-      <!-- FORGOT -->
-      <div id="form-forgot" style="display:none">
-        <p style="font-size:13px;color:var(--text2);margin-bottom:14px;">Masukkan email kamu, kami kirim link reset password.</p>
-        <div class="field">
-          <i class="fa fa-envelope"></i>
-          <input type="email" id="f-email" placeholder="Email kamu">
-        </div>
-        <button class="btn-primary" onclick="doForgot()">Kirim Link Reset</button>
-        <p style="text-align:center;margin-top:12px;font-size:12px;color:var(--accent);cursor:pointer;" onclick="switchAuthTab('login')">← Kembali Login</p>
-      </div>
+<!-- ACCOUNT MODAL -->
+<div id="accModal" class="mo">
+  <div class="mb">
+    <h3>👤 AKUN SAYA</h3>
+    <div class="air"><label>DEVICE ID</label><div class="aiv" id="mDevId">-</div><button id="copyIdBtn" class="bp" style="margin-top:5px;padding:7px">📋 Copy ID</button></div>
+    <div class="air"><label>NAMA SAAT INI</label><div class="aiv" id="mName">-</div></div>
+    <div class="air"><label>TOTAL SPIN DILAKUKAN</label><div class="aiv" id="mTotal">0</div></div>
+    <div class="air">
+      <label>RIWAYAT NAMA</label>
+      <div id="mNameHist" style="max-height:90px;overflow:auto;background:rgba(0,0,0,.3);border:1px solid rgba(0,255,213,.1);border-radius:8px;padding:6px"></div>
     </div>
-  </div>
-
-  <!-- ═══════ APP SCREEN ═══════ -->
-  <div id="screen-app" class="screen">
-
-    <!-- SIDEBAR -->
-    <div id="sidebar">
-
-      <!-- Profile Drawer -->
-      <div id="profile-drawer">
-        <div class="drawer-header">
-          <div class="back-btn" onclick="closeProfileDrawer()"><i class="fa fa-arrow-left"></i></div>
-          <h2>Profil</h2>
-        </div>
-        <div class="profile-content">
-          <div class="profile-avatar-wrap">
-            <img id="pd-avatar" src="">
-            <h3 id="pd-name"></h3>
-            <p id="pd-email"></p>
-          </div>
-          <div class="setting-row" onclick="changeUsername()">
-            <div class="setting-row-left">
-              <div class="setting-icon" style="background:rgba(59,130,246,.15);color:#60a5fa;">✏️</div>
-              <div>
-                <div class="setting-label">Ganti Username</div>
-                <div class="setting-sub">Ubah nama tampilan kamu</div>
-              </div>
-            </div>
-            <i class="fa fa-chevron-right" style="color:var(--text3);font-size:12px;"></i>
-          </div>
-          <div class="setting-row" onclick="changePassword()">
-            <div class="setting-row-left">
-              <div class="setting-icon" style="background:rgba(34,197,94,.15);color:#4ade80;">🔒</div>
-              <div>
-                <div class="setting-label">Ganti Password</div>
-                <div class="setting-sub">Perbarui keamanan akun</div>
-              </div>
-            </div>
-            <i class="fa fa-chevron-right" style="color:var(--text3);font-size:12px;"></i>
-          </div>
-          <div class="setting-row" onclick="doLogout()" style="margin-top:8px;">
-            <div class="setting-row-left">
-              <div class="setting-icon" style="background:rgba(239,68,68,.15);color:#f87171;">🚪</div>
-              <div>
-                <div class="setting-label" style="color:#f87171;">Logout</div>
-                <div class="setting-sub">Keluar dari akun</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Header -->
-      <div class="sidebar-header">
-        <div class="sidebar-logo">
-          <div class="sidebar-logo-dot" onclick="openProfileDrawer()" style="cursor:pointer;">
-            <img id="sb-avatar" src="" style="width:100%;height:100%;border-radius:12px;object-fit:cover;display:none;">
-            <span id="sb-avatar-icon">💬</span>
-          </div>
-          <h2>Messages</h2>
-        </div>
-        <div class="sidebar-actions">
-          <button class="icon-btn" onclick="openNewChat()" title="Chat Baru"><i class="fa fa-pen-to-square"></i></button>
-        </div>
-      </div>
-
-      <!-- Search -->
-      <div class="search-wrap">
-        <div class="search-box">
-          <i class="fa fa-magnifying-glass"></i>
-          <input type="text" placeholder="Cari percakapan..." oninput="filterConvos(this.value)" id="convo-search">
-        </div>
-      </div>
-
-      <!-- Convo List -->
-      <div class="convo-list" id="convo-list">
-        <div class="convo-empty">
-          <i class="fa fa-comments"></i>
-          <p>Belum ada percakapan</p>
-          <small>Tap ✏️ untuk mulai chat baru</small>
-        </div>
-      </div>
+    <div class="air">
+      <label>RIWAYAT MENANG</label>
+      <div id="mWinHist" style="max-height:120px;overflow:auto;background:rgba(0,0,0,.3);border:1px solid rgba(0,255,213,.1);border-radius:8px;padding:6px"></div>
     </div>
-
-    <!-- CHATROOM -->
-    <div id="chatroom">
-      <!-- Empty state -->
-      <div class="chat-empty-state" id="empty-state">
-        <i class="fa fa-message"></i>
-        <h3>Pilih percakapan</h3>
-        <p>Atau mulai chat baru dengan menekan tombol ✏️</p>
-      </div>
-
-      <!-- Chat UI (hidden until convo selected) -->
-      <div id="chat-ui" style="display:none;flex-direction:column;height:100%;width:100%;">
-        <!-- Header -->
-        <div id="chat-header">
-          <div class="back-btn" onclick="backToList()"><i class="fa fa-arrow-left"></i></div>
-          <div class="chat-partner-info" onclick="showPartnerInfo()">
-            <img id="ch-avatar" src="">
-            <div>
-              <div class="chat-partner-name" id="ch-name"></div>
-              <div class="chat-partner-status" id="ch-status"></div>
-            </div>
-          </div>
-          <div class="chat-header-actions">
-            <button class="icon-btn" onclick="openClearConfirm()" title="Hapus Chat"><i class="fa fa-trash" style="color:#f87171;font-size:13px;"></i></button>
-          </div>
-        </div>
-
-        <!-- Reply Bar -->
-        <div id="reply-bar">
-          <div class="reply-inner">
-            <div>
-              <div style="font-size:10px;color:var(--accent);font-weight:700;margin-bottom:2px;">Membalas</div>
-              <div id="reply-text" style="font-size:12px;color:var(--text2);"></div>
-            </div>
-            <span class="reply-close" onclick="cancelReply()"><i class="fa fa-xmark"></i></span>
-          </div>
-        </div>
-
-        <!-- Messages -->
-        <div id="msg-area"></div>
-
-        <!-- Typing Indicator -->
-        <div id="typing-row" style="display:none;padding:0 12px 6px;">
-          <div style="display:flex;gap:8px;align-items:flex-end;">
-            <img id="typing-avatar" src="" style="width:28px;height:28px;border-radius:50%;">
-            <div class="typing-bubble">
-              <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Emoji Picker -->
-        <div id="emoji-picker"><div class="emoji-grid" id="emoji-grid"></div></div>
-
-        <!-- Input Bar -->
-        <div id="input-bar">
-          <div class="input-row">
-            <button class="emoji-toggle" onclick="toggleEmoji()" title="Emoji">
-              <span>😊</span>
-            </button>
-            <div class="input-box">
-              <textarea id="msg-input" rows="1" placeholder="Ketik pesan..."
-                oninput="autoResize(this);broadcastTyping()"
-                onkeydown="handleKey(event)"></textarea>
-            </div>
-            <button class="send-btn" onclick="sendMsg()"><i class="fa fa-paper-plane"></i></button>
-          </div>
-        </div>
-      </div>
+    <div class="br" style="margin-top:10px">
+      <button id="editNameBtn" class="bw" style="flex:1">✏️ Edit Nama</button>
+      <button id="logoutBtn" class="bd" style="flex:1">🔒 Log Out</button>
     </div>
+    <button onclick="closeModal('accModal')" style="margin-top:8px;background:rgba(255,255,255,.1);color:#fff">✕ Tutup</button>
   </div>
 </div>
 
-<!-- ═══ NEW CHAT MODAL ═══ -->
-<div class="modal-overlay" id="modal-new-chat" onclick="if(event.target===this)closeNewChat()">
-  <div class="bottom-sheet">
-    <div class="sheet-handle"></div>
-    <div class="sheet-title">💬 Chat Baru — Cari Pengguna</div>
-    <div class="sheet-body">
-      <div class="user-search-field">
-        <i class="fa fa-magnifying-glass" style="color:var(--text3);font-size:14px;"></i>
-        <input type="text" id="search-email" placeholder="Cari email atau username..." oninput="debounceSearch(this.value)" autocomplete="off">
+<!-- EXPORT MODAL -->
+<div id="expModal" class="mo">
+  <div class="mb">
+    <h3>📊 DATA PEMENANG</h3>
+    <textarea id="expArea" readonly style="height:200px;background:#000;color:#00ffd5;font-family:monospace;font-size:11px;resize:none"></textarea>
+    <button onclick="closeModal('expModal')" class="bd" style="margin-top:10px">TUTUP</button>
+  </div>
+</div>
+
+<!-- MAIN BOX -->
+<div class="box">
+  <div class="hdr">
+    <div><h2 id="title">XREZZKYSTORE</h2><div class="sub">RNG GIVEAWAY SYSTEM</div></div>
+    <button id="accBtn">👤</button>
+  </div>
+
+  <div id="bb"></div>
+  <div id="tkWrap"><span id="tk">🎉 Selamat datang! Putar roda dan menangkan hadiah gratis!</span></div>
+  <div id="evInd" class="st-off">MEMUAT...</div>
+
+  <div id="timerBox">
+    <div id="timerDateInfo"></div>
+    <div id="timerLabel">-</div>
+    <div id="timerClock">-- : -- : -- : --</div>
+  </div>
+
+  <div id="stats">
+    <div class="sb"><div class="v" id="stWin">0</div><div class="l">MENANG</div></div>
+    <div class="sb"><div class="v" id="stSpin">0</div><div class="l">SPIN</div></div>
+    <div class="sb"><div class="v" id="stSlot">∞</div><div class="l">SLOT</div></div>
+    <div class="sb"><div class="v" id="stOnline">1</div><div class="l">ONLINE</div></div>
+  </div>
+
+  <input id="nameInput" placeholder="✏️ Masukkan Nama Anda" autocomplete="off" maxlength="40">
+  <div class="cw">
+    <input id="codeInput" placeholder="🎟️ Kode Spin" autocomplete="off">
+    <button id="redeemBtn" class="bp">Redeem</button>
+  </div>
+
+  <div id="wSec">
+    <div id="wCon">
+      <div id="arrow"><svg viewBox="0 0 24 28" fill="none"><polygon points="12,28 0,8 24,8" fill="#00ffd5"/><rect x="9" y="0" width="6" height="12" rx="3" fill="#00ffd5"/></svg></div>
+      <canvas id="wCanvas" width="290" height="290"></canvas>
+      <div id="wCenter">RNG</div>
+    </div>
+  </div>
+
+  <button id="spinBtn">🌀 SPIN RNG</button>
+  <div id="streak"></div>
+  <div id="result">PUTAR UNTUK MEMULAI</div>
+  <button id="claimBtn">📩 KLAIM VIA WHATSAPP</button>
+  <span id="spinInfo">🎟 Memuat...</span>
+  <span id="spinFree"></span>
+  <span id="devInfo">📱 Memuat...</span>
+
+  <div class="panel" id="logPanel">
+    <div class="ptitle"><span>📋 RIWAYAT SPIN</span><span id="logCnt" style="color:#aaa;font-size:10px">0 spin</span></div>
+  </div>
+
+  <div class="panel">
+    <div class="ptitle">📢 INFO EVENT</div>
+    <div id="infoContent" style="color:#ccc;font-size:11px;line-height:1.6">-</div>
+  </div>
+
+  <div class="panel" style="max-height:160px;overflow:auto">
+    <div class="ptitle">
+      <span>🏆 PEMENANG</span>
+      <span id="winBadge" style="background:#00ffd5;color:#000;font-size:9px;padding:2px 6px;border-radius:10px;font-weight:700">0</span>
+    </div>
+    <div id="winList">-</div>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div id="adminPanel">
+    <div style="font-family:'Orbitron',sans-serif;color:#ffcc00;text-align:center;font-size:13px;letter-spacing:2px;margin-bottom:14px">⚙️ ADMIN PANEL</div>
+
+    <!-- BROADCAST -->
+    <div class="as">
+      <div class="ast">📣 BROADCAST BANNER</div>
+      <input id="bcInput" placeholder="Pesan banner (kosong = hapus)">
+      <button id="bcBtn" class="bw" style="margin-top:8px">📤 Kirim Broadcast</button>
+    </div>
+
+    <!-- KONTROL EVENT -->
+    <div class="as">
+      <div class="ast">📡 KONTROL EVENT</div>
+      <div style="display:flex;gap:6px;margin-bottom:8px">
+        <button id="toggleBtn" style="flex:2;background:#555;color:#fff">TOGGLE EVENT</button>
+        <button id="tmBtn" style="flex:1;background:linear-gradient(135deg,#7c3aed,#4c1d95);color:#fff;font-size:11px">🧪 UJI COBA</button>
       </div>
-      <div id="search-results">
-        <div style="text-align:center;padding:32px 0;color:var(--text3);">
-          <i class="fa fa-envelope" style="font-size:28px;opacity:.3;display:block;margin-bottom:8px;"></i>
-          <p style="font-size:13px;">Ketik email untuk mencari pengguna</p>
-        </div>
+      <div id="tmBanner">🧪 MODE UJI COBA — Spin tidak potong stok & tidak disimpan</div>
+      <textarea id="infoInput" placeholder="Deskripsi event / pengumuman..." style="resize:vertical;height:80px;margin-top:0"></textarea>
+      <div class="g2" style="margin-top:8px">
+        <input id="maxWin" type="number" placeholder="Max Pemenang (0=∞)" value="0" style="margin-top:0">
+        <input id="maxWinDev" type="number" placeholder="Max Menang/User (0=∞)" value="0" style="margin-top:0">
+        <input id="maxSpin" type="number" placeholder="Max Spin/User (0=∞)" value="0" style="margin-top:0">
+        <input id="freeSpin" type="number" placeholder="Free Spin Baru" value="5" style="margin-top:0">
+      </div>
+    </div>
+
+    <!-- SCHEDULE -->
+    <div class="as">
+      <div class="ast">⏰ AUTO SCHEDULE (WIB)</div>
+      <label style="font-size:11px;color:#aaa;display:block;margin-bottom:4px">Mulai Event</label>
+      <input id="evStart" type="datetime-local" step="60">
+      <label style="font-size:11px;color:#aaa;display:block;margin-top:8px;margin-bottom:4px">Akhir Event</label>
+      <input id="evEnd" type="datetime-local" step="60" style="margin-top:0">
+      <label style="font-size:11px;color:#aaa;margin-top:10px;display:flex;align-items:center;gap:8px">
+        <input id="scheduleOn" type="checkbox" style="width:auto;margin:0"> Aktifkan Auto ON/OFF
+      </label>
+      <button id="saveBtn" class="bp" style="margin-top:10px">💾 SIMPAN SEMUA</button>
+    </div>
+
+    <!-- CODES -->
+    <div class="as">
+      <div class="ast">🎟️ KODE SPIN</div>
+      <div class="g2">
+        <input id="ncName" placeholder="Nama Kode" style="margin-top:0">
+        <input id="ncSpin" type="number" placeholder="Jumlah Spin" style="margin-top:0">
+      </div>
+      <input id="ncMax" type="number" placeholder="Max Pengguna" style="margin-top:6px">
+      <button id="addCodeBtn" class="bp" style="margin-top:8px">➕ Tambah Kode</button>
+      <div id="codeList" style="margin-top:10px;max-height:150px;overflow:auto"></div>
+    </div>
+
+    <!-- WHEEL -->
+    <div class="as">
+      <div class="ast">🎡 ITEM RODA</div>
+      <div id="wheelList" style="max-height:180px;overflow:auto;margin-bottom:8px"></div>
+      <input id="nwLabel" placeholder="Nama Hadiah / Zonk">
+      <select id="nwType" style="margin-top:6px">
+        <option value="win">🏆 HADIAH (MENANG)</option>
+        <option value="lose">💀 ZONK (KALAH)</option>
+      </select>
+      <input id="nwWeight" type="number" placeholder="Weight (lebih besar = lebih sering)" value="1" style="margin-top:6px">
+      <button id="addItemBtn" class="bp" style="margin-top:8px">➕ Tambah Item</button>
+      <div id="chanceDisplay"></div>
+    </div>
+
+    <!-- TAMBAH SPIN USER -->
+    <div class="as">
+      <div class="ast">🎁 TAMBAH SPIN USER</div>
+      <input id="tgtId" placeholder="Device ID User">
+      <input id="tgtAmt" type="number" placeholder="Jumlah Spin" style="margin-top:6px">
+      <button id="addSpinBtn" class="bs" style="margin-top:8px">➕ Tambah Spin</button>
+    </div>
+
+    <!-- GRANT EDIT -->
+    <div class="as">
+      <div class="ast">🔐 IZIN EDIT NAMA</div>
+      <input id="grantId" placeholder="Device ID Target">
+      <button id="grantBtn" class="bp" style="margin-top:8px">Beri Izin Edit 1x</button>
+    </div>
+
+    <!-- LOCK -->
+    <div class="as">
+      <div class="ast">🔒 LOCK DEVICE</div>
+      <input id="lockId" placeholder="Device ID Target">
+      <input id="lockHour" type="number" placeholder="Durasi (jam)" style="margin-top:6px">
+      <div class="br">
+        <button id="lockBtn" class="bd">🔒 Lock</button>
+        <button id="unlockBtn" class="bs">🔓 Unlock</button>
+      </div>
+    </div>
+
+    <!-- AKSI -->
+    <div class="as">
+      <div class="ast">⚡ AKSI</div>
+      <div class="br">
+        <button id="exportBtn" style="flex:1;background:#fff;color:#000">📤 Export</button>
+        <button id="resetEvtBtn" class="bw" style="flex:1">♻ Reset Event</button>
+        <button id="resetAllBtn" class="bd" style="flex:1">⚠️ Reset All</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ═══ CONTEXT MENU ═══ -->
-<div id="ctx-menu">
-  <div class="ctx-reactions" id="ctx-reactions"></div>
-  <div class="ctx-actions" id="ctx-actions"></div>
-</div>
-
-<!-- ═══ TOAST ═══ -->
-<div id="toast"></div>
-
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script>
-// ╔════════════════════════════════════════════╗
-// ║            SUPABASE CLIENT                  ║
-// ╚════════════════════════════════════════════╝
-const { createClient } = window.supabase;
-const sb = createClient(
-  'https://rvxytphdcxfhvtnrekag.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2eHl0cGhkY3hmaHZ0bnJla2FnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2OTM3MjAsImV4cCI6MjA5MjI2OTcyMH0.ygFefTzvYq0OSfh6Rj2Iug5dDcVO0xSppdqr-CpG2o0'
-);
+// ═══════════════════════════════════════════════
+//  CONFIG & INIT
+// ═══════════════════════════════════════════════
+const FB_CFG = {
+  apiKey:            "AIzaSyCNWjbzayNNmM0f9cAOh-DGvOy8Cf6ar7I",
+  authDomain:        "rng-system.firebaseapp.com",
+  databaseURL:       "https://rng-system-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId:         "rng-system",
+  storageBucket:     "rng-system.firebasestorage.app",
+  messagingSenderId: "627588935839",
+  appId:             "1:627588935839:web:a6492ed6cdccb8a95132aa"
+};
+firebase.initializeApp(FB_CFG);
+const db = firebase.database();
 
-// ╔════════════════════════════════════════════╗
-// ║                  STATE                      ║
-// ╚════════════════════════════════════════════╝
-let ME = null;           // current user object
-let MY_PROFILE = null;   // row from users table
-let convos = [];
-let activeConvoId = null;
-let activePartner = null;
-let msgs = [];
-let replyTo = null;
+const ADMIN_PIN = "XREZZKY STORE0930";
+const ADMIN_WA  = "6288293064112";
 
-let msgChannel = null;
-let typingChannel = null;
-let presenceChannel = null;
-let convoChannel = null;
+// ─── DEVICE ID ───
+const DEVID = (()=>{
+  let id = localStorage.getItem("xrz_dev");
+  if (!id) { id = "dev-" + Date.now().toString(36) + Math.random().toString(36).slice(2,7); localStorage.setItem("xrz_dev",id); }
+  return id;
+})();
 
-let typingTimer = null;
-let typingVisible = false;
-let searchTimer = null;
+// ─── STATE ───
+let cfg        = {};         // globalSettings from Firebase
+let prizes     = [];         // wheelItems
+let spinning   = false;
+let wRot       = 0;
+let mySpins    = 0;          // from Firebase userSpins/DEVID
+let isAdmin    = false;
+let testMode   = false;
+let titleHits  = 0;
+let schedTick  = null;
+let loseRun    = 0;
+let logCount   = 0;
+let winnerCount= 0;          // kept in sync from winners listener
 
-const EMOJIS = ['😀','😂','🥰','😎','🤔','😅','🥺','😭','🤯','🎉','🔥','💯','👍','👏','🙏','💪','✨','⚡','💎','🚀','❤️','💙','💚','💛','🧡','🤍','👻','🤖','🦄','🎮','🎯','💬','🏆','🌟','🤝','✅','❌','⚠️','💰','🎁','🌈'];
-const REACT_EMOJIS = ['❤️','😂','😮','😢','🔥','👍','🎉','💯'];
-
-// ╔════════════════════════════════════════════╗
-// ║                  AUTH                       ║
-// ╚════════════════════════════════════════════╝
-function switchAuthTab(tab) {
-  ['login','register','forgot'].forEach(t => {
-    document.getElementById('form-'+t).style.display = t===tab ? '' : 'none';
-    const btn = document.querySelector(`.auth-tab:nth-child(${t==='login'?1:2})`);
-  });
-  document.querySelectorAll('.auth-tab').forEach((b,i) => {
-    b.classList.toggle('active', (i===0&&tab==='login')||(i===1&&tab==='register'));
-  });
-  clearAuthMsg();
+// ─── HIDE LOADING (guaranteed) ───
+function hideLo(status) {
+  const el = document.getElementById("lo");
+  if (status) document.getElementById("loStatus").innerText = status;
+  el.style.opacity = "0";
+  setTimeout(()=>{ el.style.display="none"; }, 450);
 }
-
-function clearAuthMsg() {
-  document.getElementById('auth-error').style.display='none';
-  document.getElementById('auth-success').style.display='none';
-  document.getElementById('auth-notice').style.display='none';
-}
-function showError(msg) {
-  const el=document.getElementById('auth-error');
-  el.innerText=msg; el.style.display='block';
-}
-function showSuccess(msg) {
-  const el=document.getElementById('auth-success');
-  el.innerText=msg; el.style.display='block';
-}
-
-async function doLogin() {
-  clearAuthMsg();
-  const email = document.getElementById('l-email').value.trim();
-  const pass  = document.getElementById('l-pass').value;
-  if(!email||!pass) return showError('Isi email dan password.');
-  const btn = document.querySelector('#form-login .btn-primary');
-  const resetBtn = () => { btn.disabled=false; btn.innerText='Masuk'; };
-  btn.disabled=true; btn.innerHTML='<span class="spinner"></span>';
-
-  const timeout = setTimeout(() => {
-    resetBtn();
-    showError('Koneksi timeout. Cek internet / coba lagi.');
-  }, 15000);
-
-  try {
-    const {error} = await sb.auth.signInWithPassword({email, password:pass});
-    clearTimeout(timeout);
-    resetBtn();
-    if(error) showError(error.message === 'Invalid login credentials' ? 'Email atau password salah.' : error.message);
-  } catch(err) {
-    clearTimeout(timeout);
-    resetBtn();
-    showError('Gagal terhubung ke server: ' + (err.message || 'Unknown error'));
-  }
-}
-
-async function doRegister() {
-  clearAuthMsg();
-  const username = document.getElementById('r-user').value.trim();
-  const email    = document.getElementById('r-email').value.trim();
-  const pass     = document.getElementById('r-pass').value;
-  if(!username) return showError('Username wajib diisi.');
-  if(!email)    return showError('Email wajib diisi.');
-  if(pass.length<6) return showError('Password minimal 6 karakter.');
-
-  const btn = document.querySelector('#form-register .btn-primary');
-  const resetBtn = () => { btn.disabled=false; btn.innerText='Buat Akun'; };
-  btn.disabled=true; btn.innerHTML='<span class="spinner"></span>';
-
-  const timeout = setTimeout(() => {
-    resetBtn();
-    showError('Koneksi timeout. Cek internet / coba lagi.');
-  }, 15000);
-
-  try {
-    const {data, error} = await sb.auth.signUp({email, password:pass});
-    clearTimeout(timeout);
-    if(error) { resetBtn(); return showError(error.message); }
-
-    if(data.user) {
-      const {error:e} = await sb.from('users').upsert({
-        id: data.user.id, username, email,
-        created_at: new Date().toISOString()
-      });
-      if(e) console.warn('upsert users error:', e.message);
-    }
-
-    resetBtn();
-    showSuccess('Akun dibuat! Cek email atau langsung login kalau verifikasi dimatiin.');
-    document.getElementById('auth-notice').style.display='block';
-  } catch(err) {
-    clearTimeout(timeout);
-    resetBtn();
-    showError('Gagal terhubung ke server: ' + (err.message || 'Unknown error'));
-  }
-}
-
-async function doForgot() {
-  clearAuthMsg();
-  const email = document.getElementById('f-email').value.trim();
-  if(!email) return showError('Masukkan email kamu.');
-  const {error} = await sb.auth.resetPasswordForEmail(email, {
-    redirectTo: window.location.href
-  });
-  if(error) return showError(error.message);
-  showSuccess('Link reset dikirim ke email kamu!');
-}
-
-async function doLogout() {
-  await sb.auth.signOut();
-  ME=null; MY_PROFILE=null;
-  cleanupChannels();
-  showScreen('screen-auth');
-}
-
-// ── Auth State Change ──
-sb.auth.onAuthStateChange(async (event, session) => {
-  if(session?.user) {
-    ME = session.user;
-    await loadMyProfile();
-    showScreen('screen-app');
-    initApp();
-  } else {
-    showScreen('screen-auth');
-  }
-});
-
-async function loadMyProfile() {
-  try {
-    const {data} = await sb.from('users').select('*').eq('id',ME.id).single();
-    MY_PROFILE = data;
-    if(!MY_PROFILE) {
-      await sb.from('users').upsert({
-        id: ME.id, username: ME.email.split('@')[0], email: ME.email,
-        created_at: new Date().toISOString()
-      });
-      const {data:d2} = await sb.from('users').select('*').eq('id',ME.id).single();
-      MY_PROFILE = d2;
-    }
-    updateSidebarUI();
-  } catch(e) {
-    console.error('loadMyProfile error:', e);
-    // Fallback agar app tetap jalan
-    MY_PROFILE = { id: ME.id, username: ME.email.split('@')[0], email: ME.email };
-    updateSidebarUI();
-  }
-}
-
-function updateSidebarUI() {
-  if(!MY_PROFILE) return;
-  const avatar = avatarUrl(MY_PROFILE.username);
-  const sbAvatar = document.getElementById('sb-avatar');
-  const sbIcon   = document.getElementById('sb-avatar-icon');
-  sbAvatar.src = avatar; sbAvatar.style.display='block'; sbIcon.style.display='none';
-
-  document.getElementById('pd-avatar').src = avatar;
-  document.getElementById('pd-name').innerText = MY_PROFILE.username;
-  document.getElementById('pd-email').innerText = ME.email;
-}
-
-// ╔════════════════════════════════════════════╗
-// ║              APP INIT                       ║
-// ╚════════════════════════════════════════════╝
-function initApp() {
-  initEmojiGrid();
-  loadConvos();
-  upsertPresence(true);
-  subscribeConvos();
-
-  // Heartbeat for presence
-  window._presenceInterval = setInterval(() => upsertPresence(true), 25000);
-  window.addEventListener('beforeunload', () => upsertPresence(false));
-  document.addEventListener('visibilitychange', () => {
-    upsertPresence(!document.hidden);
-  });
-
-  // Close ctx menu on click outside
-  document.addEventListener('click', (e) => {
-    if(!document.getElementById('ctx-menu').contains(e.target))
-      hideCtxMenu();
-  });
-}
-
-function cleanupChannels() {
-  [msgChannel, typingChannel, presenceChannel, convoChannel].forEach(c => { if(c) sb.removeChannel(c); });
-  clearInterval(window._presenceInterval);
-}
-
-// ╔════════════════════════════════════════════╗
-// ║            CONVERSATIONS                    ║
-// ╚════════════════════════════════════════════╝
-async function loadConvos() {
-  try {
-    const {data, error} = await sb.from('conversations')
-      .select('*, partner:partner_id(*)')
-      .eq('owner_id', ME.id)
-      .order('updated_at', {ascending:false});
-    if(error) throw error;
-    convos = data || [];
-    await renderConvoList(convos);
-  } catch(e) {
-    console.error('loadConvos error:', e);
-    showToast('Gagal memuat percakapan. Coba refresh.');
-  }
-}
-
-async function renderConvoList(list) {
-  const el = document.getElementById('convo-list');
-  if(!list.length) {
-    el.innerHTML=`<div class="convo-empty">
-      <i class="fa fa-comments"></i>
-      <p>Belum ada percakapan</p>
-      <small>Tap ✏️ untuk mulai chat baru</small>
-    </div>`; return;
-  }
-
-  const validList = list.filter(c => c.partner);
-  if(!validList.length) { el.innerHTML=''; return; }
-
-  const convoIds   = validList.map(c => c.id);
-  const partnerIds = validList.map(c => c.partner.id);
-
-  // Batch fetch: last messages per convo
-  const {data:allMsgs} = await sb.from('messages')
-    .select('conversation_id,text,sender_id,created_at,is_read')
-    .in('conversation_id', convoIds)
-    .order('created_at', {ascending:false});
-
-  // Batch fetch: presence for all partners
-  const {data:presRows} = await sb.from('user_presence')
-    .select('user_id,is_online')
-    .in('user_id', partnerIds);
-
-  // Build lookup maps
-  const lastMsgMap = {};
-  const unreadMap  = {};
-  (allMsgs||[]).forEach(m => {
-    if(!lastMsgMap[m.conversation_id]) lastMsgMap[m.conversation_id] = m;
-    if(!m.is_read && m.sender_id !== ME.id) {
-      unreadMap[m.conversation_id] = (unreadMap[m.conversation_id]||0) + 1;
-    }
-  });
-  const presMap = {};
-  (presRows||[]).forEach(p => presMap[p.user_id] = p.is_online);
-
-  let html = '';
-  validList.forEach(c => {
-    const partner  = c.partner;
-    const last     = lastMsgMap[c.id];
-    const u        = unreadMap[c.id] || 0;
-    const isOnline = presMap[partner.id] || false;
-    const lastText = last
-      ? (last.sender_id===ME.id ? '✓ ' : '') + truncate(last.text, 34)
-      : 'Mulai percakapan...';
-
-    html += `<div class="convo-item${activeConvoId===c.id?' active':''}"
-      onclick="openConvo('${c.id}','${partner.id}','${esc(partner.username)}','${esc(partner.email)}')"
-      data-name="${(partner.username||'').toLowerCase()}">
-      <div class="convo-avatar">
-        <img src="${avatarUrl(partner.username)}" alt="${partner.username}">
-        ${isOnline ? `<div class="online-ring"></div>` : ''}
-      </div>
-      <div class="convo-info">
-        <div class="convo-top">
-          <span class="convo-name">${esc(partner.username)}</span>
-          <span class="convo-time">${last ? fmtTime(last.created_at) : ''}</span>
-        </div>
-        <div class="convo-bot">
-          <span class="convo-last">${esc(lastText)}</span>
-          ${u>0 ? `<span class="unread-pill">${u>99?'99+':u}</span>` : ''}
-        </div>
-      </div>
-    </div>`;
-  });
-  el.innerHTML = html;
-}
-
-function subscribeConvos() {
-  if(convoChannel) sb.removeChannel(convoChannel);
-  convoChannel = sb.channel('my-convos')
-    .on('postgres_changes',{event:'*',schema:'public',table:'conversations',filter:`owner_id=eq.${ME.id}`},
-      ()=>loadConvos())
-    .subscribe();
-}
-
-function filterConvos(v) {
-  document.querySelectorAll('.convo-item').forEach(el=>{
-    el.style.display = el.dataset.name?.includes(v.toLowerCase()) ? '' : 'none';
-  });
-}
-
-// ╔════════════════════════════════════════════╗
-// ║             OPEN CONVO                      ║
-// ╚════════════════════════════════════════════╝
-async function openConvo(convoId, partnerId, partnerName, partnerEmail) {
-  activeConvoId = convoId;
-  activePartner = {id:partnerId, username:partnerName, email:partnerEmail};
-
-  // Update header
-  document.getElementById('ch-avatar').src = avatarUrl(partnerName);
-  document.getElementById('ch-name').innerText = partnerName;
-  document.getElementById('ch-status').innerText = '...';
-  document.getElementById('ch-status').className = 'chat-partner-status';
-
-  // Show chat UI
-  document.getElementById('empty-state').style.display='none';
-  const cui = document.getElementById('chat-ui');
-  cui.style.display='flex';
-
-  // Mobile: hide sidebar
-  document.getElementById('sidebar').classList.add('hidden-mobile');
-  document.getElementById('chatroom').classList.add('show-mobile');
-
-  // Highlight active
-  document.querySelectorAll('.convo-item').forEach(el=>{
-    el.classList.toggle('active', el.onclick?.toString().includes(convoId));
-  });
-
-  // Load partner presence
-  await refreshPartnerPresence();
-
-  // Load messages
-  await loadMessages();
-
-  // Mark read
-  await markRead();
-
-  // Subscribe realtime
-  subscribeMessages(convoId);
-  subscribePartnerPresence(partnerId);
-  subscribeTyping(convoId);
-
-  // Refresh convo list unread
-  loadConvos();
-  document.getElementById('msg-input').focus();
-}
-
-async function refreshPartnerPresence() {
-  if(!activePartner) return;
-  const {data} = await sb.from('user_presence').select('is_online,last_seen').eq('user_id',activePartner.id).single();
-  const statusEl = document.getElementById('ch-status');
-  if(data?.is_online) {
-    statusEl.innerText='Online';
-    statusEl.className='chat-partner-status online';
-  } else if(data?.last_seen) {
-    statusEl.innerText='Terakhir dilihat '+fmtTime(data.last_seen);
-    statusEl.className='chat-partner-status';
-  } else {
-    statusEl.innerText=activePartner.email;
-    statusEl.className='chat-partner-status';
-  }
-}
-
-// ╔════════════════════════════════════════════╗
-// ║               MESSAGES                      ║
-// ╚════════════════════════════════════════════╝
-async function loadMessages() {
-  try {
-    const {data, error} = await sb.from('messages')
-      .select('*')
-      .eq('conversation_id', activeConvoId)
-      .order('created_at',{ascending:true});
-    if(error) throw error;
-    msgs = data||[];
-    renderMessages();
-    scrollBottom();
-  } catch(e) {
-    console.error('loadMessages error:', e);
-    showToast('Gagal memuat pesan.');
-  }
-}
-
-function renderMessages() {
-  const el = document.getElementById('msg-area');
-  let html='', lastDate='';
-
-  msgs.forEach(m=>{
-    const d = new Date(m.created_at).toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});
-    if(d!==lastDate) {
-      html+=`<div class="date-sep"><div class="date-sep-line"></div><div class="date-sep-label">${d}</div><div class="date-sep-line"></div></div>`;
-      lastDate=d;
-    }
-    html += buildMsgHTML(m);
-  });
-  el.innerHTML = html;
-}
-
-function buildMsgHTML(m) {
-  const isMe = m.sender_id===ME.id;
-  const time  = new Date(m.created_at).toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
-
-  // Reply quote
-  let replyHTML='';
-  if(m.reply_to_id) {
-    const orig = msgs.find(x=>x.id===m.reply_to_id);
-    if(orig) replyHTML=`<div class="msg-reply-quote">
-      <strong>${orig.sender_id===ME.id?'Kamu':esc(activePartner.username)}</strong>
-      ${esc(truncate(orig.text,60))}
-    </div>`;
-  }
-
-  // Reactions
-  const reactions = m.reactions||{};
-  const reactHTML = Object.keys(reactions).length
-    ? `<div class="reactions-wrap">
-        ${Object.entries(reactions).map(([em,arr])=>
-          `<div class="reaction-chip" onclick="toggleReact('${m.id}','${em}')">
-            ${em}<span class="reaction-count">${arr.length}</span>
-          </div>`).join('')}
-       </div>` : '';
-
-  // Tick
-  const tick = isMe ? `<span class="tick${m.is_read?' read':''}"><i class="fa fa-check${m.is_read?'-double':''}"></i></span>` : '';
-
-  return `<div class="msg-row${isMe?' me':' them'}" data-id="${m.id}" oncontextmenu="showCtx(event,'${m.id}')">
-    ${!isMe?`<img class="msg-avatar" src="${avatarUrl(activePartner?.username||'?')}">`:''}
-    <div class="msg-bubble-wrap">
-      <div class="msg-bubble" onclick="handleBubbleClick(event,'${m.id}')">
-        ${replyHTML}
-        <span>${esc(m.text)}</span>
-      </div>
-      <div class="msg-meta">
-        <span>${time}</span>
-        ${tick}
-      </div>
-      ${reactHTML}
-    </div>
-  </div>`;
-}
-
-function subscribeMessages(convoId) {
-  if(msgChannel) sb.removeChannel(msgChannel);
-  msgChannel = sb.channel('msgs-'+convoId)
-    .on('postgres_changes',{event:'INSERT',schema:'public',table:'messages',filter:`conversation_id=eq.${convoId}`}, async payload=>{
-      const m=payload.new;
-      if(msgs.find(x=>x.id===m.id)) return; // dedupe
-      msgs.push(m);
-      appendMessage(m);
-      if(m.sender_id!==ME.id) {
-        await markRead();
-        loadConvos();
-      }
-    })
-    .on('postgres_changes',{event:'UPDATE',schema:'public',table:'messages',filter:`conversation_id=eq.${convoId}`}, async payload=>{
-      const idx=msgs.findIndex(x=>x.id===payload.new.id);
-      if(idx!==-1){ msgs[idx]=payload.new; }
-      renderMessages(); scrollBottom(false);
-    })
-    .on('postgres_changes',{event:'DELETE',schema:'public',table:'messages',filter:`conversation_id=eq.${convoId}`}, async payload=>{
-      msgs=msgs.filter(x=>x.id!==payload.old.id);
-      renderMessages();
-    })
-    .subscribe();
-}
-
-function appendMessage(m) {
-  const el=document.getElementById('msg-area');
-  // Add date separator if new day
-  const lastSep = el.querySelector('.date-sep:last-of-type .date-sep-label');
-  const d=new Date(m.created_at).toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});
-  if(!lastSep || lastSep.innerText!==d) {
-    el.insertAdjacentHTML('beforeend',`<div class="date-sep"><div class="date-sep-line"></div><div class="date-sep-label">${d}</div><div class="date-sep-line"></div></div>`);
-  }
-  el.insertAdjacentHTML('beforeend', buildMsgHTML(m));
-  scrollBottom();
-}
-
-// ── SEND ──
-async function sendMsg() {
-  const input=document.getElementById('msg-input');
-  const text=input.value.trim();
-  if(!text||!activeConvoId) return;
-
-  const savedText = text;
-  const savedReply = replyTo;
-  input.value=''; autoResize(input);
-  hideTypingIndicator();
-  cancelReply();
-
-  try {
-    const msgData = {
-      conversation_id: activeConvoId,
-      sender_id: ME.id,
-      text, is_read:false,
-      reply_to_id: savedReply?.id||null,
-      reactions: {}
-    };
-    const {error} = await sb.from('messages').insert(msgData);
-    if(error) throw error;
-    // Bump convo updated_at
-    await sb.from('conversations')
-      .update({updated_at:new Date().toISOString()})
-      .eq('id',activeConvoId);
-  } catch(e) {
-    // Kembalikan text kalau gagal kirim
-    input.value = savedText;
-    autoResize(input);
-    showToast('Gagal mengirim pesan. Coba lagi.');
-    console.error('sendMsg error:', e);
-  }
-}
-
-function handleKey(e) {
-  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}
-}
-
-// ── MARK READ ──
-async function markRead() {
-  if(!activeConvoId) return;
-  await sb.from('messages').update({is_read:true})
-    .eq('conversation_id',activeConvoId)
-    .neq('sender_id',ME.id)
-    .eq('is_read',false);
-}
-
-// ── SCROLL ──
-function scrollBottom(smooth=true) {
-  const el=document.getElementById('msg-area');
-  if(smooth) el.style.scrollBehavior='smooth';
-  setTimeout(()=>{ el.scrollTop=el.scrollHeight; el.style.scrollBehavior=''; },60);
-}
-
-// ── REPLY ──
-function setReply(msgId) {
-  const m=msgs.find(x=>x.id===msgId);
-  if(!m) return;
-  replyTo=m;
-  document.getElementById('reply-bar').style.display='block';
-  document.getElementById('reply-text').innerText=truncate(m.text,70);
-  document.getElementById('msg-input').focus();
-  hideCtxMenu();
-}
-
-function cancelReply() {
-  replyTo=null;
-  document.getElementById('reply-bar').style.display='none';
-}
-
-// ── DELETE ──
-async function deleteMsg(msgId) {
-  if(!confirm('Hapus pesan ini?')) return;
-  await sb.from('messages').delete().eq('id',msgId).eq('sender_id',ME.id);
-  hideCtxMenu();
-}
-
-// ── REACTIONS ──
-async function toggleReact(msgId, emoji) {
-  const m=msgs.find(x=>x.id===msgId);
-  if(!m) return;
-  const reactions={...(m.reactions||{})};
-  const arr=[...(reactions[emoji]||[])];
-  const idx=arr.indexOf(ME.id);
-  if(idx===-1) arr.push(ME.id); else arr.splice(idx,1);
-  if(arr.length) reactions[emoji]=arr; else delete reactions[emoji];
-  await sb.from('messages').update({reactions}).eq('id',msgId);
-  hideCtxMenu();
-}
-
-// ── CONTEXT MENU ──
-let ctxMsgId=null;
-function showCtx(e, msgId) {
-  e.preventDefault(); e.stopPropagation();
-  ctxMsgId=msgId;
-  const m=msgs.find(x=>x.id===msgId);
-  const isMe=m?.sender_id===ME.id;
-
-  const menu=document.getElementById('ctx-menu');
-  document.getElementById('ctx-reactions').innerHTML =
-    REACT_EMOJIS.map(r=>`<div class="ctx-react-btn" onclick="toggleReact('${msgId}','${r}')">${r}</div>`).join('');
-
-  let actions=`<div class="ctx-action" onclick="setReply('${msgId}')"><i class="fa fa-reply" style="color:var(--accent);width:16px;"></i>Balas</div>`;
-  if(isMe) actions+=`<div class="ctx-action danger" onclick="deleteMsg('${msgId}')"><i class="fa fa-trash" style="width:16px;"></i>Hapus</div>`;
-  document.getElementById('ctx-actions').innerHTML=actions;
-
-  // Position
-  const x=Math.min(e.clientX, window.innerWidth-230);
-  const y=Math.min(e.clientY, window.innerHeight-160);
-  menu.style.left=x+'px'; menu.style.top=y+'px';
-  menu.style.display='block';
-}
-function hideCtxMenu() { document.getElementById('ctx-menu').style.display='none'; }
-function handleBubbleClick(e,msgId) { /* single tap = nothing, long handled by ctx */ }
-
-// ── TYPING ──
-async function broadcastTyping() {
-  if(!typingChannel||!activeConvoId) return;
-  typingChannel.send({type:'broadcast',event:'typing',payload:{user_id:ME.id}});
-}
-
-let typingShowTimer=null;
-function subscribeTyping(convoId) {
-  if(typingChannel) sb.removeChannel(typingChannel);
-  typingChannel = sb.channel('typing-'+convoId)
-    .on('broadcast',{event:'typing'},payload=>{
-      if(payload.payload?.user_id!==ME.id) showTypingIndicator();
-    })
-    .subscribe();
-}
-function showTypingIndicator() {
-  const row=document.getElementById('typing-row');
-  if(activePartner) document.getElementById('typing-avatar').src=avatarUrl(activePartner.username);
-  row.style.display='block';
-  clearTimeout(typingShowTimer);
-  typingShowTimer=setTimeout(hideTypingIndicator,2500);
-  scrollBottom(false);
-}
-function hideTypingIndicator() { document.getElementById('typing-row').style.display='none'; }
-
-// ── PRESENCE ──
-async function upsertPresence(online) {
-  if(!ME) return;
-  try {
-    await sb.from('user_presence').upsert({
-      user_id:ME.id, is_online:online, last_seen:new Date().toISOString()
-    },{onConflict:'user_id'});
-  } catch(e) { /* silent - presence non-critical */ }
-}
-
-function subscribePartnerPresence(partnerId) {
-  if(presenceChannel) sb.removeChannel(presenceChannel);
-  presenceChannel = sb.channel('pres-'+partnerId)
-    .on('postgres_changes',{event:'*',schema:'public',table:'user_presence',filter:`user_id=eq.${partnerId}`},
-      ()=>refreshPartnerPresence())
-    .subscribe();
-}
-
-// ── EMOJI ──
-function initEmojiGrid() {
-  const grid=document.getElementById('emoji-grid');
-  if(grid.children.length>0) return;
-  grid.innerHTML=EMOJIS.map(e=>`<div class="emoji-cell" onclick="insertEmoji('${e}')">${e}</div>`).join('');
-}
-function toggleEmoji() { document.getElementById('emoji-picker').style.display=document.getElementById('emoji-picker').style.display==='block'?'none':'block'; }
-function insertEmoji(e) {
-  const input=document.getElementById('msg-input');
-  input.value+=e; input.focus(); autoResize(input);
-}
-
-// ── CLEAR CHAT ──
-function openClearConfirm() {
-  if(!activeConvoId||!confirm('Hapus semua pesan di percakapan ini?')) return;
-  sb.from('messages').delete().eq('conversation_id',activeConvoId).then(()=>{
-    msgs=[]; renderMessages();
-    showToast('Chat dihapus.');
-  });
-}
-
-// ── BACK (mobile) ──
-function backToList() {
-  document.getElementById('sidebar').classList.remove('hidden-mobile');
-  document.getElementById('chatroom').classList.remove('show-mobile');
-  document.getElementById('chat-ui').style.display='none';
-  document.getElementById('empty-state').style.display='';
-  activeConvoId=null; activePartner=null;
-  if(msgChannel) sb.removeChannel(msgChannel);
-  if(typingChannel) sb.removeChannel(typingChannel);
-  if(presenceChannel) sb.removeChannel(presenceChannel);
-}
-
-// ╔════════════════════════════════════════════╗
-// ║            NEW CHAT / SEARCH               ║
-// ╚════════════════════════════════════════════╝
-function openNewChat() {
-  document.getElementById('modal-new-chat').classList.add('open');
-  document.getElementById('search-email').value='';
-  resetSearchResults();
-  setTimeout(()=>document.getElementById('search-email').focus(),300);
-}
-function closeNewChat() { document.getElementById('modal-new-chat').classList.remove('open'); }
-
-function resetSearchResults() {
-  document.getElementById('search-results').innerHTML=`
-    <div style="text-align:center;padding:32px 0;color:var(--text3);">
-      <i class="fa fa-user-magnifying-glass" style="font-size:28px;opacity:.3;display:block;margin-bottom:8px;"></i>
-      <p style="font-size:13px;">Ketik email atau username untuk mencari</p>
-    </div>`;
-}
-
-function debounceSearch(v) {
-  clearTimeout(searchTimer);
-  if(!v||v.length<2) { resetSearchResults(); return; }
-  searchTimer=setTimeout(()=>searchUser(v),400);
-}
-
-async function searchUser(q) {
-  const el=document.getElementById('search-results');
-  el.innerHTML=`<div style="text-align:center;padding:20px;"><span class="spinner"></span></div>`;
-
-  // Cari by email OR username (parallel query)
-  const [{data:byEmail},{data:byUsername}] = await Promise.all([
-    sb.from('users').select('id,username,email').ilike('email','%'+q+'%').neq('id',ME.id).limit(8),
-    sb.from('users').select('id,username,email').ilike('username','%'+q+'%').neq('id',ME.id).limit(8)
-  ]);
-
-  // Merge + deduplicate by id
-  const map = new Map();
-  [...(byEmail||[]), ...(byUsername||[])].forEach(u => map.set(u.id, u));
-  const users = [...map.values()].slice(0, 10);
-
-  if(!users.length) {
-    el.innerHTML=`<div style="text-align:center;padding:32px 0;color:var(--text3);">
-      <i class="fa fa-user-slash" style="font-size:28px;opacity:.3;display:block;margin-bottom:8px;"></i>
-      <p style="font-size:13px;">Pengguna tidak ditemukan</p>
-      <p style="font-size:11px;margin-top:4px;opacity:.6;">Coba nama atau email lain</p>
-    </div>`;
+// Absolute failsafe — hide after 5s no matter what
+setTimeout(()=>hideLo(), 5000);
+
+// ═══════════════════════════════════════════════
+//  WHEEL CANVAS
+// ═══════════════════════════════════════════════
+const cvs = document.getElementById("wCanvas");
+const ctx  = cvs.getContext("2d");
+const CX=145, CY=145, R=138;
+
+function drawWheel() {
+  ctx.clearRect(0,0,290,290);
+  if (!prizes.length) {
+    ctx.fillStyle="#0d1f1f"; ctx.beginPath(); ctx.arc(CX,CY,R,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle="#aaa"; ctx.font="12px Share Tech Mono"; ctx.textAlign="center";
+    ctx.fillText("Belum ada hadiah",CX,CY-6); ctx.fillText("Setup di admin panel",CX,CY+10);
     return;
   }
-
-  // Fetch presence for all found users in one query
-  const ids = users.map(u=>u.id);
-  const {data:presenceRows} = await sb.from('user_presence')
-    .select('user_id,is_online,last_seen')
-    .in('user_id', ids);
-
-  const presenceMap = {};
-  (presenceRows||[]).forEach(p => presenceMap[p.user_id] = p);
-
-  el.innerHTML = users.map(u => {
-    const pres = presenceMap[u.id];
-    const isOnline = pres?.is_online === true;
-    const lastSeen = pres?.last_seen ? fmtTime(pres.last_seen) : null;
-    const statusHtml = isOnline
-      ? `<span style="font-size:10px;color:var(--green);font-weight:600;display:flex;align-items:center;gap:4px;margin-top:2px;">
-           <span style="width:6px;height:6px;background:var(--green);border-radius:50%;display:inline-block;"></span>Online
-         </span>`
-      : `<span style="font-size:10px;color:var(--text3);margin-top:2px;display:block;">
-           ${lastSeen ? 'Terakhir '+lastSeen : 'Offline'}
-         </span>`;
-    return `
-    <div class="user-result" onclick="startChat('${u.id}','${esc(u.username)}','${esc(u.email)}')">
-      <div style="position:relative;flex-shrink:0;">
-        <img src="${avatarUrl(u.username)}" alt="${u.username}" style="width:44px;height:44px;border-radius:50%;border:2px solid var(--border2);">
-        ${isOnline ? `<span style="position:absolute;bottom:1px;right:1px;width:11px;height:11px;background:var(--green);border-radius:50%;border:2px solid var(--bg2);display:block;"></span>` : ''}
-      </div>
-      <div style="flex:1;min-width:0;">
-        <div class="user-result-name">${esc(u.username)}</div>
-        <div class="user-result-email">${esc(u.email)}</div>
-        ${statusHtml}
-      </div>
-      <button class="chat-btn">Chat</button>
-    </div>`;
-  }).join('');
+  const n=prizes.length, arc=(2*Math.PI)/n, off=-Math.PI/2;
+  const wC=["#15803d","#16a34a","#22c55e","#166534","#14532d"];
+  const lC=["#b91c1c","#dc2626","#991b1b","#7f1d1d","#450a0a"];
+  prizes.forEach((p,i)=>{
+    const sa=off+i*arc, ea=sa+arc;
+    ctx.beginPath(); ctx.moveTo(CX,CY); ctx.arc(CX,CY,R,sa,ea); ctx.closePath();
+    ctx.fillStyle = p.win ? wC[i%wC.length] : lC[i%lC.length]; ctx.fill();
+    ctx.strokeStyle="rgba(0,0,0,.5)"; ctx.lineWidth=1.5; ctx.stroke();
+    ctx.save(); ctx.translate(CX,CY); ctx.rotate(sa+arc/2);
+    const mx=n<=4?16:n<=8?12:n<=14?8:6;
+    const lb=p.label.length>mx?p.label.slice(0,mx-1)+"…":p.label;
+    const fs=n<=4?13:n<=8?11:n<=14?9:7;
+    ctx.fillStyle="#fff"; ctx.font=`bold ${fs}px Arial`; ctx.textAlign="left";
+    ctx.shadowColor="rgba(0,0,0,.9)"; ctx.shadowBlur=4;
+    ctx.fillText(lb, R*.60 - lb.length*fs*.28, fs/3);
+    ctx.restore();
+  });
+  ctx.beginPath(); ctx.arc(CX,CY,R,0,Math.PI*2);
+  ctx.strokeStyle="rgba(0,255,213,.5)"; ctx.lineWidth=4;
+  ctx.shadowColor="#00ffd5"; ctx.shadowBlur=8; ctx.stroke(); ctx.shadowBlur=0;
+  ctx.beginPath(); ctx.arc(CX,CY,24,0,Math.PI*2);
+  ctx.fillStyle="#071414"; ctx.fill();
+  ctx.strokeStyle="rgba(0,255,213,.4)"; ctx.lineWidth=2; ctx.stroke();
 }
 
-async function startChat(partnerId, partnerUsername, partnerEmail) {
-  closeNewChat();
+function spinTo(idx, cb) {
+  const n=prizes.length; if(!n){cb();return;}
+  const sd=360/n, sc=idx*sd+sd/2;
+  const cur=((wRot%360)+360)%360;
+  let delta=(((-sc)-cur)+36000)%360;
+  if(delta<20) delta+=360;
+  wRot += 5*360+delta;
+  cvs.style.transition="transform 4s cubic-bezier(.17,.67,.12,.99)";
+  cvs.style.transform=`rotate(${wRot}deg)`;
+  setTimeout(cb,4200);
+}
 
-  // Check if convo already exists (both directions)
-  const {data:existing} = await sb.from('conversations')
-    .select('id')
-    .eq('owner_id', ME.id)
-    .eq('partner_id', partnerId)
-    .single();
+// ═══════════════════════════════════════════════
+//  FIREBASE LISTENERS — semua pakai .on() realtime
+// ═══════════════════════════════════════════════
+function startListeners() {
+  // SETTINGS
+  db.ref("settings").on("value", snap=>{
+    cfg = snap.val() || {};
+    if (cfg.eventOn===undefined) cfg.eventOn=false;
+    updateStatus();
+    updateDateInfo();
+    updateSlotStat();
+    if (isAdmin) syncAdmin();
+  });
 
-  let convoId;
-  if(existing) {
-    convoId=existing.id;
-  } else {
-    // Create conv for ME → PARTNER
-    const {data:c1} = await sb.from('conversations').insert({
-      owner_id:ME.id, partner_id:partnerId, updated_at:new Date().toISOString()
-    }).select().single();
+  // INFO BOARD
+  db.ref("infoBoard").on("value", snap=>{
+    const v=snap.val();
+    document.getElementById("infoContent").innerText = v||"Tidak ada info saat ini.";
+    if (isAdmin && v) document.getElementById("infoInput").value=v;
+  });
 
-    // Create mirror conv for PARTNER → ME  (so they see it in their list)
-    await sb.from('conversations').insert({
-      owner_id:partnerId, partner_id:ME.id, updated_at:new Date().toISOString()
+  // BROADCAST
+  db.ref("broadcast").on("value", snap=>{
+    const msg=snap.val();
+    const el=document.getElementById("bb");
+    if (msg&&msg.trim()) { el.innerText="📣 "+msg; el.style.display="block"; if(isAdmin) document.getElementById("bcInput").value=msg; }
+    else el.style.display="none";
+  });
+
+  // WINNERS — simpan count lokal, tidak query ulang
+  db.ref("winners").on("value", snap=>{
+    const list=snap.val()||[];
+    winnerCount=list.length;
+    document.getElementById("stWin").innerText=winnerCount;
+    document.getElementById("winBadge").innerText=winnerCount;
+    updateSlotStat();
+    const el=document.getElementById("winList");
+    if(!list.length){el.innerHTML="<div style='color:#aaa;font-size:11px;text-align:center;padding:8px'>Belum ada pemenang.</div>";return;}
+    el.innerHTML="";
+    list.slice().reverse().slice(0,20).forEach((w,i)=>{
+      const d=document.createElement("div");
+      d.className="wi";
+      const m=i===0?"🥇":i===1?"🥈":i===2?"🥉":"·";
+      d.innerHTML=`<div class="wn">${m} ${esc(w.name)}</div><div class="wp">🎁 ${esc(w.prize)}</div><div class="wt">${w.time}</div>`;
+      el.appendChild(d);
     });
+    // update ticker
+    const parts=["🎉 Selamat datang di XREZZKYSTORE RNG GIVEAWAY!","🌀 Putar roda dan menangkan hadiah!"];
+    list.slice(-5).forEach(w=>parts.push(`🏆 ${w.name} menang ${w.prize}!`));
+    document.getElementById("tk").innerText=parts.join("  ·  ");
+  });
 
-    convoId=c1.id;
+  // WHEEL ITEMS
+  db.ref("wheelItems").on("value", snap=>{
+    const raw=snap.val();
+    prizes = Array.isArray(raw)?raw:(raw&&typeof raw==="object"?Object.values(raw):[]);
+    drawWheel();
+    if(isAdmin){ renderWheelList(); renderChance(); }
+  });
+
+  // CODES — hanya load kalau admin
+  db.ref("codes").on("value", snap=>{
+    if(isAdmin) renderCodes(snap.val()||{});
+  });
+
+  // USER SPINS — realtime
+  db.ref("userSpins/"+DEVID).on("value", snap=>{
+    mySpins=snap.val()||0;
+    document.getElementById("stSpin").innerText=mySpins;
+    document.getElementById("spinInfo").innerText="🎟 Sisa Spin: "+mySpins;
+  });
+
+  // MANUAL SPIN dari admin
+  db.ref("manualSpin/"+DEVID).on("value", async snap=>{
+    const x=snap.val();
+    if(x&&x>0){
+      await db.ref("userSpins/"+DEVID).transaction(v=>(v||0)+x);
+      await db.ref("manualSpin/"+DEVID).set(0);
+      toast("🎁 +"+x+" spin dari admin!","success");
+    }
+  });
+
+  // LOCKED NAME
+  db.ref("lockedNames/"+DEVID).on("value", snap=>{
+    const v=snap.val();
+    if(v){ document.getElementById("nameInput").value=v; document.getElementById("nameInput").disabled=true; }
+  });
+
+  // PRESENCE
+  const pRef=db.ref("presence/"+DEVID);
+  pRef.set({t:Date.now()}); pRef.onDisconnect().remove();
+  db.ref("presence").on("value", snap=>{
+    document.getElementById("stOnline").innerText=Math.max(1,snap.numChildren());
+  });
+}
+
+// ═══════════════════════════════════════════════
+//  NEW USER FREE SPIN
+// ═══════════════════════════════════════════════
+async function checkNewUser() {
+  const snap=await db.ref("userSpins/"+DEVID).once("value");
+  if(snap.val()===null){
+    const free=(cfg.freeSpinNewUser)||5;
+    await db.ref("userSpins/"+DEVID).set(free);
+    document.getElementById("spinFree").innerText="🎁 Bonus "+free+" Spin User Baru!";
+    setTimeout(()=>{ document.getElementById("spinFree").innerText=""; },7000);
+  }
+}
+
+// ═══════════════════════════════════════════════
+//  SCHEDULE TIMER — selalu berjalan
+// ═══════════════════════════════════════════════
+function startTimer() {
+  if(schedTick) clearInterval(schedTick);
+  schedTick=setInterval(()=>{
+    const s=Number(cfg.eventStart||0), e=Number(cfg.eventEnd||0);
+    if(!s||!e){ document.getElementById("timerLabel").innerText="Tidak ada jadwal"; document.getElementById("timerClock").innerText="--:--:--"; return; }
+    const now=Date.now();
+    if(now<s){
+      showTimer(s-now,"Dimulai Dalam:");
+      if(cfg.scheduleEnabled){ setStatus("st-wait","⏳ AKAN DATANG"); doAutoToggle(false); }
+    } else if(now<=e){
+      showTimer(e-now,"Berakhir Dalam:");
+      if(cfg.scheduleEnabled){ setStatus("st-on","🟢 EVENT BERJALAN"); doAutoToggle(true); }
+    } else {
+      showTimer(0,"Event Telah Berakhir");
+      if(cfg.scheduleEnabled){ setStatus("st-off","🔴 EVENT BERAKHIR"); doAutoToggle(false); }
+    }
+  },1000);
+}
+
+let autoLock=false;
+function doAutoToggle(on){
+  if(!cfg.scheduleEnabled||autoLock||cfg.eventOn===on) return;
+  autoLock=true;
+  db.ref("settings/eventOn").set(on).finally(()=>setTimeout(()=>autoLock=false,3000));
+}
+
+function showTimer(ms, label){
+  const t=Math.max(0,Math.floor(ms/1000));
+  const d=Math.floor(t/86400),h=Math.floor((t%86400)/3600),m=Math.floor((t%3600)/60),s=t%60;
+  document.getElementById("timerLabel").innerText=label;
+  document.getElementById("timerClock").innerHTML=`<span class="tu">${d}h</span> : <span class="tu">${pad(h)}j</span> : <span class="tu">${pad(m)}m</span> : <span class="tu">${pad(s)}s</span>`;
+}
+
+// ═══════════════════════════════════════════════
+//  SPIN
+// ═══════════════════════════════════════════════
+document.getElementById("spinBtn").onclick = async()=>{
+  if(spinning){ toast("⏳ Tunggu spin selesai...","warn"); return; }
+
+  // Lock check
+  const lk=await db.ref("deviceLock/"+DEVID).once("value");
+  if(lk.val()&&Date.now()<lk.val()){ toast("🔒 Device di-lock hingga "+new Date(lk.val()).toLocaleString("id-ID"),"error"); return; }
+
+  if(!prizes.length){ toast("❌ Admin belum setup hadiah!","error"); return; }
+
+  if(!testMode){
+    if(!cfg.eventOn){ toast("❌ Event sedang OFF.","error"); return; }
+
+    // Name lock
+    const ns=await db.ref("lockedNames/"+DEVID).once("value");
+    let name=ns.val();
+    if(!name){
+      name=document.getElementById("nameInput").value.trim();
+      if(!name){ toast("❌ Masukkan nama dulu!","error"); return; }
+      await db.ref("lockedNames/"+DEVID).set(name);
+      await saveName(DEVID,name);
+      document.getElementById("nameInput").disabled=true;
+    }
+
+    if(mySpins<=0){ toast("❌ Spin habis!","error"); return; }
+
+    // Limit spin per event
+    if(cfg.maxSpinPerUser>0){
+      const us=await db.ref("spinUsed/"+DEVID).once("value");
+      if((us.val()||0)>=cfg.maxSpinPerUser){ toast("❌ Batas spin per event tercapai.","error"); return; }
+      await db.ref("spinUsed/"+DEVID).transaction(v=>(v||0)+1);
+    }
+
+    // Deduct spin
+    await db.ref("userSpins/"+DEVID).transaction(v=>Math.max(0,(v||0)-1));
+    // Track total
+    db.ref("spinTotal/"+DEVID).transaction(v=>(v||0)+1);
   }
 
-  await loadConvos();
-  await openConvo(convoId, partnerId, partnerUsername, partnerEmail);
+  // Pick result
+  const tw=prizes.reduce((s,p)=>s+(p.weight||1),0);
+  let r=Math.random()*tw, idx=prizes.length-1;
+  for(let i=0;i<prizes.length;i++){ r-=(prizes[i].weight||1); if(r<=0){idx=i;break;} }
+
+  // Spin!
+  spinning=true;
+  const btn=document.getElementById("spinBtn");
+  btn.disabled=true; btn.innerText="🌀 SPINNING...";
+  cvs.classList.add("glow");
+  document.getElementById("result").className="";
+  document.getElementById("result").innerText="🎲 ...";
+  document.getElementById("claimBtn").style.display="none";
+  document.getElementById("streak").style.display="none";
+  playSpinSfx();
+
+  spinTo(idx, async()=>{
+    cvs.classList.remove("glow");
+    stopSpinSfx();
+    const p=prizes[idx];
+    document.getElementById("result").innerText="🎯 "+p.label;
+    document.getElementById("result").className=p.win?"rw":"rl";
+    logCount++; document.getElementById("logCnt").innerText=logCount+" spin";
+    addLog(p.label, p.win);
+
+    if(p.win){
+      loseRun=0;
+      floatEmoji("🎉");
+      if(testMode){
+        toast("🧪 [TEST] Menang: "+p.label+" — tidak disimpan","info");
+        showWinOverlay("[TEST] Menang!",p.label);
+        confetti();
+      } else {
+        await doWin(p.label);
+      }
+    } else {
+      loseRun++;
+      floatEmoji(loseRun>=3?"😭":"😢");
+      if(loseRun>=3){
+        const el=document.getElementById("streak");
+        el.innerText="💀 "+loseRun+"x Zonk beruntun!";
+        el.style.display="block";
+      }
+      toast(loseRun>=5?"😭 Ayo jangan nyerah!":"😢 Zonk! Coba lagi!","warn");
+    }
+    spinning=false; btn.disabled=false; btn.innerText="🌀 SPIN RNG";
+  });
+};
+
+async function doWin(prize){
+  const wSnap=await db.ref("winners").once("value");
+  const wList=wSnap.val()||[];
+  const name=document.getElementById("nameInput").value.trim()||"User";
+
+  if(cfg.maxWinnerGlobal>0&&wList.length>=cfg.maxWinnerGlobal){ toast("❌ Slot pemenang penuh!","warn"); return; }
+  const dw=await db.ref("deviceWins/"+DEVID).once("value");
+  if(cfg.maxWinPerDevice>0&&(dw.val()||0)>=cfg.maxWinPerDevice){ toast("❌ Batas menang per device!","warn"); return; }
+
+  wList.push({name,prize,deviceId:DEVID,time:wibTime()});
+  await db.ref("winners").set(wList);
+  await db.ref("deviceWins/"+DEVID).transaction(v=>(v||0)+1);
+  document.getElementById("claimBtn").style.display="block";
+  showWinOverlay(name,prize);
+  confetti();
 }
 
-// ╔════════════════════════════════════════════╗
-// ║            PROFILE DRAWER                   ║
-// ╚════════════════════════════════════════════╝
-function openProfileDrawer() { document.getElementById('profile-drawer').classList.add('open'); }
-function closeProfileDrawer() { document.getElementById('profile-drawer').classList.remove('open'); }
-
-async function changeUsername() {
-  const n=prompt('Username baru:', MY_PROFILE?.username||'');
-  if(!n||!n.trim()) return;
-  await sb.from('users').update({username:n.trim()}).eq('id',ME.id);
-  MY_PROFILE.username=n.trim();
-  updateSidebarUI();
-  showToast('Username diubah!');
+async function saveName(dev,nm){
+  const s=await db.ref("nameHistory/"+dev).once("value");
+  const h=s.val()||[];
+  if(!h.length||h[h.length-1].name!==nm){ h.push({name:nm,time:wibTime()}); await db.ref("nameHistory/"+dev).set(h); }
 }
 
-async function changePassword() {
-  const p=prompt('Password baru (min 6 karakter):');
-  if(!p||p.length<6) return showToast('Password minimal 6 karakter.');
-  const {error}=await sb.auth.updateUser({password:p});
-  if(error) showToast('Gagal: '+error.message);
-  else showToast('Password berhasil diubah!');
+// ═══════════════════════════════════════════════
+//  WIN OVERLAY
+// ═══════════════════════════════════════════════
+function showWinOverlay(name,prize){
+  document.getElementById("woPrize").innerText="🎁 "+prize;
+  document.getElementById("woName").innerText="Selamat, "+name+"!";
+  document.getElementById("wo").style.display="flex";
+  playWinSfx();
+}
+document.getElementById("woClose").onclick=()=>{
+  document.getElementById("wo").style.display="none";
+  document.getElementById("claimBtn").scrollIntoView({behavior:"smooth"});
+};
+document.getElementById("claimBtn").onclick=async()=>{
+  const lk=await db.ref("deviceLock/"+DEVID).once("value");
+  if(lk.val()&&Date.now()<lk.val()){ toast("🔒 Device di-lock!","error"); return; }
+  const name=document.getElementById("nameInput").value.trim()||"User";
+  const res=document.getElementById("result").innerText.replace("🎯 ","");
+  const txt=`Halo Admin XREZZKYSTORE! 👋\nSaya *${name}* memenangkan *${res}*.\nMohon verifikasi & kirim hadiah 🙏\nDevice ID: ${DEVID}`;
+  window.open(`https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(txt)}`,"_blank");
+};
+
+// ═══════════════════════════════════════════════
+//  REDEEM CODE
+// ═══════════════════════════════════════════════
+document.getElementById("redeemBtn").onclick=async()=>{
+  const code=document.getElementById("codeInput").value.trim().toUpperCase().replace(/\s/g,"_");
+  if(!code){ toast("❌ Masukkan kode!","error"); return; }
+  const used=JSON.parse(localStorage.getItem("xrz_codes")||"{}");
+  if(used[code]){ toast("❌ Kode sudah dipakai!","error"); return; }
+  const snap=await db.ref("codes/"+code).once("value");
+  const data=snap.val();
+  if(!data){ toast("❌ Kode tidak valid!","error"); return; }
+  const uc=await db.ref("userCodeUse/"+DEVID+"/"+code).once("value");
+  if(uc.val()){ toast("❌ Kamu sudah pakai kode ini!","error"); return; }
+  if((data.used||0)>=data.maxUse){ toast("❌ Kode sudah habis!","error"); return; }
+  await db.ref("userSpins/"+DEVID).transaction(v=>(v||0)+data.spin);
+  await db.ref("codes/"+code+"/used").transaction(v=>(v||0)+1);
+  await db.ref("userCodeUse/"+DEVID+"/"+code).set(true);
+  used[code]=true; localStorage.setItem("xrz_codes",JSON.stringify(used));
+  document.getElementById("codeInput").value="";
+  toast("✅ +"+data.spin+" spin ditambahkan!","success");
+  floatEmoji("🎟️");
+};
+
+// ═══════════════════════════════════════════════
+//  ADMIN ACTIONS
+// ═══════════════════════════════════════════════
+document.getElementById("bcBtn").onclick=async()=>{
+  const msg=document.getElementById("bcInput").value.trim();
+  await db.ref("broadcast").set(msg||null);
+  toast(msg?"📣 Broadcast terkirim!":"✅ Broadcast dihapus.","success");
+};
+
+document.getElementById("toggleBtn").onclick=()=>{
+  if(cfg.scheduleEnabled){ toast("❌ Nonaktifkan schedule dulu!","warn"); return; }
+  if(!prizes.length){ toast("❌ Tambah item roda dulu!","error"); return; }
+  const next=!cfg.eventOn;
+  db.ref("settings/eventOn").set(next).then(()=>toast(next?"✅ Event HIDUP!":"✅ Event DIMATIKAN!",next?"success":"warn"));
+};
+
+document.getElementById("tmBtn").onclick=()=>{
+  testMode=!testMode;
+  const btn=document.getElementById("tmBtn");
+  const banner=document.getElementById("tmBanner");
+  if(testMode){ btn.style.background="linear-gradient(135deg,#059669,#064e3b)"; btn.innerText="🧪 UJI COBA ON"; banner.style.display="block"; toast("🧪 Mode Uji Coba AKTIF","info"); }
+  else { btn.style.background="linear-gradient(135deg,#7c3aed,#4c1d95)"; btn.innerText="🧪 UJI COBA"; banner.style.display="none"; toast("✅ Mode Uji Coba OFF","success"); }
+};
+
+document.getElementById("saveBtn").onclick=async()=>{
+  const info=document.getElementById("infoInput").value.trim();
+  if(!info){ toast("❌ Isi deskripsi event!","error"); return; }
+  const sv=document.getElementById("evStart").value;
+  const ev=document.getElementById("evEnd").value;
+  const sTs=sv?new Date(sv).getTime():0;
+  const eTs=ev?new Date(ev).getTime():0;
+  if(sTs&&eTs&&sTs>=eTs){ toast("❌ Waktu mulai harus sebelum akhir!","error"); return; }
+  const d={
+    maxWinnerGlobal:parseInt(document.getElementById("maxWin").value)||0,
+    maxWinPerDevice:parseInt(document.getElementById("maxWinDev").value)||0,
+    maxSpinPerUser: parseInt(document.getElementById("maxSpin").value)||0,
+    freeSpinNewUser:parseInt(document.getElementById("freeSpin").value)||5,
+    eventStart:sTs, eventEnd:eTs,
+    scheduleEnabled:document.getElementById("scheduleOn").checked,
+    eventOn:cfg.eventOn
+  };
+  try{ await db.ref("settings").set(d); await db.ref("infoBoard").set(info); toast("✅ Tersimpan!","success"); }
+  catch(e){ toast("Error: "+e.message,"error"); }
+};
+
+document.getElementById("addItemBtn").onclick=async()=>{
+  const lb=document.getElementById("nwLabel").value.trim();
+  const tp=document.getElementById("nwType").value;
+  const wt=Math.max(1,parseInt(document.getElementById("nwWeight").value)||1);
+  if(!lb){ toast("❌ Masukkan nama!","error"); return; }
+  await db.ref("wheelItems").set([...prizes,{label:lb,win:tp==="win",weight:wt}]);
+  document.getElementById("nwLabel").value=""; document.getElementById("nwWeight").value="1";
+  toast("✅ Item ditambahkan!","success");
+};
+
+window.delPrize=async i=>{
+  if(!confirm('Hapus "'+prizes[i].label+'"?')) return;
+  const u=prizes.filter((_,j)=>j!==i);
+  await db.ref("wheelItems").set(u.length?u:null);
+  toast("✅ Dihapus!","success");
+};
+
+document.getElementById("addCodeBtn").onclick=async()=>{
+  const nm=document.getElementById("ncName").value.trim().toUpperCase().replace(/\s/g,"_");
+  const sp=parseInt(document.getElementById("ncSpin").value);
+  const mx=parseInt(document.getElementById("ncMax").value);
+  if(!nm||!sp||!mx||sp<=0||mx<=0){ toast("❌ Isi semua field!","error"); return; }
+  await db.ref("codes/"+nm).set({spin:sp,maxUse:mx,used:0});
+  document.getElementById("ncName").value=""; document.getElementById("ncSpin").value=""; document.getElementById("ncMax").value="";
+  toast("✅ Kode ditambahkan!","success");
+};
+
+window.delCode=async c=>{
+  if(!confirm('Hapus kode "'+c+'"?')) return;
+  await db.ref("codes/"+c).remove(); toast("✅ Kode dihapus!","success");
+};
+
+document.getElementById("addSpinBtn").onclick=async()=>{
+  const id=document.getElementById("tgtId").value.trim();
+  const amt=parseInt(document.getElementById("tgtAmt").value);
+  if(!id||!amt||amt<=0){ toast("❌ Isi Device ID dan jumlah!","error"); return; }
+  await db.ref("manualSpin/"+id).transaction(v=>(v||0)+amt);
+  document.getElementById("tgtId").value=""; document.getElementById("tgtAmt").value="";
+  toast("✅ +"+amt+" spin dikirim!","success");
+};
+
+document.getElementById("grantBtn").onclick=async()=>{
+  const id=document.getElementById("grantId").value.trim();
+  if(!id){ toast("❌ Masukkan Device ID!","error"); return; }
+  await db.ref("accountData/"+id).update({editAllowed:true,editExpire:Date.now()+86400000});
+  document.getElementById("grantId").value=""; toast("✅ Izin diberikan ke "+id,"success");
+};
+
+document.getElementById("lockBtn").onclick=async()=>{
+  const id=document.getElementById("lockId").value.trim(), h=parseInt(document.getElementById("lockHour").value);
+  if(!id||!h||h<=0){ toast("❌ Isi Device ID dan durasi!","error"); return; }
+  await db.ref("deviceLock/"+id).set(Date.now()+h*3600000);
+  document.getElementById("lockId").value=""; document.getElementById("lockHour").value="";
+  toast("✅ Di-lock "+h+" jam!","success");
+};
+
+document.getElementById("unlockBtn").onclick=async()=>{
+  const id=document.getElementById("lockId").value.trim();
+  if(!id){ toast("❌ Masukkan Device ID!","error"); return; }
+  await db.ref("deviceLock/"+id).remove(); document.getElementById("lockId").value=""; toast("✅ Di-unlock!","success");
+};
+
+document.getElementById("exportBtn").onclick=async()=>{
+  const s=await db.ref("winners").once("value"), d=s.val()||[];
+  let tx="=== PEMENANG XREZZKYSTORE ===\nExport: "+new Date().toLocaleString("id-ID")+"\nTotal: "+d.length+"\n\n";
+  d.forEach((w,i)=>tx+=`${i+1}. ${w.name} | ${w.prize} | ${w.time} | ${w.deviceId}\n`);
+  document.getElementById("expArea").value=tx; openModal("expModal");
+};
+
+document.getElementById("resetEvtBtn").onclick=async()=>{
+  if(!confirm("Reset event ke default?")) return;
+  await db.ref("settings").set({eventOn:false,maxWinnerGlobal:0,maxWinPerDevice:0,maxSpinPerUser:0,freeSpinNewUser:5,eventStart:0,eventEnd:0,scheduleEnabled:false});
+  await db.ref("spinUsed").remove(); toast("✅ Event direset!","success");
+};
+
+document.getElementById("resetAllBtn").onclick=async()=>{
+  if(!confirm("⚠️ Hapus SEMUA pemenang & data? Tidak bisa dibatalkan!")) return;
+  if(!confirm("⚠️ KONFIRMASI FINAL!")) return;
+  await Promise.all([db.ref("winners").remove(),db.ref("deviceWins").remove(),db.ref("spinUsed").remove(),db.ref("userCodeUse").remove()]);
+  toast("✅ Semua data dibersihkan.","success");
+};
+
+// ═══════════════════════════════════════════════
+//  ACCOUNT MODAL
+// ═══════════════════════════════════════════════
+document.getElementById("accBtn").onclick=async()=>{
+  openModal("accModal");
+  document.getElementById("mDevId").innerText=DEVID;
+  const ns=await db.ref("lockedNames/"+DEVID).once("value");
+  document.getElementById("mName").innerText=ns.val()||"Belum ada";
+  const ts=await db.ref("spinTotal/"+DEVID).once("value");
+  document.getElementById("mTotal").innerText=(ts.val()||0)+" kali";
+  const hs=await db.ref("nameHistory/"+DEVID).once("value");
+  const nh=hs.val()||[];
+  document.getElementById("mNameHist").innerHTML=nh.length?[...nh].reverse().map((h,i)=>`<div class="nhi"><div class="nhn">${i===0?"⭐ ":""}${esc(h.name)}</div><div class="nht">${h.time}</div></div>`).join(""):"<div style='color:#aaa;font-size:11px;text-align:center;padding:6px'>Kosong</div>";
+  const ws=await db.ref("winners").once("value");
+  const mw=(ws.val()||[]).filter(w=>w.deviceId===DEVID);
+  document.getElementById("mWinHist").innerHTML=mw.length?[...mw].reverse().map(w=>`<div style="padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:11px"><div style="color:#00ffd5">🏆 ${esc(w.prize)}</div><div style="color:#aaa">${w.time}</div></div>`).join(""):"<div style='color:#aaa;font-size:11px;text-align:center;padding:6px'>Belum ada kemenangan</div>";
+};
+
+document.getElementById("copyIdBtn").onclick=()=>{
+  navigator.clipboard.writeText(DEVID).then(()=>{
+    const b=document.getElementById("copyIdBtn"); b.innerText="✅ Disalin!"; setTimeout(()=>b.innerText="📋 Copy ID",2000);
+  });
+};
+
+document.getElementById("editNameBtn").onclick=async()=>{
+  const s=await db.ref("accountData/"+DEVID).once("value");
+  const d=s.val()||{};
+  if(d.editAllowed&&Date.now()<(d.editExpire||0)){
+    const n=prompt("Nama baru:"); if(!n||!n.trim()) return;
+    const t=n.trim();
+    await db.ref("lockedNames/"+DEVID).set(t);
+    await saveName(DEVID,t);
+    await db.ref("accountData/"+DEVID).update({editAllowed:false});
+    document.getElementById("mName").innerText=t;
+    document.getElementById("nameInput").value=t;
+    document.getElementById("nameInput").disabled=true;
+    toast("✅ Nama diubah!","success"); return;
+  }
+  let cnt=d.waRequestCount||0, rst=d.waResetTime||0;
+  if(Date.now()>rst){cnt=0;rst=Date.now()+86400000;}
+  if(cnt>=2){ toast("❌ Max 2x per 24 jam","error"); return; }
+  cnt++;
+  await db.ref("accountData/"+DEVID).update({waRequestCount:cnt,waResetTime:rst});
+  window.open(`https://wa.me/${ADMIN_WA}?text=${encodeURIComponent("Halo Admin XREZZKYSTORE, minta izin edit nama.\nDevice ID: "+DEVID+"\nNama baru: ...")}`,"_blank");
+  toast("✅ Request terkirim. Sisa: "+(2-cnt)+"x","success");
+};
+
+document.getElementById("logoutBtn").onclick=()=>{
+  if(!confirm("Yakin Log Out?")) return;
+  localStorage.removeItem("xrz_dev"); localStorage.removeItem("xrz_codes"); location.reload();
+};
+
+// ═══════════════════════════════════════════════
+//  ADMIN UNLOCK (5x klik judul)
+// ═══════════════════════════════════════════════
+document.getElementById("title").onclick=()=>{
+  titleHits++;
+  if(titleHits>=5){
+    const p=prompt("🔑 PIN Admin:");
+    if(p===ADMIN_PIN){ isAdmin=true; document.getElementById("adminPanel").style.display="block"; syncAdmin(); toast("✅ Admin Mode Aktif","success"); }
+    else if(p!==null) toast("❌ PIN salah!","error");
+    titleHits=0;
+  }
+};
+
+function syncAdmin(){
+  document.getElementById("maxWin").value   = cfg.maxWinnerGlobal||0;
+  document.getElementById("maxWinDev").value= cfg.maxWinPerDevice||0;
+  document.getElementById("maxSpin").value  = cfg.maxSpinPerUser||0;
+  document.getElementById("freeSpin").value = cfg.freeSpinNewUser||5;
+  document.getElementById("scheduleOn").checked=cfg.scheduleEnabled||false;
+  if(cfg.eventStart) document.getElementById("evStart").value=toLocal(cfg.eventStart);
+  if(cfg.eventEnd)   document.getElementById("evEnd").value  =toLocal(cfg.eventEnd);
 }
 
-function showPartnerInfo() {
-  if(!activePartner) return;
-  showToast(activePartner.email);
+// ═══════════════════════════════════════════════
+//  UI HELPERS
+// ═══════════════════════════════════════════════
+function updateStatus(){
+  const btn=document.getElementById("toggleBtn");
+  if(cfg.scheduleEnabled){ btn.innerText="⏰ AUTO MODE"; btn.style.background="#555"; btn.style.color="#fff"; btn.disabled=true; }
+  else{
+    btn.disabled=false;
+    if(cfg.eventOn){ btn.innerText="⏹ MATIKAN EVENT"; btn.style.background="linear-gradient(135deg,#ef4444,#7f1d1d)"; btn.style.color="#fff"; if(!cfg.scheduleEnabled) setStatus("st-on","🟢 EVENT BERJALAN"); }
+    else{ btn.innerText="▶️ HIDUPKAN EVENT"; btn.style.background="linear-gradient(135deg,#16a34a,#052e16)"; btn.style.color="#fff"; if(!cfg.scheduleEnabled) setStatus("st-off","🔴 EVENT OFFLINE"); }
+  }
 }
 
-// ╔════════════════════════════════════════════╗
-// ║               UTILITIES                     ║
-// ╚════════════════════════════════════════════╝
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+function updateDateInfo(){
+  const el=document.getElementById("timerDateInfo");
+  const s=Number(cfg.eventStart||0),e=Number(cfg.eventEnd||0);
+  if(!s||!e){el.innerHTML="";return;}
+  const fmt={day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit",hour12:false,timeZone:"Asia/Jakarta"};
+  el.innerHTML="📅 "+new Date(s).toLocaleString("id-ID",fmt)+" → "+new Date(e).toLocaleString("id-ID",fmt)+" WIB";
 }
 
-function avatarUrl(name) {
-  return `https://ui-avatars.com/api/?name=${encodeURIComponent(name||'?')}&background=1e3a5f&color=60a5fa&bold=true`;
+function setStatus(cls,txt){ const el=document.getElementById("evInd"); el.className=cls; el.innerText=txt; }
+
+function updateSlotStat(){
+  const el=document.getElementById("stSlot");
+  const mwg=cfg.maxWinnerGlobal||0;
+  if(!mwg){el.innerText="∞";el.style.color="#00ffd5";return;}
+  // gunakan winnerCount yang sudah di-track dari listener, tidak query Firebase lagi
+  const left=Math.max(0,mwg-winnerCount);
+  el.innerText=left; el.style.color=left<=2?"#ef4444":left<=5?"#f59e0b":"#00ffd5";
 }
 
-function fmtTime(ts) {
-  const d=new Date(ts), now=new Date(), diff=now-d;
-  if(diff<60000) return 'baru saja';
-  if(diff<3600000) return Math.floor(diff/60000)+'m';
-  if(diff<86400000) return d.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
-  if(diff<604800000) return d.toLocaleDateString('id-ID',{weekday:'short'});
-  return d.toLocaleDateString('id-ID',{day:'numeric',month:'short'});
+function renderWheelList(){
+  const el=document.getElementById("wheelList");
+  if(!prizes.length){ el.innerHTML="<div style='color:#aaa;text-align:center;padding:10px;font-size:11px'>Belum ada item</div>"; return; }
+  el.innerHTML="";
+  prizes.forEach((p,i)=>{
+    const d=document.createElement("div");
+    d.className="witem "+(p.win?"wi-w":"wi-l");
+    d.innerHTML=`<div class="inf"><span style="color:${p.win?"#4ade80":"#f87171"}">${p.win?"✓ WIN":"✗ ZONK"}</span> <span style="color:#fff">${esc(p.label)}</span> <span style="color:#aaa">(w:${p.weight||1})</span></div><button class="dbtn" onclick="delPrize(${i})">✕</button>`;
+    el.appendChild(d);
+  });
 }
 
-function truncate(s,n) { return s&&s.length>n?s.slice(0,n)+'…':s||''; }
-
-function esc(s) {
-  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+function renderChance(){
+  const el=document.getElementById("chanceDisplay");
+  if(!prizes.length){el.innerHTML="";return;}
+  const tw=prizes.reduce((s,p)=>s+(p.weight||1),0);
+  const ww=prizes.filter(p=>p.win).reduce((s,p)=>s+(p.weight||1),0);
+  const lw=tw-ww;
+  const wp=(ww/tw*100).toFixed(1), lp=(lw/tw*100).toFixed(1);
+  let h=`<div class="cd">
+    <div class="cd-title">📊 PELUANG</div>
+    <div class="cd-bar-wrap">
+      <div style="width:${wp}%;background:#16a34a"></div>
+      <div style="width:${lp}%;background:#ef4444"></div>
+    </div>
+    <div class="cd-summary">
+      <span style="color:#4ade80">✓ Menang: <b>${wp}%</b></span>
+      <span style="color:#f87171">✗ Zonk: <b>${lp}%</b></span>
+    </div>`;
+  prizes.forEach(p=>{
+    const pct=(((p.weight||1)/tw)*100).toFixed(2);
+    const bar=Math.round((p.weight||1)/tw*100);
+    h+=`<div class="cd-item">
+      <div class="cd-item-row"><span style="color:${p.win?"#4ade80":"#f87171"}">${p.win?"✓":"✗"} ${esc(p.label)}</span><span style="color:#fff;font-weight:700">${pct}%</span></div>
+      <div class="cd-item-bar"><div class="cd-item-fill" style="width:${bar}%;background:${p.win?"#16a34a":"#ef4444"}"></div></div>
+    </div>`;
+  });
+  el.innerHTML=h+"</div>";
 }
 
-function autoResize(el) {
-  el.style.height='auto';
-  el.style.height=Math.min(el.scrollHeight,120)+'px';
+function renderCodes(data){
+  const el=document.getElementById("codeList");
+  const keys=Object.keys(data);
+  if(!keys.length){el.innerHTML="<div style='color:#aaa;text-align:center;padding:8px;font-size:11px'>Belum ada kode</div>";return;}
+  el.innerHTML="";
+  keys.forEach(c=>{
+    const d=data[c], div=document.createElement("div");
+    div.className="ci";
+    div.innerHTML=`<div><div style="color:#00ffd5;font-weight:700;font-size:12px">${esc(c)}</div><div style="color:#aaa;font-size:10px">+${d.spin} spin &middot; ${d.used||0}/${d.maxUse} pakai</div></div><button class="dbtn" onclick="delCode('${esc(c)}')">✕</button>`;
+    el.appendChild(div);
+  });
 }
 
-let toastTimer;
-function showToast(msg) {
-  const t=document.getElementById('toast');
-  t.innerText=msg; t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>t.classList.remove('show'),2500);
+function addLog(result, win){
+  const el=document.getElementById("logPanel");
+  const d=document.createElement("div");
+  d.style.cssText="padding:4px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:11px";
+  d.innerHTML=`<span style="color:rgba(0,255,213,.5)">${new Date().toLocaleTimeString("id-ID")}</span> <span style="color:${win?"#4ade80":"#f87171"}">${win?"✓":"✗"} ${esc(result)}</span>`;
+  el.appendChild(d); el.scrollTop=el.scrollHeight;
 }
+
+// ═══════════════════════════════════════════════
+//  SOUND
+// ═══════════════════════════════════════════════
+let _osc=null,_ac=null;
+function playSpinSfx(){
+  try{
+    _ac=new(window.AudioContext||window.webkitAudioContext)();
+    _osc=_ac.createOscillator(); const g=_ac.createGain();
+    _osc.connect(g); g.connect(_ac.destination); _osc.type="triangle";
+    _osc.frequency.setValueAtTime(200,_ac.currentTime);
+    _osc.frequency.linearRampToValueAtTime(600,_ac.currentTime+2);
+    _osc.frequency.linearRampToValueAtTime(300,_ac.currentTime+4);
+    g.gain.setValueAtTime(.05,_ac.currentTime); g.gain.linearRampToValueAtTime(0,_ac.currentTime+4);
+    _osc.start(); _osc.stop(_ac.currentTime+4.2);
+  }catch(e){}
+}
+function stopSpinSfx(){ try{if(_osc)_osc.stop();}catch(e){} }
+function playWinSfx(){
+  try{
+    const ac=new(window.AudioContext||window.webkitAudioContext)();
+    const o=ac.createOscillator(),g=ac.createGain();
+    o.connect(g);g.connect(ac.destination);o.type="sine";
+    [523,659,784,1047].forEach((f,i)=>o.frequency.setValueAtTime(f,ac.currentTime+i*.12));
+    g.gain.setValueAtTime(.15,ac.currentTime);g.gain.linearRampToValueAtTime(0,ac.currentTime+.6);
+    o.start();o.stop(ac.currentTime+.7);
+  }catch(e){}
+}
+
+// ═══════════════════════════════════════════════
+//  CONFETTI
+// ═══════════════════════════════════════════════
+function confetti(){
+  const cv=document.getElementById("cnf");
+  cv.width=innerWidth;cv.height=innerHeight;
+  const ct=cv.getContext("2d");
+  const cols=["#00ffd5","#ffcc00","#ff4444","#4ade80","#60a5fa","#f472b6","#fff"];
+  const ps=Array.from({length:160},()=>({x:Math.random()*cv.width,y:-10-Math.random()*100,vx:(Math.random()-.5)*6,vy:Math.random()*6+3,r:Math.random()*9+4,c:cols[~~(Math.random()*cols.length)],rot:Math.random()*360,rv:(Math.random()-.5)*12}));
+  let alive=true,f;
+  (function draw(){
+    ct.clearRect(0,0,cv.width,cv.height);
+    let done=true;
+    ps.forEach(p=>{
+      if(p.y<cv.height+30) done=false;
+      ct.save();ct.translate(p.x,p.y);ct.rotate(p.rot*Math.PI/180);
+      ct.fillStyle=p.c;ct.globalAlpha=Math.max(0,1-p.y/cv.height);
+      ct.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);ct.restore();
+      p.x+=p.vx;p.y+=p.vy;p.rot+=p.rv;
+    });
+    if(done||!alive){cancelAnimationFrame(f);ct.clearRect(0,0,cv.width,cv.height);return;}
+    f=requestAnimationFrame(draw);
+  })();
+  setTimeout(()=>alive=false,7000);
+}
+
+// ═══════════════════════════════════════════════
+//  FLOAT EMOJI
+// ═══════════════════════════════════════════════
+function floatEmoji(em){
+  const el=document.createElement("div");
+  el.style.cssText=`position:fixed;bottom:${30+Math.random()*30}%;left:${20+Math.random()*60}%;font-size:34px;z-index:8500;pointer-events:none;transition:transform 1.5s ease,opacity 1.5s ease`;
+  el.innerText=em; document.body.appendChild(el);
+  requestAnimationFrame(()=>{ el.style.transform="translateY(-130px) scale(1.3)"; el.style.opacity="0"; });
+  setTimeout(()=>el.remove(),1600);
+}
+
+// ═══════════════════════════════════════════════
+//  TOAST
+// ═══════════════════════════════════════════════
+let _tt=null;
+function toast(msg,type="info"){
+  const s={success:"background:linear-gradient(135deg,#16a34a,#052e16);color:#4ade80;border:1px solid #4ade80",error:"background:linear-gradient(135deg,#7f1d1d,#450a0a);color:#fca5a5;border:1px solid #ef4444",warn:"background:linear-gradient(135deg,#78350f,#431407);color:#fcd34d;border:1px solid #f59e0b",info:"background:linear-gradient(135deg,#0c4a6e,#082f49);color:#7dd3fc;border:1px solid #0ea5e9"};
+  const el=document.getElementById("toast");
+  el.style.cssText=`position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:10px 18px;border-radius:10px;font-family:'Share Tech Mono',monospace;font-size:12px;z-index:9998;max-width:320px;text-align:center;transition:opacity .3s;pointer-events:none;box-shadow:0 4px 20px rgba(0,0,0,.4);${s[type]||s.info}`;
+  el.innerText=msg; el.style.opacity="1";
+  if(_tt)clearTimeout(_tt); _tt=setTimeout(()=>el.style.opacity="0",3500);
+}
+
+// ═══════════════════════════════════════════════
+//  MODAL HELPERS
+// ═══════════════════════════════════════════════
+function openModal(id){ document.getElementById(id).style.display="flex"; }
+function closeModal(id){ document.getElementById(id).style.display="none"; }
+
+// ═══════════════════════════════════════════════
+//  UTILS
+// ═══════════════════════════════════════════════
+function toLocal(ts){ if(!ts)return""; const d=new Date(ts),p=n=>String(n).padStart(2,"0"); return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`; }
+function wibTime(){ return new Date().toLocaleString("id-ID",{timeZone:"Asia/Jakarta"}); }
+function pad(n){ return n<10?"0"+n:String(n); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+
+// ═══════════════════════════════════════════════
+//  DEVICE INFO
+// ═══════════════════════════════════════════════
+function initDevInfo(){
+  const el=document.getElementById("devInfo");
+  el.innerText="📱 "+DEVID.slice(0,20)+"... (tap copy)";
+  el.onclick=()=>{ navigator.clipboard.writeText(DEVID).then(()=>{ const o=el.innerText; el.innerText="✅ ID Disalin!"; setTimeout(()=>el.innerText=o,2000); }); };
+}
+
+// ═══════════════════════════════════════════════
+//  APP START
+// ═══════════════════════════════════════════════
+async function main(){
+  initDevInfo();
+  drawWheel();
+  document.getElementById("loStatus").innerText="Menghubungkan Firebase...";
+
+  // Mulai listener — ini tidak blocking, langsung return
+  startListeners();
+  startTimer();
+
+  // Cek koneksi Firebase. Timeout 4 detik.
+  try{
+    await Promise.race([
+      db.ref(".info/connected").once("value"),
+      new Promise((_,rej)=>setTimeout(()=>rej("timeout"),4000))
+    ]);
+    document.getElementById("loStatus").innerText="Terhubung!";
+    await checkNewUser();
+  } catch(e){
+    document.getElementById("loStatus").innerText="Offline / Gagal konek";
+  }
+
+  // Sembunyikan loading — selalu berhasil
+  setTimeout(hideLo, 600);
+}
+
+window.addEventListener("load", main);
 </script>
 </body>
-  </html>
+</html>
