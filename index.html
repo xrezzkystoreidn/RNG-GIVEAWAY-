@@ -338,15 +338,42 @@ button:disabled{opacity:.5;cursor:not-allowed;transform:none}
     </div>
 
     <div class="as">
-      <span class="ast">🔐 IZIN EDIT NAMA</span>
+      <span class="ast">✏️ IZIN EDIT PROFIL</span>
       <input id="grantId" placeholder="Device ID" style="font-size:11px">
-      <button id="grantBtn" class="bp" style="margin-top:7px">Beri Izin 1x (24 jam)</button>
+      <div style="margin-top:8px;display:flex;flex-direction:column;gap:6px">
+        <label style="display:flex;align-items:center;gap:7px;font-size:11px;color:#ccc;cursor:pointer">
+          <input type="checkbox" id="grantEditName" checked style="width:auto;margin:0;accent-color:#00ffd5"> Izin edit nama
+        </label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:11px;color:#ccc;cursor:pointer">
+          <input type="checkbox" id="grantEditWa" checked style="width:auto;margin:0;accent-color:#00ffd5"> Izin edit nomor WA
+        </label>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px">
+        <button id="grantBtn" class="bp" style="font-size:11px">Beri Izin 1x</button>
+        <button id="revokeBtn" style="background:linear-gradient(135deg,#ef4444,#7f1d1d);color:#fff;font-size:11px;border-radius:8px;border:none;cursor:pointer;font-family:Share Tech Mono,monospace;font-weight:700;padding:9px">Cabut Izin</button>
+      </div>
     </div>
     <div class="as">
-      <span class="ast">LOCK DEVICE</span>
+      <span class="ast">🔒 LOCK USER</span>
       <input id="lockId" placeholder="Device ID" style="font-size:11px">
-      <input id="lockHour" type="number" placeholder="Durasi (jam)" style="margin-top:5px;font-size:11px">
-      <div class="br"><button id="lockBtn" class="bd">Lock</button><button id="unlockBtn" class="bs">Unlock</button></div>
+      <div style="display:flex;gap:6px;align-items:flex-end;margin-top:6px">
+        <input id="lockHour" type="number" placeholder="Durasi (jam)" style="flex:1;margin-top:0;font-size:11px">
+        <label style="display:flex;align-items:center;gap:5px;font-size:10px;color:#ccc;cursor:pointer;flex-shrink:0;padding-bottom:9px">
+          <input type="checkbox" id="lockPermanent" style="width:auto;margin:0;accent-color:#ef4444"> Permanen
+        </label>
+      </div>
+      <div style="margin-top:7px;display:flex;flex-direction:column;gap:5px">
+        <label style="display:flex;align-items:center;gap:7px;font-size:11px;color:#ccc;cursor:pointer">
+          <input type="checkbox" id="lockSpin" checked style="width:auto;margin:0;accent-color:#ef4444"> Lock spin (tidak bisa spin)
+        </label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:11px;color:#ccc;cursor:pointer">
+          <input type="checkbox" id="lockName" style="width:auto;margin:0;accent-color:#ef4444"> Lock ganti nama (tidak bisa edit)
+        </label>
+      </div>
+      <div class="br" style="margin-top:8px">
+        <button id="lockBtn" class="bd">🔒 Lock</button>
+        <button id="unlockBtn" class="bs">🔓 Unlock</button>
+      </div>
     </div>
     <div class="as">
       <span class="ast">AKSI DATA</span>
@@ -679,8 +706,15 @@ async function doSpin() {
   if (!prizes.length){toast('Belum ada item di roda!','error');return;}
 
   var lk=await db.ref('deviceLock/'+DEVID).once('value');
-  if (lk.val()&&Date.now()<lk.val()){
-    toast('Device di-lock sampai '+new Date(lk.val()).toLocaleString('id-ID'),'error');return;
+  var lkVal=lk.val();
+  if(lkVal){
+    // Support format baru {until, nameLocked, permanent} dan lama (angka)
+    var spinUntil=typeof lkVal==='object'?(lkVal.until||0):lkVal;
+    if(spinUntil&&Date.now()<spinUntil){
+      var isPerm=lkVal.permanent||spinUntil>=9999999999000;
+      toast('Device di-lock'+(isPerm?' PERMANEN':' sampai '+new Date(spinUntil).toLocaleString('id-ID')),'error');
+      return;
+    }
   }
 
   var name=document.getElementById('nameInput').value.trim();
@@ -857,6 +891,7 @@ document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('addCodeBtn').onclick=doAddCode;
   document.getElementById('addSpinBtn').onclick=doAddSpin;
   document.getElementById('grantBtn').onclick=doGrant;
+  document.getElementById('revokeBtn').onclick=doRevoke;
   document.getElementById('checkBtn').onclick=doCheckUser;
   document.getElementById('lockBtn').onclick=doLock;
   document.getElementById('unlockBtn').onclick=doUnlock;
@@ -932,10 +967,87 @@ window.delPrize=async function(i){if(!db||!confirm('Hapus "'+prizes[i].label+'"?
 async function doAddCode(){if(!db)return;var nm=document.getElementById('ncName').value.trim().toUpperCase().replace(/[^A-Z0-9_]/g,'');var sp=parseInt(document.getElementById('ncSpin').value),mx=parseInt(document.getElementById('ncMax').value);if(!nm){toast('Nama kode tidak valid!','error');return;}if(!sp||sp<=0){toast('Jumlah spin harus > 0!','error');return;}if(!mx||mx<=0){toast('Max pengguna harus > 0!','error');return;}var ex=await db.ref('codes/'+nm).once('value');if(ex.val()){toast('Kode sudah ada!','error');return;}await db.ref('codes/'+nm).set({spin:sp,maxUse:mx,used:0});document.getElementById('ncName').value='';document.getElementById('ncSpin').value='';document.getElementById('ncMax').value='';toast('Kode '+nm+' disimpan!','success');}
 window.delCode=async function(c){if(!db||!confirm('Hapus kode "'+c+'"?'))return;await db.ref('codes/'+c).remove();toast('Kode dihapus!','success');};
 async function doAddSpin(){if(!db)return;var id=document.getElementById('tgtId').value.trim(),amt=parseInt(document.getElementById('tgtAmt').value);if(!id){toast('Masukkan Device ID!','error');return;}if(!amt||amt<=0){toast('Jumlah harus > 0!','error');return;}await db.ref('manualSpin/'+id).transaction(function(v){return(v||0)+amt;});document.getElementById('tgtId').value='';document.getElementById('tgtAmt').value='';toast('+'+amt+' spin dikirim ke '+id,'success');}
-async function doGrant(){if(!db)return;var id=document.getElementById('grantId').value.trim();if(!id){toast('Masukkan Device ID!','error');return;}await db.ref('accountData/'+id).update({editAllowed:true,editExpire:Date.now()+86400000});document.getElementById('grantId').value='';toast('Izin edit diberikan ke '+id,'success');}
-async function doCheckUser(){if(!db)return;var id=document.getElementById('checkId').value.trim();if(!id){toast('Masukkan Device ID!','error');return;}var res=document.getElementById('checkResult');res.innerHTML='<span style="color:#aaa">Mengecek...</span>';res.style.display='block';try{var results=await Promise.all([db.ref('lockedNames/'+id).once('value'),db.ref('userSpins/'+id).once('value'),db.ref('deviceWins/'+id).once('value'),db.ref('spinTotal/'+id).once('value'),db.ref('deviceLock/'+id).once('value'),db.ref('accountData/'+id).once('value')]);var nm=results[0],sp=results[1],dw=results[2],su=results[3],lk=results[4],acc=results[5];var lockVal=lk.val();var lockStr=lockVal&&Date.now()<lockVal?'<span style="color:#ef4444">TERKUNCI sampai '+new Date(lockVal).toLocaleString('id-ID')+'</span>':'<span style="color:#4ade80">Tidak di-lock</span>';var accD=acc.val()||{};var editStr=accD.editAllowed&&Date.now()<(accD.editExpire||0)?'<span style="color:#ffcc00">Ada izin edit</span>':'Tidak ada';res.innerHTML='<div><b style="color:#00ffd5">Nama:</b> '+(nm.val()||'Belum set')+'</div><div><b style="color:#00ffd5">Sisa Spin:</b> '+(sp.val()||0)+'</div><div><b style="color:#00ffd5">Total Spin:</b> '+(su.val()||0)+'x</div><div><b style="color:#00ffd5">Total Menang:</b> '+(dw.val()||0)+'x</div><div><b style="color:#00ffd5">Lock:</b> '+lockStr+'</div><div><b style="color:#00ffd5">Edit Nama:</b> '+editStr+'</div>';}catch(e){res.innerHTML='<span style="color:#ef4444">Error: '+e.message+'</span>';}}
-async function doLock(){if(!db)return;var id=document.getElementById('lockId').value.trim(),h=parseInt(document.getElementById('lockHour').value);if(!id){toast('Masukkan Device ID!','error');return;}if(!h||h<=0){toast('Durasi harus > 0!','error');return;}var until=Date.now()+h*3600000;await db.ref('deviceLock/'+id).set(until);document.getElementById('lockId').value='';document.getElementById('lockHour').value='';toast(id+' di-lock sampai '+new Date(until).toLocaleString('id-ID'),'success');}
-async function doUnlock(){if(!db)return;var id=document.getElementById('lockId').value.trim();if(!id){toast('Masukkan Device ID!','error');return;}var s=await db.ref('deviceLock/'+id).once('value');if(!s.val()){toast(id+' tidak di-lock.','warn');return;}await db.ref('deviceLock/'+id).remove();document.getElementById('lockId').value='';toast(id+' di-unlock!','success');}
+async function doGrant(){
+  if(!db)return;
+  var id=document.getElementById('grantId').value.trim();
+  if(!id){toast('Masukkan Device ID!','error');return;}
+  var editName=document.getElementById('grantEditName').checked;
+  var editWa=document.getElementById('grantEditWa').checked;
+  if(!editName&&!editWa){toast('Pilih minimal satu izin!','warn');return;}
+  var upd={editExpire:Date.now()+86400000};
+  if(editName)upd.editAllowed=true;
+  if(editWa)upd.editWaAllowed=true;
+  await db.ref('accountData/'+id).update(upd);
+  document.getElementById('grantId').value='';
+  var what=(editName&&editWa)?'nama + nomor WA':editName?'nama':'nomor WA';
+  toast('Izin edit '+what+' diberikan ke '+id+' (24 jam)','success');
+}
+async function doRevoke(){
+  if(!db)return;
+  var id=document.getElementById('grantId').value.trim();
+  if(!id){toast('Masukkan Device ID!','error');return;}
+  await db.ref('accountData/'+id).update({editAllowed:false,editWaAllowed:false,editExpire:0});
+  document.getElementById('grantId').value='';
+  toast('Izin edit dicabut dari '+id,'success');
+}
+async function doCheckUser(){if(!db)return;var id=document.getElementById('checkId').value.trim();if(!id){toast('Masukkan Device ID!','error');return;}var res=document.getElementById('checkResult');res.innerHTML='<span style="color:#aaa">Mengecek...</span>';res.style.display='block';try{var results=await Promise.all([db.ref('lockedNames/'+id).once('value'),db.ref('userSpins/'+id).once('value'),db.ref('deviceWins/'+id).once('value'),db.ref('spinTotal/'+id).once('value'),db.ref('deviceLock/'+id).once('value'),db.ref('accountData/'+id).once('value')]);var nm=results[0],sp=results[1],dw=results[2],su=results[3],lk=results[4],acc=results[5];var lockVal=lk.val();
+    var lockStr,nameLockedStr;
+    if(lockVal&&typeof lockVal==='object'){
+      var spinUntil=lockVal.until||0,nameUntil=lockVal.nameLocked||0;
+      var isPerm=lockVal.permanent||false;
+      if(spinUntil&&Date.now()<spinUntil){
+        lockStr='<span style="color:#ef4444">SPIN TERKUNCI'+(isPerm?' PERMANEN':' s/d '+new Date(spinUntil).toLocaleString('id-ID'))+'</span>';
+      }else lockStr='<span style="color:#4ade80">Spin: Bebas</span>';
+      if(nameUntil&&Date.now()<nameUntil){
+        nameLockedStr='<span style="color:#ef4444">NAMA TERKUNCI'+(isPerm?' PERMANEN':' s/d '+new Date(nameUntil).toLocaleString('id-ID'))+'</span>';
+      }else nameLockedStr='<span style="color:#4ade80">Nama: Bebas</span>';
+    }else if(lockVal&&Date.now()<lockVal){
+      lockStr='<span style="color:#ef4444">TERKUNCI s/d '+new Date(lockVal).toLocaleString('id-ID')+'</span>';
+      nameLockedStr='';
+    }else{lockStr='<span style="color:#4ade80">Tidak di-lock</span>';nameLockedStr='';}var accD=acc.val()||{};var editStr=accD.editAllowed&&Date.now()<(accD.editExpire||0)?'<span style="color:#ffcc00">Ada izin edit</span>':'Tidak ada';var accD=acc.val()||{};
+    var editStr=[];
+    if(accD.editAllowed&&Date.now()<(accD.editExpire||0))editStr.push('<span style="color:#ffcc00">Nama</span>');
+    if(accD.editWaAllowed&&Date.now()<(accD.editExpire||0))editStr.push('<span style="color:#ffcc00">No WA</span>');
+    var editFinal=editStr.length?editStr.join(' + '):'<span style="color:#aaa">Tidak ada</span>';
+    res.innerHTML=
+      '<div><b style="color:#00ffd5">Nama:</b> '+(nm.val()||'Belum set')+'</div>'+
+      '<div><b style="color:#00ffd5">Sisa Spin:</b> '+(sp.val()||0)+'</div>'+
+      '<div><b style="color:#00ffd5">Total Spin:</b> '+(su.val()||0)+'x</div>'+
+      '<div><b style="color:#00ffd5">Total Menang:</b> '+(dw.val()||0)+'x</div>'+
+      '<div><b style="color:#00ffd5">Lock Spin:</b> '+lockStr+'</div>'+
+      (nameLockedStr?'<div><b style="color:#00ffd5">Lock Nama:</b> '+nameLockedStr+'</div>':'')+
+      '<div><b style="color:#00ffd5">Izin Edit:</b> '+editFinal+'</div>';}catch(e){res.innerHTML='<span style="color:#ef4444">Error: '+e.message+'</span>';}}
+async function doLock(){
+  if(!db)return;
+  var id=document.getElementById('lockId').value.trim();
+  if(!id){toast('Masukkan Device ID!','error');return;}
+  var isPermanent=document.getElementById('lockPermanent').checked;
+  var lockSpin=document.getElementById('lockSpin').checked;
+  var lockName=document.getElementById('lockName').checked;
+  if(!lockSpin&&!lockName){toast('Pilih minimal satu jenis lock!','warn');return;}
+  var h=parseInt(document.getElementById('lockHour').value);
+  if(!isPermanent&&(!h||h<=0)){toast('Isi durasi jam atau centang Permanen!','error');return;}
+  var until=isPermanent?9999999999999:Date.now()+h*3600000;
+  var upd={};
+  if(lockSpin)upd.until=until;
+  if(lockName)upd.nameLocked=until;
+  upd.permanent=isPermanent;
+  await db.ref('deviceLock/'+id).update(upd);
+  document.getElementById('lockId').value='';
+  document.getElementById('lockHour').value='';
+  var what=(lockSpin&&lockName)?'spin + nama':lockSpin?'spin':'nama';
+  var durStr=isPermanent?'PERMANEN':'sampai '+new Date(until).toLocaleString('id-ID');
+  toast(id+' di-lock ('+what+') '+durStr,'success');
+}
+async function doUnlock(){
+  if(!db)return;
+  var id=document.getElementById('lockId').value.trim();
+  if(!id){toast('Masukkan Device ID!','error');return;}
+  await db.ref('deviceLock/'+id).remove();
+  document.getElementById('lockId').value='';
+  toast(id+' di-unlock semua!','success');
+}
+
 async function doExport(){if(!db)return;var s=await db.ref('winners').once('value'),d=s.val()||[];if(!d.length){toast('Belum ada pemenang.','warn');return;}var tx='=== PEMENANG XREZZKYSTORE ===\nExport: '+new Date().toLocaleString('id-ID')+'\nTotal: '+d.length+'\n\n';var byUser={};d.forEach(function(w){if(!byUser[w.deviceId])byUser[w.deviceId]={name:w.name,wins:[]};byUser[w.deviceId].wins.push({prize:w.prize,time:w.time});});var no=1;Object.keys(byUser).forEach(function(devId){var u=byUser[devId];tx+=no+'. NAMA   : '+u.name+'\n   DEVICE: '+devId+'\n';u.wins.forEach(function(w,i){tx+='   HADIAH '+(i+1)+': '+w.prize+' ('+w.time+')\n';});tx+='   TOTAL : '+u.wins.length+'x\n\n';no++;});document.getElementById('expArea').value=tx;document.getElementById('expModal').style.display='flex';}
 async function doResetEvent(){if(!db||!confirm('Reset event ke default?\n(Pemenang tidak dihapus)'))return;await db.ref('settings').set({eventOn:false,maxWinnerGlobal:0,maxWinPerDevice:0,maxSpinPerUser:0,freeSpinNewUser:5,eventStart:0,eventEnd:0,scheduleEnabled:false});await db.ref('spinUsed').remove();toast('Event direset!','success');}
 async function doResetAll(){if(!db)return;if(!confirm('HAPUS SEMUA data?\nTidak bisa dibatalkan!'))return;if(!confirm('KONFIRMASI FINAL!'))return;try{await Promise.all([db.ref('winners').remove(),db.ref('deviceWins').remove(),db.ref('spinUsed').remove(),db.ref('userCodeUse').remove(),db.ref('userSpins').remove(),db.ref('lockedNames').remove(),db.ref('nameHistory').remove(),db.ref('spinTotal').remove(),db.ref('manualSpin').remove(),db.ref('accountData').remove(),db.ref('deviceLock').remove(),db.ref('spinHistory').remove(),db.ref('registeredNames').remove()]);toast('Semua data dihapus!','success');}catch(e){toast('Error: '+e.message,'error');}}
@@ -962,22 +1074,71 @@ async function openAccModal() {
 
 async function doEditName(){
   if(!db)return;
-  var s=await db.ref('accountData/'+DEVID).once('value'),d=s.val()||{};
-  if(d.editAllowed&&Date.now()<(d.editExpire||0)){
-    var n=prompt('Nama baru:');if(!n||!n.trim())return;
-    var t=n.trim();
-    await db.ref('lockedNames/'+DEVID).set(t);await saveNH(DEVID,t);
-    await db.ref('accountData/'+DEVID).update({editAllowed:false});
-    document.getElementById('mName').innerText=t;
-    document.getElementById('nameInput').value=t;
-    document.getElementById('nameInput').disabled=true;
-    toast('Nama diubah!','success');return;
+  // Cek apakah nama di-lock oleh admin
+  var lkSnap=await db.ref('deviceLock/'+DEVID).once('value');
+  var lkVal=lkSnap.val();
+  if(lkVal&&typeof lkVal==='object'&&lkVal.nameLocked){
+    var nlUntil=lkVal.nameLocked;
+    if(Date.now()<nlUntil){
+      var isPerm=lkVal.permanent||nlUntil>=9999999999000;
+      toast('Nama di-lock'+(isPerm?' permanen oleh admin':' oleh admin sampai '+new Date(nlUntil).toLocaleString('id-ID')),'error');
+      return;
+    }
   }
+
+  var s=await db.ref('accountData/'+DEVID).once('value'),d=s.val()||{};
+  var hasNamePerm=d.editAllowed&&Date.now()<(d.editExpire||0);
+  var hasWaPerm=d.editWaAllowed&&Date.now()<(d.editExpire||0);
+
+  if(hasNamePerm||hasWaPerm){
+    // Cek dan update nama jika ada izin
+    if(hasNamePerm){
+      var newName=prompt('Nama baru (kosongkan untuk skip):');
+      if(newName&&newName.trim()){
+        var trimName=newName.trim();
+        // Cek nama unik jika aktif
+        if(cfg.uniqueNameOn){
+          var regKey=trimName.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');
+          var regSnap=await db.ref('registeredNames/'+regKey).once('value');
+          if(regSnap.val()&&regSnap.val()!==DEVID){toast('Nama sudah dipakai!','error');return;}
+          await db.ref('registeredNames/'+regKey).set(DEVID);
+        }
+        // Update nama — pertahankan nomor WA yang sudah ada
+        var currentName=document.getElementById('nameInput').value;
+        var waMatch=currentName.match(/\((\d{2,4})\)$/);
+        var finalName=waMatch?trimName+' ('+waMatch[1]+')':trimName;
+        await db.ref('lockedNames/'+DEVID).set(finalName);
+        await saveNH(DEVID,finalName);
+        document.getElementById('nameInput').value=finalName;
+        db.ref('presence/'+DEVID).update({name:finalName});
+      }
+    }
+    // Update nomor WA jika ada izin
+    if(hasWaPerm){
+      var newWa=prompt('Nomor WA baru (2-4 digit, kosongkan untuk hapus):');
+      if(newWa!==null){
+        var waNum=newWa.trim().replace(/[^0-9]/g,'').slice(0,4);
+        var currentName2=document.getElementById('nameInput').value.replace(/\s*\(\d{2,4}\)$/,'').trim();
+        var finalName2=waNum?currentName2+' ('+waNum+')':currentName2;
+        await db.ref('lockedNames/'+DEVID).set(finalName2);
+        await saveNH(DEVID,finalName2);
+        document.getElementById('nameInput').value=finalName2;
+        db.ref('presence/'+DEVID).update({name:finalName2});
+      }
+    }
+    // Cabut izin setelah digunakan
+    await db.ref('accountData/'+DEVID).update({editAllowed:false,editWaAllowed:false});
+    document.getElementById('mName').innerText=document.getElementById('nameInput').value;
+    toast('Profil berhasil diperbarui!','success');
+    return;
+  }
+
+  // Tidak ada izin — minta via WA (rate limited)
   var cnt=d.waRequestCount||0,rst=d.waResetTime||0;
   if(Date.now()>rst){cnt=0;rst=Date.now()+86400000;}
   if(cnt>=2){toast('Max 2x per 24 jam','error');return;}cnt++;
   await db.ref('accountData/'+DEVID).update({waRequestCount:cnt,waResetTime:rst});
-  window.open('https://wa.me/'+ADMIN_WA+'?text='+encodeURIComponent('Halo Admin, minta izin edit nama.\nDevice ID: '+DEVID+'\nNama baru: ...'),'_blank');
+  window.open('https://wa.me/'+ADMIN_WA+'?text='+encodeURIComponent('Halo Admin, minta izin edit profil.\nDevice ID: '+DEVID+'\nNama baru: ...\nNomor WA baru: ...'),'_blank');
   toast('Request terkirim. Sisa: '+(2-cnt)+'x','success');
 }
 
@@ -1188,4 +1349,4 @@ window.addEventListener('load', function() {
 });
 </script>
 </body>
-  </html>
+        </html>
