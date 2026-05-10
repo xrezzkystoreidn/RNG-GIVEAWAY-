@@ -3,254 +3,191 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>XREZZKYSTORE — RNG GIVEAWAY</title>
+<title>XREZZKYSTORE RNG GIVEAWAY</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--c:#00ffd5;--bg:#020b0b;--card:#071414}
-body{background:radial-gradient(ellipse at 50% 0%,#0a2f2f,#020b0b 65%);min-height:100vh;font-family:'Share Tech Mono',monospace;color:#fff;display:flex;justify-content:center;padding:16px 10px 70px}
-
-/* LOADING */
-#lo{position:fixed;inset:0;background:#020b0b;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:opacity .4s}
-.ring{width:48px;height:48px;border:3px solid rgba(0,255,213,.1);border-top-color:#00ffd5;border-radius:50%;animation:spin .8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.lt{font-family:'Orbitron',sans-serif;color:#00ffd5;font-size:11px;letter-spacing:3px}
-#loStatus{font-size:10px;color:#aaa;margin-top:4px;letter-spacing:1px}
-
-/* MAIN */
-.box{width:100%;max-width:400px;background:#071414;border-radius:20px;padding:18px;box-shadow:0 0 40px rgba(0,255,213,.12);border:1px solid rgba(0,255,213,.18);display:flex;flex-direction:column;align-items:center;position:relative;overflow:hidden}
+body{background:radial-gradient(ellipse at 50% 0%,#0a2f2f,#020b0b 65%);min-height:100vh;font-family:'Share Tech Mono',monospace;color:#fff;display:flex;justify-content:center;padding:12px 8px 60px}
+#lo{position:fixed;inset:0;background:#020b0b;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;transition:opacity .4s}
+.ring{width:46px;height:46px;border:3px solid rgba(0,255,213,.1);border-top-color:#00ffd5;border-radius:50%;animation:kspin .8s linear infinite}
+@keyframes kspin{to{transform:rotate(360deg)}}
+#loTxt{font-family:'Orbitron',sans-serif;color:#00ffd5;font-size:11px;letter-spacing:3px}
+#loSub{font-size:10px;color:#aaa;letter-spacing:1px}
+#wo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:7000;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:20px}
+.we{font-size:56px;animation:weBounce .5s ease infinite alternate}
+@keyframes weBounce{from{transform:scale(1)}to{transform:scale(1.1)}}
+.wt{font-family:'Orbitron',sans-serif;font-size:22px;color:#ffcc00;margin:10px 0 6px;animation:wglow 1.5s ease-in-out infinite alternate}
+@keyframes wglow{from{text-shadow:0 0 10px #ffcc00}to{text-shadow:0 0 40px #ffcc00,0 0 70px #ff8800}}
+.box{width:100%;max-width:420px;background:#071414;border-radius:18px;padding:16px;box-shadow:0 0 40px rgba(0,255,213,.12);border:1px solid rgba(0,255,213,.18);display:flex;flex-direction:column;align-items:center;position:relative;overflow:hidden}
 .box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00ffd5,transparent)}
-
-/* HEADER */
 .hdr{width:100%;display:flex;align-items:center;justify-content:center;position:relative;margin-bottom:4px}
-#accBtn{position:absolute;right:0;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#00ffd5,#007a6a);border:none;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(0,255,213,.3);transition:transform .2s}
-#accBtn:hover{transform:scale(1.1)}
-h2{font-family:'Orbitron',sans-serif;font-size:20px;color:#00ffd5;letter-spacing:3px;text-shadow:0 0 20px rgba(0,255,213,.6);cursor:pointer;text-align:center;user-select:none}
-.sub{font-size:10px;letter-spacing:4px;color:rgba(0,255,213,.5);text-align:center;margin-bottom:10px}
-
-/* BROADCAST */
-#bb{display:none;width:100%;padding:8px 12px;border-radius:8px;margin-bottom:10px;background:linear-gradient(135deg,#1a0a00,rgba(245,158,11,.1));border:1px solid #f59e0b;font-size:11px;color:#fcd34d;text-align:center;animation:bbPulse 2s ease-in-out infinite}
-@keyframes bbPulse{0%,100%{box-shadow:0 0 6px rgba(245,158,11,.2)}50%{box-shadow:0 0 18px rgba(245,158,11,.5)}}
-
-/* TICKER */
-#tkWrap{width:100%;background:rgba(0,255,213,.06);border:1px solid rgba(0,255,213,.12);border-radius:8px;overflow:hidden;height:26px;display:flex;align-items:center;margin-bottom:10px;position:relative}
-#tkWrap::before,#tkWrap::after{content:'';position:absolute;top:0;bottom:0;width:24px;z-index:2}
-#tkWrap::before{left:0;background:linear-gradient(90deg,#071414,transparent)}
-#tkWrap::after{right:0;background:linear-gradient(-90deg,#071414,transparent)}
-#tk{white-space:nowrap;display:inline-block;font-size:11px;color:#00ffd5;animation:tkScroll 30s linear infinite;padding-left:100%}
-@keyframes tkScroll{from{transform:translateX(0)}to{transform:translateX(-100%)}}
-
-/* STATUS */
-#evInd{width:100%;padding:8px 14px;border-radius:8px;text-align:center;font-family:'Orbitron',sans-serif;font-size:12px;letter-spacing:2px;font-weight:700;margin-bottom:10px;transition:all .3s}
-.st-on{background:linear-gradient(135deg,#064e1a,#16a34a);color:#4ade80;border:1px solid #16a34a;box-shadow:0 0 15px rgba(22,163,74,.3)}
-.st-off{background:linear-gradient(135deg,#4e0606,#ef4444);color:#fca5a5;border:1px solid #ef4444;box-shadow:0 0 15px rgba(239,68,68,.3)}
-.st-wait{background:linear-gradient(135deg,#4e2e06,#f59e0b);color:#fcd34d;border:1px solid #f59e0b;box-shadow:0 0 15px rgba(245,158,11,.3)}
-
-/* TIMER */
-#timerBox{width:100%;background:rgba(0,0,0,.4);border:1px solid rgba(0,255,213,.15);border-radius:10px;padding:10px 12px;margin-bottom:12px}
-#timerDateInfo{font-size:10px;color:rgba(0,255,213,.6);margin-bottom:6px;line-height:1.5;min-height:14px}
-#timerLabel{font-size:10px;color:#aaa;margin-bottom:4px;letter-spacing:1px}
-#timerClock{font-family:'Orbitron',sans-serif;font-size:18px;color:#00ffd5;letter-spacing:2px}
+#accBtn{position:absolute;right:0;width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#00ffd5,#007a6a);border:none;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(0,255,213,.3)}
+h2{font-family:'Orbitron',sans-serif;font-size:18px;color:#00ffd5;letter-spacing:3px;text-shadow:0 0 20px rgba(0,255,213,.6);cursor:pointer;user-select:none}
+.sub{font-size:9px;letter-spacing:4px;color:rgba(0,255,213,.5);text-align:center;margin-bottom:8px}
+#bb{display:none;width:100%;padding:7px 12px;border-radius:8px;margin-bottom:8px;background:linear-gradient(135deg,#1a0a00,rgba(245,158,11,.08));border:1px solid #f59e0b;font-size:11px;color:#fcd34d;text-align:center;animation:bbp 2s ease-in-out infinite}
+@keyframes bbp{0%,100%{box-shadow:0 0 6px rgba(245,158,11,.2)}50%{box-shadow:0 0 18px rgba(245,158,11,.5)}}
+#tkw{width:100%;background:rgba(0,255,213,.05);border:1px solid rgba(0,255,213,.1);border-radius:8px;overflow:hidden;height:24px;display:flex;align-items:center;margin-bottom:8px;position:relative}
+#tkw::before,#tkw::after{content:'';position:absolute;top:0;bottom:0;width:20px;z-index:2}
+#tkw::before{left:0;background:linear-gradient(90deg,#071414,transparent)}
+#tkw::after{right:0;background:linear-gradient(-90deg,#071414,transparent)}
+#tk{white-space:nowrap;display:inline-block;font-size:11px;color:#00ffd5;animation:tks 30s linear infinite;padding-left:100%}
+@keyframes tks{from{transform:translateX(0)}to{transform:translateX(-100%)}}
+#evInd{width:100%;padding:7px 12px;border-radius:8px;text-align:center;font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:2px;font-weight:700;margin-bottom:8px;transition:all .3s}
+.st-on{background:linear-gradient(135deg,#064e1a,#16a34a);color:#4ade80;border:1px solid #16a34a;box-shadow:0 0 14px rgba(22,163,74,.3)}
+.st-off{background:linear-gradient(135deg,#4e0606,#ef4444);color:#fca5a5;border:1px solid #ef4444;box-shadow:0 0 14px rgba(239,68,68,.3)}
+.st-wait{background:linear-gradient(135deg,#4e2e06,#f59e0b);color:#fcd34d;border:1px solid #f59e0b;box-shadow:0 0 14px rgba(245,158,11,.3)}
+#timerBox{width:100%;background:rgba(0,0,0,.4);border:1px solid rgba(0,255,213,.12);border-radius:10px;padding:9px 12px;margin-bottom:10px}
+#timerDI{font-size:10px;color:rgba(0,255,213,.6);margin-bottom:4px;min-height:13px}
+#timerL{font-size:10px;color:#aaa;margin-bottom:3px}
+#timerC{font-family:'Orbitron',sans-serif;font-size:17px;color:#00ffd5;letter-spacing:2px}
 .tu{color:#ffcc66}
-
-/* STATS */
-#stats{width:100%;display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:12px}
-.sb{background:rgba(0,0,0,.3);border:1px solid rgba(0,255,213,.1);border-radius:8px;padding:6px;text-align:center}
-.sb .v{font-family:'Orbitron',sans-serif;font-size:15px;color:#00ffd5}
-.sb .l{font-size:8px;color:#aaa;margin-top:2px}
-
-/* INPUTS */
-input,select,textarea{width:100%;padding:10px 12px;border-radius:8px;border:1px solid rgba(0,255,213,.2);background:rgba(0,0,0,.4);color:#fff;font-family:'Share Tech Mono',monospace;font-size:13px;margin-top:8px;outline:none;transition:border-color .2s,box-shadow .2s}
-input:focus,select:focus,textarea:focus{border-color:#00ffd5;box-shadow:0 0 8px rgba(0,255,213,.2)}
+#stats{width:100%;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:10px}
+.sb{background:rgba(0,0,0,.3);border:1px solid rgba(0,255,213,.1);border-radius:7px;padding:5px;text-align:center}
+.sb .v{font-family:'Orbitron',sans-serif;font-size:14px;color:#00ffd5}
+.sb .l{font-size:8px;color:#aaa;margin-top:1px}
+input,select,textarea{width:100%;padding:9px 11px;border-radius:8px;border:1px solid rgba(0,255,213,.2);background:rgba(0,0,0,.4);color:#fff;font-family:'Share Tech Mono',monospace;font-size:12px;margin-top:7px;outline:none;transition:border-color .2s}
+input:focus,select:focus,textarea:focus{border-color:#00ffd5;box-shadow:0 0 7px rgba(0,255,213,.2)}
 input:disabled{opacity:.6;cursor:not-allowed}
-button{width:100%;padding:10px;border-radius:8px;border:none;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:13px;font-weight:700;transition:transform .15s,opacity .15s}
+button{width:100%;padding:9px;border-radius:8px;border:none;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:12px;font-weight:700;transition:transform .15s,opacity .15s}
 button:active{transform:scale(.96)}
 button:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .bp{background:linear-gradient(135deg,#00ffd5,#007a6a);color:#000}
-.bp:hover:not(:disabled){box-shadow:0 0 20px rgba(0,255,213,.4)}
 .bd{background:linear-gradient(135deg,#ef4444,#7f1d1d);color:#fff}
 .bs{background:linear-gradient(135deg,#16a34a,#052e16);color:#fff}
 .bw{background:linear-gradient(135deg,#f59e0b,#78350f);color:#fff}
-
-.cw{display:flex;width:100%;gap:8px;align-items:flex-end;margin-top:8px}
+.cw{display:flex;width:100%;gap:7px;align-items:flex-end;margin-top:7px}
 .cw input{flex:1;margin-top:0}
-#redeemBtn{width:90px;margin-top:0;flex-shrink:0}
+#redeemBtn{width:85px;margin-top:0;flex-shrink:0}
 
-/* WHEEL */
-#wSec{width:100%;display:flex;flex-direction:column;align-items:center;margin:14px 0}
+#wSec{width:100%;display:flex;flex-direction:column;align-items:center;margin:12px 0 8px}
 #wCon{position:relative;width:290px;height:290px}
 #wCanvas{width:290px;height:290px;border-radius:50%;border:4px solid rgba(0,255,213,.3);box-shadow:0 0 30px rgba(0,255,213,.2);display:block;transition:transform 4s cubic-bezier(.17,.67,.12,.99)}
-#wCanvas.glow{box-shadow:0 0 50px rgba(0,255,213,.6),0 0 100px rgba(0,255,213,.2)}
-#wCenter{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:42px;height:42px;background:linear-gradient(135deg,#00ffd5,#007a6a);border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-size:8px;color:#000;font-weight:900;box-shadow:0 0 15px rgba(0,255,213,.6);z-index:10;pointer-events:none}
-#arrow{position:absolute;top:-22px;left:50%;transform:translateX(-50%);z-index:20;filter:drop-shadow(0 0 6px #00ffd5)}
-#arrow svg{width:24px;height:28px}
-
-/* SPIN BTN */
-#spinBtn{font-family:'Orbitron',sans-serif;font-size:16px;letter-spacing:2px;padding:16px;background:linear-gradient(135deg,#00ffd5,#007a6a);color:#000;font-weight:900;box-shadow:0 4px 20px rgba(0,255,213,.3)}
-#spinBtn:hover:not(:disabled){box-shadow:0 4px 30px rgba(0,255,213,.5)}
-
-/* RESULT */
-#result{margin:12px 0 4px;font-family:'Orbitron',sans-serif;font-size:14px;font-weight:700;text-align:center;min-height:28px;color:#00ffd5;letter-spacing:1px}
-.rw{color:#4ade80;text-shadow:0 0 20px rgba(74,222,128,.6);animation:rPulse 1s infinite}
+#wCanvas.glow{box-shadow:0 0 50px rgba(0,255,213,.6)}
+#wCenter{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:42px;height:42px;background:linear-gradient(135deg,#00ffd5,#007a6a);border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-size:8px;color:#000;font-weight:900;z-index:10;pointer-events:none}
+#arrow{position:absolute;top:-20px;left:50%;transform:translateX(-50%);z-index:20;filter:drop-shadow(0 0 6px #00ffd5)}
+#arrow svg{width:22px;height:26px}
+#waInput{border-color:rgba(0,255,213,.3)!important}
+#waInput:focus{border-color:#00ffd5!important}
+.uitem{display:flex;align-items:center;justify-content:space-between;padding:5px 7px;border-radius:6px;margin-bottom:3px;background:rgba(0,0,0,.3);border:1px solid rgba(0,255,213,.08)}
+.uitem .uname{font-size:11px;color:#fff;flex:1}
+.uitem .ubadge{font-size:9px;padding:2px 6px;border-radius:8px;font-weight:700}
+.uitem.u-online{border-color:rgba(74,222,128,.3);background:rgba(22,163,74,.06)}
+.uitem.u-online .ubadge{background:rgba(22,163,74,.3);color:#4ade80}
+.uitem.u-offline .ubadge{background:rgba(255,255,255,.07);color:#aaa}
+/* Item list global */
+.il-item{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;border-radius:7px;margin-bottom:4px}
+.il-item.il-win{background:rgba(22,163,74,.1);border:1px solid rgba(22,163,74,.25)}
+.il-item.il-lose{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2)}
+.il-name{font-size:12px;flex:1}
+.il-badge{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:700;flex-shrink:0}
+.il-pct{font-size:10px;color:#aaa;margin-left:6px;flex-shrink:0}
+#spinBtn{font-family:'Orbitron',sans-serif;font-size:15px;letter-spacing:2px;padding:14px;background:linear-gradient(135deg,#00ffd5,#007a6a);color:#000;font-weight:900;box-shadow:0 4px 18px rgba(0,255,213,.3)}
+#result{margin:10px 0 4px;font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;text-align:center;min-height:26px;color:#00ffd5;letter-spacing:1px}
+.rw{color:#4ade80;text-shadow:0 0 18px rgba(74,222,128,.6);animation:rp 1s infinite}
 .rl{color:#f87171}
-@keyframes rPulse{0%,100%{opacity:1}50%{opacity:.7}}
-
-/* STREAK */
-#streak{display:none;background:linear-gradient(135deg,#7c3aed,#4c1d95);border:1px solid #a78bfa;color:#ddd6fe;border-radius:20px;padding:4px 12px;font-size:11px;letter-spacing:1px;margin-bottom:4px;text-align:center}
-
+@keyframes rp{0%,100%{opacity:1}50%{opacity:.7}}
+#streak{display:none;background:linear-gradient(135deg,#7c3aed,#4c1d95);border:1px solid #a78bfa;color:#ddd6fe;border-radius:20px;padding:3px 12px;font-size:10px;margin-bottom:3px;text-align:center}
 #claimBtn{display:none;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;margin-top:4px}
-#spinInfo{color:#aaa;font-size:11px;margin:6px 0 2px;text-align:center;display:block}
-#spinFree{color:#ffcc00;font-size:11px;margin:2px 0 6px;text-align:center;display:block;min-height:16px}
-#devInfo{color:rgba(0,255,213,.5);font-size:10px;cursor:pointer;margin-bottom:10px;text-align:center;display:block}
-#devInfo:hover{color:#00ffd5}
-
-/* PANELS */
-.panel{background:rgba(0,0,0,.35);padding:10px;border-radius:10px;font-size:11px;width:100%;border:1px solid rgba(0,255,213,.1);margin-top:10px}
-.ptitle{color:#00ffd5;font-weight:700;margin-bottom:6px;font-size:11px;letter-spacing:1px;border-bottom:1px solid rgba(0,255,213,.1);padding-bottom:4px;display:flex;justify-content:space-between;align-items:center}
-#logPanel{height:110px;overflow:auto}
-.wi{padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+#spinInfo{color:#aaa;font-size:11px;margin:5px 0 2px;text-align:center;display:block}
+#spinFree{color:#ffcc00;font-size:11px;margin:2px 0 5px;text-align:center;display:block;min-height:15px}
+#devInfo{color:rgba(0,255,213,.5);font-size:9px;cursor:pointer;margin-bottom:8px;text-align:center;display:block}
+.panel{background:rgba(0,0,0,.35);padding:9px;border-radius:10px;font-size:11px;width:100%;border:1px solid rgba(0,255,213,.1);margin-top:8px}
+.ptitle{color:#00ffd5;font-weight:700;margin-bottom:5px;font-size:11px;letter-spacing:1px;border-bottom:1px solid rgba(0,255,213,.1);padding-bottom:4px;display:flex;justify-content:space-between;align-items:center}
+#logPanel{height:100px;overflow:auto}
+.wi{padding:4px 0;border-bottom:1px solid rgba(255,255,255,.05)}
 .wi .wn{color:#fff;font-size:11px}.wi .wp{color:#00ffd5;font-size:10px}.wi .wt{color:#aaa;font-size:9px}
-
-/* ADMIN */
-#adminPanel{display:none;background:rgba(0,0,0,.3);padding:14px;border-radius:12px;margin-top:15px;border:2px solid #ffcc00;width:100%}
-.as{background:rgba(0,0,0,.3);padding:12px;border-radius:10px;margin-bottom:12px;border:1px solid rgba(255,204,0,.2)}
-.ast{color:#ffcc00;font-size:12px;font-weight:700;letter-spacing:1px;margin-bottom:10px}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.br{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+#adminPanel{display:none;background:rgba(0,0,0,.3);padding:12px;border-radius:12px;margin-top:12px;border:2px solid #ffcc00;width:100%}
+.as{background:rgba(0,0,0,.3);padding:10px;border-radius:10px;margin-bottom:10px;border:1px solid rgba(255,204,0,.2)}
+.ast{color:#ffcc00;font-size:11px;font-weight:700;letter-spacing:1px;margin-bottom:8px;display:block}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.br{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
 .br button{flex:1}
-/* Test mode banner */
-#tmBanner{display:none;background:rgba(124,58,237,.2);border:1px solid #7c3aed;border-radius:6px;padding:6px 10px;font-size:11px;color:#c4b5fd;text-align:center;margin-bottom:8px}
-/* Wheel items */
-.witem{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;margin-bottom:5px}
-.witem.wi-w{background:rgba(22,163,74,.15);border:1px solid rgba(22,163,74,.3)}
-.witem.wi-l{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3)}
-.witem .inf{flex:1;font-size:11px}
-.dbtn{width:28px;height:28px;border-radius:50%;background:#ef4444;color:#fff;font-size:11px;padding:0;flex-shrink:0;border:none;cursor:pointer}
-/* Code items */
-.ci{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;border-radius:6px;margin-bottom:5px;background:rgba(0,255,213,.05);border:1px solid rgba(0,255,213,.1)}
-
-/* MODALS */
-.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:8000;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
-.mb{width:340px;background:#071414;border:1px solid rgba(0,255,213,.3);padding:20px;border-radius:16px;box-shadow:0 0 40px rgba(0,255,213,.15);max-height:90vh;overflow-y:auto}
-.mb h3{font-family:'Orbitron',sans-serif;color:#00ffd5;text-align:center;margin-bottom:15px;font-size:15px;letter-spacing:2px}
-.air{margin-bottom:12px}
-.air label{font-size:10px;color:#aaa;display:block;margin-bottom:4px;letter-spacing:1px}
-.aiv{background:rgba(0,0,0,.4);border:1px solid rgba(0,255,213,.2);border-radius:6px;padding:8px 10px;font-size:12px;color:#00ffd5;word-break:break-all}
-.nhi{padding:5px 8px;border-radius:5px;margin-bottom:4px;background:rgba(0,255,213,.05);border:1px solid rgba(0,255,213,.1);font-size:11px}
-.nhn{color:#00ffd5}.nht{color:#aaa;font-size:10px}
-
-/* WIN OVERLAY */
-#wo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:7000;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:20px}
-.we{font-size:60px;animation:eb .5s ease infinite alternate}
-@keyframes eb{from{transform:scale(1) rotate(-5deg)}to{transform:scale(1.15) rotate(5deg)}}
-.wt2{font-family:'Orbitron',sans-serif;font-size:24px;color:#ffcc00;text-shadow:0 0 30px rgba(255,204,0,.8);margin:10px 0 6px;animation:tglow 1.5s ease-in-out infinite alternate}
-@keyframes tglow{from{text-shadow:0 0 10px #ffcc00}to{text-shadow:0 0 40px #ffcc00,0 0 60px #ff8800}}
-
-/* CONFETTI */
+#tmBanner{display:none;background:rgba(124,58,237,.15);border:1px solid #7c3aed;border-radius:6px;padding:5px 8px;font-size:10px;color:#c4b5fd;text-align:center;margin-bottom:6px}
+.witem{display:flex;align-items:center;gap:6px;padding:5px 7px;border-radius:6px;margin-bottom:4px}
+.witem.wi-w{background:rgba(22,163,74,.12);border:1px solid rgba(22,163,74,.3)}
+.witem.wi-l{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3)}
+.witem .inf{flex:1;font-size:10px}
+.dbtn{width:26px;height:26px;border-radius:50%;background:#ef4444;color:#fff;font-size:10px;padding:0;flex-shrink:0;border:none;cursor:pointer}
+.ci{display:flex;justify-content:space-between;align-items:center;padding:5px 7px;border-radius:6px;margin-bottom:4px;background:rgba(0,255,213,.04);border:1px solid rgba(0,255,213,.1)}
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.87);z-index:8000;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.mb{width:320px;background:#071414;border:1px solid rgba(0,255,213,.3);padding:18px;border-radius:16px;box-shadow:0 0 40px rgba(0,255,213,.15);max-height:90vh;overflow-y:auto}
+.mb h3{font-family:'Orbitron',sans-serif;color:#00ffd5;text-align:center;margin-bottom:14px;font-size:14px;letter-spacing:2px}
+.air{margin-bottom:10px}
+.air label{font-size:9px;color:#aaa;display:block;margin-bottom:3px;letter-spacing:1px}
+.aiv{background:rgba(0,0,0,.4);border:1px solid rgba(0,255,213,.2);border-radius:6px;padding:7px 9px;font-size:11px;color:#00ffd5;word-break:break-all}
+.nhi{padding:4px 7px;border-radius:5px;margin-bottom:3px;background:rgba(0,255,213,.04);border:1px solid rgba(0,255,213,.1);font-size:10px}
+.nhn{color:#00ffd5}.nht{color:#aaa;font-size:9px}
+.cd{background:rgba(0,0,0,.35);border:1px solid rgba(0,255,213,.1);border-radius:7px;padding:9px;margin-top:7px;font-size:10px}
+.cd-bw{display:flex;border-radius:5px;overflow:hidden;height:10px;margin-bottom:5px}
+.cd-sum{display:flex;justify-content:space-between;margin-bottom:6px}
+.cd-it{margin-bottom:5px}
+.cd-ir{display:flex;justify-content:space-between;margin-bottom:1px}
+.cd-ib{background:rgba(255,255,255,.07);border-radius:2px;height:5px;overflow:hidden}
+.cd-if{height:100%;border-radius:2px;transition:width .5s}
 #cnf{position:fixed;inset:0;pointer-events:none;z-index:6999}
-
-/* TOAST */
-#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:10px 18px;border-radius:10px;font-family:'Share Tech Mono',monospace;font-size:12px;z-index:9998;max-width:320px;text-align:center;transition:opacity .3s;pointer-events:none;opacity:0}
-
-/* CHANCE DISPLAY */
-.cd{background:rgba(0,0,0,.4);border:1px solid rgba(0,255,213,.12);border-radius:8px;padding:10px;margin-top:8px;font-size:11px}
-.cd-title{color:#00ffd5;font-weight:700;margin-bottom:8px;letter-spacing:1px}
-.cd-bar-wrap{display:flex;border-radius:6px;overflow:hidden;height:12px;margin-bottom:6px}
-.cd-summary{display:flex;justify-content:space-between;margin-bottom:8px;font-size:11px}
-.cd-item{margin-bottom:6px}
-.cd-item-row{display:flex;justify-content:space-between;margin-bottom:2px}
-.cd-item-bar{background:rgba(255,255,255,.08);border-radius:3px;height:6px;overflow:hidden}
-.cd-item-fill{height:100%;border-radius:3px;transition:width .5s}
-
-::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-track{background:rgba(0,0,0,.2)}
+#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);padding:9px 16px;border-radius:9px;font-family:'Share Tech Mono',monospace;font-size:11px;z-index:9998;max-width:300px;text-align:center;transition:opacity .3s;pointer-events:none;opacity:0}
+::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-thumb{background:#00ffd5;border-radius:2px}
 </style>
 </head>
 <body>
 <canvas id="cnf"></canvas>
-
-<!-- LOADING -->
-<div id="lo">
-  <div class="ring"></div>
-  <div class="lt">XREZZKYSTORE</div>
-  <div id="loStatus">Menghubungkan...</div>
-</div>
-
-<!-- WIN OVERLAY -->
+<div id="lo"><div class="ring"></div><div id="loTxt">XREZZKYSTORE</div><div id="loSub">Menghubungkan...</div></div>
+<div id="toast"></div>
 <div id="wo">
-  <div class="we">🎉</div>
-  <div class="wt2">SELAMAT!</div>
-  <div id="woPrize" style="font-family:'Orbitron',sans-serif;font-size:15px;color:#00ffd5;margin-bottom:6px;padding:0 10px"></div>
-  <div id="woName" style="color:#aaa;font-size:12px;margin-bottom:20px"></div>
-  <button id="woClose" style="width:220px;background:linear-gradient(135deg,#ffcc00,#f59e0b);color:#000;font-family:'Orbitron',sans-serif;font-weight:900;padding:13px;border-radius:12px;border:none;cursor:pointer;font-size:14px">🎁 KLAIM HADIAH</button>
+  <div class="we">&#127881;</div>
+  <div class="wt">SELAMAT!</div>
+  <div id="woPrize" style="font-family:'Orbitron',sans-serif;font-size:15px;color:#00ffd5;margin-bottom:5px;padding:0 10px"></div>
+  <div id="woName" style="color:#aaa;font-size:12px;margin-bottom:18px"></div>
+  <button id="woClose" style="width:210px;background:linear-gradient(135deg,#ffcc00,#f59e0b);color:#000;font-family:'Orbitron',sans-serif;font-weight:900;padding:12px;border-radius:11px;border:none;cursor:pointer;font-size:13px">Klaim Hadiah</button>
 </div>
-
-<!-- ACCOUNT MODAL -->
 <div id="accModal" class="mo">
   <div class="mb">
-    <h3>👤 AKUN SAYA</h3>
-    <div class="air"><label>DEVICE ID</label><div class="aiv" id="mDevId">-</div><button id="copyIdBtn" class="bp" style="margin-top:5px;padding:7px">📋 Copy ID</button></div>
-    <div class="air"><label>NAMA SAAT INI</label><div class="aiv" id="mName">-</div></div>
-    <div class="air"><label>TOTAL SPIN DILAKUKAN</label><div class="aiv" id="mTotal">0</div></div>
-    <div class="air">
-      <label>RIWAYAT NAMA</label>
-      <div id="mNameHist" style="max-height:90px;overflow:auto;background:rgba(0,0,0,.3);border:1px solid rgba(0,255,213,.1);border-radius:8px;padding:6px"></div>
+    <h3>AKUN SAYA</h3>
+    <div class="air"><label>DEVICE ID</label><div class="aiv" id="mDevId">-</div><button id="copyIdBtn" class="bp" style="margin-top:5px;padding:6px;font-size:11px">Copy ID</button></div>
+    <div class="air"><label>NAMA</label><div class="aiv" id="mName">-</div></div>
+    <div class="air"><label>TOTAL SPIN</label><div class="aiv" id="mTotal">0 kali</div></div>
+    <div class="air"><label>SISA SPIN</label><div class="aiv" id="mSpin">0</div></div>
+    <div class="air"><label>RIWAYAT NAMA</label><div id="mNameHist" style="max-height:80px;overflow:auto;background:rgba(0,0,0,.3);border:1px solid rgba(0,255,213,.1);border-radius:7px;padding:5px"></div></div>
+    <div class="air"><label>RIWAYAT MENANG</label><div id="mWinHist" style="max-height:100px;overflow:auto;background:rgba(0,0,0,.3);border:1px solid rgba(0,255,213,.1);border-radius:7px;padding:5px"></div></div>
+    <div class="br" style="margin-top:9px">
+      <button id="editNameBtn" class="bw" style="flex:1">Edit Nama</button>
+      <button id="logoutBtn" class="bd" style="flex:1">Log Out</button>
     </div>
-    <div class="air">
-      <label>RIWAYAT MENANG</label>
-      <div id="mWinHist" style="max-height:120px;overflow:auto;background:rgba(0,0,0,.3);border:1px solid rgba(0,255,213,.1);border-radius:8px;padding:6px"></div>
-    </div>
-    <div class="br" style="margin-top:10px">
-      <button id="editNameBtn" class="bw" style="flex:1">✏️ Edit Nama</button>
-      <button id="logoutBtn" class="bd" style="flex:1">🔒 Log Out</button>
-    </div>
-    <button onclick="closeModal('accModal')" style="margin-top:8px;background:rgba(255,255,255,.1);color:#fff">✕ Tutup</button>
+    <button onclick="document.getElementById('accModal').style.display='none'" style="margin-top:7px;background:rgba(255,255,255,.1);color:#fff">Tutup</button>
   </div>
 </div>
-
-<!-- EXPORT MODAL -->
 <div id="expModal" class="mo">
   <div class="mb">
-    <h3>📊 DATA PEMENANG</h3>
-    <textarea id="expArea" readonly style="height:200px;background:#000;color:#00ffd5;font-family:monospace;font-size:11px;resize:none"></textarea>
-    <div style="display:flex;gap:8px;margin-top:10px">
-      <button id="copyExpBtn" class="bp" style="flex:1">📋 Copy</button>
-      <button onclick="closeModal('expModal')" class="bd" style="flex:1">✕ Tutup</button>
+    <h3>DATA PEMENANG</h3>
+    <textarea id="expArea" readonly style="height:190px;background:#000;color:#00ffd5;font-family:monospace;font-size:10px;resize:none"></textarea>
+    <div style="display:flex;gap:7px;margin-top:9px">
+      <button id="copyExpBtn" class="bp" style="flex:1">Copy</button>
+      <button onclick="document.getElementById('expModal').style.display='none'" class="bd" style="flex:1">Tutup</button>
     </div>
   </div>
 </div>
-
-<!-- MAIN BOX -->
 <div class="box">
-  <div class="hdr">
-    <div><h2 id="title">XREZZKYSTORE</h2><div class="sub">RNG GIVEAWAY SYSTEM</div></div>
-    <button id="accBtn">👤</button>
-  </div>
-
+  <div class="hdr"><div><h2 id="title">XREZZKYSTORE</h2><div class="sub">RNG GIVEAWAY SYSTEM</div></div><button id="accBtn">&#128100;</button></div>
   <div id="bb"></div>
-  <div id="tkWrap"><span id="tk">🎉 Selamat datang! Putar roda dan menangkan hadiah gratis!</span></div>
+  <div id="tkw"><span id="tk">XREZZKYSTORE RNG GIVEAWAY - Putar roda dan menangkan hadiah!</span></div>
   <div id="evInd" class="st-off">MEMUAT...</div>
-
-  <div id="timerBox">
-    <div id="timerDateInfo"></div>
-    <div id="timerLabel">-</div>
-    <div id="timerClock">-- : -- : -- : --</div>
-  </div>
-
+  <div id="timerBox"><div id="timerDI"></div><div id="timerL">-</div><div id="timerC">-- : -- : -- : --</div></div>
   <div id="stats">
     <div class="sb"><div class="v" id="stWin">0</div><div class="l">MENANG</div></div>
     <div class="sb"><div class="v" id="stSpin">0</div><div class="l">SPIN</div></div>
-    <div class="sb"><div class="v" id="stSlot">∞</div><div class="l">SLOT</div></div>
+    <div class="sb"><div class="v" id="stSlot">&#8734;</div><div class="l">SLOT</div></div>
     <div class="sb"><div class="v" id="stOnline">1</div><div class="l">ONLINE</div></div>
   </div>
-
-  <input id="nameInput" placeholder="✏️ Masukkan Nama Anda" autocomplete="off" maxlength="40">
-  <div class="cw">
-    <input id="codeInput" placeholder="🎟️ Kode Spin" autocomplete="off">
-    <button id="redeemBtn" class="bp">Redeem</button>
+  <div style="width:100%;display:flex;gap:7px;align-items:flex-end;margin-top:7px">
+    <input id="nameInput" placeholder="Nama Kamu" autocomplete="off" maxlength="40" style="flex:1;margin-top:0">
+    <div style="display:flex;flex-direction:column;gap:3px;flex-shrink:0">
+      <div style="font-size:8px;color:#aaa;text-align:center;letter-spacing:1px">NO WA</div>
+      <input id="waInput" placeholder="12" maxlength="4" autocomplete="off" style="width:52px;margin-top:0;padding:9px 6px;text-align:center;font-size:13px;letter-spacing:2px">
+    </div>
   </div>
-
+  <div style="font-size:9px;color:rgba(0,255,213,.4);margin-top:3px;text-align:right;padding-right:2px">2 atau 4 digit akhir no WA kamu</div>
+  <div class="cw"><input id="codeInput" placeholder="Kode Spin" autocomplete="off" style="margin-top:0"><button id="redeemBtn" class="bp">Redeem</button></div>
   <div id="wSec">
     <div id="wCon">
       <div id="arrow"><svg viewBox="0 0 24 28" fill="none"><polygon points="12,28 0,8 24,8" fill="#00ffd5"/><rect x="9" y="0" width="6" height="12" rx="3" fill="#00ffd5"/></svg></div>
@@ -258,1057 +195,1039 @@ button:disabled{opacity:.5;cursor:not-allowed;transform:none}
       <div id="wCenter">RNG</div>
     </div>
   </div>
-
-  <button id="spinBtn">🌀 SPIN RNG</button>
+  <!-- Item list global, realtime dari Firebase -->
+  <div class="panel" id="itemListPanel">
+    <div class="ptitle"><span>DAFTAR HADIAH</span><span id="itemCount" style="color:#aaa;font-size:10px">0 item</span></div>
+    <div id="itemListContent"></div>
+  </div>
+  <button id="spinBtn">SPIN RNG</button>
   <div id="streak"></div>
   <div id="result">PUTAR UNTUK MEMULAI</div>
-  <button id="claimBtn">📩 KLAIM VIA WHATSAPP</button>
-  <span id="spinInfo">🎟 Memuat...</span>
+  <button id="claimBtn">KLAIM VIA WHATSAPP</button>
+  <span id="spinInfo">Memuat...</span>
   <span id="spinFree"></span>
-  <span id="devInfo">📱 Memuat...</span>
-
-  <div class="panel" id="logPanel">
-    <div class="ptitle"><span>📋 RIWAYAT SPIN</span><span id="logCnt" style="color:#aaa;font-size:10px">0 spin</span></div>
-  </div>
-
-  <div class="panel">
-    <div class="ptitle">📢 INFO EVENT</div>
-    <div id="infoContent" style="color:#ccc;font-size:11px;line-height:1.6">-</div>
-  </div>
-
-  <div class="panel" style="max-height:160px;overflow:auto">
-    <div class="ptitle">
-      <span>🏆 PEMENANG</span>
-      <span id="winBadge" style="background:#00ffd5;color:#000;font-size:9px;padding:2px 6px;border-radius:10px;font-weight:700">0</span>
-    </div>
+  <span id="devInfo">Memuat...</span>
+  <div class="panel" id="logPanel"><div class="ptitle"><span>RIWAYAT SPIN</span><span id="logCnt" style="color:#aaa;font-size:10px">0 spin</span></div></div>
+  <div class="panel"><div class="ptitle">INFO EVENT</div><div id="infoContent" style="color:#ccc;font-size:11px;line-height:1.5">-</div></div>
+  <div class="panel" style="max-height:150px;overflow:auto">
+    <div class="ptitle"><span>PEMENANG</span><span id="winBadge" style="background:#00ffd5;color:#000;font-size:9px;padding:2px 5px;border-radius:8px;font-weight:700">0</span></div>
     <div id="winList">-</div>
   </div>
-
-  <!-- ADMIN PANEL -->
+  <!-- DAFTAR USER TERDAFTAR -->
+  <div class="panel" style="max-height:200px;overflow:auto">
+    <div class="ptitle">
+      <span>👥 PESERTA TERDAFTAR</span>
+      <span id="userCount" style="color:#aaa;font-size:10px">0 user</span>
+    </div>
+    <div id="userList"><div style="color:#aaa;font-size:11px;text-align:center;padding:8px">Belum ada peserta.</div></div>
+  </div>
   <div id="adminPanel">
-    <div style="font-family:'Orbitron',sans-serif;color:#ffcc00;text-align:center;font-size:13px;letter-spacing:2px;margin-bottom:14px">⚙️ ADMIN PANEL</div>
-
-    <!-- BROADCAST -->
+    <div style="font-family:'Orbitron',sans-serif;color:#ffcc00;text-align:center;font-size:12px;letter-spacing:2px;margin-bottom:12px">ADMIN PANEL</div>
+    <div class="as"><span class="ast">BROADCAST</span><input id="bcInput" placeholder="Pesan banner (kosong=hapus)"><button id="bcBtn" class="bw" style="margin-top:7px">Kirim Broadcast</button></div>
     <div class="as">
-      <div class="ast">📣 BROADCAST BANNER</div>
-      <input id="bcInput" placeholder="Pesan banner (kosong = hapus)">
-      <button id="bcBtn" class="bw" style="margin-top:8px">📤 Kirim Broadcast</button>
-    </div>
-
-    <!-- KONTROL EVENT -->
-    <div class="as">
-      <div class="ast">📡 KONTROL EVENT</div>
-      <div style="display:flex;gap:6px;margin-bottom:8px">
+      <span class="ast">📡 KONTROL EVENT</span>
+      <div style="display:flex;gap:6px;margin-bottom:7px">
         <button id="toggleBtn" style="flex:2;background:#555;color:#fff">TOGGLE EVENT</button>
-        <button id="tmBtn" style="flex:1;background:linear-gradient(135deg,#7c3aed,#4c1d95);color:#fff;font-size:11px">🧪 UJI COBA</button>
+        <button id="tmBtn" style="flex:1;background:linear-gradient(135deg,#7c3aed,#4c1d95);color:#fff;font-size:10px">🧪 TEST</button>
       </div>
-      <div id="tmBanner">🧪 MODE UJI COBA — Spin tidak potong stok & tidak disimpan</div>
-      <textarea id="infoInput" placeholder="Deskripsi event / pengumuman..." style="resize:vertical;height:80px;margin-top:0"></textarea>
-      <div class="g2" style="margin-top:8px">
-        <input id="maxWin" type="number" placeholder="Max Pemenang (0=∞)" value="0" style="margin-top:0">
-        <input id="maxWinDev" type="number" placeholder="Max Menang/User (0=∞)" value="0" style="margin-top:0">
-        <input id="maxSpin" type="number" placeholder="Max Spin/User (0=∞)" value="0" style="margin-top:0">
-        <input id="freeSpin" type="number" placeholder="Free Spin Baru" value="5" style="margin-top:0">
+      <div id="tmBanner">🧪 MODE TEST - Spin tidak potong stok & tidak tersimpan</div>
+      <!-- Live Stats Admin -->
+      <div id="adminLiveStats" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-bottom:8px">
+        <div style="background:rgba(0,0,0,.3);border:1px solid rgba(0,255,213,.1);border-radius:6px;padding:5px;text-align:center">
+          <div style="font-family:Orbitron,sans-serif;font-size:13px;color:#00ffd5" id="aStWin">0</div>
+          <div style="font-size:8px;color:#aaa">PEMENANG</div>
+        </div>
+        <div style="background:rgba(0,0,0,.3);border:1px solid rgba(0,255,213,.1);border-radius:6px;padding:5px;text-align:center">
+          <div style="font-family:Orbitron,sans-serif;font-size:13px;color:#ffcc00" id="aStSlot">∞</div>
+          <div style="font-size:8px;color:#aaa">SISA SLOT</div>
+        </div>
+        <div style="background:rgba(0,0,0,.3);border:1px solid rgba(0,255,213,.1);border-radius:6px;padding:5px;text-align:center">
+          <div style="font-family:Orbitron,sans-serif;font-size:13px;color:#4ade80" id="aStOnline">1</div>
+          <div style="font-size:8px;color:#aaa">ONLINE</div>
+        </div>
+      </div>
+      <div class="g2" style="margin-top:0">
+        <input id="maxWin" type="number" placeholder="Max Pemenang (0=∞)" value="0" style="margin-top:0;font-size:11px">
+        <input id="maxWinDev" type="number" placeholder="Max Menang/User (0=∞)" value="0" style="margin-top:0;font-size:11px">
+        <input id="maxSpin" type="number" placeholder="Max Spin/User (0=∞)" value="0" style="margin-top:0;font-size:11px">
+        <input id="freeSpin" type="number" placeholder="Free Spin User Baru" value="5" style="margin-top:0;font-size:11px">
       </div>
     </div>
 
-    <!-- SCHEDULE -->
+    <!-- INFO EVENT — section terpisah, bisa diedit & dikosongkan -->
     <div class="as">
-      <div class="ast">⏰ AUTO SCHEDULE (WIB)</div>
-      <label style="font-size:11px;color:#aaa;display:block;margin-bottom:4px">Mulai Event</label>
-      <input id="evStart" type="datetime-local" step="60">
-      <label style="font-size:11px;color:#aaa;display:block;margin-top:8px;margin-bottom:4px">Akhir Event</label>
-      <input id="evEnd" type="datetime-local" step="60" style="margin-top:0">
-      <label style="font-size:11px;color:#aaa;margin-top:10px;display:flex;align-items:center;gap:8px">
-        <input id="scheduleOn" type="checkbox" style="width:auto;margin:0"> Aktifkan Auto ON/OFF
-      </label>
-      <button id="saveBtn" class="bp" style="margin-top:10px">💾 SIMPAN SEMUA</button>
-    </div>
-
-    <!-- CODES -->
-    <div class="as">
-      <div class="ast">🎟️ KODE SPIN</div>
-      <div class="g2">
-        <input id="ncName" placeholder="Nama Kode" style="margin-top:0">
-        <input id="ncSpin" type="number" placeholder="Jumlah Spin" style="margin-top:0">
+      <span class="ast">📢 INFO EVENT</span>
+      <div id="infoPreview" style="background:rgba(0,255,213,.05);border:1px solid rgba(0,255,213,.1);border-radius:6px;padding:7px;font-size:11px;color:#ccc;min-height:32px;margin-bottom:7px;line-height:1.4;white-space:pre-wrap">Memuat...</div>
+      <textarea id="infoInput" placeholder="Tulis info/pengumuman... (kosongkan untuk hapus)" style="resize:vertical;height:80px;margin-top:0;font-size:11px"></textarea>
+      <div style="display:flex;gap:6px;margin-top:7px">
+        <button id="saveInfoBtn" class="bp" style="flex:2;font-size:11px">💾 Simpan Info</button>
+        <button id="clearInfoBtn" style="flex:1;font-size:11px;background:linear-gradient(135deg,#ef4444,#7f1d1d);color:#fff;border-radius:8px;border:none;cursor:pointer;font-family:Share Tech Mono,monospace;font-weight:700">🗑 Hapus</button>
       </div>
-      <input id="ncMax" type="number" placeholder="Max Pengguna" style="margin-top:6px">
-      <button id="addCodeBtn" class="bp" style="margin-top:8px">➕ Tambah Kode</button>
-      <div id="codeList" style="margin-top:10px;max-height:150px;overflow:auto"></div>
     </div>
-
-    <!-- WHEEL -->
     <div class="as">
-      <div class="ast">🎡 ITEM RODA</div>
-      <div id="wheelList" style="max-height:180px;overflow:auto;margin-bottom:8px"></div>
-      <input id="nwLabel" placeholder="Nama Hadiah / Zonk">
-      <select id="nwType" style="margin-top:6px">
-        <option value="win">🏆 HADIAH (MENANG)</option>
-        <option value="lose">💀 ZONK (KALAH)</option>
+      <span class="ast">AUTO SCHEDULE (WIB)</span>
+      <label style="font-size:10px;color:#aaa;display:block;margin-bottom:3px">Mulai</label>
+      <input id="evStart" type="datetime-local" step="60" style="font-size:11px">
+      <label style="font-size:10px;color:#aaa;display:block;margin-top:6px;margin-bottom:3px">Akhir</label>
+      <input id="evEnd" type="datetime-local" step="60" style="margin-top:0;font-size:11px">
+      <label style="font-size:10px;color:#aaa;margin-top:8px;display:flex;align-items:center;gap:7px"><input id="scheduleOn" type="checkbox" style="width:auto;margin:0"> Aktifkan Auto ON/OFF</label>
+      <button id="saveBtn" class="bp" style="margin-top:9px">SIMPAN SEMUA</button>
+    </div>
+    <div class="as">
+      <span class="ast">ITEM RODA + PICKER</span>
+      <div style="background:rgba(0,255,213,.06);border:1px solid rgba(0,255,213,.15);border-radius:6px;padding:6px 8px;font-size:10px;color:#aaa;margin-bottom:8px">Tingkat kesulitan menentukan seberapa jarang item muncul. Makin tinggi angka = makin susah didapat.</div>
+      <div id="wheelList" style="max-height:160px;overflow:auto;margin-bottom:7px"></div>
+      <input id="nwLabel" placeholder="Nama Item">
+      <select id="nwType" style="margin-top:5px;font-size:11px"><option value="win">HADIAH (MENANG)</option><option value="lose">ZONK (KALAH)</option></select>
+      <select id="nwDiff" style="margin-top:5px;font-size:11px">
+        <option value="1">Mudah (1) — ~33%</option>
+        <option value="2">Agak Mudah (2) — ~17%</option>
+        <option value="3">Normal (3) — ~11%</option>
+        <option value="4">Agak Susah (4) — ~8%</option>
+        <option value="5" selected>Susah (5) — ~6%</option>
+        <option value="6">Sangat Susah (6) — ~5%</option>
+        <option value="7">Ekstrem (7) — ~4%</option>
+        <option value="8">Sangat Ekstrem (8) — ~3%</option>
+        <option value="9">Hampir Mustahil (9) — ~3%</option>
+        <option value="10">Mustahil (10) — ~2%</option>
       </select>
-      <input id="nwWeight" type="number" placeholder="Weight (lebih besar = lebih sering)" value="1" style="margin-top:6px">
-      <button id="addItemBtn" class="bp" style="margin-top:8px">➕ Tambah Item</button>
+      <button id="addItemBtn" class="bp" style="margin-top:7px">Tambah Item</button>
       <div id="chanceDisplay"></div>
     </div>
-
-    <!-- TAMBAH SPIN USER -->
     <div class="as">
-      <div class="ast">🎁 TAMBAH SPIN USER</div>
-      <input id="tgtId" placeholder="Device ID User">
-      <input id="tgtAmt" type="number" placeholder="Jumlah Spin" style="margin-top:6px">
-      <button id="addSpinBtn" class="bs" style="margin-top:8px">➕ Tambah Spin</button>
+      <span class="ast">KODE SPIN</span>
+      <div class="g2"><input id="ncName" placeholder="Nama Kode" style="margin-top:0;font-size:11px"><input id="ncSpin" type="number" placeholder="Jml Spin" style="margin-top:0;font-size:11px"></div>
+      <input id="ncMax" type="number" placeholder="Max Pengguna" style="margin-top:5px;font-size:11px">
+      <button id="addCodeBtn" class="bp" style="margin-top:7px">Tambah Kode</button>
+      <div id="codeList" style="margin-top:8px;max-height:140px;overflow:auto"></div>
+    </div>
+    <div class="as">
+      <span class="ast">TAMBAH SPIN USER</span>
+      <input id="tgtId" placeholder="Device ID User" style="font-size:11px">
+      <input id="tgtAmt" type="number" placeholder="Jumlah Spin" style="margin-top:5px;font-size:11px">
+      <button id="addSpinBtn" class="bs" style="margin-top:7px">Tambah Spin</button>
+    </div>
+    <!-- CEK STATUS USER -->
+    <div class="as">
+      <span class="ast">🔍 CEK STATUS USER</span>
+      <input id="checkId" placeholder="Device ID" style="font-size:11px">
+      <button id="checkBtn" style="margin-top:7px;background:linear-gradient(135deg,#0ea5e9,#0369a1);color:#fff;border-radius:8px;border:none;cursor:pointer;font-family:Share Tech Mono,monospace;font-size:11px;font-weight:700;padding:9px;width:100%">🔎 Cek Status</button>
+      <div id="checkResult" style="display:none;margin-top:8px;background:rgba(0,0,0,.4);border:1px solid rgba(0,255,213,.15);border-radius:8px;padding:9px;font-size:11px;line-height:1.8"></div>
     </div>
 
-    <!-- GRANT EDIT -->
     <div class="as">
-      <div class="ast">🔐 IZIN EDIT NAMA</div>
-      <input id="grantId" placeholder="Device ID Target">
-      <button id="grantBtn" class="bp" style="margin-top:8px">Beri Izin Edit 1x</button>
+      <span class="ast">🔐 IZIN EDIT NAMA</span>
+      <input id="grantId" placeholder="Device ID" style="font-size:11px">
+      <button id="grantBtn" class="bp" style="margin-top:7px">Beri Izin 1x (24 jam)</button>
     </div>
-
-    <!-- LOCK -->
     <div class="as">
-      <div class="ast">🔒 LOCK DEVICE</div>
-      <input id="lockId" placeholder="Device ID Target">
-      <input id="lockHour" type="number" placeholder="Durasi (jam)" style="margin-top:6px">
+      <span class="ast">LOCK DEVICE</span>
+      <input id="lockId" placeholder="Device ID" style="font-size:11px">
+      <input id="lockHour" type="number" placeholder="Durasi (jam)" style="margin-top:5px;font-size:11px">
+      <div class="br"><button id="lockBtn" class="bd">Lock</button><button id="unlockBtn" class="bs">Unlock</button></div>
+    </div>
+    <div class="as">
+      <span class="ast">AKSI DATA</span>
       <div class="br">
-        <button id="lockBtn" class="bd">🔒 Lock</button>
-        <button id="unlockBtn" class="bs">🔓 Unlock</button>
-      </div>
-    </div>
-
-    <!-- AKSI -->
-    <div class="as">
-      <div class="ast">⚡ AKSI</div>
-      <div class="br">
-        <button id="exportBtn" style="flex:1;background:#fff;color:#000">📤 Export</button>
-        <button id="resetEvtBtn" class="bw" style="flex:1">♻ Reset Event</button>
-        <button id="resetAllBtn" class="bd" style="flex:1">⚠️ Reset All</button>
+        <button id="exportBtn" style="flex:1;background:#fff;color:#000;font-size:11px">Export</button>
+        <button id="resetEvtBtn" class="bw" style="flex:1;font-size:11px">Reset Event</button>
+        <button id="resetAllBtn" class="bd" style="flex:1;font-size:11px">Reset All</button>
       </div>
     </div>
   </div>
 </div>
-
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script>
-// ═══════════════════════════════════════════════
-//  CONFIG & INIT
-// ═══════════════════════════════════════════════
-const FB_CFG = {
-  apiKey:            "AIzaSyCNWjbzayNNmM0f9cAOh-DGvOy8Cf6ar7I",
-  authDomain:        "rng-system.firebaseapp.com",
-  databaseURL:       "https://rng-system-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId:         "rng-system",
-  storageBucket:     "rng-system.firebasestorage.app",
-  messagingSenderId: "627588935839",
-  appId:             "1:627588935839:web:a6492ed6cdccb8a95132aa"
-};
-firebase.initializeApp(FB_CFG);
-const db = firebase.database();
+'use strict';
+// ── LOADING: PERTAMA, sebelum Firebase
+var _loGone=false;
+function hideLo(msg){
+  if(_loGone)return;_loGone=true;
+  var el=document.getElementById('lo');
+  if(msg)document.getElementById('loSub').innerText=msg;
+  el.style.opacity='0';
+  setTimeout(function(){el.style.display='none';},400);
+}
+setTimeout(function(){hideLo('Siap');},6000);
 
-const ADMIN_PIN = "XREZZKY STORE0930";
-const ADMIN_WA  = "6288293064112";
+// ── FIREBASE
+var db=null;
+try{
+  firebase.initializeApp({
+    apiKey:'AIzaSyCNWjbzayNNmM0f9cAOh-DGvOy8Cf6ar7I',
+    authDomain:'rng-system.firebaseapp.com',
+    databaseURL:'https://rng-system-default-rtdb.asia-southeast1.firebasedatabase.app',
+    projectId:'rng-system',
+    storageBucket:'rng-system.firebasestorage.app',
+    messagingSenderId:'627588935839',
+    appId:'1:627588935839:web:a6492ed6cdccb8a95132aa'
+  });
+  db=firebase.database();
+}catch(e){
+  document.getElementById('loSub').innerText='Firebase error: '+e.message;
+  setTimeout(hideLo,2000);
+}
 
-// ─── DEVICE ID ───
-const DEVID = (()=>{
-  let id = localStorage.getItem("xrz_dev");
-  if (!id) { id = "dev-" + Date.now().toString(36) + Math.random().toString(36).slice(2,7); localStorage.setItem("xrz_dev",id); }
+// ── CONSTANTS
+var ADMIN_PIN='XREZZKY STORE0930';
+var ADMIN_WA='6288293064112';
+var DEVID=(function(){
+  var id=localStorage.getItem('xrz_dev');
+  if(!id){id='dev-'+Date.now().toString(36)+Math.random().toString(36).slice(2,8);localStorage.setItem('xrz_dev',id);}
   return id;
 })();
 
-// ─── STATE ───
-let cfg        = {};         // globalSettings from Firebase
-let prizes     = [];         // wheelItems
-let spinning   = false;
-let wRot       = 0;
-let mySpins    = 0;          // from Firebase userSpins/DEVID
-let isAdmin    = false;
-let testMode   = false;
-let titleHits  = 0;
-let schedTick  = null;
-let loseRun    = 0;
-let logCount   = 0;
-let winnerCount= 0;          // kept in sync from winners listener
+// ── STATE
+var cfg={},prizes=[],spinning=false,wRot=0,mySpins=0;
+var isAdmin=false,testMode=false,titleHits=0,titleTimer=null;
+var schedTick=null,loseRun=0,logCount=0,winCount=0;
 
-// ─── HIDE LOADING (guaranteed) ───
-function hideLo(status) {
-  const el = document.getElementById("lo");
-  if (status) document.getElementById("loStatus").innerText = status;
-  el.style.opacity = "0";
-  setTimeout(()=>{ el.style.display="none"; }, 450);
-}
-// Absolute failsafe — hide after 5s no matter what
-setTimeout(()=>hideLo(), 5000);
-
-// ═══════════════════════════════════════════════
-//  WHEEL CANVAS
-// ═══════════════════════════════════════════════
-const cvs = document.getElementById("wCanvas");
-const ctx  = cvs.getContext("2d");
-const CX=145, CY=145, R=138;
-
-function drawWheel() {
+// ── WHEEL CANVAS
+var cvs=document.getElementById('wCanvas'),ctx=cvs.getContext('2d'),CX=145,CY=145,R=138;
+function drawWheel(){
   ctx.clearRect(0,0,290,290);
-  if (!prizes.length) {
-    ctx.fillStyle="#0d1f1f"; ctx.beginPath(); ctx.arc(CX,CY,R,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle="#aaa"; ctx.font="12px Share Tech Mono"; ctx.textAlign="center";
-    ctx.fillText("Belum ada hadiah",CX,CY-6); ctx.fillText("Setup di admin panel",CX,CY+10);
-    return;
+  if(!prizes.length){
+    ctx.fillStyle='#0d1f1f';ctx.beginPath();ctx.arc(CX,CY,R,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#aaa';ctx.font='11px monospace';ctx.textAlign='center';
+    ctx.fillText('Belum ada item',CX,CY-6);ctx.fillText('Setup di admin',CX,CY+10);return;
   }
-  const n=prizes.length, arc=(2*Math.PI)/n, off=-Math.PI/2;
-  const wC=["#15803d","#16a34a","#22c55e","#166534","#14532d"];
-  const lC=["#b91c1c","#dc2626","#991b1b","#7f1d1d","#450a0a"];
-  prizes.forEach((p,i)=>{
-    const sa=off+i*arc, ea=sa+arc;
-    ctx.beginPath(); ctx.moveTo(CX,CY); ctx.arc(CX,CY,R,sa,ea); ctx.closePath();
-    ctx.fillStyle = p.win ? wC[i%wC.length] : lC[i%lC.length]; ctx.fill();
-    ctx.strokeStyle="rgba(0,0,0,.5)"; ctx.lineWidth=1.5; ctx.stroke();
-    ctx.save(); ctx.translate(CX,CY); ctx.rotate(sa+arc/2);
-    const mx=n<=4?16:n<=8?12:n<=14?8:6;
-    const lb=p.label.length>mx?p.label.slice(0,mx-1)+"…":p.label;
-    const fs=n<=4?13:n<=8?11:n<=14?9:7;
-    ctx.fillStyle="#fff"; ctx.font=`bold ${fs}px Arial`; ctx.textAlign="left";
-    ctx.shadowColor="rgba(0,0,0,.9)"; ctx.shadowBlur=4;
-    ctx.fillText(lb, R*.60 - lb.length*fs*.28, fs/3);
-    ctx.restore();
+  var n=prizes.length,arc=(2*Math.PI)/n,off=-Math.PI/2;
+  var wC=['#15803d','#16a34a','#22c55e','#166534','#14532d'];
+  var lC=['#b91c1c','#dc2626','#991b1b','#7f1d1d'];
+  prizes.forEach(function(p,i){
+    var sa=off+i*arc,ea=sa+arc;
+    ctx.beginPath();ctx.moveTo(CX,CY);ctx.arc(CX,CY,R,sa,ea);ctx.closePath();
+    ctx.fillStyle=p.win?wC[i%wC.length]:lC[i%lC.length];ctx.fill();
+    ctx.strokeStyle='rgba(0,0,0,.6)';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.save();ctx.translate(CX,CY);ctx.rotate(sa+arc/2);
+    var mx=n<=4?14:n<=8?10:n<=14?7:5;
+    var lb=p.label.length>mx?p.label.slice(0,mx-1)+'...':p.label;
+    var fs=n<=4?11:n<=8?9:n<=14?8:7;
+    ctx.fillStyle='#fff';ctx.font='bold '+fs+'px Arial';ctx.textAlign='left';
+    ctx.shadowColor='rgba(0,0,0,.9)';ctx.shadowBlur=3;
+    ctx.fillText(lb,R*.58-lb.length*fs*.26,fs/3);ctx.restore();
   });
-  ctx.beginPath(); ctx.arc(CX,CY,R,0,Math.PI*2);
-  ctx.strokeStyle="rgba(0,255,213,.5)"; ctx.lineWidth=4;
-  ctx.shadowColor="#00ffd5"; ctx.shadowBlur=8; ctx.stroke(); ctx.shadowBlur=0;
-  ctx.beginPath(); ctx.arc(CX,CY,24,0,Math.PI*2);
-  ctx.fillStyle="#071414"; ctx.fill();
-  ctx.strokeStyle="rgba(0,255,213,.4)"; ctx.lineWidth=2; ctx.stroke();
+  ctx.beginPath();ctx.arc(CX,CY,R,0,Math.PI*2);
+  ctx.strokeStyle='rgba(0,255,213,.5)';ctx.lineWidth=3;ctx.shadowColor='#00ffd5';ctx.shadowBlur=7;ctx.stroke();ctx.shadowBlur=0;
+  ctx.beginPath();ctx.arc(CX,CY,20,0,Math.PI*2);ctx.fillStyle='#071414';ctx.fill();
+  ctx.strokeStyle='rgba(0,255,213,.4)';ctx.lineWidth=2;ctx.stroke();
 }
-
-function spinTo(idx, cb) {
-  const n=prizes.length; if(!n){cb();return;}
-  const sd=360/n, sc=idx*sd+sd/2;
-  const cur=((wRot%360)+360)%360;
-  let delta=(((-sc)-cur)+36000)%360;
-  if(delta<20) delta+=360;
-  wRot += 5*360+delta;
-  cvs.style.transition="transform 4s cubic-bezier(.17,.67,.12,.99)";
-  cvs.style.transform=`rotate(${wRot}deg)`;
+function spinTo(idx,cb){
+  var n=prizes.length;if(!n){cb();return;}
+  var sd=360/n,sc=idx*sd+sd/2,cur=((wRot%360)+360)%360;
+  var delta=(((-sc)-cur)+36000)%360;if(delta<20)delta+=360;
+  wRot+=5*360+delta;
+  cvs.style.transition='transform 4s cubic-bezier(.17,.67,.12,.99)';
+  cvs.style.transform='rotate('+wRot+'deg)';
   setTimeout(cb,4200);
 }
 
-// ═══════════════════════════════════════════════
-//  FIREBASE LISTENERS — semua pakai .on() realtime
-// ═══════════════════════════════════════════════
-function startListeners() {
-  // SETTINGS
-  db.ref("settings").on("value", snap=>{
-    cfg = snap.val() || {};
-    if (cfg.eventOn===undefined) cfg.eventOn=false;
-    updateStatus();
-    updateDateInfo();
-    updateSlotStat();
-    if (isAdmin) syncAdmin();
-  });
-
-  // INFO BOARD
-  db.ref("infoBoard").on("value", snap=>{
-    const v=snap.val();
-    document.getElementById("infoContent").innerText = v||"Tidak ada info saat ini.";
-    if (isAdmin && v) document.getElementById("infoInput").value=v;
-  });
-
-  // BROADCAST
-  db.ref("broadcast").on("value", snap=>{
-    const msg=snap.val();
-    const el=document.getElementById("bb");
-    if (msg&&msg.trim()) { el.innerText="📣 "+msg; el.style.display="block"; if(isAdmin) document.getElementById("bcInput").value=msg; }
-    else el.style.display="none";
-  });
-
-  // WINNERS — simpan count lokal, tidak query ulang
-  db.ref("winners").on("value", snap=>{
-    const list=snap.val()||[];
-    winnerCount=list.length;
-    document.getElementById("stWin").innerText=winnerCount;
-    document.getElementById("winBadge").innerText=winnerCount;
-    updateSlotStat();
-    const el=document.getElementById("winList");
-    if(!list.length){el.innerHTML="<div style='color:#aaa;font-size:11px;text-align:center;padding:8px'>Belum ada pemenang.</div>";return;}
-    el.innerHTML="";
-    list.slice().reverse().slice(0,20).forEach((w,i)=>{
-      const d=document.createElement("div");
-      d.className="wi";
-      const m=i===0?"🥇":i===1?"🥈":i===2?"🥉":"·";
-      d.innerHTML=`<div class="wn">${m} ${esc(w.name)}</div><div class="wp">🎁 ${esc(w.prize)}</div><div class="wt">${w.time}</div>`;
-      el.appendChild(d);
-    });
-    // update ticker
-    const parts=["🎉 Selamat datang di XREZZKYSTORE RNG GIVEAWAY!","🌀 Putar roda dan menangkan hadiah!"];
-    list.slice(-5).forEach(w=>parts.push(`🏆 ${w.name} menang ${w.prize}!`));
-    document.getElementById("tk").innerText=parts.join("  ·  ");
-  });
-
-  // WHEEL ITEMS
-  db.ref("wheelItems").on("value", snap=>{
-    const raw=snap.val();
-    prizes = Array.isArray(raw)?raw:(raw&&typeof raw==="object"?Object.values(raw):[]);
-    drawWheel();
-    // Selalu render list — renderWheelList/renderChance cek sendiri elemen ada atau tidak
-    renderWheelList();
-    renderChance();
-  });
-
-  // CODES — selalu render ulang, renderCodes cek sendiri apakah panel terbuka
-  db.ref("codes").on("value", snap=>{
-    renderCodes(snap.val()||{});
-  });
-
-  // USER SPINS — realtime
-  db.ref("userSpins/"+DEVID).on("value", snap=>{
-    mySpins=snap.val()||0;
-    document.getElementById("stSpin").innerText=mySpins;
-    document.getElementById("spinInfo").innerText="🎟 Sisa Spin: "+mySpins;
-  });
-
-  // MANUAL SPIN dari admin
-  db.ref("manualSpin/"+DEVID).on("value", async snap=>{
-    const x=snap.val();
-    if(x&&x>0){
-      await db.ref("userSpins/"+DEVID).transaction(v=>(v||0)+x);
-      await db.ref("manualSpin/"+DEVID).set(0);
-      toast("🎁 +"+x+" spin dari admin!","success");
-    }
-  });
-
-  // LOCKED NAME
-  db.ref("lockedNames/"+DEVID).on("value", snap=>{
-    const v=snap.val();
-    if(v){ document.getElementById("nameInput").value=v; document.getElementById("nameInput").disabled=true; }
-  });
-
-  // PRESENCE
-  const pRef=db.ref("presence/"+DEVID);
-  pRef.set({t:Date.now()}); pRef.onDisconnect().remove();
-  db.ref("presence").on("value", snap=>{
-    document.getElementById("stOnline").innerText=Math.max(1,snap.numChildren());
-  });
-}
-
-// ═══════════════════════════════════════════════
-//  NEW USER FREE SPIN
-// ═══════════════════════════════════════════════
-async function checkNewUser() {
-  const snap=await db.ref("userSpins/"+DEVID).once("value");
-  if(snap.val()===null){
-    const free=(cfg.freeSpinNewUser)||5;
-    await db.ref("userSpins/"+DEVID).set(free);
-    document.getElementById("spinFree").innerText="🎁 Bonus "+free+" Spin User Baru!";
-    setTimeout(()=>{ document.getElementById("spinFree").innerText=""; },7000);
+// ── PICKER (tersambung Firebase via prizes array)
+function renderPickerList(){} // removed - now using renderItemList
+function renderItemList(){
+  var el=document.getElementById('itemListContent');if(!el)return;
+  var cntEl=document.getElementById('itemCount');
+  if(!prizes.length){
+    el.innerHTML='<div style="color:#aaa;font-size:11px;text-align:center;padding:10px">Belum ada hadiah. Admin belum setup.</div>';
+    if(cntEl)cntEl.innerText='0 item';
+    return;
   }
+  var tw=prizes.reduce(function(s,p){return s+(p.weight||1);},0);
+  if(cntEl)cntEl.innerText=prizes.length+' item';
+  el.innerHTML='';
+  // Sort: WIN dulu, lalu ZONK
+  var sorted=prizes.slice().sort(function(a,b){
+    if(a.win&&!b.win)return -1;if(!a.win&&b.win)return 1;return 0;
+  });
+  sorted.forEach(function(p){
+    var pct=((p.weight||1)/tw*100).toFixed(1);
+    var diff=p.difficulty||weightToDiff(p.weight||40);
+    var dlabel=DIFF_LABEL[diff]||'Susah';
+    var d=document.createElement('div');
+    d.className='il-item '+(p.win?'il-win':'il-lose');
+    var badgeColor=p.win?'background:rgba(22,163,74,.3);color:#4ade80':'background:rgba(239,68,68,.2);color:#f87171';
+    var diffColor=diff<=2?'#4ade80':diff<=4?'#facc15':diff<=6?'#fb923c':diff<=8?'#f87171':'#e879f9';
+    d.innerHTML=
+      '<span class="il-name" style="color:'+(p.win?'#4ade80':'#f87171')+'">'+esc(p.label)+'</span>'+
+      '<span style="font-size:9px;color:'+diffColor+';margin-right:4px">'+dlabel+'</span>'+
+      '<span class="il-badge" style="'+badgeColor+'">'+pct+'%</span>';
+    el.appendChild(d);
+  });
+}
+// Picker dan RNG dihapus per request
+
+// ── FIREBASE LISTENERS (semua realtime)
+function startListeners(){
+  if(!db)return;
+  db.ref('settings').on('value',function(s){
+    cfg=s.val()||{};if(cfg.eventOn===undefined)cfg.eventOn=false;
+    updateStatusUI();updateDateInfo();updateSlotStat();
+    if(isAdmin)syncAdminUI();
+  });
+  db.ref('infoBoard').on('value',function(s){
+    var v=s.val()||'';
+    document.getElementById('infoContent').innerText=v||'Tidak ada info.';
+    // Update preview di admin panel
+    var prev=document.getElementById('infoPreview');
+    if(prev)prev.innerText=v||'(kosong)';
+    // Sync textarea kalau admin panel terbuka
+    var inp=document.getElementById('infoInput');
+    if(inp&&isAdmin)inp.value=v;
+  });
+  db.ref('broadcast').on('value',function(s){
+    var msg=s.val(),el=document.getElementById('bb');
+    if(msg&&msg.trim()){el.innerText=msg;el.style.display='block';}else el.style.display='none';
+  });
+  db.ref('winners').on('value',function(s){
+    var list=s.val()||[];winCount=list.length;
+    setTxt('stWin',winCount);setTxt('winBadge',winCount);
+    setTxt('aStWin',winCount);
+    updateSlotStat();renderWinners(list);
+    // Ticker: tampilkan selamat khusus pemenang hadiah tersulit
+    var parts=['🎉 XREZZKYSTORE RNG GIVEAWAY','✨ Putar roda dan menangkan hadiah!'];
+    list.slice().reverse().slice(0,10).forEach(function(w){
+      // Cek apakah hadiah ini termasuk yang susah
+      var prizeItem=prizes.find(function(p){return p.label===w.prize;});
+      var diff=prizeItem?prizeItem.difficulty:0;
+      if(diff>=7){
+        parts.unshift('🏆 SELAMAT '+w.name+' memenangkan '+w.prize+'! (HADIAH LANGKA!)');
+      } else {
+        parts.push('🎁 '+w.name+' menang '+w.prize);
+      }
+    });
+    document.getElementById('tk').innerText=parts.join('   ·   ');
+  });
+  // wheelItems: update roda DAN picker sekaligus
+  db.ref('wheelItems').on('value',function(s){
+    var raw=s.val();
+    if(Array.isArray(raw))prizes=raw.filter(function(x){return x&&x.label;});
+    else if(raw&&typeof raw==='object')prizes=Object.values(raw).filter(function(x){return x&&x.label;});
+    else prizes=[];
+    drawWheel();
+    renderItemList();
+    if(isAdmin){renderWheelList();renderChance();}
+  });
+  db.ref('codes').on('value',function(s){
+    if(isAdmin)renderCodes(s.val()||{});
+  });
+  // userSpins: persistent per device
+  db.ref('userSpins/'+DEVID).on('value',function(s){
+    mySpins=s.val()||0;
+    setTxt('stSpin',mySpins);
+    document.getElementById('spinInfo').innerText='Sisa Spin: '+mySpins;
+  });
+  // manualSpin dari admin
+  db.ref('manualSpin/'+DEVID).on('value',function(s){
+    var x=s.val();
+    if(x&&x>0){
+      db.ref('userSpins/'+DEVID).transaction(function(v){return(v||0)+x;});
+      db.ref('manualSpin/'+DEVID).set(0);
+      toast('+'+x+' spin dari admin!','success');
+    }
+  });
+  // lockedName: persistent
+  db.ref('lockedNames/'+DEVID).on('value',function(s){
+    var v=s.val();
+    if(v){
+      document.getElementById('nameInput').value=v;
+      document.getElementById('nameInput').disabled=true;
+      var wa=document.getElementById('waInput');if(wa)wa.disabled=true;
+      // Sync nama di presence
+      db.ref('presence/'+DEVID).once('value',function(ps){
+        if(ps.val())db.ref('presence/'+DEVID).update({name:v});
+      });
+    }
+  });
+  // presence
+  var pRef=db.ref('presence/'+DEVID);
+  // Simpan nama di presence agar bisa tampil di daftar user
+  db.ref('lockedNames/'+DEVID).once('value',function(ns){
+    pRef.set({t:Date.now(),name:ns.val()||''});
+  });
+  pRef.onDisconnect().remove();
+  db.ref('presence').on('value',function(s){
+    var n=Math.max(1,s.numChildren());
+    setTxt('stOnline',n);setTxt('aStOnline',n);
+    // Render daftar user online
+    renderUserList(s.val()||{});
+  });
+  // Semua user yang pernah daftar (lockedNames)
+  db.ref('lockedNames').on('value',function(s){
+    renderUserList(null,s.val()||{});
+  });
 }
 
-// ═══════════════════════════════════════════════
-//  SCHEDULE TIMER — selalu berjalan
-// ═══════════════════════════════════════════════
-function startTimer() {
-  if(schedTick) clearInterval(schedTick);
-  schedTick=setInterval(()=>{
-    const s=Number(cfg.eventStart||0), e=Number(cfg.eventEnd||0);
-    if(!s||!e){ document.getElementById("timerLabel").innerText="Tidak ada jadwal"; document.getElementById("timerClock").innerText="--:--:--"; return; }
-    const now=Date.now();
-    if(now<s){
-      showTimer(s-now,"Dimulai Dalam:");
-      if(cfg.scheduleEnabled){ setStatus("st-wait","⏳ AKAN DATANG"); doAutoToggle(false); }
-    } else if(now<=e){
-      showTimer(e-now,"Berakhir Dalam:");
-      if(cfg.scheduleEnabled){ setStatus("st-on","🟢 EVENT BERJALAN"); doAutoToggle(true); }
-    } else {
-      showTimer(0,"Event Telah Berakhir");
-      if(cfg.scheduleEnabled){ setStatus("st-off","🔴 EVENT BERAKHIR"); doAutoToggle(false); }
+// ── FREE SPIN USER BARU
+function checkNewUser(){
+  if(!db)return;
+  db.ref('userSpins/'+DEVID).once('value',function(s){
+    if(s.val()===null){
+      var free=cfg.freeSpinNewUser||5;
+      db.ref('userSpins/'+DEVID).set(free);
+      document.getElementById('spinFree').innerText='Bonus '+free+' Spin User Baru!';
+      setTimeout(function(){document.getElementById('spinFree').innerText='';},7000);
     }
+  });
+}
+
+// ── SCHEDULE TIMER
+function startTimer(){
+  if(schedTick)clearInterval(schedTick);
+  schedTick=setInterval(function(){
+    var s=Number(cfg.eventStart||0),e=Number(cfg.eventEnd||0);
+    if(!s||!e){document.getElementById('timerL').innerText='Tidak ada jadwal';document.getElementById('timerC').innerText='--:--';return;}
+    var now=Date.now();
+    if(now<s){showCd(s-now,'Dimulai dalam:');if(cfg.scheduleEnabled){setBadge('st-wait','AKAN DATANG');aToggle(false);}}
+    else if(now<=e){showCd(e-now,'Berakhir dalam:');if(cfg.scheduleEnabled){setBadge('st-on','EVENT BERJALAN');aToggle(true);}}
+    else{document.getElementById('timerL').innerText='Event Berakhir';document.getElementById('timerC').innerText='00:00:00';if(cfg.scheduleEnabled){setBadge('st-off','EVENT BERAKHIR');aToggle(false);}}
   },1000);
 }
-
-let autoLock=false;
-function doAutoToggle(on){
-  if(!cfg.scheduleEnabled||autoLock||cfg.eventOn===on) return;
-  autoLock=true;
-  db.ref("settings/eventOn").set(on).finally(()=>setTimeout(()=>autoLock=false,3000));
+var _aLock=false;
+function aToggle(on){
+  if(!db||!cfg.scheduleEnabled||_aLock||cfg.eventOn===on)return;
+  _aLock=true;db.ref('settings/eventOn').set(on,function(){setTimeout(function(){_aLock=false;},3000);});
+}
+function showCd(ms,label){
+  var t=Math.max(0,Math.floor(ms/1000)),d=Math.floor(t/86400),h=Math.floor((t%86400)/3600),m=Math.floor((t%3600)/60),s=t%60;
+  document.getElementById('timerL').innerText=label;
+  document.getElementById('timerC').innerHTML='<span class="tu">'+d+'h</span> : <span class="tu">'+pad(h)+'j</span> : <span class="tu">'+pad(m)+'m</span> : <span class="tu">'+pad(s)+'s</span>';
 }
 
-function showTimer(ms, label){
-  const t=Math.max(0,Math.floor(ms/1000));
-  const d=Math.floor(t/86400),h=Math.floor((t%86400)/3600),m=Math.floor((t%3600)/60),s=t%60;
-  document.getElementById("timerLabel").innerText=label;
-  document.getElementById("timerClock").innerHTML=`<span class="tu">${d}h</span> : <span class="tu">${pad(h)}j</span> : <span class="tu">${pad(m)}m</span> : <span class="tu">${pad(s)}s</span>`;
-}
-
-// ═══════════════════════════════════════════════
-//  SPIN
-// ═══════════════════════════════════════════════
-document.getElementById("spinBtn").onclick = async()=>{
-  if(spinning){ toast("⏳ Tunggu spin selesai...","warn"); return; }
-
-  // Lock check
-  const lk=await db.ref("deviceLock/"+DEVID).once("value");
-  if(lk.val()&&Date.now()<lk.val()){ toast("🔒 Device di-lock hingga "+new Date(lk.val()).toLocaleString("id-ID"),"error"); return; }
-
-  if(!prizes.length){ toast("❌ Admin belum setup hadiah!","error"); return; }
-
+// ── SPIN
+document.getElementById('spinBtn').onclick=doSpin;
+async function doSpin(){
+  if(spinning){toast('Tunggu spin selesai!','warn');return;}
+  if(!db){toast('Tidak terhubung!','error');return;}
+  if(!prizes.length){toast('Belum ada item di roda!','error');return;}
+  var lk=await db.ref('deviceLock/'+DEVID).once('value');
+  if(lk.val()&&Date.now()<lk.val()){toast('Device di-lock sampai '+new Date(lk.val()).toLocaleString('id-ID'),'error');return;}
+  var name=document.getElementById('nameInput').value.trim();
   if(!testMode){
-    if(!cfg.eventOn){ toast("❌ Event sedang OFF.","error"); return; }
+    if(!cfg.eventOn){toast('Event sedang OFF','error');return;}
 
-    // Name lock
-    const ns=await db.ref("lockedNames/"+DEVID).once("value");
-    let name=ns.val();
-    if(!name){
-      name=document.getElementById("nameInput").value.trim();
-      if(!name){ toast("❌ Masukkan nama dulu!","error"); return; }
-      await db.ref("lockedNames/"+DEVID).set(name);
-      await saveName(DEVID,name);
-      document.getElementById("nameInput").disabled=true;
+    var ns=await db.ref('lockedNames/'+DEVID).once('value'),ln=ns.val();
+    if(ln){name=ln;}else{
+      if(!name){toast('Masukkan nama dulu!','error');return;}
+      // Gabungkan nama + nomor WA jika diisi
+      var waNum=document.getElementById('waInput').value.trim().replace(/[^0-9]/g,'').slice(0,4);
+      var displayName=waNum?name+' ('+waNum+')':name;
+      await db.ref('lockedNames/'+DEVID).set(displayName);
+      await saveNH(DEVID,displayName);
+      document.getElementById('nameInput').value=displayName;
+      document.getElementById('nameInput').disabled=true;
+      document.getElementById('waInput').disabled=true;
+      name=displayName;
+      // Update nama di presence realtime
+      db.ref('presence/'+DEVID).update({name:displayName});
     }
-
-    if(mySpins<=0){ toast("❌ Spin habis!","error"); return; }
-
-    // Limit spin per event
+    if(mySpins<=0){toast('Spin habis!','error');return;}
     if(cfg.maxSpinPerUser>0){
-      const us=await db.ref("spinUsed/"+DEVID).once("value");
-      if((us.val()||0)>=cfg.maxSpinPerUser){ toast("❌ Batas spin per event tercapai.","error"); return; }
-      await db.ref("spinUsed/"+DEVID).transaction(v=>(v||0)+1);
+      var us=await db.ref('spinUsed/'+DEVID).once('value');
+      if((us.val()||0)>=cfg.maxSpinPerUser){toast('Batas spin per event!','error');return;}
+      await db.ref('spinUsed/'+DEVID).transaction(function(v){return(v||0)+1;});
     }
-
-    // Deduct spin
-    await db.ref("userSpins/"+DEVID).transaction(v=>Math.max(0,(v||0)-1));
-    // Track total
-    db.ref("spinTotal/"+DEVID).transaction(v=>(v||0)+1);
+    await db.ref('userSpins/'+DEVID).transaction(function(v){return Math.max(0,(v||0)-1);});
+    db.ref('spinTotal/'+DEVID).transaction(function(v){return(v||0)+1;});
+  }else{if(!name)name='TEST';}
+  // Cek apakah harus force ZONK (limit menang tercapai)
+  var forceZonk=false;
+  if(!testMode){
+    // Cek device wins limit
+    if(cfg.maxWinPerDevice>0){
+      var _dw=await db.ref('deviceWins/'+DEVID).once('value');
+      if((_dw.val()||0)>=cfg.maxWinPerDevice) forceZonk=true;
+    }
+    // Cek global winners limit
+    if(!forceZonk&&cfg.maxWinnerGlobal>0){
+      if(winCount>=cfg.maxWinnerGlobal) forceZonk=true;
+    }
   }
 
-  // Pick result
-  const tw=prizes.reduce((s,p)=>s+(p.weight||1),0);
-  let r=Math.random()*tw, idx=prizes.length-1;
-  for(let i=0;i<prizes.length;i++){ r-=(prizes[i].weight||1); if(r<=0){idx=i;break;} }
+  // RNG normal dulu
+  var tw=prizes.reduce(function(s,p){return s+(p.weight||1);},0),rnd=Math.random()*tw,idx=prizes.length-1;
+  for(var i=0;i<prizes.length;i++){rnd-=(prizes[i].weight||1);if(rnd<=0){idx=i;break;}}
 
-  // Spin!
-  spinning=true;
-  const btn=document.getElementById("spinBtn");
-  btn.disabled=true; btn.innerText="🌀 SPINNING...";
-  cvs.classList.add("glow");
-  document.getElementById("result").className="";
-  document.getElementById("result").innerText="🎲 ...";
-  document.getElementById("claimBtn").style.display="none";
-  document.getElementById("streak").style.display="none";
-  playSpinSfx();
-
-  spinTo(idx, async()=>{
-    cvs.classList.remove("glow");
-    stopSpinSfx();
-    const p=prizes[idx];
-    document.getElementById("result").innerText="🎯 "+p.label;
-    document.getElementById("result").className=p.win?"rw":"rl";
-    logCount++; document.getElementById("logCnt").innerText=logCount+" spin";
-    addLog(p.label, p.win);
-
-    if(p.win){
-      loseRun=0;
-      floatEmoji("🎉");
-      if(testMode){
-        toast("🧪 [TEST] Menang: "+p.label+" — tidak disimpan","info");
-        showWinOverlay("[TEST] Menang!",p.label);
-        confetti();
-      } else {
-        await doWin(p.label);
-      }
-    } else {
-      loseRun++;
-      floatEmoji(loseRun>=3?"😭":"😢");
-      if(loseRun>=3){
-        const el=document.getElementById("streak");
-        el.innerText="💀 "+loseRun+"x Zonk beruntun!";
-        el.style.display="block";
-      }
-      toast(loseRun>=5?"😭 Ayo jangan nyerah!":"😢 Zonk! Coba lagi!","warn");
+  // Kalau force zonk: cari zonk item terdekat dengan weighted random juga
+  if(forceZonk){
+    var zonkItems=prizes.map(function(p,i){return{p:p,i:i};}).filter(function(x){return!x.p.win;});
+    if(zonkItems.length>0){
+      var zw=zonkItems.reduce(function(s,x){return s+(x.p.weight||1);},0);
+      var zr=Math.random()*zw;
+      idx=zonkItems[zonkItems.length-1].i;
+      for(var j=0;j<zonkItems.length;j++){zr-=(zonkItems[j].p.weight||1);if(zr<=0){idx=zonkItems[j].i;break;}}
     }
-    spinning=false; btn.disabled=false; btn.innerText="🌀 SPIN RNG";
+    // Kalau tidak ada zonk item sama sekali, biarkan hasil RNG normal (hadiah tetap)
+  }
+
+  spinning=true;
+  var btn=document.getElementById('spinBtn');
+  btn.disabled=true;btn.innerText='SPINNING...';
+  cvs.classList.add('glow');
+  document.getElementById('result').className='';
+  document.getElementById('result').innerText='...';
+  document.getElementById('claimBtn').style.display='none';
+  document.getElementById('streak').style.display='none';
+  playSpin();
+  spinTo(idx,async function(){
+    cvs.classList.remove('glow');stopSpin();
+    var p=prizes[idx];
+    document.getElementById('result').innerText=p.label;
+    document.getElementById('result').className=p.win?'rw':'rl';
+    logCount++;document.getElementById('logCnt').innerText=logCount+' spin';
+    addLog(p.label,p.win);
+    if(p.win){
+      loseRun=0;floatEmoji('&#127881;');
+      if(testMode){toast('[TEST] Menang: '+p.label+' (tidak disimpan)','info');showWinOv('[TEST] '+name,p.label);doConfetti();}
+      else{await doWin(name,p.label);}
+    }else{
+      loseRun++;floatEmoji(loseRun>=3?'&#128557;':'&#128546;');
+      if(loseRun>=3){var sk=document.getElementById('streak');sk.innerText=loseRun+'x Zonk beruntun!';sk.style.display='block';}
+      toast(loseRun>=5?'Ayo jangan nyerah!':'Zonk! Coba lagi.','warn');
+    }
+    spinning=false;btn.disabled=false;btn.innerText='SPIN RNG';
   });
-};
-
-async function doWin(prize){
-  const wSnap=await db.ref("winners").once("value");
-  const wList=wSnap.val()||[];
-  const name=document.getElementById("nameInput").value.trim()||"User";
-
-  if(cfg.maxWinnerGlobal>0&&wList.length>=cfg.maxWinnerGlobal){ toast("❌ Slot pemenang penuh!","warn"); return; }
-  const dw=await db.ref("deviceWins/"+DEVID).once("value");
-  if(cfg.maxWinPerDevice>0&&(dw.val()||0)>=cfg.maxWinPerDevice){ toast("❌ Batas menang per device!","warn"); return; }
-
-  wList.push({name,prize,deviceId:DEVID,time:wibTime()});
-  await db.ref("winners").set(wList);
-  await db.ref("deviceWins/"+DEVID).transaction(v=>(v||0)+1);
-  document.getElementById("claimBtn").style.display="block";
-  showWinOverlay(name,prize);
-  confetti();
 }
-
-async function saveName(dev,nm){
-  const s=await db.ref("nameHistory/"+dev).once("value");
-  const h=s.val()||[];
-  if(!h.length||h[h.length-1].name!==nm){ h.push({name:nm,time:wibTime()}); await db.ref("nameHistory/"+dev).set(h); }
+async function doWin(name,prize){
+  // Double-check sebelum simpan (anti race condition)
+  var ws=await db.ref('winners').once('value'),wl=ws.val()||[];
+  if(cfg.maxWinnerGlobal>0&&wl.length>=cfg.maxWinnerGlobal) return; // silent, sudah di-handle force zonk
+  var dw=await db.ref('deviceWins/'+DEVID).once('value'),dwv=dw.val()||0;
+  if(cfg.maxWinPerDevice>0&&dwv>=cfg.maxWinPerDevice) return; // silent
+  wl.push({name:name,prize:prize,deviceId:DEVID,time:wibTime()});
+  await db.ref('winners').set(wl);
+  await db.ref('deviceWins/'+DEVID).transaction(function(v){return(v||0)+1;});
+  document.getElementById('claimBtn').style.display='block';
+  showWinOv(name,prize);doConfetti();
 }
-
-// ═══════════════════════════════════════════════
-//  WIN OVERLAY
-// ═══════════════════════════════════════════════
-function showWinOverlay(name,prize){
-  document.getElementById("woPrize").innerText="🎁 "+prize;
-  document.getElementById("woName").innerText="Selamat, "+name+"!";
-  document.getElementById("wo").style.display="flex";
-  playWinSfx();
+async function saveNH(devId,nm){
+  var s=await db.ref('nameHistory/'+devId).once('value'),h=s.val()||[];
+  if(!h.length||h[h.length-1].name!==nm){h.push({name:nm,time:wibTime()});await db.ref('nameHistory/'+devId).set(h);}
 }
-document.getElementById("woClose").onclick=()=>{
-  document.getElementById("wo").style.display="none";
-  document.getElementById("claimBtn").scrollIntoView({behavior:"smooth"});
-};
-document.getElementById("claimBtn").onclick=async()=>{
-  const lk=await db.ref("deviceLock/"+DEVID).once("value");
-  if(lk.val()&&Date.now()<lk.val()){ toast("🔒 Device di-lock!","error"); return; }
-  const name=document.getElementById("nameInput").value.trim()||"User";
-  const res=document.getElementById("result").innerText.replace("🎯 ","");
-  const txt=`Halo Admin XREZZKYSTORE! 👋\nSaya *${name}* memenangkan *${res}*.\nMohon verifikasi & kirim hadiah 🙏\nDevice ID: ${DEVID}`;
-  window.open(`https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(txt)}`,"_blank");
-};
-
-// ═══════════════════════════════════════════════
-//  REDEEM CODE
-// ═══════════════════════════════════════════════
-document.getElementById("redeemBtn").onclick=async()=>{
-  const code=document.getElementById("codeInput").value.trim().toUpperCase().replace(/\s/g,"_");
-  if(!code){ toast("❌ Masukkan kode!","error"); return; }
-  const used=JSON.parse(localStorage.getItem("xrz_codes")||"{}");
-  if(used[code]){ toast("❌ Kode sudah dipakai!","error"); return; }
-  const snap=await db.ref("codes/"+code).once("value");
-  const data=snap.val();
-  if(!data){ toast("❌ Kode tidak valid!","error"); return; }
-  const uc=await db.ref("userCodeUse/"+DEVID+"/"+code).once("value");
-  if(uc.val()){ toast("❌ Kamu sudah pakai kode ini!","error"); return; }
-  if((data.used||0)>=data.maxUse){ toast("❌ Kode sudah habis!","error"); return; }
-  await db.ref("userSpins/"+DEVID).transaction(v=>(v||0)+data.spin);
-  await db.ref("codes/"+code+"/used").transaction(v=>(v||0)+1);
-  await db.ref("userCodeUse/"+DEVID+"/"+code).set(true);
-  used[code]=true; localStorage.setItem("xrz_codes",JSON.stringify(used));
-  document.getElementById("codeInput").value="";
-  toast("✅ +"+data.spin+" spin ditambahkan!","success");
-  floatEmoji("🎟️");
+function showWinOv(name,prize){
+  document.getElementById('woPrize').innerText=prize;
+  document.getElementById('woName').innerText='Selamat, '+name+'!';
+  document.getElementById('wo').style.display='flex';
+  playWin();
+}
+document.getElementById('woClose').onclick=function(){document.getElementById('wo').style.display='none';};
+document.getElementById('claimBtn').onclick=function(){
+  var name=document.getElementById('nameInput').value.trim()||'User';
+  var res=document.getElementById('result').innerText;
+  window.open('https://wa.me/'+ADMIN_WA+'?text='+encodeURIComponent('Halo Admin XREZZKYSTORE!\nSaya *'+name+'* menang *'+res+'*.\nMohon verifikasi hadiah.\nDevice ID: '+DEVID),'_blank');
 };
 
-// ═══════════════════════════════════════════════
-//  ADMIN ACTIONS
-// ═══════════════════════════════════════════════
-document.getElementById("bcBtn").onclick=async()=>{
-  const msg=document.getElementById("bcInput").value.trim();
-  try{
-    await db.ref("broadcast").set(msg||null);
-    toast(msg?"📣 Broadcast ""+msg.slice(0,30)+(msg.length>30?"...":"")+"" terkirim ke semua user!":"✅ Broadcast dihapus dari Firebase.","success");
-  }catch(e){ toast("Error: "+e.message,"error"); }
+// ── REDEEM CODE
+document.getElementById('redeemBtn').onclick=async function(){
+  if(!db){toast('Tidak terhubung!','error');return;}
+  var code=document.getElementById('codeInput').value.trim().toUpperCase().replace(/[^A-Z0-9_]/g,'');
+  if(!code){toast('Masukkan kode!','error');return;}
+  var ul=JSON.parse(localStorage.getItem('xrz_codes')||'{}');
+  if(ul[code]){toast('Kode sudah dipakai!','error');return;}
+  var s=await db.ref('codes/'+code).once('value'),data=s.val();
+  if(!data){toast('Kode tidak valid!','error');return;}
+  var uc=await db.ref('userCodeUse/'+DEVID+'/'+code).once('value');
+  if(uc.val()){toast('Sudah pakai kode ini!','error');return;}
+  if((data.used||0)>=data.maxUse){toast('Kode sudah habis!','error');return;}
+  await db.ref('userSpins/'+DEVID).transaction(function(v){return(v||0)+data.spin;});
+  await db.ref('codes/'+code+'/used').transaction(function(v){return(v||0)+1;});
+  await db.ref('userCodeUse/'+DEVID+'/'+code).set(true);
+  ul[code]=true;localStorage.setItem('xrz_codes',JSON.stringify(ul));
+  document.getElementById('codeInput').value='';
+  toast('+'+data.spin+' spin!','success');
 };
 
-document.getElementById("toggleBtn").onclick=()=>{
-  if(cfg.scheduleEnabled){ toast("❌ Nonaktifkan schedule dulu!","warn"); return; }
-  if(!prizes.length){ toast("❌ Tambah item roda dulu!","error"); return; }
-  const next=!cfg.eventOn;
-  db.ref("settings/eventOn").set(next).then(()=>toast(next?"✅ Event HIDUP!":"✅ Event DIMATIKAN!",next?"success":"warn"));
-};
-
-document.getElementById("tmBtn").onclick=()=>{
-  testMode=!testMode;
-  const btn=document.getElementById("tmBtn");
-  const banner=document.getElementById("tmBanner");
-  if(testMode){ btn.style.background="linear-gradient(135deg,#059669,#064e3b)"; btn.innerText="🧪 UJI COBA ON"; banner.style.display="block"; toast("🧪 Mode Uji Coba AKTIF","info"); }
-  else { btn.style.background="linear-gradient(135deg,#7c3aed,#4c1d95)"; btn.innerText="🧪 UJI COBA"; banner.style.display="none"; toast("✅ Mode Uji Coba OFF","success"); }
-};
-
-document.getElementById("saveBtn").onclick=async()=>{
-  const info=document.getElementById("infoInput").value.trim();
-  const sv=document.getElementById("evStart").value;
-  const ev=document.getElementById("evEnd").value;
-  const sTs=sv?new Date(sv).getTime():0;
-  const eTs=ev?new Date(ev).getTime():0;
-  if(sTs&&eTs&&sTs>=eTs){ toast("❌ Waktu mulai harus sebelum akhir!","error"); return; }
-  const d={
-    maxWinnerGlobal:parseInt(document.getElementById("maxWin").value)||0,
-    maxWinPerDevice:parseInt(document.getElementById("maxWinDev").value)||0,
-    maxSpinPerUser: parseInt(document.getElementById("maxSpin").value)||0,
-    freeSpinNewUser:parseInt(document.getElementById("freeSpin").value)||5,
-    eventStart:sTs, eventEnd:eTs,
-    scheduleEnabled:document.getElementById("scheduleOn").checked,
-    eventOn:cfg.eventOn||false
-  };
-  try{
-    await db.ref("settings").set(d);
-    if(info) await db.ref("infoBoard").set(info);
-    toast("✅ Settings tersimpan ke Firebase!","success");
-  }catch(e){ toast("Error: "+e.message,"error"); }
-};
-
-document.getElementById("addItemBtn").onclick=async()=>{
-  const lb=document.getElementById("nwLabel").value.trim();
-  const tp=document.getElementById("nwType").value;
-  const wt=Math.max(1,parseInt(document.getElementById("nwWeight").value)||1);
-  if(!lb){ toast("❌ Masukkan nama hadiah/zonk!","error"); return; }
-  const newItem={label:lb,win:tp==="win",weight:wt};
-  // Baca fresh dari Firebase dulu biar tidak overwrite data baru dari device lain
-  const snap=await db.ref("wheelItems").once("value");
-  const raw=snap.val();
-  const current=Array.isArray(raw)?raw:(raw&&typeof raw==="object"?Object.values(raw):[]);
-  await db.ref("wheelItems").set([...current,newItem]);
-  document.getElementById("nwLabel").value="";
-  document.getElementById("nwWeight").value="1";
-  toast("✅ Item "+lb+" ditambahkan ke Firebase!","success");
-};
-
-window.delPrize=async i=>{
-  if(!confirm('Hapus "'+prizes[i].label+'"?')) return;
-  const snap=await db.ref("wheelItems").once("value");
-  const raw=snap.val();
-  const current=Array.isArray(raw)?raw:(raw&&typeof raw==="object"?Object.values(raw):[]);
-  const updated=current.filter((_,j)=>j!==i);
-  await db.ref("wheelItems").set(updated.length?updated:null);
-  toast("✅ Item dihapus dari Firebase!","success");
-};
-
-document.getElementById("addCodeBtn").onclick=async()=>{
-  const nm=document.getElementById("ncName").value.trim().toUpperCase().replace(/[^A-Z0-9_]/g,"");
-  const sp=parseInt(document.getElementById("ncSpin").value);
-  const mx=parseInt(document.getElementById("ncMax").value);
-  if(!nm){ toast("❌ Nama kode tidak valid!","error"); return; }
-  if(!sp||sp<=0){ toast("❌ Jumlah spin harus > 0!","error"); return; }
-  if(!mx||mx<=0){ toast("❌ Max pengguna harus > 0!","error"); return; }
-  // Cek apakah kode sudah ada
-  const ex=await db.ref("codes/"+nm).once("value");
-  if(ex.val()){ toast("❌ Kode "+nm+" sudah ada!","error"); return; }
-  await db.ref("codes/"+nm).set({spin:sp,maxUse:mx,used:0});
-  document.getElementById("ncName").value="";
-  document.getElementById("ncSpin").value="";
-  document.getElementById("ncMax").value="";
-  toast("✅ Kode "+nm+" (+"+sp+" spin, max "+mx+"x) disimpan ke Firebase!","success");
-};
-
-window.delCode=async c=>{
-  if(!confirm('Hapus kode "'+c+'"?')) return;
-  await db.ref("codes/"+c).remove(); toast("✅ Kode dihapus!","success");
-};
-
-document.getElementById("addSpinBtn").onclick=async()=>{
-  const id=document.getElementById("tgtId").value.trim();
-  const amt=parseInt(document.getElementById("tgtAmt").value);
-  if(!id){ toast("❌ Masukkan Device ID user!","error"); return; }
-  if(!amt||amt<=0){ toast("❌ Jumlah spin harus > 0!","error"); return; }
-  try{
-    await db.ref("manualSpin/"+id).transaction(v=>(v||0)+amt);
-    document.getElementById("tgtId").value="";
-    document.getElementById("tgtAmt").value="";
-    toast("✅ +"+amt+" spin dikirim ke "+id+"! User akan otomatis menerima.","success");
-  }catch(e){ toast("Error: "+e.message,"error"); }
-};
-
-document.getElementById("grantBtn").onclick=async()=>{
-  const id=document.getElementById("grantId").value.trim();
-  if(!id){ toast("❌ Masukkan Device ID!","error"); return; }
-  try{
-    await db.ref("accountData/"+id).update({editAllowed:true,editExpire:Date.now()+86400000});
-    document.getElementById("grantId").value="";
-    toast("✅ Izin edit nama 1x diberikan ke "+id+" (berlaku 24 jam)","success");
-  }catch(e){ toast("Error: "+e.message,"error"); }
-};
-
-document.getElementById("lockBtn").onclick=async()=>{
-  const id=document.getElementById("lockId").value.trim();
-  const h=parseInt(document.getElementById("lockHour").value);
-  if(!id){ toast("❌ Masukkan Device ID!","error"); return; }
-  if(!h||h<=0){ toast("❌ Masukkan durasi jam > 0!","error"); return; }
-  try{
-    const until=Date.now()+h*3600000;
-    await db.ref("deviceLock/"+id).set(until);
-    document.getElementById("lockId").value="";
-    document.getElementById("lockHour").value="";
-    toast("✅ "+id+" di-lock sampai "+new Date(until).toLocaleString("id-ID"),"success");
-  }catch(e){ toast("Error: "+e.message,"error"); }
-};
-
-document.getElementById("unlockBtn").onclick=async()=>{
-  const id=document.getElementById("lockId").value.trim();
-  if(!id){ toast("❌ Masukkan Device ID!","error"); return; }
-  try{
-    // Cek apakah memang di-lock
-    const s=await db.ref("deviceLock/"+id).once("value");
-    if(!s.val()){ toast("Device "+id+" tidak sedang di-lock.","warn"); return; }
-    await db.ref("deviceLock/"+id).remove();
-    document.getElementById("lockId").value="";
-    toast("✅ "+id+" berhasil di-unlock!","success");
-  }catch(e){ toast("Error: "+e.message,"error"); }
-};
-
-document.getElementById("exportBtn").onclick=async()=>{
-  const s=await db.ref("winners").once("value");
-  const d=s.val()||[];
-  if(!d.length){ toast("Belum ada data pemenang.","warn"); return; }
-  let tx="=== PEMENANG XREZZKYSTORE RNG ===\n";
-  tx+="Export: "+new Date().toLocaleString("id-ID")+"\n";
-  tx+="Total Pemenang: "+d.length+"\n";
-  tx+="================================\n\n";
-  d.forEach((w,i)=>{
-    tx+=`${i+1}. NAMA    : ${w.name}\n`;
-    tx+=`   HADIAH  : ${w.prize}\n`;
-    tx+=`   WAKTU   : ${w.time}\n`;
-    tx+=`   DEVICE  : ${w.deviceId}\n\n`;
-  });
-  document.getElementById("expArea").value=tx;
-  openModal("expModal");
-};
-// Copy export to clipboard
-document.getElementById("expModal").addEventListener("click", e=>{
-  if(e.target.id==="copyExpBtn"){
-    const txt=document.getElementById("expArea").value;
-    navigator.clipboard.writeText(txt).then(()=>toast("✅ Data disalin!","success"));
+// ── ADMIN: 5x klik title
+document.getElementById('title').addEventListener('click',function(){
+  titleHits++;clearTimeout(titleTimer);
+  titleTimer=setTimeout(function(){titleHits=0;},3000);
+  if(titleHits>=5){
+    titleHits=0;clearTimeout(titleTimer);
+    var p=prompt('PIN Admin:');if(p===null)return;
+    if(p===ADMIN_PIN){
+      isAdmin=true;
+      var ap=document.getElementById('adminPanel');ap.style.display='block';
+      syncAdminUI();ap.scrollIntoView({behavior:'smooth'});
+      toast('Admin Mode Aktif','success');
+    }else toast('PIN salah!','error');
   }
 });
-
-document.getElementById("resetEvtBtn").onclick=async()=>{
-  if(!confirm("Reset settings event ke default? (pemenang tidak dihapus)")) return;
-  try{
-    await db.ref("settings").set({
-      eventOn:false,maxWinnerGlobal:0,maxWinPerDevice:0,
-      maxSpinPerUser:0,freeSpinNewUser:5,
-      eventStart:0,eventEnd:0,scheduleEnabled:false
-    });
-    await db.ref("spinUsed").remove();
-    syncAdmin();
-    toast("✅ Event direset ke default!","success");
-  }catch(e){ toast("Error: "+e.message,"error"); }
+function syncAdminUI(){
+  setVal('maxWin',cfg.maxWinnerGlobal||0);setVal('maxWinDev',cfg.maxWinPerDevice||0);
+  setVal('maxSpin',cfg.maxSpinPerUser||0);setVal('freeSpin',cfg.freeSpinNewUser||5);
+  document.getElementById('scheduleOn').checked=cfg.scheduleEnabled||false;
+  document.getElementById('evStart').value=cfg.eventStart?toLocal(cfg.eventStart):'';
+  document.getElementById('evEnd').value=cfg.eventEnd?toLocal(cfg.eventEnd):'';
+  if(!db)return;
+  // infoInput sudah di-sync dari listener realtime, tapi force update sekali
+  db.ref('infoBoard').once('value',function(s){
+    var v=s.val()||'';
+    document.getElementById('infoInput').value=v;
+    var prev=document.getElementById('infoPreview');
+    if(prev)prev.innerText=v||'(kosong)';
+  });
+  db.ref('broadcast').once('value',function(s){if(s.val())document.getElementById('bcInput').value=s.val();});
+  db.ref('codes').once('value',function(s){renderCodes(s.val()||{});});
+  renderWheelList();renderChance();
+}
+// Broadcast
+document.getElementById('bcBtn').onclick=async function(){
+  if(!db)return;var msg=document.getElementById('bcInput').value.trim();
+  await db.ref('broadcast').set(msg||null);toast(msg?'Broadcast terkirim!':'Broadcast dihapus.','success');
 };
-
-document.getElementById("resetAllBtn").onclick=async()=>{
-  if(!confirm("⚠️ Hapus SEMUA pemenang, spin user, riwayat nama & data event?\nTidak bisa dibatalkan!")) return;
-  if(!confirm("⚠️ YAKIN? INI HAPUS SEMUA DATA!")) return;
-  try{
-    await Promise.all([
-      db.ref("winners").remove(),
-      db.ref("deviceWins").remove(),
-      db.ref("spinUsed").remove(),
-      db.ref("userCodeUse").remove(),
-      db.ref("userSpins").remove(),
-      db.ref("lockedNames").remove(),
-      db.ref("nameHistory").remove(),
-      db.ref("spinTotal").remove(),
-      db.ref("manualSpin").remove(),
-      db.ref("accountData").remove(),
-      db.ref("deviceLock").remove(),
-    ]);
-    toast("✅ Semua data berhasil dihapus dari Firebase!","success");
-  }catch(e){ toast("Error: "+e.message,"error"); }
+// Save info event (terpisah dari settings)
+document.getElementById('saveInfoBtn').onclick=async function(){
+  if(!db)return;
+  var info=document.getElementById('infoInput').value.trim();
+  await db.ref('infoBoard').set(info||null);
+  toast(info?'Info event disimpan!':'Info event dikosongkan.','success');
 };
-
-// ═══════════════════════════════════════════════
-//  ACCOUNT MODAL
-// ═══════════════════════════════════════════════
-document.getElementById("accBtn").onclick=async()=>{
-  openModal("accModal");
-  document.getElementById("mDevId").innerText=DEVID;
-  const ns=await db.ref("lockedNames/"+DEVID).once("value");
-  document.getElementById("mName").innerText=ns.val()||"Belum ada";
-  const ts=await db.ref("spinTotal/"+DEVID).once("value");
-  document.getElementById("mTotal").innerText=(ts.val()||0)+" kali";
-  const hs=await db.ref("nameHistory/"+DEVID).once("value");
-  const nh=hs.val()||[];
-  document.getElementById("mNameHist").innerHTML=nh.length?[...nh].reverse().map((h,i)=>`<div class="nhi"><div class="nhn">${i===0?"⭐ ":""}${esc(h.name)}</div><div class="nht">${h.time}</div></div>`).join(""):"<div style='color:#aaa;font-size:11px;text-align:center;padding:6px'>Kosong</div>";
-  const ws=await db.ref("winners").once("value");
-  const mw=(ws.val()||[]).filter(w=>w.deviceId===DEVID);
-  document.getElementById("mWinHist").innerHTML=mw.length?[...mw].reverse().map(w=>`<div style="padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:11px"><div style="color:#00ffd5">🏆 ${esc(w.prize)}</div><div style="color:#aaa">${w.time}</div></div>`).join(""):"<div style='color:#aaa;font-size:11px;text-align:center;padding:6px'>Belum ada kemenangan</div>";
+// Hapus info event
+document.getElementById('clearInfoBtn').onclick=async function(){
+  if(!db)return;
+  if(!confirm('Hapus info event?'))return;
+  await db.ref('infoBoard').set(null);
+  document.getElementById('infoInput').value='';
+  toast('Info event dihapus.','success');
 };
-
-document.getElementById("copyIdBtn").onclick=()=>{
-  navigator.clipboard.writeText(DEVID).then(()=>{
-    const b=document.getElementById("copyIdBtn"); b.innerText="✅ Disalin!"; setTimeout(()=>b.innerText="📋 Copy ID",2000);
+// Toggle event
+document.getElementById('toggleBtn').onclick=function(){
+  if(!db)return;
+  if(cfg.scheduleEnabled){toast('Nonaktifkan schedule dulu!','warn');return;}
+  if(!prizes.length){toast('Tambah item roda dulu!','error');return;}
+  var next=!cfg.eventOn;
+  db.ref('settings/eventOn').set(next,function(err){
+    if(err)toast('Error: '+err.message,'error');
+    else toast(next?'Event HIDUP!':'Event DIMATIKAN!',next?'success':'warn');
   });
 };
-
-document.getElementById("editNameBtn").onclick=async()=>{
-  const s=await db.ref("accountData/"+DEVID).once("value");
-  const d=s.val()||{};
-  if(d.editAllowed&&Date.now()<(d.editExpire||0)){
-    const n=prompt("Nama baru:"); if(!n||!n.trim()) return;
-    const t=n.trim();
-    await db.ref("lockedNames/"+DEVID).set(t);
-    await saveName(DEVID,t);
-    await db.ref("accountData/"+DEVID).update({editAllowed:false});
-    document.getElementById("mName").innerText=t;
-    document.getElementById("nameInput").value=t;
-    document.getElementById("nameInput").disabled=true;
-    toast("✅ Nama diubah!","success"); return;
-  }
-  let cnt=d.waRequestCount||0, rst=d.waResetTime||0;
-  if(Date.now()>rst){cnt=0;rst=Date.now()+86400000;}
-  if(cnt>=2){ toast("❌ Max 2x per 24 jam","error"); return; }
-  cnt++;
-  await db.ref("accountData/"+DEVID).update({waRequestCount:cnt,waResetTime:rst});
-  window.open(`https://wa.me/${ADMIN_WA}?text=${encodeURIComponent("Halo Admin XREZZKYSTORE, minta izin edit nama.\nDevice ID: "+DEVID+"\nNama baru: ...")}`,"_blank");
-  toast("✅ Request terkirim. Sisa: "+(2-cnt)+"x","success");
+// Test mode
+document.getElementById('tmBtn').onclick=function(){
+  testMode=!testMode;var btn=document.getElementById('tmBtn'),banner=document.getElementById('tmBanner');
+  if(testMode){btn.style.background='linear-gradient(135deg,#059669,#064e3b)';btn.innerText='TEST ON';banner.style.display='block';toast('Mode Test AKTIF','info');}
+  else{btn.style.background='linear-gradient(135deg,#7c3aed,#4c1d95)';btn.innerText='TEST';banner.style.display='none';toast('Mode Test OFF','success');}
 };
-
-document.getElementById("logoutBtn").onclick=()=>{
-  if(!confirm("Yakin Log Out?")) return;
-  localStorage.removeItem("xrz_dev"); localStorage.removeItem("xrz_codes"); location.reload();
+// Simpan settings
+document.getElementById('saveBtn').onclick=async function(){
+  if(!db)return;
+  var sv=document.getElementById('evStart').value,ev=document.getElementById('evEnd').value;
+  var sTs=sv?new Date(sv).getTime():0,eTs=ev?new Date(ev).getTime():0;
+  if(sTs&&eTs&&sTs>=eTs){toast('Waktu mulai harus sebelum akhir!','error');return;}
+  var d={maxWinnerGlobal:parseInt(document.getElementById('maxWin').value)||0,maxWinPerDevice:parseInt(document.getElementById('maxWinDev').value)||0,maxSpinPerUser:parseInt(document.getElementById('maxSpin').value)||0,freeSpinNewUser:parseInt(document.getElementById('freeSpin').value)||5,eventStart:sTs,eventEnd:eTs,scheduleEnabled:document.getElementById('scheduleOn').checked,eventOn:cfg.eventOn||false};
+  try{await db.ref('settings').set(d);toast('Settings & schedule tersimpan!','success');}
+  catch(e){toast('Error: '+e.message,'error');}
 };
-
-// ═══════════════════════════════════════════════
-//  ADMIN UNLOCK (5x klik judul)
-// ═══════════════════════════════════════════════
-document.getElementById("title").onclick=()=>{
-  titleHits++;
-  if(titleHits>=5){
-    const p=prompt("🔑 PIN Admin:");
-    if(p===ADMIN_PIN){ isAdmin=true; document.getElementById("adminPanel").style.display="block"; syncAdmin(); toast("✅ Admin Mode Aktif","success"); }
-    else if(p!==null) toast("❌ PIN salah!","error");
-    titleHits=0;
-  }
-};
-
-function syncAdmin(){
-  document.getElementById("maxWin").value    = cfg.maxWinnerGlobal||0;
-  document.getElementById("maxWinDev").value = cfg.maxWinPerDevice||0;
-  document.getElementById("maxSpin").value   = cfg.maxSpinPerUser||0;
-  document.getElementById("freeSpin").value  = cfg.freeSpinNewUser||5;
-  document.getElementById("scheduleOn").checked = cfg.scheduleEnabled||false;
-  document.getElementById("evStart").value   = cfg.eventStart ? toLocal(cfg.eventStart) : "";
-  document.getElementById("evEnd").value     = cfg.eventEnd   ? toLocal(cfg.eventEnd)   : "";
-  // Sync infoboard text
-  db.ref("infoBoard").once("value").then(s=>{ const v=s.val(); if(v) document.getElementById("infoInput").value=v; });
-  // Sync broadcast
-  db.ref("broadcast").once("value").then(s=>{ const v=s.val(); if(v) document.getElementById("bcInput").value=v; });
-  // Force render wheel & codes setelah admin buka
-  renderWheelList(); renderChance();
-  db.ref("codes").once("value").then(s=>renderCodes(s.val()||{}));
+// Tambah item roda (auto update picker via listener)
+// Konversi difficulty ke weight: weight = 1000 / (diff^2)
+// diff=1 -> w=1000, diff=5 -> w=40, diff=10 -> w=10
+// Makin susah -> weight makin kecil -> peluang makin kecil
+function diffToWeight(diff){return Math.round(1000/(diff*diff));}
+function weightToDiff(w){
+  // Cari diff terdekat
+  var best=5,bestDelta=9999;
+  for(var d=1;d<=10;d++){var delta=Math.abs(diffToWeight(d)-w);if(delta<bestDelta){bestDelta=delta;best=d;}}
+  return best;
 }
+document.getElementById('addItemBtn').onclick=async function(){
+  if(!db)return;
+  var lb=document.getElementById('nwLabel').value.trim(),tp=document.getElementById('nwType').value;
+  var diff=parseInt(document.getElementById('nwDiff').value)||5;
+  if(!lb){toast('Masukkan nama item!','error');return;}
+  var wt=diffToWeight(diff);
+  var s=await db.ref('wheelItems').once('value'),raw=s.val();
+  var cur=Array.isArray(raw)?raw:(raw&&typeof raw==='object'?Object.values(raw):[]);
+  cur=cur.filter(function(x){return x&&x.label;});
+  cur.push({label:lb,win:tp==='win',weight:wt,difficulty:diff});
+  await db.ref('wheelItems').set(cur);
+  document.getElementById('nwLabel').value='';
+  toast(lb+' ditambahkan! (Tingkat kesulitan: '+diff+')','success');
+};
+window.delPrize=async function(i){
+  if(!db||!confirm('Hapus "'+prizes[i].label+'"?'))return;
+  var s=await db.ref('wheelItems').once('value'),raw=s.val();
+  var cur=Array.isArray(raw)?raw:(raw&&typeof raw==='object'?Object.values(raw):[]);
+  cur=cur.filter(function(x){return x&&x.label;});cur.splice(i,1);
+  await db.ref('wheelItems').set(cur.length?cur:null);toast('Item dihapus!','success');
+};
+// Tambah kode
+document.getElementById('addCodeBtn').onclick=async function(){
+  if(!db)return;
+  var nm=document.getElementById('ncName').value.trim().toUpperCase().replace(/[^A-Z0-9_]/g,'');
+  var sp=parseInt(document.getElementById('ncSpin').value),mx=parseInt(document.getElementById('ncMax').value);
+  if(!nm){toast('Nama kode tidak valid!','error');return;}
+  if(!sp||sp<=0){toast('Jumlah spin harus > 0!','error');return;}
+  if(!mx||mx<=0){toast('Max pengguna harus > 0!','error');return;}
+  var ex=await db.ref('codes/'+nm).once('value');
+  if(ex.val()){toast('Kode sudah ada!','error');return;}
+  await db.ref('codes/'+nm).set({spin:sp,maxUse:mx,used:0});
+  document.getElementById('ncName').value='';document.getElementById('ncSpin').value='';document.getElementById('ncMax').value='';
+  toast('Kode '+nm+' disimpan!','success');
+};
+window.delCode=async function(c){
+  if(!db||!confirm('Hapus kode "'+c+'"?'))return;
+  await db.ref('codes/'+c).remove();toast('Kode dihapus!','success');
+};
+// Tambah spin user
+document.getElementById('addSpinBtn').onclick=async function(){
+  if(!db)return;
+  var id=document.getElementById('tgtId').value.trim(),amt=parseInt(document.getElementById('tgtAmt').value);
+  if(!id){toast('Masukkan Device ID!','error');return;}
+  if(!amt||amt<=0){toast('Jumlah harus > 0!','error');return;}
+  await db.ref('manualSpin/'+id).transaction(function(v){return(v||0)+amt;});
+  document.getElementById('tgtId').value='';document.getElementById('tgtAmt').value='';
+  toast('+'+amt+' spin dikirim ke '+id,'success');
+};
+// Grant edit
+document.getElementById('grantBtn').onclick=async function(){
+  if(!db)return;var id=document.getElementById('grantId').value.trim();
+  if(!id){toast('Masukkan Device ID!','error');return;}
+  await db.ref('accountData/'+id).update({editAllowed:true,editExpire:Date.now()+86400000});
+  document.getElementById('grantId').value='';toast('Izin edit diberikan ke '+id,'success');
+};
+// Cek status user
+document.getElementById('checkBtn').onclick=async function(){
+  if(!db)return;
+  var id=document.getElementById('checkId').value.trim();
+  if(!id){toast('Masukkan Device ID!','error');return;}
+  var res=document.getElementById('checkResult');
+  res.innerHTML='<span style="color:#aaa">Mengecek...</span>';
+  res.style.display='block';
+  try{
+    var [nm,sp,dw,su,lk,acc]=await Promise.all([
+      db.ref('lockedNames/'+id).once('value'),
+      db.ref('userSpins/'+id).once('value'),
+      db.ref('deviceWins/'+id).once('value'),
+      db.ref('spinTotal/'+id).once('value'),
+      db.ref('deviceLock/'+id).once('value'),
+      db.ref('accountData/'+id).once('value'),
+    ]);
+    var lockVal=lk.val();
+    var lockStr=lockVal&&Date.now()<lockVal?'<span style="color:#ef4444">TERKUNCI sampai '+new Date(lockVal).toLocaleString('id-ID')+'</span>':'<span style="color:#4ade80">Tidak di-lock</span>';
+    var accD=acc.val()||{};
+    var editStr=accD.editAllowed&&Date.now()<(accD.editExpire||0)?'<span style="color:#ffcc00">Ada izin edit</span>':'Tidak ada';
+    res.innerHTML=
+      '<div><b style="color:#00ffd5">Nama:</b> '+(nm.val()||'Belum set')+'</div>'+
+      '<div><b style="color:#00ffd5">Sisa Spin:</b> '+(sp.val()||0)+'</div>'+
+      '<div><b style="color:#00ffd5">Total Spin:</b> '+(su.val()||0)+'x</div>'+
+      '<div><b style="color:#00ffd5">Total Menang:</b> '+(dw.val()||0)+'x</div>'+
+      '<div><b style="color:#00ffd5">Lock:</b> '+lockStr+'</div>'+
+      '<div><b style="color:#00ffd5">Edit Nama:</b> '+editStr+'</div>';
+  }catch(e){res.innerHTML='<span style="color:#ef4444">Error: '+e.message+'</span>';}
+};
+// Lock/Unlock
+document.getElementById('lockBtn').onclick=async function(){
+  if(!db)return;var id=document.getElementById('lockId').value.trim(),h=parseInt(document.getElementById('lockHour').value);
+  if(!id){toast('Masukkan Device ID!','error');return;}if(!h||h<=0){toast('Durasi harus > 0!','error');return;}
+  var until=Date.now()+h*3600000;await db.ref('deviceLock/'+id).set(until);
+  document.getElementById('lockId').value='';document.getElementById('lockHour').value='';
+  toast(id+' di-lock sampai '+new Date(until).toLocaleString('id-ID'),'success');
+};
+document.getElementById('unlockBtn').onclick=async function(){
+  if(!db)return;var id=document.getElementById('lockId').value.trim();
+  if(!id){toast('Masukkan Device ID!','error');return;}
+  var s=await db.ref('deviceLock/'+id).once('value');
+  if(!s.val()){toast(id+' tidak di-lock.','warn');return;}
+  await db.ref('deviceLock/'+id).remove();document.getElementById('lockId').value='';toast(id+' di-unlock!','success');
+};
+// Export
+document.getElementById('exportBtn').onclick=async function(){
+  if(!db)return;var s=await db.ref('winners').once('value'),d=s.val()||[];
+  if(!d.length){toast('Belum ada pemenang.','warn');return;}
+  var tx='=== PEMENANG XREZZKYSTORE ===\nExport: '+new Date().toLocaleString('id-ID')+'\nTotal: '+d.length+'\n\n';
+  d.forEach(function(w,i){tx+=(i+1)+'. NAMA: '+w.name+'\n   HADIAH: '+w.prize+'\n   WAKTU: '+w.time+'\n   DEVICE: '+w.deviceId+'\n\n';});
+  document.getElementById('expArea').value=tx;document.getElementById('expModal').style.display='flex';
+};
+document.getElementById('copyExpBtn').onclick=function(){
+  navigator.clipboard.writeText(document.getElementById('expArea').value).then(function(){toast('Data disalin!','success');});
+};
+// Export per user
+document.getElementById('exportBtn').onclick=async function(){
+  if(!db)return;
+  var snap=await db.ref('winners').once('value'),d=snap.val()||[];
+  if(!d.length){toast('Belum ada pemenang.','warn');return;}
+  var tx='=== PEMENANG XREZZKYSTORE ===
+';
+  tx+='Export: '+new Date().toLocaleString('id-ID')+'
+';
+  tx+='Total: '+d.length+'
+';
+  tx+='================================
 
-// ═══════════════════════════════════════════════
-//  UI HELPERS
-// ═══════════════════════════════════════════════
-function updateStatus(){
-  const btn=document.getElementById("toggleBtn");
-  if(cfg.scheduleEnabled){ btn.innerText="⏰ AUTO MODE"; btn.style.background="#555"; btn.style.color="#fff"; btn.disabled=true; }
+';
+  // Group per user
+  var byUser={};
+  d.forEach(function(w){
+    if(!byUser[w.deviceId])byUser[w.deviceId]={name:w.name,wins:[]};
+    byUser[w.deviceId].wins.push({prize:w.prize,time:w.time});
+  });
+  var no=1;
+  Object.keys(byUser).forEach(function(devId){
+    var u=byUser[devId];
+    tx+=no+'. NAMA   : '+u.name+'
+';
+    tx+='   DEVICE: '+devId+'
+';
+    u.wins.forEach(function(w,i){
+      tx+='   HADIAH '+(i+1)+': '+w.prize+' ('+w.time+')
+';
+    });
+    tx+='   TOTAL MENANG: '+u.wins.length+'x
+
+';
+    no++;
+  });
+  document.getElementById('expArea').value=tx;
+  document.getElementById('expModal').style.display='flex';
+};
+// Reset event
+document.getElementById('resetEvtBtn').onclick=async function(){
+  if(!db||!confirm('Reset event ke default?\n(Pemenang tidak dihapus)'))return;
+  await db.ref('settings').set({eventOn:false,maxWinnerGlobal:0,maxWinPerDevice:0,maxSpinPerUser:0,freeSpinNewUser:5,eventStart:0,eventEnd:0,scheduleEnabled:false});
+  await db.ref('spinUsed').remove();toast('Event direset!','success');
+};
+// Reset all
+document.getElementById('resetAllBtn').onclick=async function(){
+  if(!db)return;
+  if(!confirm('HAPUS SEMUA data?\n- Pemenang\n- Spin user\n- Nama terkunci\n- Riwayat\n- Lock\n\nTidak bisa dibatalkan!'))return;
+  if(!confirm('KONFIRMASI FINAL!'))return;
+  try{
+    await Promise.all([db.ref('winners').remove(),db.ref('deviceWins').remove(),db.ref('spinUsed').remove(),db.ref('userCodeUse').remove(),db.ref('userSpins').remove(),db.ref('lockedNames').remove(),db.ref('nameHistory').remove(),db.ref('spinTotal').remove(),db.ref('manualSpin').remove(),db.ref('accountData').remove(),db.ref('deviceLock').remove()]);
+    toast('Semua data dihapus!','success');
+  }catch(e){toast('Error: '+e.message,'error');}
+};
+
+// ── ACCOUNT MODAL
+document.getElementById('accBtn').onclick=async function(){
+  document.getElementById('accModal').style.display='flex';
+  document.getElementById('mDevId').innerText=DEVID;
+  if(!db)return;
+  var ns=await db.ref('lockedNames/'+DEVID).once('value');document.getElementById('mName').innerText=ns.val()||'Belum ada';
+  var ts=await db.ref('spinTotal/'+DEVID).once('value');document.getElementById('mTotal').innerText=(ts.val()||0)+' kali';
+  document.getElementById('mSpin').innerText=mySpins;
+  var hs=await db.ref('nameHistory/'+DEVID).once('value'),nh=hs.val()||[];
+  var nhEl=document.getElementById('mNameHist');
+  nhEl.innerHTML=nh.length?[].concat(nh).reverse().map(function(h,i){return '<div class="nhi"><div class="nhn">'+(i===0?'* ':'')+esc(h.name)+'</div><div class="nht">'+h.time+'</div></div>';}).join(''):'<div style="color:#aaa;font-size:10px;text-align:center;padding:5px">Kosong</div>';
+  var ws=await db.ref('winners').once('value'),mw=(ws.val()||[]).filter(function(w){return w.deviceId===DEVID;});
+  var hEl=document.getElementById('mWinHist');
+  hEl.innerHTML=mw.length?[].concat(mw).reverse().map(function(w){return '<div style="padding:4px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:10px"><div style="color:#00ffd5">'+esc(w.prize)+'</div><div style="color:#aaa">'+w.time+'</div></div>';}).join(''):'<div style="color:#aaa;font-size:10px;text-align:center;padding:5px">Belum ada kemenangan</div>';
+};
+document.getElementById('copyIdBtn').onclick=function(){
+  navigator.clipboard.writeText(DEVID).then(function(){var b=document.getElementById('copyIdBtn');b.innerText='Disalin!';setTimeout(function(){b.innerText='Copy ID';},2000);});
+};
+document.getElementById('editNameBtn').onclick=async function(){
+  if(!db)return;var s=await db.ref('accountData/'+DEVID).once('value'),d=s.val()||{};
+  if(d.editAllowed&&Date.now()<(d.editExpire||0)){
+    var n=prompt('Nama baru:');if(!n||!n.trim())return;var t=n.trim();
+    await db.ref('lockedNames/'+DEVID).set(t);await saveNH(DEVID,t);await db.ref('accountData/'+DEVID).update({editAllowed:false});
+    document.getElementById('mName').innerText=t;document.getElementById('nameInput').value=t;document.getElementById('nameInput').disabled=true;
+    toast('Nama diubah!','success');return;
+  }
+  var cnt=d.waRequestCount||0,rst=d.waResetTime||0;
+  if(Date.now()>rst){cnt=0;rst=Date.now()+86400000;}
+  if(cnt>=2){toast('Max 2x per 24 jam','error');return;}cnt++;
+  await db.ref('accountData/'+DEVID).update({waRequestCount:cnt,waResetTime:rst});
+  window.open('https://wa.me/'+ADMIN_WA+'?text='+encodeURIComponent('Halo Admin, minta izin edit nama.\nDevice ID: '+DEVID+'\nNama baru: ...'),'_blank');
+  toast('Request terkirim. Sisa: '+(2-cnt)+'x','success');
+};
+document.getElementById('logoutBtn').onclick=function(){
+  if(!confirm('Yakin Log Out?'))return;localStorage.removeItem('xrz_dev');localStorage.removeItem('xrz_codes');location.reload();
+};
+
+// ── UI RENDERERS
+function updateStatusUI(){
+  var btn=document.getElementById('toggleBtn');if(!btn)return;
+  if(cfg.scheduleEnabled){btn.innerText='AUTO MODE';btn.style.background='#555';btn.style.color='#fff';btn.disabled=true;}
   else{
     btn.disabled=false;
-    if(cfg.eventOn){ btn.innerText="⏹ MATIKAN EVENT"; btn.style.background="linear-gradient(135deg,#ef4444,#7f1d1d)"; btn.style.color="#fff"; if(!cfg.scheduleEnabled) setStatus("st-on","🟢 EVENT BERJALAN"); }
-    else{ btn.innerText="▶️ HIDUPKAN EVENT"; btn.style.background="linear-gradient(135deg,#16a34a,#052e16)"; btn.style.color="#fff"; if(!cfg.scheduleEnabled) setStatus("st-off","🔴 EVENT OFFLINE"); }
+    if(cfg.eventOn){btn.innerText='MATIKAN EVENT';btn.style.background='linear-gradient(135deg,#ef4444,#7f1d1d)';btn.style.color='#fff';setBadge('st-on','EVENT BERJALAN');document.getElementById('timerL').innerText='Event aktif';document.getElementById('timerC').innerText='LIVE';}
+    else{btn.innerText='HIDUPKAN EVENT';btn.style.background='linear-gradient(135deg,#16a34a,#052e16)';btn.style.color='#fff';setBadge('st-off','EVENT OFFLINE');document.getElementById('timerL').innerText='Event tidak aktif';document.getElementById('timerC').innerText='OFFLINE';}
   }
 }
-
 function updateDateInfo(){
-  const el=document.getElementById("timerDateInfo");
-  const s=Number(cfg.eventStart||0),e=Number(cfg.eventEnd||0);
-  if(!s||!e){el.innerHTML="";return;}
-  const fmt={day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit",hour12:false,timeZone:"Asia/Jakarta"};
-  el.innerHTML="📅 "+new Date(s).toLocaleString("id-ID",fmt)+" → "+new Date(e).toLocaleString("id-ID",fmt)+" WIB";
+  var el=document.getElementById('timerDI'),s=Number(cfg.eventStart||0),e=Number(cfg.eventEnd||0);
+  if(!s||!e){el.innerHTML='';return;}
+  var fmt={day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Asia/Jakarta'};
+  el.innerHTML=new Date(s).toLocaleString('id-ID',fmt)+' s/d '+new Date(e).toLocaleString('id-ID',fmt)+' WIB';
 }
-
-function setStatus(cls,txt){ const el=document.getElementById("evInd"); el.className=cls; el.innerText=txt; }
-
+function setBadge(cls,txt){var el=document.getElementById('evInd');el.className=cls;el.innerText=txt;}
 function updateSlotStat(){
-  const el=document.getElementById("stSlot");
-  const mwg=cfg.maxWinnerGlobal||0;
-  if(!mwg){el.innerText="∞";el.style.color="#00ffd5";return;}
-  // gunakan winnerCount yang sudah di-track dari listener, tidak query Firebase lagi
-  const left=Math.max(0,mwg-winnerCount);
-  el.innerText=left; el.style.color=left<=2?"#ef4444":left<=5?"#f59e0b":"#00ffd5";
+  var el=document.getElementById('stSlot'),mwg=cfg.maxWinnerGlobal||0;
+  var aEl=document.getElementById('aStSlot');
+  if(!mwg){
+    if(el){el.innerText='∞';el.style.color='#00ffd5';}
+    if(aEl){aEl.innerText='∞';aEl.style.color='#00ffd5';}
+    return;
+  }
+  var left=Math.max(0,mwg-winCount);
+  var col=left<=2?'#ef4444':left<=5?'#f59e0b':'#00ffd5';
+  if(el){el.innerText=left;el.style.color=col;}
+  if(aEl){aEl.innerText=left;aEl.style.color=col;}
 }
-
-function renderWheelList(){
-  const el=document.getElementById("wheelList");
-  if(!prizes.length){ el.innerHTML="<div style='color:#aaa;text-align:center;padding:10px;font-size:11px'>Belum ada item</div>"; return; }
-  el.innerHTML="";
-  prizes.forEach((p,i)=>{
-    const d=document.createElement("div");
-    d.className="witem "+(p.win?"wi-w":"wi-l");
-    d.innerHTML=`<div class="inf"><span style="color:${p.win?"#4ade80":"#f87171"}">${p.win?"✓ WIN":"✗ ZONK"}</span> <span style="color:#fff">${esc(p.label)}</span> <span style="color:#aaa">(w:${p.weight||1})</span></div><button class="dbtn" onclick="delPrize(${i})">✕</button>`;
+// Cache untuk merge presence + lockedNames
+var _presenceData={};
+var _lockedNamesData={};
+function renderUserList(presSnap,lockedSnap){
+  if(presSnap!==null)_presenceData=presSnap||{};
+  if(lockedSnap!==undefined)_lockedNamesData=lockedSnap||{};
+  var el=document.getElementById('userList');if(!el)return;
+  // Gabungkan semua device yang pernah daftar
+  var allDevices={};
+  // Dari lockedNames: semua yang pernah spin
+  Object.keys(_lockedNamesData).forEach(function(devId){
+    allDevices[devId]={name:_lockedNamesData[devId],online:false};
+  });
+  // Dari presence: tandai yang online
+  Object.keys(_presenceData).forEach(function(devId){
+    if(!allDevices[devId])allDevices[devId]={name:_presenceData[devId].name||'',online:true};
+    else allDevices[devId].online=true;
+  });
+  var devIds=Object.keys(allDevices);
+  setTxt('userCount',devIds.length+' user');
+  if(!devIds.length){el.innerHTML='<div style="color:#aaa;font-size:11px;text-align:center;padding:8px">Belum ada peserta.</div>';return;}
+  // Sort: online dulu, lalu offline
+  devIds.sort(function(a,b){return (allDevices[b].online?1:0)-(allDevices[a].online?1:0);});
+  el.innerHTML='';
+  devIds.forEach(function(devId){
+    var u=allDevices[devId];
+    var d=document.createElement('div');
+    d.className='uitem '+(u.online?'u-online':'u-offline');
+    var nameStr=u.name||'(belum set nama)';
+    // Sensor sebagian device ID
+    var shortId=devId.slice(0,8)+'...';
+    d.innerHTML=
+      '<div class="uname">'+esc(nameStr)+'<div style="font-size:9px;color:#555;margin-top:1px">'+shortId+'</div></div>'+
+      '<span class="ubadge">'+(u.online?'🟢 ONLINE':'⚫ OFFLINE')+'</span>';
     el.appendChild(d);
   });
 }
 
-function renderChance(){
-  const el=document.getElementById("chanceDisplay");
-  if(!prizes.length){el.innerHTML="";return;}
-  const tw=prizes.reduce((s,p)=>s+(p.weight||1),0);
-  const ww=prizes.filter(p=>p.win).reduce((s,p)=>s+(p.weight||1),0);
-  const lw=tw-ww;
-  const wp=(ww/tw*100).toFixed(1), lp=(lw/tw*100).toFixed(1);
-  let h=`<div class="cd">
-    <div class="cd-title">📊 PELUANG</div>
-    <div class="cd-bar-wrap">
-      <div style="width:${wp}%;background:#16a34a"></div>
-      <div style="width:${lp}%;background:#ef4444"></div>
-    </div>
-    <div class="cd-summary">
-      <span style="color:#4ade80">✓ Menang: <b>${wp}%</b></span>
-      <span style="color:#f87171">✗ Zonk: <b>${lp}%</b></span>
-    </div>`;
-  prizes.forEach(p=>{
-    const pct=(((p.weight||1)/tw)*100).toFixed(2);
-    const bar=Math.round((p.weight||1)/tw*100);
-    h+=`<div class="cd-item">
-      <div class="cd-item-row"><span style="color:${p.win?"#4ade80":"#f87171"}">${p.win?"✓":"✗"} ${esc(p.label)}</span><span style="color:#fff;font-weight:700">${pct}%</span></div>
-      <div class="cd-item-bar"><div class="cd-item-fill" style="width:${bar}%;background:${p.win?"#16a34a":"#ef4444"}"></div></div>
-    </div>`;
+function renderWinners(list){
+  var el=document.getElementById('winList');
+  if(!list.length){el.innerHTML='<div style="color:#aaa;font-size:11px;text-align:center;padding:8px">Belum ada pemenang.</div>';return;}
+  el.innerHTML='';
+  list.slice().reverse().slice(0,20).forEach(function(w,i){
+    var d=document.createElement('div');d.className='wi';
+    d.innerHTML='<div class="wn">'+(i===0?'1. ':i===1?'2. ':i===2?'3. ':'· ')+esc(w.name)+'</div><div class="wp">'+esc(w.prize)+'</div><div class="wt">'+w.time+'</div>';
+    el.appendChild(d);
   });
-  el.innerHTML=h+"</div>";
 }
-
+var DIFF_LABEL=['','Mudah','Agak Mudah','Normal','Agak Susah','Susah','Sangat Susah','Ekstrem','Sgt Ekstrem','Hampir Mustahil','Mustahil'];
+function renderWheelList(){
+  var el=document.getElementById('wheelList');if(!el)return;
+  if(!prizes.length){el.innerHTML='<div style="color:#aaa;text-align:center;padding:8px;font-size:10px">Belum ada item</div>';return;}
+  el.innerHTML='';
+  prizes.forEach(function(p,i){
+    var diff=p.difficulty||weightToDiff(p.weight||40);
+    var dlabel=DIFF_LABEL[diff]||'Susah';
+    var dcolor=diff<=2?'#4ade80':diff<=4?'#facc15':diff<=6?'#fb923c':diff<=8?'#f87171':'#e879f9';
+    var d=document.createElement('div');d.className='witem '+(p.win?'wi-w':'wi-l');
+    d.innerHTML='<div class="inf"><span style="color:'+(p.win?'#4ade80':'#f87171')+'">'+(p.win?'WIN':'ZONK')+'</span> <span style="color:#fff;margin:0 4px">'+esc(p.label)+'</span><span style="color:'+dcolor+';font-size:9px">['+dlabel+' ('+diff+')]</span></div><button class="dbtn" onclick="delPrize('+i+')">x</button>';
+    el.appendChild(d);
+  });
+}
+function renderChance(){
+  var el=document.getElementById('chanceDisplay');if(!el||!prizes.length){if(el)el.innerHTML='';return;}
+  var tw=prizes.reduce(function(s,p){return s+(p.weight||1);},0);
+  var ww=prizes.filter(function(p){return p.win;}).reduce(function(s,p){return s+(p.weight||1);},0);
+  var wp=(ww/tw*100).toFixed(1),lp=((tw-ww)/tw*100).toFixed(1);
+  var h='<div class="cd">';
+  h+='<div style="color:#00ffd5;font-weight:700;margin-bottom:5px;font-size:10px">PELUANG TIAP HADIAH</div>';
+  h+='<div class="cd-bw"><div style="width:'+wp+'%;background:#16a34a"></div><div style="width:'+lp+'%;background:#ef4444"></div></div>';
+  h+='<div class="cd-sum"><span style="color:#4ade80">Total Menang: '+wp+'%</span><span style="color:#f87171">Total Zonk: '+lp+'%</span></div>';
+  prizes.forEach(function(p){
+    var pct=((p.weight||1)/tw*100).toFixed(2);
+    var bar=Math.max(1,Math.round((p.weight||1)/tw*100));
+    var diff=p.difficulty||weightToDiff(p.weight||40);
+    var dlabel=DIFF_LABEL[diff]||'Susah';
+    var dcolor=diff<=2?'#4ade80':diff<=4?'#facc15':diff<=6?'#fb923c':diff<=8?'#f87171':'#e879f9';
+    h+='<div class="cd-it">';
+    h+='<div class="cd-ir">';
+    h+='<span style="color:'+(p.win?'#4ade80':'#f87171')+'">'+esc(p.label)+'</span>';
+    h+='<span style="color:#fff;font-weight:700">'+pct+'%</span>';
+    h+='</div>';
+    h+='<div style="display:flex;justify-content:space-between;font-size:9px;margin-bottom:2px">';
+    h+='<span style="color:'+dcolor+'">Tingkat: '+dlabel+' ('+diff+'/10)</span>';
+    h+='</div>';
+    h+='<div class="cd-ib"><div class="cd-if" style="width:'+bar+'%;background:'+(p.win?'#16a34a':'#ef4444')+'"></div></div>';
+    h+='</div>';
+  });
+  el.innerHTML=h+'</div>';
+}
 function renderCodes(data){
-  const el=document.getElementById("codeList");
-  const keys=Object.keys(data);
-  if(!keys.length){el.innerHTML="<div style='color:#aaa;text-align:center;padding:8px;font-size:11px'>Belum ada kode</div>";return;}
-  el.innerHTML="";
-  keys.forEach(c=>{
-    const d=data[c], div=document.createElement("div");
-    div.className="ci";
-    div.innerHTML=`<div><div style="color:#00ffd5;font-weight:700;font-size:12px">${esc(c)}</div><div style="color:#aaa;font-size:10px">+${d.spin} spin &middot; ${d.used||0}/${d.maxUse} pakai</div></div><button class="dbtn" onclick="delCode('${esc(c)}')">✕</button>`;
+  var el=document.getElementById('codeList');if(!el)return;
+  var keys=Object.keys(data);
+  if(!keys.length){el.innerHTML='<div style="color:#aaa;text-align:center;padding:7px;font-size:10px">Belum ada kode</div>';return;}
+  el.innerHTML='';
+  keys.forEach(function(c){
+    var d=data[c],div=document.createElement('div');div.className='ci';
+    div.innerHTML='<div><div style="color:#00ffd5;font-weight:700;font-size:11px">'+esc(c)+'</div><div style="color:#aaa;font-size:9px">+'+d.spin+' spin · '+(d.used||0)+'/'+d.maxUse+' pakai</div></div><button class="dbtn" onclick="delCode(\''+esc(c)+'\')">x</button>';
     el.appendChild(div);
   });
 }
-
-function addLog(result, win){
-  const el=document.getElementById("logPanel");
-  const d=document.createElement("div");
-  d.style.cssText="padding:4px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:11px";
-  d.innerHTML=`<span style="color:rgba(0,255,213,.5)">${new Date().toLocaleTimeString("id-ID")}</span> <span style="color:${win?"#4ade80":"#f87171"}">${win?"✓":"✗"} ${esc(result)}</span>`;
-  el.appendChild(d); el.scrollTop=el.scrollHeight;
+function addLog(result,win){
+  var el=document.getElementById('logPanel');
+  var d=document.createElement('div');d.style.cssText='padding:3px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:10px';
+  d.innerHTML='<span style="color:rgba(0,255,213,.5)">'+new Date().toLocaleTimeString('id-ID')+'</span> <span style="color:'+(win?'#4ade80':'#f87171')+'">'+(win?'WIN':'ZONK')+' '+esc(result)+'</span>';
+  el.appendChild(d);el.scrollTop=el.scrollHeight;
 }
 
-// ═══════════════════════════════════════════════
-//  SOUND
-// ═══════════════════════════════════════════════
-let _osc=null,_ac=null;
-function playSpinSfx(){
-  try{
-    _ac=new(window.AudioContext||window.webkitAudioContext)();
-    _osc=_ac.createOscillator(); const g=_ac.createGain();
-    _osc.connect(g); g.connect(_ac.destination); _osc.type="triangle";
-    _osc.frequency.setValueAtTime(200,_ac.currentTime);
-    _osc.frequency.linearRampToValueAtTime(600,_ac.currentTime+2);
-    _osc.frequency.linearRampToValueAtTime(300,_ac.currentTime+4);
-    g.gain.setValueAtTime(.05,_ac.currentTime); g.gain.linearRampToValueAtTime(0,_ac.currentTime+4);
-    _osc.start(); _osc.stop(_ac.currentTime+4.2);
-  }catch(e){}
-}
-function stopSpinSfx(){ try{if(_osc)_osc.stop();}catch(e){} }
-function playWinSfx(){
-  try{
-    const ac=new(window.AudioContext||window.webkitAudioContext)();
-    const o=ac.createOscillator(),g=ac.createGain();
-    o.connect(g);g.connect(ac.destination);o.type="sine";
-    [523,659,784,1047].forEach((f,i)=>o.frequency.setValueAtTime(f,ac.currentTime+i*.12));
-    g.gain.setValueAtTime(.15,ac.currentTime);g.gain.linearRampToValueAtTime(0,ac.currentTime+.6);
-    o.start();o.stop(ac.currentTime+.7);
-  }catch(e){}
-}
+// ── SOUND
+var _so=null,_sa=null;
+function playSpin(){try{_sa=new(window.AudioContext||window.webkitAudioContext)();_so=_sa.createOscillator();var g=_sa.createGain();_so.connect(g);g.connect(_sa.destination);_so.type='triangle';_so.frequency.setValueAtTime(200,_sa.currentTime);_so.frequency.linearRampToValueAtTime(600,_sa.currentTime+2);_so.frequency.linearRampToValueAtTime(300,_sa.currentTime+4);g.gain.setValueAtTime(.05,_sa.currentTime);g.gain.linearRampToValueAtTime(0,_sa.currentTime+4);_so.start();_so.stop(_sa.currentTime+4.2);}catch(e){}}
+function stopSpin(){try{if(_so)_so.stop();}catch(e){}}
+function playWin(){try{var ac=new(window.AudioContext||window.webkitAudioContext)();var o=ac.createOscillator(),g=ac.createGain();o.connect(g);g.connect(ac.destination);o.type='sine';[523,659,784,1047].forEach(function(f,i){o.frequency.setValueAtTime(f,ac.currentTime+i*.12);});g.gain.setValueAtTime(.15,ac.currentTime);g.gain.linearRampToValueAtTime(0,ac.currentTime+.6);o.start();o.stop(ac.currentTime+.7);}catch(e){}}
 
-// ═══════════════════════════════════════════════
-//  CONFETTI
-// ═══════════════════════════════════════════════
-function confetti(){
-  const cv=document.getElementById("cnf");
-  cv.width=innerWidth;cv.height=innerHeight;
-  const ct=cv.getContext("2d");
-  const cols=["#00ffd5","#ffcc00","#ff4444","#4ade80","#60a5fa","#f472b6","#fff"];
-  const ps=Array.from({length:160},()=>({x:Math.random()*cv.width,y:-10-Math.random()*100,vx:(Math.random()-.5)*6,vy:Math.random()*6+3,r:Math.random()*9+4,c:cols[~~(Math.random()*cols.length)],rot:Math.random()*360,rv:(Math.random()-.5)*12}));
-  let alive=true,f;
-  (function draw(){
-    ct.clearRect(0,0,cv.width,cv.height);
-    let done=true;
-    ps.forEach(p=>{
-      if(p.y<cv.height+30) done=false;
-      ct.save();ct.translate(p.x,p.y);ct.rotate(p.rot*Math.PI/180);
-      ct.fillStyle=p.c;ct.globalAlpha=Math.max(0,1-p.y/cv.height);
-      ct.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);ct.restore();
-      p.x+=p.vx;p.y+=p.vy;p.rot+=p.rv;
-    });
-    if(done||!alive){cancelAnimationFrame(f);ct.clearRect(0,0,cv.width,cv.height);return;}
-    f=requestAnimationFrame(draw);
-  })();
-  setTimeout(()=>alive=false,7000);
+// ── CONFETTI
+function doConfetti(){
+  var cv=document.getElementById('cnf');cv.width=innerWidth;cv.height=innerHeight;var ct=cv.getContext('2d');
+  var cols=['#00ffd5','#ffcc00','#ff4444','#4ade80','#60a5fa','#f472b6','#fff'],ps=[];
+  for(var i=0;i<140;i++)ps.push({x:Math.random()*cv.width,y:-10-Math.random()*80,vx:(Math.random()-.5)*6,vy:Math.random()*5+3,r:Math.random()*8+3,c:cols[~~(Math.random()*cols.length)],rot:Math.random()*360,rv:(Math.random()-.5)*10});
+  var alive=true,f;
+  (function draw(){ct.clearRect(0,0,cv.width,cv.height);var done=true;ps.forEach(function(p){if(p.y<cv.height+20)done=false;ct.save();ct.translate(p.x,p.y);ct.rotate(p.rot*Math.PI/180);ct.fillStyle=p.c;ct.globalAlpha=Math.max(0,1-p.y/cv.height);ct.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);ct.restore();p.x+=p.vx;p.y+=p.vy;p.rot+=p.rv;});if(done||!alive){cancelAnimationFrame(f);ct.clearRect(0,0,cv.width,cv.height);return;}f=requestAnimationFrame(draw);})();
+  setTimeout(function(){alive=false;},6000);
 }
-
-// ═══════════════════════════════════════════════
-//  FLOAT EMOJI
-// ═══════════════════════════════════════════════
 function floatEmoji(em){
-  const el=document.createElement("div");
-  el.style.cssText=`position:fixed;bottom:${30+Math.random()*30}%;left:${20+Math.random()*60}%;font-size:34px;z-index:8500;pointer-events:none;transition:transform 1.5s ease,opacity 1.5s ease`;
-  el.innerText=em; document.body.appendChild(el);
-  requestAnimationFrame(()=>{ el.style.transform="translateY(-130px) scale(1.3)"; el.style.opacity="0"; });
-  setTimeout(()=>el.remove(),1600);
+  var el=document.createElement('div');
+  el.style.cssText='position:fixed;bottom:'+(30+Math.random()*30)+'%;left:'+(20+Math.random()*60)+'%;font-size:32px;z-index:8500;pointer-events:none;transition:transform 1.5s ease,opacity 1.5s ease';
+  el.innerHTML=em;document.body.appendChild(el);
+  requestAnimationFrame(function(){el.style.transform='translateY(-120px) scale(1.3)';el.style.opacity='0';});
+  setTimeout(function(){el.remove();},1600);
 }
 
-// ═══════════════════════════════════════════════
-//  TOAST
-// ═══════════════════════════════════════════════
-let _tt=null;
-function toast(msg,type="info"){
-  const s={success:"background:linear-gradient(135deg,#16a34a,#052e16);color:#4ade80;border:1px solid #4ade80",error:"background:linear-gradient(135deg,#7f1d1d,#450a0a);color:#fca5a5;border:1px solid #ef4444",warn:"background:linear-gradient(135deg,#78350f,#431407);color:#fcd34d;border:1px solid #f59e0b",info:"background:linear-gradient(135deg,#0c4a6e,#082f49);color:#7dd3fc;border:1px solid #0ea5e9"};
-  const el=document.getElementById("toast");
-  el.style.cssText=`position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:10px 18px;border-radius:10px;font-family:'Share Tech Mono',monospace;font-size:12px;z-index:9998;max-width:320px;text-align:center;transition:opacity .3s;pointer-events:none;box-shadow:0 4px 20px rgba(0,0,0,.4);${s[type]||s.info}`;
-  el.innerText=msg; el.style.opacity="1";
-  if(_tt)clearTimeout(_tt); _tt=setTimeout(()=>el.style.opacity="0",3500);
+// ── TOAST
+var _tt=null;
+function toast(msg,type){
+  type=type||'info';
+  var s={success:'background:linear-gradient(135deg,#16a34a,#052e16);color:#4ade80;border:1px solid #4ade80',error:'background:linear-gradient(135deg,#7f1d1d,#450a0a);color:#fca5a5;border:1px solid #ef4444',warn:'background:linear-gradient(135deg,#78350f,#431407);color:#fcd34d;border:1px solid #f59e0b',info:'background:linear-gradient(135deg,#0c4a6e,#082f49);color:#7dd3fc;border:1px solid #0ea5e9'};
+  var el=document.getElementById('toast');
+  el.style.cssText='position:fixed;bottom:18px;left:50%;transform:translateX(-50%);padding:9px 16px;border-radius:9px;font-family:monospace;font-size:11px;z-index:9998;max-width:300px;text-align:center;transition:opacity .3s;pointer-events:none;box-shadow:0 4px 18px rgba(0,0,0,.4);'+(s[type]||s.info);
+  el.innerText=msg;el.style.opacity='1';if(_tt)clearTimeout(_tt);_tt=setTimeout(function(){el.style.opacity='0';},3500);
 }
 
-// ═══════════════════════════════════════════════
-//  MODAL HELPERS
-// ═══════════════════════════════════════════════
-function openModal(id){ document.getElementById(id).style.display="flex"; }
-function closeModal(id){ document.getElementById(id).style.display="none"; }
+// ── UTILS
+function setTxt(id,v){var e=document.getElementById(id);if(e)e.innerText=v;}
+function setVal(id,v){var e=document.getElementById(id);if(e)e.value=v;}
+function toLocal(ts){if(!ts)return'';var d=new Date(ts),p=function(n){return String(n).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':'+p(d.getMinutes());}
+function wibTime(){return new Date().toLocaleString('id-ID',{timeZone:'Asia/Jakarta'});}
+function pad(n){return n<10?'0'+n:String(n);}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-// ═══════════════════════════════════════════════
-//  UTILS
-// ═══════════════════════════════════════════════
-function toLocal(ts){ if(!ts)return""; const d=new Date(ts),p=n=>String(n).padStart(2,"0"); return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`; }
-function wibTime(){ return new Date().toLocaleString("id-ID",{timeZone:"Asia/Jakarta"}); }
-function pad(n){ return n<10?"0"+n:String(n); }
-function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
-
-// ═══════════════════════════════════════════════
-//  DEVICE INFO
-// ═══════════════════════════════════════════════
-function initDevInfo(){
-  const el=document.getElementById("devInfo");
-  el.innerText="📱 "+DEVID.slice(0,20)+"... (tap copy)";
-  el.onclick=()=>{ navigator.clipboard.writeText(DEVID).then(()=>{ const o=el.innerText; el.innerText="✅ ID Disalin!"; setTimeout(()=>el.innerText=o,2000); }); };
-}
-
-// ═══════════════════════════════════════════════
-//  APP START
-// ═══════════════════════════════════════════════
-async function main(){
-  initDevInfo();
-  drawWheel();
-  document.getElementById("loStatus").innerText="Menghubungkan Firebase...";
-
-  // Mulai listener — ini tidak blocking, langsung return
-  startListeners();
-  startTimer();
-
-  // Cek koneksi Firebase. Timeout 4 detik.
+// ── APP START
+window.addEventListener('load',function(){
   try{
-    await Promise.race([
-      db.ref(".info/connected").once("value"),
-      new Promise((_,rej)=>setTimeout(()=>rej("timeout"),4000))
-    ]);
-    document.getElementById("loStatus").innerText="Terhubung!";
-    await checkNewUser();
-  } catch(e){
-    document.getElementById("loStatus").innerText="Offline / Gagal konek";
-  }
-
-  // Sembunyikan loading — selalu berhasil
-  setTimeout(hideLo, 600);
-}
-
-window.addEventListener("load", main);
+    var dEl=document.getElementById('devInfo');
+    dEl.innerText='Device: '+DEVID.slice(0,20)+'...';
+    dEl.onclick=function(){navigator.clipboard.writeText(DEVID).then(function(){var o=dEl.innerText;dEl.innerText='ID Disalin!';setTimeout(function(){dEl.innerText=o;},2000);});};
+    drawWheel();
+    if(!db){hideLo('Firebase tidak tersedia');return;}
+    startListeners();
+    startTimer();
+    var done=false;
+    function doHide(){if(!done){done=true;hideLo('Terhubung');checkNewUser();}}
+    var t=setTimeout(doHide,4000);
+    db.ref('.info/connected').on('value',function(s){if(s.val()===true){clearTimeout(t);doHide();}});
+  }catch(e){console.error(e);hideLo('Error: '+e.message);}
+});
 </script>
 </body>
 </html>
