@@ -66,14 +66,6 @@ button:disabled{opacity:.5;cursor:not-allowed;transform:none}
 #wCenter{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:42px;height:42px;background:linear-gradient(135deg,#00ffd5,#007a6a);border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-size:8px;color:#000;font-weight:900;z-index:10;pointer-events:none}
 #arrow{position:absolute;top:-20px;left:50%;transform:translateX(-50%);z-index:20;filter:drop-shadow(0 0 6px #00ffd5)}
 #arrow svg{width:22px;height:26px}
-#waInput{border-color:rgba(0,255,213,.3)!important}
-#waInput:focus{border-color:#00ffd5!important}
-.uitem{display:flex;align-items:center;justify-content:space-between;padding:5px 7px;border-radius:6px;margin-bottom:3px;background:rgba(0,0,0,.3);border:1px solid rgba(0,255,213,.08)}
-.uitem .uname{font-size:11px;color:#fff;flex:1}
-.uitem .ubadge{font-size:9px;padding:2px 6px;border-radius:8px;font-weight:700}
-.uitem.u-online{border-color:rgba(74,222,128,.3);background:rgba(22,163,74,.06)}
-.uitem.u-online .ubadge{background:rgba(22,163,74,.3);color:#4ade80}
-.uitem.u-offline .ubadge{background:rgba(255,255,255,.07);color:#aaa}
 /* Item list global */
 .il-item{display:flex;align-items:center;justify-content:space-between;padding:6px 8px;border-radius:7px;margin-bottom:4px}
 .il-item.il-win{background:rgba(22,163,74,.1);border:1px solid rgba(22,163,74,.25)}
@@ -179,14 +171,7 @@ button:disabled{opacity:.5;cursor:not-allowed;transform:none}
     <div class="sb"><div class="v" id="stSlot">&#8734;</div><div class="l">SLOT</div></div>
     <div class="sb"><div class="v" id="stOnline">1</div><div class="l">ONLINE</div></div>
   </div>
-  <div style="width:100%;display:flex;gap:7px;align-items:flex-end;margin-top:7px">
-    <input id="nameInput" placeholder="Nama Kamu" autocomplete="off" maxlength="40" style="flex:1;margin-top:0">
-    <div style="display:flex;flex-direction:column;gap:3px;flex-shrink:0">
-      <div style="font-size:8px;color:#aaa;text-align:center;letter-spacing:1px">NO WA</div>
-      <input id="waInput" placeholder="12" maxlength="4" autocomplete="off" style="width:52px;margin-top:0;padding:9px 6px;text-align:center;font-size:13px;letter-spacing:2px">
-    </div>
-  </div>
-  <div style="font-size:9px;color:rgba(0,255,213,.4);margin-top:3px;text-align:right;padding-right:2px">2 atau 4 digit akhir no WA kamu</div>
+  <input id="nameInput" placeholder="Masukkan Nama Anda" autocomplete="off" maxlength="40">
   <div class="cw"><input id="codeInput" placeholder="Kode Spin" autocomplete="off" style="margin-top:0"><button id="redeemBtn" class="bp">Redeem</button></div>
   <div id="wSec">
     <div id="wCon">
@@ -213,55 +198,22 @@ button:disabled{opacity:.5;cursor:not-allowed;transform:none}
     <div class="ptitle"><span>PEMENANG</span><span id="winBadge" style="background:#00ffd5;color:#000;font-size:9px;padding:2px 5px;border-radius:8px;font-weight:700">0</span></div>
     <div id="winList">-</div>
   </div>
-  <!-- DAFTAR USER TERDAFTAR -->
-  <div class="panel" style="max-height:200px;overflow:auto">
-    <div class="ptitle">
-      <span>👥 PESERTA TERDAFTAR</span>
-      <span id="userCount" style="color:#aaa;font-size:10px">0 user</span>
-    </div>
-    <div id="userList"><div style="color:#aaa;font-size:11px;text-align:center;padding:8px">Belum ada peserta.</div></div>
-  </div>
   <div id="adminPanel">
     <div style="font-family:'Orbitron',sans-serif;color:#ffcc00;text-align:center;font-size:12px;letter-spacing:2px;margin-bottom:12px">ADMIN PANEL</div>
     <div class="as"><span class="ast">BROADCAST</span><input id="bcInput" placeholder="Pesan banner (kosong=hapus)"><button id="bcBtn" class="bw" style="margin-top:7px">Kirim Broadcast</button></div>
     <div class="as">
-      <span class="ast">📡 KONTROL EVENT</span>
+      <span class="ast">KONTROL EVENT</span>
       <div style="display:flex;gap:6px;margin-bottom:7px">
         <button id="toggleBtn" style="flex:2;background:#555;color:#fff">TOGGLE EVENT</button>
-        <button id="tmBtn" style="flex:1;background:linear-gradient(135deg,#7c3aed,#4c1d95);color:#fff;font-size:10px">🧪 TEST</button>
+        <button id="tmBtn" style="flex:1;background:linear-gradient(135deg,#7c3aed,#4c1d95);color:#fff;font-size:10px">TEST</button>
       </div>
-      <div id="tmBanner">🧪 MODE TEST - Spin tidak potong stok & tidak tersimpan</div>
-      <!-- Live Stats Admin -->
-      <div id="adminLiveStats" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-bottom:8px">
-        <div style="background:rgba(0,0,0,.3);border:1px solid rgba(0,255,213,.1);border-radius:6px;padding:5px;text-align:center">
-          <div style="font-family:Orbitron,sans-serif;font-size:13px;color:#00ffd5" id="aStWin">0</div>
-          <div style="font-size:8px;color:#aaa">PEMENANG</div>
-        </div>
-        <div style="background:rgba(0,0,0,.3);border:1px solid rgba(0,255,213,.1);border-radius:6px;padding:5px;text-align:center">
-          <div style="font-family:Orbitron,sans-serif;font-size:13px;color:#ffcc00" id="aStSlot">∞</div>
-          <div style="font-size:8px;color:#aaa">SISA SLOT</div>
-        </div>
-        <div style="background:rgba(0,0,0,.3);border:1px solid rgba(0,255,213,.1);border-radius:6px;padding:5px;text-align:center">
-          <div style="font-family:Orbitron,sans-serif;font-size:13px;color:#4ade80" id="aStOnline">1</div>
-          <div style="font-size:8px;color:#aaa">ONLINE</div>
-        </div>
-      </div>
-      <div class="g2" style="margin-top:0">
-        <input id="maxWin" type="number" placeholder="Max Pemenang (0=∞)" value="0" style="margin-top:0;font-size:11px">
-        <input id="maxWinDev" type="number" placeholder="Max Menang/User (0=∞)" value="0" style="margin-top:0;font-size:11px">
-        <input id="maxSpin" type="number" placeholder="Max Spin/User (0=∞)" value="0" style="margin-top:0;font-size:11px">
-        <input id="freeSpin" type="number" placeholder="Free Spin User Baru" value="5" style="margin-top:0;font-size:11px">
-      </div>
-    </div>
-
-    <!-- INFO EVENT — section terpisah, bisa diedit & dikosongkan -->
-    <div class="as">
-      <span class="ast">📢 INFO EVENT</span>
-      <div id="infoPreview" style="background:rgba(0,255,213,.05);border:1px solid rgba(0,255,213,.1);border-radius:6px;padding:7px;font-size:11px;color:#ccc;min-height:32px;margin-bottom:7px;line-height:1.4;white-space:pre-wrap">Memuat...</div>
-      <textarea id="infoInput" placeholder="Tulis info/pengumuman... (kosongkan untuk hapus)" style="resize:vertical;height:80px;margin-top:0;font-size:11px"></textarea>
-      <div style="display:flex;gap:6px;margin-top:7px">
-        <button id="saveInfoBtn" class="bp" style="flex:2;font-size:11px">💾 Simpan Info</button>
-        <button id="clearInfoBtn" style="flex:1;font-size:11px;background:linear-gradient(135deg,#ef4444,#7f1d1d);color:#fff;border-radius:8px;border:none;cursor:pointer;font-family:Share Tech Mono,monospace;font-weight:700">🗑 Hapus</button>
+      <div id="tmBanner">MODE TEST - Spin tidak potong stok</div>
+      <textarea id="infoInput" placeholder="Info / pengumuman event..." style="resize:vertical;height:70px;margin-top:0;font-size:11px"></textarea>
+      <div class="g2" style="margin-top:7px">
+        <input id="maxWin" type="number" placeholder="Max Pemenang (0=inf)" value="0" style="margin-top:0;font-size:11px">
+        <input id="maxWinDev" type="number" placeholder="Max Menang/User" value="0" style="margin-top:0;font-size:11px">
+        <input id="maxSpin" type="number" placeholder="Max Spin/User" value="0" style="margin-top:0;font-size:11px">
+        <input id="freeSpin" type="number" placeholder="Free Spin Baru" value="5" style="margin-top:0;font-size:11px">
       </div>
     </div>
     <div class="as">
@@ -307,16 +259,8 @@ button:disabled{opacity:.5;cursor:not-allowed;transform:none}
       <input id="tgtAmt" type="number" placeholder="Jumlah Spin" style="margin-top:5px;font-size:11px">
       <button id="addSpinBtn" class="bs" style="margin-top:7px">Tambah Spin</button>
     </div>
-    <!-- CEK STATUS USER -->
     <div class="as">
-      <span class="ast">🔍 CEK STATUS USER</span>
-      <input id="checkId" placeholder="Device ID" style="font-size:11px">
-      <button id="checkBtn" style="margin-top:7px;background:linear-gradient(135deg,#0ea5e9,#0369a1);color:#fff;border-radius:8px;border:none;cursor:pointer;font-family:Share Tech Mono,monospace;font-size:11px;font-weight:700;padding:9px;width:100%">🔎 Cek Status</button>
-      <div id="checkResult" style="display:none;margin-top:8px;background:rgba(0,0,0,.4);border:1px solid rgba(0,255,213,.15);border-radius:8px;padding:9px;font-size:11px;line-height:1.8"></div>
-    </div>
-
-    <div class="as">
-      <span class="ast">🔐 IZIN EDIT NAMA</span>
+      <span class="ast">IZIN EDIT NAMA</span>
       <input id="grantId" placeholder="Device ID" style="font-size:11px">
       <button id="grantBtn" class="bp" style="margin-top:7px">Beri Izin 1x (24 jam)</button>
     </div>
@@ -466,14 +410,7 @@ function startListeners(){
     if(isAdmin)syncAdminUI();
   });
   db.ref('infoBoard').on('value',function(s){
-    var v=s.val()||'';
-    document.getElementById('infoContent').innerText=v||'Tidak ada info.';
-    // Update preview di admin panel
-    var prev=document.getElementById('infoPreview');
-    if(prev)prev.innerText=v||'(kosong)';
-    // Sync textarea kalau admin panel terbuka
-    var inp=document.getElementById('infoInput');
-    if(inp&&isAdmin)inp.value=v;
+    document.getElementById('infoContent').innerText=s.val()||'Tidak ada info.';
   });
   db.ref('broadcast').on('value',function(s){
     var msg=s.val(),el=document.getElementById('bb');
@@ -482,21 +419,10 @@ function startListeners(){
   db.ref('winners').on('value',function(s){
     var list=s.val()||[];winCount=list.length;
     setTxt('stWin',winCount);setTxt('winBadge',winCount);
-    setTxt('aStWin',winCount);
     updateSlotStat();renderWinners(list);
-    // Ticker: tampilkan selamat khusus pemenang hadiah tersulit
-    var parts=['🎉 XREZZKYSTORE RNG GIVEAWAY','✨ Putar roda dan menangkan hadiah!'];
-    list.slice().reverse().slice(0,10).forEach(function(w){
-      // Cek apakah hadiah ini termasuk yang susah
-      var prizeItem=prizes.find(function(p){return p.label===w.prize;});
-      var diff=prizeItem?prizeItem.difficulty:0;
-      if(diff>=7){
-        parts.unshift('🏆 SELAMAT '+w.name+' memenangkan '+w.prize+'! (HADIAH LANGKA!)');
-      } else {
-        parts.push('🎁 '+w.name+' menang '+w.prize);
-      }
-    });
-    document.getElementById('tk').innerText=parts.join('   ·   ');
+    var parts=['XREZZKYSTORE RNG GIVEAWAY'];
+    list.slice(-5).forEach(function(w){parts.push(w.name+' menang '+w.prize);});
+    document.getElementById('tk').innerText=parts.join('  |  ');
   });
   // wheelItems: update roda DAN picker sekaligus
   db.ref('wheelItems').on('value',function(s){
@@ -529,33 +455,12 @@ function startListeners(){
   // lockedName: persistent
   db.ref('lockedNames/'+DEVID).on('value',function(s){
     var v=s.val();
-    if(v){
-      document.getElementById('nameInput').value=v;
-      document.getElementById('nameInput').disabled=true;
-      var wa=document.getElementById('waInput');if(wa)wa.disabled=true;
-      // Sync nama di presence
-      db.ref('presence/'+DEVID).once('value',function(ps){
-        if(ps.val())db.ref('presence/'+DEVID).update({name:v});
-      });
-    }
+    if(v){document.getElementById('nameInput').value=v;document.getElementById('nameInput').disabled=true;}
   });
   // presence
   var pRef=db.ref('presence/'+DEVID);
-  // Simpan nama di presence agar bisa tampil di daftar user
-  db.ref('lockedNames/'+DEVID).once('value',function(ns){
-    pRef.set({t:Date.now(),name:ns.val()||''});
-  });
-  pRef.onDisconnect().remove();
-  db.ref('presence').on('value',function(s){
-    var n=Math.max(1,s.numChildren());
-    setTxt('stOnline',n);setTxt('aStOnline',n);
-    // Render daftar user online
-    renderUserList(s.val()||{});
-  });
-  // Semua user yang pernah daftar (lockedNames)
-  db.ref('lockedNames').on('value',function(s){
-    renderUserList(null,s.val()||{});
-  });
+  pRef.set({t:Date.now()});pRef.onDisconnect().remove();
+  db.ref('presence').on('value',function(s){setTxt('stOnline',Math.max(1,s.numChildren()));});
 }
 
 // ── FREE SPIN USER BARU
@@ -609,17 +514,9 @@ async function doSpin(){
     var ns=await db.ref('lockedNames/'+DEVID).once('value'),ln=ns.val();
     if(ln){name=ln;}else{
       if(!name){toast('Masukkan nama dulu!','error');return;}
-      // Gabungkan nama + nomor WA jika diisi
-      var waNum=document.getElementById('waInput').value.trim().replace(/[^0-9]/g,'').slice(0,4);
-      var displayName=waNum?name+' ('+waNum+')':name;
-      await db.ref('lockedNames/'+DEVID).set(displayName);
-      await saveNH(DEVID,displayName);
-      document.getElementById('nameInput').value=displayName;
+      await db.ref('lockedNames/'+DEVID).set(name);
+      await saveNH(DEVID,name);
       document.getElementById('nameInput').disabled=true;
-      document.getElementById('waInput').disabled=true;
-      name=displayName;
-      // Update nama di presence realtime
-      db.ref('presence/'+DEVID).update({name:displayName});
     }
     if(mySpins<=0){toast('Spin habis!','error');return;}
     if(cfg.maxSpinPerUser>0){
@@ -759,13 +656,7 @@ function syncAdminUI(){
   document.getElementById('evStart').value=cfg.eventStart?toLocal(cfg.eventStart):'';
   document.getElementById('evEnd').value=cfg.eventEnd?toLocal(cfg.eventEnd):'';
   if(!db)return;
-  // infoInput sudah di-sync dari listener realtime, tapi force update sekali
-  db.ref('infoBoard').once('value',function(s){
-    var v=s.val()||'';
-    document.getElementById('infoInput').value=v;
-    var prev=document.getElementById('infoPreview');
-    if(prev)prev.innerText=v||'(kosong)';
-  });
+  db.ref('infoBoard').once('value',function(s){if(s.val())document.getElementById('infoInput').value=s.val();});
   db.ref('broadcast').once('value',function(s){if(s.val())document.getElementById('bcInput').value=s.val();});
   db.ref('codes').once('value',function(s){renderCodes(s.val()||{});});
   renderWheelList();renderChance();
@@ -774,21 +665,6 @@ function syncAdminUI(){
 document.getElementById('bcBtn').onclick=async function(){
   if(!db)return;var msg=document.getElementById('bcInput').value.trim();
   await db.ref('broadcast').set(msg||null);toast(msg?'Broadcast terkirim!':'Broadcast dihapus.','success');
-};
-// Save info event (terpisah dari settings)
-document.getElementById('saveInfoBtn').onclick=async function(){
-  if(!db)return;
-  var info=document.getElementById('infoInput').value.trim();
-  await db.ref('infoBoard').set(info||null);
-  toast(info?'Info event disimpan!':'Info event dikosongkan.','success');
-};
-// Hapus info event
-document.getElementById('clearInfoBtn').onclick=async function(){
-  if(!db)return;
-  if(!confirm('Hapus info event?'))return;
-  await db.ref('infoBoard').set(null);
-  document.getElementById('infoInput').value='';
-  toast('Info event dihapus.','success');
 };
 // Toggle event
 document.getElementById('toggleBtn').onclick=function(){
@@ -814,7 +690,8 @@ document.getElementById('saveBtn').onclick=async function(){
   var sTs=sv?new Date(sv).getTime():0,eTs=ev?new Date(ev).getTime():0;
   if(sTs&&eTs&&sTs>=eTs){toast('Waktu mulai harus sebelum akhir!','error');return;}
   var d={maxWinnerGlobal:parseInt(document.getElementById('maxWin').value)||0,maxWinPerDevice:parseInt(document.getElementById('maxWinDev').value)||0,maxSpinPerUser:parseInt(document.getElementById('maxSpin').value)||0,freeSpinNewUser:parseInt(document.getElementById('freeSpin').value)||5,eventStart:sTs,eventEnd:eTs,scheduleEnabled:document.getElementById('scheduleOn').checked,eventOn:cfg.eventOn||false};
-  try{await db.ref('settings').set(d);toast('Settings & schedule tersimpan!','success');}
+  var info=document.getElementById('infoInput').value.trim();
+  try{await db.ref('settings').set(d);if(info)await db.ref('infoBoard').set(info);toast('Settings tersimpan!','success');}
   catch(e){toast('Error: '+e.message,'error');}
 };
 // Tambah item roda (auto update picker via listener)
@@ -884,36 +761,6 @@ document.getElementById('grantBtn').onclick=async function(){
   await db.ref('accountData/'+id).update({editAllowed:true,editExpire:Date.now()+86400000});
   document.getElementById('grantId').value='';toast('Izin edit diberikan ke '+id,'success');
 };
-// Cek status user
-document.getElementById('checkBtn').onclick=async function(){
-  if(!db)return;
-  var id=document.getElementById('checkId').value.trim();
-  if(!id){toast('Masukkan Device ID!','error');return;}
-  var res=document.getElementById('checkResult');
-  res.innerHTML='<span style="color:#aaa">Mengecek...</span>';
-  res.style.display='block';
-  try{
-    var [nm,sp,dw,su,lk,acc]=await Promise.all([
-      db.ref('lockedNames/'+id).once('value'),
-      db.ref('userSpins/'+id).once('value'),
-      db.ref('deviceWins/'+id).once('value'),
-      db.ref('spinTotal/'+id).once('value'),
-      db.ref('deviceLock/'+id).once('value'),
-      db.ref('accountData/'+id).once('value'),
-    ]);
-    var lockVal=lk.val();
-    var lockStr=lockVal&&Date.now()<lockVal?'<span style="color:#ef4444">TERKUNCI sampai '+new Date(lockVal).toLocaleString('id-ID')+'</span>':'<span style="color:#4ade80">Tidak di-lock</span>';
-    var accD=acc.val()||{};
-    var editStr=accD.editAllowed&&Date.now()<(accD.editExpire||0)?'<span style="color:#ffcc00">Ada izin edit</span>':'Tidak ada';
-    res.innerHTML=
-      '<div><b style="color:#00ffd5">Nama:</b> '+(nm.val()||'Belum set')+'</div>'+
-      '<div><b style="color:#00ffd5">Sisa Spin:</b> '+(sp.val()||0)+'</div>'+
-      '<div><b style="color:#00ffd5">Total Spin:</b> '+(su.val()||0)+'x</div>'+
-      '<div><b style="color:#00ffd5">Total Menang:</b> '+(dw.val()||0)+'x</div>'+
-      '<div><b style="color:#00ffd5">Lock:</b> '+lockStr+'</div>'+
-      '<div><b style="color:#00ffd5">Edit Nama:</b> '+editStr+'</div>';
-  }catch(e){res.innerHTML='<span style="color:#ef4444">Error: '+e.message+'</span>';}
-};
 // Lock/Unlock
 document.getElementById('lockBtn').onclick=async function(){
   if(!db)return;var id=document.getElementById('lockId').value.trim(),h=parseInt(document.getElementById('lockHour').value);
@@ -939,45 +786,6 @@ document.getElementById('exportBtn').onclick=async function(){
 };
 document.getElementById('copyExpBtn').onclick=function(){
   navigator.clipboard.writeText(document.getElementById('expArea').value).then(function(){toast('Data disalin!','success');});
-};
-// Export per user
-document.getElementById('exportBtn').onclick=async function(){
-  if(!db)return;
-  var snap=await db.ref('winners').once('value'),d=snap.val()||[];
-  if(!d.length){toast('Belum ada pemenang.','warn');return;}
-  var tx='=== PEMENANG XREZZKYSTORE ===
-';
-  tx+='Export: '+new Date().toLocaleString('id-ID')+'
-';
-  tx+='Total: '+d.length+'
-';
-  tx+='================================
-
-';
-  // Group per user
-  var byUser={};
-  d.forEach(function(w){
-    if(!byUser[w.deviceId])byUser[w.deviceId]={name:w.name,wins:[]};
-    byUser[w.deviceId].wins.push({prize:w.prize,time:w.time});
-  });
-  var no=1;
-  Object.keys(byUser).forEach(function(devId){
-    var u=byUser[devId];
-    tx+=no+'. NAMA   : '+u.name+'
-';
-    tx+='   DEVICE: '+devId+'
-';
-    u.wins.forEach(function(w,i){
-      tx+='   HADIAH '+(i+1)+': '+w.prize+' ('+w.time+')
-';
-    });
-    tx+='   TOTAL MENANG: '+u.wins.length+'x
-
-';
-    no++;
-  });
-  document.getElementById('expArea').value=tx;
-  document.getElementById('expModal').style.display='flex';
 };
 // Reset event
 document.getElementById('resetEvtBtn').onclick=async function(){
@@ -1052,55 +860,9 @@ function updateDateInfo(){
 function setBadge(cls,txt){var el=document.getElementById('evInd');el.className=cls;el.innerText=txt;}
 function updateSlotStat(){
   var el=document.getElementById('stSlot'),mwg=cfg.maxWinnerGlobal||0;
-  var aEl=document.getElementById('aStSlot');
-  if(!mwg){
-    if(el){el.innerText='∞';el.style.color='#00ffd5';}
-    if(aEl){aEl.innerText='∞';aEl.style.color='#00ffd5';}
-    return;
-  }
-  var left=Math.max(0,mwg-winCount);
-  var col=left<=2?'#ef4444':left<=5?'#f59e0b':'#00ffd5';
-  if(el){el.innerText=left;el.style.color=col;}
-  if(aEl){aEl.innerText=left;aEl.style.color=col;}
+  if(!mwg){el.innerText='∞';el.style.color='#00ffd5';return;}
+  var left=Math.max(0,mwg-winCount);el.innerText=left;el.style.color=left<=2?'#ef4444':left<=5?'#f59e0b':'#00ffd5';
 }
-// Cache untuk merge presence + lockedNames
-var _presenceData={};
-var _lockedNamesData={};
-function renderUserList(presSnap,lockedSnap){
-  if(presSnap!==null)_presenceData=presSnap||{};
-  if(lockedSnap!==undefined)_lockedNamesData=lockedSnap||{};
-  var el=document.getElementById('userList');if(!el)return;
-  // Gabungkan semua device yang pernah daftar
-  var allDevices={};
-  // Dari lockedNames: semua yang pernah spin
-  Object.keys(_lockedNamesData).forEach(function(devId){
-    allDevices[devId]={name:_lockedNamesData[devId],online:false};
-  });
-  // Dari presence: tandai yang online
-  Object.keys(_presenceData).forEach(function(devId){
-    if(!allDevices[devId])allDevices[devId]={name:_presenceData[devId].name||'',online:true};
-    else allDevices[devId].online=true;
-  });
-  var devIds=Object.keys(allDevices);
-  setTxt('userCount',devIds.length+' user');
-  if(!devIds.length){el.innerHTML='<div style="color:#aaa;font-size:11px;text-align:center;padding:8px">Belum ada peserta.</div>';return;}
-  // Sort: online dulu, lalu offline
-  devIds.sort(function(a,b){return (allDevices[b].online?1:0)-(allDevices[a].online?1:0);});
-  el.innerHTML='';
-  devIds.forEach(function(devId){
-    var u=allDevices[devId];
-    var d=document.createElement('div');
-    d.className='uitem '+(u.online?'u-online':'u-offline');
-    var nameStr=u.name||'(belum set nama)';
-    // Sensor sebagian device ID
-    var shortId=devId.slice(0,8)+'...';
-    d.innerHTML=
-      '<div class="uname">'+esc(nameStr)+'<div style="font-size:9px;color:#555;margin-top:1px">'+shortId+'</div></div>'+
-      '<span class="ubadge">'+(u.online?'🟢 ONLINE':'⚫ OFFLINE')+'</span>';
-    el.appendChild(d);
-  });
-}
-
 function renderWinners(list){
   var el=document.getElementById('winList');
   if(!list.length){el.innerHTML='<div style="color:#aaa;font-size:11px;text-align:center;padding:8px">Belum ada pemenang.</div>';return;}
