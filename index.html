@@ -168,7 +168,16 @@ button:disabled{opacity:.5;cursor:not-allowed;transform:none}
   </div>
 </div>
 <div class="box">
-  <div class="hdr"><div><h2 id="title">XREZZKYSTORE</h2><div class="sub">RNG GIVEAWAY SYSTEM</div></div><button id="accBtn">&#128100;</button></div>
+  <div class="hdr">
+    <div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <h2 id="title">XREZZKYSTORE</h2>
+        <div id="adminHeaderBadge" style="display:none;background:linear-gradient(135deg,#ffcc00,#f59e0b);color:#000;font-size:8px;padding:2px 7px;border-radius:10px;font-family:Orbitron,sans-serif;font-weight:700;letter-spacing:1px;align-items:center">ADMIN</div>
+      </div>
+      <div class="sub">RNG GIVEAWAY SYSTEM</div>
+    </div>
+    <button id="accBtn">&#128100;</button>
+  </div>
   <div id="bb"></div>
   <div id="tkw"><span id="tk">XREZZKYSTORE RNG GIVEAWAY - Putar roda dan menangkan hadiah!</span></div>
   <div id="evInd" class="st-off">MEMUAT...</div>
@@ -232,8 +241,64 @@ button:disabled{opacity:.5;cursor:not-allowed;transform:none}
     </div>
     <div id="userList"><div style="color:#aaa;font-size:11px;text-align:center;padding:8px">Belum ada peserta.</div></div>
   </div>
+  <!-- LOG AKSES USER -->
+  <div class="panel" style="max-height:160px;overflow:auto" id="accessLogPanel">
+    <div class="ptitle">
+      <span>🔐 LOG AKSES</span>
+      <span id="accessLogCnt" style="color:#aaa;font-size:10px">0 log</span>
+    </div>
+    <div id="accessLogList"><div style="color:#aaa;font-size:11px;text-align:center;padding:8px">Belum ada log akses.</div></div>
+  </div>
   <div id="adminPanel">
-    <div style="font-family:'Orbitron',sans-serif;color:#ffcc00;text-align:center;font-size:12px;letter-spacing:2px;margin-bottom:12px">ADMIN PANEL</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+      <div style="font-family:'Orbitron',sans-serif;color:#ffcc00;font-size:12px;letter-spacing:2px">⚙️ ADMIN PANEL</div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <div style="background:rgba(255,204,0,.15);border:1px solid #ffcc00;border-radius:20px;padding:3px 10px;font-size:9px;color:#ffcc00;letter-spacing:1px" id="adminDevBadge">ADMIN</div>
+        <button id="adminLogoutBtn" style="background:rgba(239,68,68,.2);border:1px solid #ef4444;color:#fca5a5;font-size:9px;padding:3px 8px;border-radius:6px;cursor:pointer;font-family:Share Tech Mono,monospace;width:auto;letter-spacing:1px">LOGOUT</button>
+      </div>
+    </div>
+    <div id="adminNotifBanner" style="display:none;background:rgba(74,222,128,.12);border:1px solid #4ade80;border-radius:8px;padding:7px 10px;font-size:11px;color:#4ade80;text-align:center;margin-bottom:10px;animation:bbp 1.5s ease-in-out infinite"></div>
+    <!-- DASHBOARD ADMIN -->
+    <div class="as" id="dashboardSection">
+      <span class="ast">📊 DASHBOARD REALTIME</span>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:8px">
+        <div style="background:rgba(0,0,0,.4);border:1px solid rgba(0,255,213,.1);border-radius:7px;padding:8px;text-align:center">
+          <div style="font-family:Orbitron,sans-serif;font-size:18px;color:#00ffd5" id="dashTotalSpin">0</div>
+          <div style="font-size:9px;color:#aaa;margin-top:2px">TOTAL SPIN</div>
+        </div>
+        <div style="background:rgba(0,0,0,.4);border:1px solid rgba(22,163,74,.2);border-radius:7px;padding:8px;text-align:center">
+          <div style="font-family:Orbitron,sans-serif;font-size:18px;color:#4ade80" id="dashTotalWin">0</div>
+          <div style="font-size:9px;color:#aaa;margin-top:2px">TOTAL MENANG</div>
+        </div>
+        <div style="background:rgba(0,0,0,.4);border:1px solid rgba(239,68,68,.2);border-radius:7px;padding:8px;text-align:center">
+          <div style="font-family:Orbitron,sans-serif;font-size:18px;color:#f87171" id="dashWinRate">0%</div>
+          <div style="font-size:9px;color:#aaa;margin-top:2px">WIN RATE</div>
+        </div>
+        <div style="background:rgba(0,0,0,.4);border:1px solid rgba(245,158,11,.2);border-radius:7px;padding:8px;text-align:center">
+          <div style="font-family:Orbitron,sans-serif;font-size:18px;color:#fbbf24" id="dashAvgSpin">0</div>
+          <div style="font-size:9px;color:#aaa;margin-top:2px">RATA SPIN/USER</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-top:5px">
+        <div style="background:rgba(0,0,0,.4);border:1px solid rgba(0,255,213,.1);border-radius:7px;padding:6px;text-align:center">
+          <div style="font-family:Orbitron,sans-serif;font-size:14px;color:#00ffd5" id="dashTotalUser">0</div>
+          <div style="font-size:8px;color:#aaa;margin-top:1px">TOTAL USER</div>
+        </div>
+        <div style="background:rgba(0,0,0,.4);border:1px solid rgba(124,58,237,.2);border-radius:7px;padding:6px;text-align:center">
+          <div style="font-family:Orbitron,sans-serif;font-size:14px;color:#a78bfa" id="dashOnlineNow">0</div>
+          <div style="font-size:8px;color:#aaa;margin-top:1px">ONLINE KINI</div>
+        </div>
+        <div style="background:rgba(0,0,0,.4);border:1px solid rgba(239,68,68,.2);border-radius:7px;padding:6px;text-align:center">
+          <div style="font-family:Orbitron,sans-serif;font-size:14px;color:#f87171" id="dashBlacklist">0</div>
+          <div style="font-size:8px;color:#aaa;margin-top:1px">BLACKLIST</div>
+        </div>
+      </div>
+      <!-- Log aktivitas admin -->
+      <div style="font-size:10px;color:#ffcc00;font-weight:700;margin-bottom:5px;letter-spacing:1px">LOG AKTIVITAS</div>
+      <div id="adminLog" style="max-height:100px;overflow:auto;background:rgba(0,0,0,.3);border:1px solid rgba(0,255,213,.1);border-radius:7px;padding:6px;font-size:10px"></div>
+      <button id="clearAdminLogBtn" style="margin-top:6px;background:rgba(255,255,255,.07);color:#aaa;font-size:10px;padding:5px;border-radius:6px;border:none;cursor:pointer;width:100%;font-family:Share Tech Mono,monospace">Hapus Log</button>
+    </div>
+
     <div class="as"><span class="ast">BROADCAST</span><input id="bcInput" placeholder="Pesan banner (kosong=hapus)"><button id="bcBtn" class="bw" style="margin-top:7px">Kirim Broadcast</button></div>
     <div class="as">
       <span class="ast">📡 KONTROL EVENT</span>
@@ -272,6 +337,41 @@ button:disabled{opacity:.5;cursor:not-allowed;transform:none}
         <label style="display:flex;align-items:center;gap:8px;font-size:11px;color:#ccc;cursor:pointer">
           <input type="checkbox" id="lockNamePermanent" style="width:auto;margin:0;accent-color:#00ffd5">
           <span>Kunci nama permanen (walaupun hapus cache)</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:11px;color:#ccc;cursor:pointer">
+          <input type="checkbox" id="pitySystemOn" style="width:auto;margin:0;accent-color:#a78bfa">
+          <span>Pity system (makin banyak zonk makin besar peluang)</span>
+        </label>
+      </div>
+      <!-- Cooldown & Lucky Hour -->
+      <div class="g2" style="margin-top:8px">
+        <div>
+          <div style="font-size:9px;color:#aaa;margin-bottom:3px;letter-spacing:1px">COOLDOWN SPIN (detik, 0=off)</div>
+          <input id="spinCooldown" type="number" placeholder="0" value="0" style="margin-top:0;font-size:11px">
+        </div>
+        <div>
+          <div style="font-size:9px;color:#aaa;margin-bottom:3px;letter-spacing:1px">PITY SETELAH X ZONK</div>
+          <input id="pityThreshold" type="number" placeholder="5" value="5" style="margin-top:0;font-size:11px">
+        </div>
+      </div>
+      <!-- Lucky Hour -->
+      <div style="margin-top:8px;background:rgba(255,204,0,.06);border:1px solid rgba(255,204,0,.2);border-radius:7px;padding:8px">
+        <div style="font-size:10px;color:#ffcc00;font-weight:700;margin-bottom:6px">⚡ LUCKY HOUR</div>
+        <div class="g2">
+          <div>
+            <div style="font-size:9px;color:#aaa;margin-bottom:3px">Mulai (jam WIB, 0-23)</div>
+            <input id="luckyStart" type="number" placeholder="20" min="0" max="23" style="margin-top:0;font-size:11px">
+          </div>
+          <div>
+            <div style="font-size:9px;color:#aaa;margin-bottom:3px">Akhir (jam WIB, 0-23)</div>
+            <input id="luckyEnd" type="number" placeholder="22" min="0" max="23" style="margin-top:0;font-size:11px">
+          </div>
+        </div>
+        <div style="font-size:9px;color:#aaa;margin-top:5px;margin-bottom:3px">Multiplier peluang menang (1=normal, 2=2x lipat)</div>
+        <input id="luckyMultiplier" type="number" placeholder="2" min="1" max="10" value="2" style="margin-top:0;font-size:11px">
+        <label style="display:flex;align-items:center;gap:7px;font-size:11px;color:#ccc;cursor:pointer;margin-top:6px">
+          <input type="checkbox" id="luckyHourOn" style="width:auto;margin:0;accent-color:#ffcc00">
+          <span>Aktifkan Lucky Hour</span>
         </label>
       </div>
     </div>
@@ -319,9 +419,21 @@ button:disabled{opacity:.5;cursor:not-allowed;transform:none}
     <div class="as">
       <span class="ast">KODE SPIN</span>
       <div class="g2"><input id="ncName" placeholder="Nama Kode" style="margin-top:0;font-size:11px"><input id="ncSpin" type="number" placeholder="Jml Spin" style="margin-top:0;font-size:11px"></div>
-      <input id="ncMax" type="number" placeholder="Max Pengguna" style="margin-top:5px;font-size:11px">
+      <input id="ncMax" type="number" placeholder="Max Pengguna (0=∞)" style="margin-top:5px;font-size:11px">
+      <input id="ncExclusive" placeholder="Khusus Device ID (opsional, kosong=semua)" style="margin-top:5px;font-size:11px">
       <button id="addCodeBtn" class="bp" style="margin-top:7px">Tambah Kode</button>
       <div id="codeList" style="margin-top:8px;max-height:140px;overflow:auto"></div>
+    </div>
+    <!-- BLACKLIST -->
+    <div class="as">
+      <span class="ast">🚫 BLACKLIST PERMANEN</span>
+      <div style="font-size:10px;color:#aaa;margin-bottom:6px">Device yang di-blacklist tidak bisa spin di semua event selamanya.</div>
+      <input id="blacklistId" placeholder="Device ID" style="font-size:11px">
+      <div class="br" style="margin-top:7px">
+        <button id="blacklistBtn" class="bd">🚫 Blacklist</button>
+        <button id="unblacklistBtn" class="bs">✅ Hapus Blacklist</button>
+      </div>
+      <div id="blacklistResult" style="display:none;margin-top:6px;font-size:10px;padding:6px;border-radius:6px;background:rgba(0,0,0,.3)"></div>
     </div>
     <div class="as">
       <span class="ast">TAMBAH SPIN USER</span>
@@ -503,6 +615,7 @@ function startListeners() {
     if (cfg.eventOn===undefined) cfg.eventOn=false;
     updateStatusUI(); updateDateInfo(); updateSlotStat();
     if (isAdmin) syncAdminUI();
+    checkLuckyHourStatus();
     // Sync toggle state di admin
     var un = document.getElementById('uniqueNameOn');
     var lnp = document.getElementById('lockNamePermanent');
@@ -525,10 +638,20 @@ function startListeners() {
     else el.style.display='none';
   });
 
+  var _lastWinCount=0;
   db.ref('winners').on('value', function(s) {
     var list=s.val()||[];
     winCount=list.length;
     setTxt('stWin',winCount); setTxt('winBadge',winCount); setTxt('aStWin',winCount);
+    // Admin notif: ping kalau ada pemenang baru
+    if(isAdmin&&winCount>_lastWinCount&&_lastWinCount>0){
+      var newWinner=list[list.length-1];
+      var banner=document.getElementById('adminNotifBanner');
+      if(banner){banner.innerText='🏆 PEMENANG BARU: '+esc(newWinner.name)+' — '+esc(newWinner.prize);banner.style.display='block';setTimeout(function(){banner.style.display='none';},8000);}
+      addAdminLog('Pemenang baru: '+newWinner.name+' ('+newWinner.prize+')');
+      playWin();
+    }
+    _lastWinCount=winCount;
     updateSlotStat(); renderWinners(list);
     // Ticker: selamat khusus hadiah langka (difficulty >= 7)
     var parts=['XREZZKYSTORE RNG GIVEAWAY','Putar roda dan menangkan hadiah!'];
@@ -539,6 +662,24 @@ function startListeners() {
       else parts.push(w.name+' menang '+w.prize);
     });
     document.getElementById('tk').innerText=parts.join('   |   ');
+  });
+
+  // Dashboard — total spin & win rate
+  db.ref('blacklist').on('value',function(s){
+    setTxt('dashBlacklist',s.numChildren());
+  });
+
+  db.ref('spinHistory').on('value',function(s){
+    var raw=s.val()||{},list=Object.values(raw);
+    setTxt('dashTotalSpin',list.length);
+    var wins=list.filter(function(x){return x.win;}).length;
+    setTxt('dashTotalWin',wins);
+    var rate=list.length?Math.round(wins/list.length*100):0;
+    setTxt('dashWinRate',rate+'%');
+    // Rata-rata spin per user
+    var byUser={};list.forEach(function(x){if(x.deviceId)byUser[x.deviceId]=(byUser[x.deviceId]||0)+1;});
+    var uCount=Object.keys(byUser).length;
+    setTxt('dashAvgSpin',uCount?Math.round(list.length/uCount):0);
   });
 
   db.ref('wheelItems').on('value', function(s) {
@@ -622,18 +763,24 @@ function startListeners() {
   // Presence: simpan nama di presence agar bisa tampil di daftar user
   var pRef=db.ref('presence/'+DEVID);
   db.ref('lockedNames/'+DEVID).once('value',function(ns){
-    pRef.set({t:Date.now(), name:ns.val()||''});
+    var nm=ns.val()||'';
+    pRef.set({t:Date.now(), name:nm});
+    // Log session masuk
+    logAccess('LOGIN','Masuk ke halaman','user');
   });
   pRef.onDisconnect().remove();
 
   db.ref('presence').on('value',function(s){
     var n=Math.max(1,s.numChildren());
     setTxt('stOnline',n); setTxt('aStOnline',n);
+    setTxt('dashOnlineNow',n);
     renderUserList(s.val()||{}, null);
   });
 
   db.ref('lockedNames').on('value',function(s){
-    renderUserList(null, s.val()||{});
+    var data=s.val()||{};
+    renderUserList(null, data);
+    setTxt('dashTotalUser',Object.keys(data).length);
   });
 }
 
@@ -672,6 +819,8 @@ function startTimer() {
     if (!s||!e) {
       document.getElementById('timerL').innerText='Tidak ada jadwal';
       document.getElementById('timerC').innerText='--:--';
+      // Tetap cek lucky hour meski tidak ada jadwal
+      checkLuckyHourStatus();
       return;
     }
     var now=Date.now();
@@ -686,6 +835,34 @@ function aToggle(on) {
   _aLock=true;
   db.ref('settings/eventOn').set(on,function(){setTimeout(function(){_aLock=false;},3000);});
 }
+function checkLuckyHourStatus(){
+  if(!cfg.luckyHourOn||!cfg.luckyMultiplier||cfg.luckyMultiplier<=1){
+    var el=document.getElementById('luckyHourIndicator');if(el)el.remove();return;
+  }
+  var nowH=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Jakarta'})).getHours();
+  var ls=cfg.luckyStart||0,le=cfg.luckyEnd||0;
+  var active=ls<=le?nowH>=ls&&nowH<le:nowH>=ls||nowH<le;
+  var el=document.getElementById('luckyHourIndicator');
+  if(active&&!el){
+    el=document.createElement('div');el.id='luckyHourIndicator';
+    el.style.cssText='position:fixed;top:10px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#78350f,#f59e0b);color:#fff;font-family:Orbitron,sans-serif;font-size:10px;padding:5px 14px;border-radius:20px;z-index:9000;letter-spacing:2px;box-shadow:0 0 20px rgba(245,158,11,.5)';
+    el.innerText='LUCKY HOUR! '+cfg.luckyMultiplier+'x PELUANG';document.body.appendChild(el);
+  }else if(!active&&el){el.remove();}
+}
+// Lucky Hour indicator update tiap 10 detik
+setInterval(function(){
+  if(!cfg.luckyHourOn||!cfg.luckyMultiplier||cfg.luckyMultiplier<=1) return;
+  var nowH=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Jakarta'})).getHours();
+  var ls=cfg.luckyStart||0,le=cfg.luckyEnd||0;
+  var active=ls<=le?nowH>=ls&&nowH<le:nowH>=ls||nowH<le;
+  var el=document.getElementById('luckyHourIndicator');
+  if(active&&!el){
+    el=document.createElement('div');el.id='luckyHourIndicator';
+    el.style.cssText='position:fixed;top:10px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#78350f,#f59e0b);color:#fff;font-family:Orbitron,sans-serif;font-size:10px;padding:5px 14px;border-radius:20px;z-index:9000;letter-spacing:2px;box-shadow:0 0 20px rgba(245,158,11,.5)';
+    el.innerText='LUCKY HOUR! '+cfg.luckyMultiplier+'x PELUANG';document.body.appendChild(el);
+  } else if(!active&&el){el.remove();}
+},10000);
+
 function showCd(ms,label) {
   var t=Math.max(0,Math.floor(ms/1000));
   var d=Math.floor(t/86400),h=Math.floor((t%86400)/3600),m=Math.floor((t%3600)/60),s=t%60;
@@ -702,8 +879,22 @@ document.addEventListener('DOMContentLoaded',function(){
 
 async function doSpin() {
   if (spinning){toast('Tunggu spin selesai!','warn');return;}
+  // Cooldown check
+  if(!testMode&&cfg.spinCooldown>0){
+    var lastSpin=parseInt(localStorage.getItem('xrz_lastSpin_'+DEVID)||'0');
+    var elapsed=Date.now()-lastSpin;
+    var cdMs=cfg.spinCooldown*1000;
+    if(elapsed<cdMs){
+      var remain=Math.ceil((cdMs-elapsed)/1000);
+      toast('Cooldown! Tunggu '+remain+' detik lagi.','warn');return;
+    }
+  }
   if (!db){toast('Tidak terhubung ke server!','error');return;}
   if (!prizes.length){toast('Belum ada item di roda!','error');return;}
+
+  // Cek blacklist permanen
+  var bl=await db.ref('blacklist/'+DEVID).once('value');
+  if(bl.val()){toast('Device ini di-blacklist permanen.','error');return;}
 
   var lk=await db.ref('deviceLock/'+DEVID).once('value');
   var lkVal=lk.val();
@@ -754,6 +945,8 @@ async function doSpin() {
       await saveNH(DEVID,displayName);
       // Daftarkan nama (untuk cek unik)
       await db.ref('registeredNames/'+displayName.toLowerCase().replace(/\s+/g,'_')).set(DEVID);
+      // Log pendaftaran
+      logAccess('REGISTER','Daftar dengan nama: '+displayName,'user');
 
       document.getElementById('nameInput').value=displayName;
       document.getElementById('nameInput').disabled=true;
@@ -771,14 +964,41 @@ async function doSpin() {
     }
     await db.ref('userSpins/'+DEVID).transaction(function(v){return Math.max(0,(v||0)-1);});
     db.ref('spinTotal/'+DEVID).transaction(function(v){return(v||0)+1;});
+    if(cfg.spinCooldown>0) localStorage.setItem('xrz_lastSpin_'+DEVID,Date.now());
   } else {
     if (!name) name='TEST';
   }
 
-  // RNG — pilih idx
+  // RNG — Lucky Hour check
+  var luckyActive=false;
+  if(!testMode&&cfg.luckyHourOn&&cfg.luckyMultiplier>1){
+    var nowHour=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Jakarta'})).getHours();
+    var ls=cfg.luckyStart||0,le=cfg.luckyEnd||0;
+    if(ls<=le?nowHour>=ls&&nowHour<le:nowHour>=ls||nowHour<le) luckyActive=true;
+  }
+
+  // RNG — Pity system
+  var pityBonus=0;
+  if(!testMode&&cfg.pitySystemOn&&loseRun>=(cfg.pityThreshold||5)){
+    pityBonus=loseRun-(cfg.pityThreshold||5);
+  }
+
+  // Hitung weight dengan modifier
   var tw=prizes.reduce(function(s,p){return s+(p.weight||1);},0);
-  var rnd=Math.random()*tw, idx=prizes.length-1;
-  for (var i=0;i<prizes.length;i++){rnd-=(prizes[i].weight||1);if(rnd<=0){idx=i;break;}}
+  // Terapkan lucky hour dan pity ke WIN items
+  var modPrizes=prizes.map(function(p){
+    var w=p.weight||1;
+    if(p.win){
+      if(luckyActive)w=Math.round(w*(cfg.luckyMultiplier||2));
+      if(pityBonus>0)w=Math.round(w*(1+pityBonus*0.2));
+    }
+    return {weight:w,orig:p};
+  });
+  var twMod=modPrizes.reduce(function(s,p){return s+p.weight;},0);
+  var rnd=Math.random()*twMod,idx=modPrizes.length-1;
+  for(var i=0;i<modPrizes.length;i++){rnd-=modPrizes[i].weight;if(rnd<=0){idx=i;break;}}
+
+  // Lucky hour indicator handled by checkLuckyHourStatus()
 
   // Force zonk kalau limit tercapai
   if (forceZonk) {
@@ -877,8 +1097,13 @@ document.addEventListener('DOMContentLoaded',function(){
   };
   document.getElementById('editNameBtn').onclick=doEditName;
   document.getElementById('logoutBtn').onclick=function(){
-    if(!confirm('Yakin Log Out?'))return;
-    localStorage.removeItem('xrz_dev');localStorage.removeItem('xrz_codes');location.reload();
+    if(!confirm('Yakin Log Out? Device ID akan direset.'))return;
+    logAccess('LOGOUT','User logout','user');
+    setTimeout(function(){
+      localStorage.removeItem('xrz_dev');
+      localStorage.removeItem('xrz_codes');
+      location.reload();
+    },500);
   };
   document.getElementById('title').addEventListener('click',onTitleClick);
   document.getElementById('bcBtn').onclick=doBroadcast;
@@ -898,6 +1123,13 @@ document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('exportBtn').onclick=doExport;
   document.getElementById('resetEvtBtn').onclick=doResetEvent;
   document.getElementById('resetAllBtn').onclick=doResetAll;
+  document.getElementById('adminLogoutBtn').onclick=function(){
+    if(!confirm('Logout dari admin panel?'))return;
+    deactivateAdmin();
+  };
+  document.getElementById('clearAdminLogBtn').onclick=function(){localStorage.removeItem(_adminLogKey);document.getElementById('adminLog').innerHTML='<div style="color:#555;font-size:10px;text-align:center;padding:6px">Log dihapus</div>';};
+  document.getElementById('blacklistBtn').onclick=doBlacklist;
+  document.getElementById('unblacklistBtn').onclick=doUnblacklist;
 });
 
 async function doRedeem() {
@@ -910,7 +1142,8 @@ async function doRedeem() {
   if(!data){toast('Kode tidak valid!','error');return;}
   var uc=await db.ref('userCodeUse/'+DEVID+'/'+code).once('value');
   if(uc.val()){toast('Sudah pakai kode ini!','error');return;}
-  if((data.used||0)>=data.maxUse){toast('Kode sudah habis!','error');return;}
+  if(data.maxUse>0&&(data.used||0)>=data.maxUse){toast('Kode sudah habis!','error');return;}
+  if(data.exclusive&&data.exclusive!==DEVID){toast('Kode ini khusus untuk device tertentu!','error');return;}
   await db.ref('userSpins/'+DEVID).transaction(function(v){return(v||0)+data.spin;});
   await db.ref('codes/'+code+'/used').transaction(function(v){return(v||0)+1;});
   await db.ref('userCodeUse/'+DEVID+'/'+code).set(true);
@@ -929,12 +1162,37 @@ function onTitleClick() {
     titleHits=0;clearTimeout(titleTimer);
     var p=prompt('PIN Admin:');if(p===null)return;
     if(p===ADMIN_PIN){
-      isAdmin=true;
-      var ap=document.getElementById('adminPanel');ap.style.display='block';
-      syncAdminUI();ap.scrollIntoView({behavior:'smooth'});
-      toast('Admin Mode Aktif','success');
-    }else toast('PIN salah!','error');
+      activateAdmin();
+    }else{
+      toast('PIN salah!','error');
+      logAccess('ADMIN_FAIL','PIN salah','admin');
+    }
   }
+}
+
+function activateAdmin(){
+  isAdmin=true;
+  sessionStorage.setItem('xrz_admin','1');
+  var ap=document.getElementById('adminPanel');
+  ap.style.display='block';
+  syncAdminUI();
+  ap.scrollIntoView({behavior:'smooth'});
+  toast('Admin Mode Aktif','success');
+  // Tampilkan badge admin di header
+  var badge=document.getElementById('adminHeaderBadge');
+  if(badge)badge.style.display='flex';
+  logAccess('ADMIN_LOGIN','Admin masuk','admin');
+}
+
+function deactivateAdmin(){
+  isAdmin=false;
+  sessionStorage.removeItem('xrz_admin');
+  document.getElementById('adminPanel').style.display='none';
+  var badge=document.getElementById('adminHeaderBadge');
+  if(badge)badge.style.display='none';
+  toast('Admin logout.','warn');
+  logAccess('ADMIN_LOGOUT','Admin keluar','admin');
+  addAdminLog('Admin logout dari panel');
 }
 
 function syncAdminUI() {
@@ -943,6 +1201,13 @@ function syncAdminUI() {
   document.getElementById('scheduleOn').checked=cfg.scheduleEnabled||false;
   var _un=document.getElementById('uniqueNameOn'); if(_un)_un.checked=cfg.uniqueNameOn||false;
   var _lnp=document.getElementById('lockNamePermanent'); if(_lnp)_lnp.checked=cfg.lockNamePermanent||false;
+  var _ps=document.getElementById('pitySystemOn'); if(_ps)_ps.checked=cfg.pitySystemOn||false;
+  var _pt=document.getElementById('pityThreshold'); if(_pt)_pt.value=cfg.pityThreshold||5;
+  var _sc=document.getElementById('spinCooldown'); if(_sc)_sc.value=cfg.spinCooldown||0;
+  var _lho=document.getElementById('luckyHourOn'); if(_lho)_lho.checked=cfg.luckyHourOn||false;
+  var _ls=document.getElementById('luckyStart'); if(_ls)_ls.value=cfg.luckyStart||0;
+  var _le=document.getElementById('luckyEnd'); if(_le)_le.value=cfg.luckyEnd||0;
+  var _lm=document.getElementById('luckyMultiplier'); if(_lm)_lm.value=cfg.luckyMultiplier||2;
   document.getElementById('evStart').value=cfg.eventStart?toLocal(cfg.eventStart):'';
   document.getElementById('evEnd').value=cfg.eventEnd?toLocal(cfg.eventEnd):'';
   if(!db)return;
@@ -953,18 +1218,22 @@ function syncAdminUI() {
   });
   db.ref('broadcast').once('value',function(s){if(s.val())document.getElementById('bcInput').value=s.val();});
   db.ref('codes').once('value',function(s){renderCodes(s.val()||{});});
+  loadAdminLog();
+  addAdminLog('Admin panel dibuka');
   renderWheelList();renderChance();
 }
 
 async function doBroadcast(){if(!db)return;var msg=document.getElementById('bcInput').value.trim();await db.ref('broadcast').set(msg||null);toast(msg?'Broadcast terkirim!':'Broadcast dihapus.','success');}
-function doToggleEvent(){if(!db)return;if(cfg.scheduleEnabled){toast('Nonaktifkan schedule dulu!','warn');return;}if(!prizes.length){toast('Tambah item roda dulu!','error');return;}var next=!cfg.eventOn;db.ref('settings/eventOn').set(next,function(err){if(err)toast('Error: '+err.message,'error');else toast(next?'Event HIDUP!':'Event DIMATIKAN!',next?'success':'warn');});}
+function doToggleEvent(){if(!db)return;if(cfg.scheduleEnabled){toast('Nonaktifkan schedule dulu!','warn');return;}if(!prizes.length){toast('Tambah item roda dulu!','error');return;}var next=!cfg.eventOn;db.ref('settings/eventOn').set(next,function(err){if(err)toast('Error: '+err.message,'error');else{toast(next?'Event HIDUP!':'Event DIMATIKAN!',next?'success':'warn');addAdminLog(next?'Event DIHIDUPKAN':'Event DIMATIKAN');}});}
 function doTestMode(){testMode=!testMode;var btn=document.getElementById('tmBtn'),banner=document.getElementById('tmBanner');if(testMode){btn.style.background='linear-gradient(135deg,#059669,#064e3b)';btn.innerText='TEST ON';banner.style.display='block';toast('Mode Test AKTIF','info');}else{btn.style.background='linear-gradient(135deg,#7c3aed,#4c1d95)';btn.innerText='TEST';banner.style.display='none';toast('Mode Test OFF','success');}}
-async function doSaveSettings(){if(!db)return;var sv=document.getElementById('evStart').value,ev=document.getElementById('evEnd').value;var sTs=sv?new Date(sv).getTime():0,eTs=ev?new Date(ev).getTime():0;if(sTs&&eTs&&sTs>=eTs){toast('Waktu mulai harus sebelum akhir!','error');return;}var d={maxWinnerGlobal:parseInt(document.getElementById('maxWin').value)||0,maxWinPerDevice:parseInt(document.getElementById('maxWinDev').value)||0,maxSpinPerUser:parseInt(document.getElementById('maxSpin').value)||0,freeSpinNewUser:parseInt(document.getElementById('freeSpin').value)||5,eventStart:sTs,eventEnd:eTs,scheduleEnabled:document.getElementById('scheduleOn').checked,eventOn:cfg.eventOn||false,uniqueNameOn:document.getElementById('uniqueNameOn').checked,lockNamePermanent:document.getElementById('lockNamePermanent').checked};try{await db.ref('settings').set(d);toast('Settings tersimpan!','success');}catch(e){toast('Error: '+e.message,'error');}}
+async function doSaveSettings(){if(!db)return;var sv=document.getElementById('evStart').value,ev=document.getElementById('evEnd').value;var sTs=sv?new Date(sv).getTime():0,eTs=ev?new Date(ev).getTime():0;if(sTs&&eTs&&sTs>=eTs){toast('Waktu mulai harus sebelum akhir!','error');return;}var d={maxWinnerGlobal:parseInt(document.getElementById('maxWin').value)||0,maxWinPerDevice:parseInt(document.getElementById('maxWinDev').value)||0,maxSpinPerUser:parseInt(document.getElementById('maxSpin').value)||0,freeSpinNewUser:parseInt(document.getElementById('freeSpin').value)||5,eventStart:sTs,eventEnd:eTs,scheduleEnabled:document.getElementById('scheduleOn').checked,eventOn:cfg.eventOn||false,uniqueNameOn:document.getElementById('uniqueNameOn').checked,lockNamePermanent:document.getElementById('lockNamePermanent').checked,pitySystemOn:document.getElementById('pitySystemOn').checked,pityThreshold:parseInt(document.getElementById('pityThreshold').value)||5,spinCooldown:parseInt(document.getElementById('spinCooldown').value)||0,luckyHourOn:document.getElementById('luckyHourOn').checked,luckyStart:parseInt(document.getElementById('luckyStart').value)||0,luckyEnd:parseInt(document.getElementById('luckyEnd').value)||0,luckyMultiplier:parseFloat(document.getElementById('luckyMultiplier').value)||2};try{await db.ref('settings').set(d);toast('Settings tersimpan!','success');addAdminLog('Settings disimpan');}catch(e){toast('Error: '+e.message,'error');}}
 async function doSaveInfo(){if(!db)return;var info=document.getElementById('infoInput').value.trim();await db.ref('infoBoard').set(info||null);toast(info?'Info disimpan!':'Info dikosongkan.','success');}
 async function doClearInfo(){if(!db||!confirm('Hapus info event?'))return;await db.ref('infoBoard').set(null);document.getElementById('infoInput').value='';toast('Info dihapus.','success');}
 async function doAddItem(){if(!db)return;var lb=document.getElementById('nwLabel').value.trim(),tp=document.getElementById('nwType').value;var diff=parseInt(document.getElementById('nwDiff').value)||5;if(!lb){toast('Masukkan nama item!','error');return;}var wt=diffToWeight(diff);var s=await db.ref('wheelItems').once('value'),raw=s.val();var cur=Array.isArray(raw)?raw:(raw&&typeof raw==='object'?Object.values(raw):[]);cur=cur.filter(function(x){return x&&x.label;});cur.push({label:lb,win:tp==='win',weight:wt,difficulty:diff});await db.ref('wheelItems').set(cur);document.getElementById('nwLabel').value='';toast(lb+' ditambahkan!','success');}
 window.delPrize=async function(i){if(!db||!confirm('Hapus "'+prizes[i].label+'"?'))return;var s=await db.ref('wheelItems').once('value'),raw=s.val();var cur=Array.isArray(raw)?raw:(raw&&typeof raw==='object'?Object.values(raw):[]);cur=cur.filter(function(x){return x&&x.label;});cur.splice(i,1);await db.ref('wheelItems').set(cur.length?cur:null);toast('Item dihapus!','success');};
-async function doAddCode(){if(!db)return;var nm=document.getElementById('ncName').value.trim().toUpperCase().replace(/[^A-Z0-9_]/g,'');var sp=parseInt(document.getElementById('ncSpin').value),mx=parseInt(document.getElementById('ncMax').value);if(!nm){toast('Nama kode tidak valid!','error');return;}if(!sp||sp<=0){toast('Jumlah spin harus > 0!','error');return;}if(!mx||mx<=0){toast('Max pengguna harus > 0!','error');return;}var ex=await db.ref('codes/'+nm).once('value');if(ex.val()){toast('Kode sudah ada!','error');return;}await db.ref('codes/'+nm).set({spin:sp,maxUse:mx,used:0});document.getElementById('ncName').value='';document.getElementById('ncSpin').value='';document.getElementById('ncMax').value='';toast('Kode '+nm+' disimpan!','success');}
+async function doAddCode(){if(!db)return;var nm=document.getElementById('ncName').value.trim().toUpperCase().replace(/[^A-Z0-9_]/g,'');var sp=parseInt(document.getElementById('ncSpin').value),mx=parseInt(document.getElementById('ncMax').value);if(!nm){toast('Nama kode tidak valid!','error');return;}if(!sp||sp<=0){toast('Jumlah spin harus > 0!','error');return;}if(!mx||mx<=0){toast('Max pengguna harus > 0!','error');return;}var ex=await db.ref('codes/'+nm).once('value');if(ex.val()){toast('Kode sudah ada!','error');return;}var excl=document.getElementById('ncExclusive').value.trim();
+  await db.ref('codes/'+nm).set({spin:sp,maxUse:mx,used:0,exclusive:excl||null});
+  document.getElementById('ncExclusive').value='';document.getElementById('ncName').value='';document.getElementById('ncSpin').value='';document.getElementById('ncMax').value='';toast('Kode '+nm+' disimpan!','success');}
 window.delCode=async function(c){if(!db||!confirm('Hapus kode "'+c+'"?'))return;await db.ref('codes/'+c).remove();toast('Kode dihapus!','success');};
 async function doAddSpin(){if(!db)return;var id=document.getElementById('tgtId').value.trim(),amt=parseInt(document.getElementById('tgtAmt').value);if(!id){toast('Masukkan Device ID!','error');return;}if(!amt||amt<=0){toast('Jumlah harus > 0!','error');return;}await db.ref('manualSpin/'+id).transaction(function(v){return(v||0)+amt;});document.getElementById('tgtId').value='';document.getElementById('tgtAmt').value='';toast('+'+amt+' spin dikirim ke '+id,'success');}
 async function doGrant(){
@@ -980,7 +1249,7 @@ async function doGrant(){
   await db.ref('accountData/'+id).update(upd);
   document.getElementById('grantId').value='';
   var what=(editName&&editWa)?'nama + nomor WA':editName?'nama':'nomor WA';
-  toast('Izin edit '+what+' diberikan ke '+id+' (24 jam)','success');
+  toast('Izin edit '+what+' diberikan ke '+id+' (24 jam)','success');addAdminLog('Grant edit '+what+': '+id);
 }
 async function doRevoke(){
   if(!db)return;
@@ -1050,7 +1319,29 @@ async function doUnlock(){
 
 async function doExport(){if(!db)return;var s=await db.ref('winners').once('value'),d=s.val()||[];if(!d.length){toast('Belum ada pemenang.','warn');return;}var tx='=== PEMENANG XREZZKYSTORE ===\nExport: '+new Date().toLocaleString('id-ID')+'\nTotal: '+d.length+'\n\n';var byUser={};d.forEach(function(w){if(!byUser[w.deviceId])byUser[w.deviceId]={name:w.name,wins:[]};byUser[w.deviceId].wins.push({prize:w.prize,time:w.time});});var no=1;Object.keys(byUser).forEach(function(devId){var u=byUser[devId];tx+=no+'. NAMA   : '+u.name+'\n   DEVICE: '+devId+'\n';u.wins.forEach(function(w,i){tx+='   HADIAH '+(i+1)+': '+w.prize+' ('+w.time+')\n';});tx+='   TOTAL : '+u.wins.length+'x\n\n';no++;});document.getElementById('expArea').value=tx;document.getElementById('expModal').style.display='flex';}
 async function doResetEvent(){if(!db||!confirm('Reset event ke default?\n(Pemenang tidak dihapus)'))return;await db.ref('settings').set({eventOn:false,maxWinnerGlobal:0,maxWinPerDevice:0,maxSpinPerUser:0,freeSpinNewUser:5,eventStart:0,eventEnd:0,scheduleEnabled:false});await db.ref('spinUsed').remove();toast('Event direset!','success');}
-async function doResetAll(){if(!db)return;if(!confirm('HAPUS SEMUA data?\nTidak bisa dibatalkan!'))return;if(!confirm('KONFIRMASI FINAL!'))return;try{await Promise.all([db.ref('winners').remove(),db.ref('deviceWins').remove(),db.ref('spinUsed').remove(),db.ref('userCodeUse').remove(),db.ref('userSpins').remove(),db.ref('lockedNames').remove(),db.ref('nameHistory').remove(),db.ref('spinTotal').remove(),db.ref('manualSpin').remove(),db.ref('accountData').remove(),db.ref('deviceLock').remove(),db.ref('spinHistory').remove(),db.ref('registeredNames').remove()]);toast('Semua data dihapus!','success');}catch(e){toast('Error: '+e.message,'error');}}
+async function doBlacklist(){
+  if(!db)return;
+  var id=document.getElementById('blacklistId').value.trim();
+  if(!id){toast('Masukkan Device ID!','error');return;}
+  await db.ref('blacklist/'+id).set({ts:Date.now(),by:'admin'});
+  document.getElementById('blacklistId').value='';
+  document.getElementById('blacklistResult').style.display='block';
+  document.getElementById('blacklistResult').innerHTML='<span style="color:#ef4444">'+id+' di-blacklist permanen</span>';
+  addAdminLog('Blacklist: '+id);
+  toast(id+' di-blacklist!','success');
+}
+async function doUnblacklist(){
+  if(!db)return;
+  var id=document.getElementById('blacklistId').value.trim();
+  if(!id){toast('Masukkan Device ID!','error');return;}
+  await db.ref('blacklist/'+id).remove();
+  document.getElementById('blacklistId').value='';
+  document.getElementById('blacklistResult').style.display='block';
+  document.getElementById('blacklistResult').innerHTML='<span style="color:#4ade80">'+id+' dihapus dari blacklist</span>';
+  addAdminLog('Unblacklist: '+id);
+  toast(id+' dihapus dari blacklist!','success');
+}
+async function doResetAll(){if(!db)return;if(!confirm('HAPUS SEMUA data?\nTidak bisa dibatalkan!'))return;if(!confirm('KONFIRMASI FINAL!'))return;try{await Promise.all([db.ref('winners').remove(),db.ref('deviceWins').remove(),db.ref('spinUsed').remove(),db.ref('userCodeUse').remove(),db.ref('userSpins').remove(),db.ref('lockedNames').remove(),db.ref('nameHistory').remove(),db.ref('spinTotal').remove(),db.ref('manualSpin').remove(),db.ref('accountData').remove(),db.ref('deviceLock').remove(),db.ref('spinHistory').remove(),db.ref('registeredNames').remove(),db.ref('accessLog').remove()]);addAdminLog('RESET ALL DATA dilakukan');toast('Semua data dihapus!','success');}catch(e){toast('Error: '+e.message,'error');}}
 
 // ══════════════════════════════════════════
 // ACCOUNT MODAL
@@ -1168,6 +1459,79 @@ function renderUserList(presSnap, lockedSnap) {
   });
 }
 
+// Admin log
+// ═══════════════════════════════════════
+// LOG AKSES — tersimpan ke Firebase realtime
+// ═══════════════════════════════════════
+function logAccess(type, desc, role) {
+  if(!db)return;
+  var nm=document.getElementById('nameInput').value.trim()||DEVID.slice(0,12);
+  db.ref('accessLog').push({
+    type:type,
+    desc:desc,
+    role:role||'user',
+    name:nm,
+    deviceId:DEVID,
+    ts:Date.now(),
+    timeStr:wibTime()
+  });
+}
+
+// Listener access log — tampil di panel
+function startAccessLogListener(){
+  if(!db)return;
+  db.ref('accessLog').limitToLast(50).on('value',function(s){
+    var raw=s.val()||{};
+    var list=Object.values(raw).sort(function(a,b){return(b.ts||0)-(a.ts||0);});
+    setTxt('accessLogCnt',list.length+' log');
+    var el=document.getElementById('accessLogList');if(!el)return;
+    if(!list.length){el.innerHTML='<div style="color:#aaa;font-size:11px;text-align:center;padding:8px">Belum ada log.</div>';return;}
+    el.innerHTML='';
+    list.forEach(function(item){
+      var d=document.createElement('div');
+      d.style.cssText='padding:4px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:10px;display:flex;align-items:center;gap:6px';
+      var typeColor='#aaa',icon='·';
+      if(item.type==='LOGIN'){icon='→';typeColor='#4ade80';}
+      else if(item.type==='LOGOUT'){icon='←';typeColor='#f87171';}
+      else if(item.type==='ADMIN_LOGIN'){icon='★';typeColor='#ffcc00';}
+      else if(item.type==='ADMIN_LOGOUT'){icon='☆';typeColor='#f59e0b';}
+      else if(item.type==='ADMIN_FAIL'){icon='✗';typeColor='#ef4444';}
+      d.innerHTML=
+        '<span style="color:'+typeColor+';font-size:12px;width:14px;text-align:center;flex-shrink:0">'+icon+'</span>'+
+        '<span style="color:#fff;flex:1">'+esc(item.name||item.deviceId.slice(0,10))+'</span>'+
+        '<span style="color:'+typeColor+';font-size:9px;flex-shrink:0">'+esc(item.desc||item.type)+'</span>'+
+        '<span style="color:#555;font-size:9px;flex-shrink:0;margin-left:4px">'+esc(item.timeStr||'')+'</span>';
+      el.appendChild(d);
+    });
+  });
+}
+
+var _adminLogKey='xrz_adminlog';
+function addAdminLog(msg){
+  var el=document.getElementById('adminLog');if(!el)return;
+  var d=document.createElement('div');
+  d.style.cssText='padding:2px 0;border-bottom:1px solid rgba(255,255,255,.05);color:#aaa';
+  d.innerHTML='<span style="color:rgba(0,255,213,.5)">'+new Date().toLocaleTimeString('id-ID')+'</span> '+esc(msg);
+  el.insertBefore(d,el.firstChild);
+  // Simpan ke localStorage
+  var logs=JSON.parse(localStorage.getItem(_adminLogKey)||'[]');
+  logs.unshift({t:Date.now(),msg:msg});
+  logs=logs.slice(0,50);
+  localStorage.setItem(_adminLogKey,JSON.stringify(logs));
+}
+function loadAdminLog(){
+  var el=document.getElementById('adminLog');if(!el)return;
+  var logs=JSON.parse(localStorage.getItem(_adminLogKey)||'[]');
+  if(!logs.length){el.innerHTML='<div style="color:#555;font-size:10px;text-align:center;padding:6px">Belum ada aktivitas</div>';return;}
+  el.innerHTML='';
+  logs.forEach(function(l){
+    var d=document.createElement('div');
+    d.style.cssText='padding:2px 0;border-bottom:1px solid rgba(255,255,255,.05);color:#aaa;font-size:10px';
+    d.innerHTML='<span style="color:rgba(0,255,213,.5)">'+new Date(l.t).toLocaleTimeString('id-ID')+'</span> '+esc(l.msg);
+    el.appendChild(d);
+  });
+}
+
 function renderWinners(list){
   var el=document.getElementById('winList');
   if(!list.length){el.innerHTML='<div style="color:#aaa;font-size:11px;text-align:center;padding:8px">Belum ada pemenang.</div>';return;}
@@ -1240,7 +1604,7 @@ function renderCodes(data){
   el.innerHTML='';
   keys.forEach(function(c){
     var d=data[c],div=document.createElement('div');div.className='ci';
-    div.innerHTML='<div><div style="color:#00ffd5;font-weight:700;font-size:11px">'+esc(c)+'</div><div style="color:#aaa;font-size:9px">+'+d.spin+' spin &middot; '+(d.used||0)+'/'+d.maxUse+' pakai</div></div><button class="dbtn" onclick="delCode(\''+esc(c)+'\')">x</button>';
+    div.innerHTML='<div><div style="color:#00ffd5;font-weight:700;font-size:11px">'+esc(c)+'</div><div style="color:#aaa;font-size:9px">+'+d.spin+' spin &middot; '+(d.used||0)+'/'+(d.maxUse>0?d.maxUse:'inf')+' pakai'+(d.exclusive?'<span style="color:#f59e0b"> (EKSKLUSIF)</span>':'')+'</div></div><button class="dbtn" onclick="delCode(\''+esc(c)+'\')">x</button>';
     el.appendChild(div);
   });
 }
@@ -1325,6 +1689,18 @@ window.addEventListener('load', function() {
 
   // Pasang semua listeners (non-blocking)
   startListeners();
+  startAccessLogListener();
+
+  // Restore admin session kalau masih di tab yang sama
+  if(sessionStorage.getItem('xrz_admin')==='1'){
+    isAdmin=true;
+    var ap=document.getElementById('adminPanel');
+    ap.style.display='block';
+    var badge=document.getElementById('adminHeaderBadge');
+    if(badge)badge.style.display='flex';
+    // Sync UI setelah data Firebase masuk (delay sedikit)
+    setTimeout(syncAdminUI,1500);
+  }
   startTimer();
 
   // Hide loading setelah Firebase konek ATAU timeout 4 detik
@@ -1349,4 +1725,4 @@ window.addEventListener('load', function() {
 });
 </script>
 </body>
-        </html>
+</html>
