@@ -601,7 +601,7 @@ var DEVID = (function() {
 var cfg={}, prizes=[], spinning=false, wRot=0, mySpins=0;
 var isAdmin=false, testMode=false, titleHits=0, titleTimer=null;
 var schedTick=null, loseRun=0, logCount=0, winCount=0;
-var _presenceData={}, _lockedNamesData={};
+var _presenceData={}, _lockedNamesData={}, _cachedLockedName=null;
 
 // ══════════════════════════════════════════
 // WHEEL CANVAS
@@ -675,7 +675,7 @@ function startListeners() {
 
   db.ref('infoBoard').on('value', function(s) {
     var v = s.val()||'';
-    setTxt('infoContent', v||'Tidak ada info.');
+    setTxt('infoContent', v||'Info event belum diisi admin.');
     var prev=document.getElementById('infoPreview');
     if (prev) prev.innerText=v||'(kosong)';
     var inp=document.getElementById('infoInput');
@@ -718,25 +718,9 @@ function startListeners() {
   db.ref('blacklist').on('value',function(s){
     setTxt('dashBlacklist',s.numChildren());
   });
-  // Spin hari ini — filter client-side
-  var todayStart=new Date();todayStart.setHours(0,0,0,0);
-  db.ref('spinHistory').orderByChild('ts').startAt(todayStart.getTime()).on('value',function(s){
-    var n=s.numChildren();
-    setTxt('dashSpinToday',n);
-  });
 
-  db.ref('spinHistory').on('value',function(s){
-    var raw=s.val()||{},list=Object.values(raw);
-    setTxt('dashTotalSpin',list.length);
-    var wins=list.filter(function(x){return x.win;}).length;
-    setTxt('dashTotalWin',wins);
-    var rate=list.length?Math.round(wins/list.length*100):0;
-    setTxt('dashWinRate',rate+'%');
-    // Rata-rata spin per user
-    var byUser={};list.forEach(function(x){if(x.deviceId)byUser[x.deviceId]=(byUser[x.deviceId]||0)+1;});
-    var uCount=Object.keys(byUser).length;
-    setTxt('dashAvgSpin',uCount?Math.round(list.length/uCount):0);
-  });
+
+
 
   db.ref('wheelItems').on('value', function(s) {
     var raw=s.val();
@@ -751,46 +735,65 @@ function startListeners() {
     if (isAdmin) renderCodes(s.val()||{});
   });
 
-  // Riwayat spin global — realtime
-  db.ref('spinHistory').limitToLast(50).on('value', function(s) {
+  // SATU listener spinHistory untuk semua keperluan
+  db.ref('spinHistory').limitToLast(100).on('value', function(s) {
     var raw = s.val()||{};
-    var list = Object.values(raw).sort(function(a,b){return(b.ts||0)-(a.ts||0);});
-    setTxt('globalSpinCnt', list.length + ' spin');
-    var el = document.getElementById('globalSpinList');
-    if (!el) return;
-    if (!list.length) { el.innerHTML='<div style="color:#aaa;font-size:11px;text-align:center;padding:8px">Belum ada spin.</div>'; return; }
-    el.innerHTML = '';
-    list.slice(0,50).forEach(function(item) {
-      var d = document.createElement('div');
-      d.style.cssText = 'padding:3px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:10px;display:flex;justify-content:space-between;align-items:center';
-      d.innerHTML = '<span style="color:#aaa">' + esc(item.name||'?') + '</span>' +
-        '<span style="color:' + (item.win?'#4ade80':'#f87171') + ';margin:0 6px">' + esc(item.prize||'') + '</span>' +
-        '<span style="color:#555;font-size:9px">' + (item.timeStr||'') + '</span>';
-      el.appendChild(d);
-    });
-  });
+    var all = Object.values(raw);
+    var sorted = all.slice().sort(function(a,b){return(b.ts||0)-(a.ts||0);});
 
-  // Riwayat spin per user — realtime dari Firebase
-  db.ref('spinHistory').orderByChild('deviceId').equalTo(DEVID).limitToLast(20).on('value', function(s) {
-    var raw = s.val()||{};
-    var list = Object.values(raw).sort(function(a,b){return(b.ts||0)-(a.ts||0);});
+    // Dashboard stats
+    setTxt('dashTotalSpin', all.length);
+    var wins = all.filter(function(x){return x.win;}).length;
+    setTxt('dashTotalWin', wins);
+    setTxt('dashWinRate', all.length?Math.round(wins/all.length*100)+'%':'0%');
+    var byUser={};
+    all.forEach(function(x){if(x.deviceId)byUser[x.deviceId]=(byUser[x.deviceId]||0)+1;});
+    var uCount=Object.keys(byUser).length;
+    setTxt('dashAvgSpin', uCount?Math.round(all.length/uCount):0);
+
+    // Spin hari ini
+    var todayMs = new Date();todayMs.setHours(0,0,0,0);
+    setTxt('dashSpinToday', all.filter(function(x){return x.ts>=todayMs.getTime();}).length);
+
+    // Global spin list (50 terbaru)
+    var gEl = document.getElementById('globalSpinList');
+    if (gEl) {
+      if (!sorted.length) {
+        gEl.innerHTML='<div style="color:#aaa;font-size:11px;text-align:center;padding:8px">Belum ada spin.</div>';
+      } else {
+        setTxt('globalSpinCnt', sorted.length+' spin');
+        gEl.innerHTML='';
+        sorted.slice(0,50).forEach(function(item){
+          var d=document.createElement('div');
+          d.style.cssText='padding:3px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:10px;display:flex;justify-content:space-between;align-items:center';
+          d.innerHTML='<span style="color:#aaa">'+esc(item.name||'?')+'</span>'+
+            '<span style="color:'+(item.win?'#4ade80':'#f87171')+';margin:0 6px">'+esc(item.prize||'')+'</span>'+
+            '<span style="color:#555;font-size:9px">'+(item.timeStr||'')+'</span>';
+          gEl.appendChild(d);
+        });
+      }
+    }
+
+    // Per-user spin log (20 terbaru milik DEVID)
+    var mySpinList = sorted.filter(function(x){return x.deviceId===DEVID;}).slice(0,20);
     var logEl = document.getElementById('logPanel');
-    // Hapus entry lama (keep panel-title)
-    var title = logEl.querySelector('.ptitle');
-    logEl.innerHTML = '';
-    if (title) logEl.appendChild(title);
-    setTxt('logCnt', list.length + ' spin');
-    list.forEach(function(item) {
-      var d = document.createElement('div');
-      d.style.cssText = 'padding:3px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:10px';
-      d.innerHTML = '<span style="color:rgba(0,255,213,.5)">' + (item.timeStr||'') + '</span>' +
-        ' <span style="color:' + (item.win?'#4ade80':'#f87171') + '">' + (item.win?'WIN':'ZONK') + ' ' + esc(item.prize||'') + '</span>';
-      logEl.appendChild(d);
-    });
+    if (logEl) {
+      var title=logEl.querySelector('.ptitle');
+      logEl.innerHTML='';
+      if(title) logEl.appendChild(title);
+      setTxt('logCnt', mySpinList.length+' spin');
+      mySpinList.forEach(function(item){
+        var d=document.createElement('div');
+        d.style.cssText='padding:3px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:10px';
+        d.innerHTML='<span style="color:rgba(0,255,213,.5)">'+(item.timeStr||'')+'</span>'+
+          ' <span style="color:'+(item.win?'#4ade80':'#f87171')+'">'+(item.win?'WIN':'ZONK')+' '+esc(item.prize||'')+'</span>';
+        logEl.appendChild(d);
+      });
+    }
   });
 
   db.ref('userSpins/'+DEVID).on('value', function(s) {
-    mySpins=s.val()||0;
+    mySpins = (s.val()===null||s.val()===undefined) ? 0 : s.val();
     setTxt('stSpin',mySpins);
     document.getElementById('spinInfo').innerText='Sisa Spin: '+mySpins;
   });
@@ -798,9 +801,11 @@ function startListeners() {
   db.ref('manualSpin/'+DEVID).on('value', function(s) {
     var x=s.val();
     if (x&&x>0) {
-      db.ref('userSpins/'+DEVID).transaction(function(v){return(v||0)+x;});
-      db.ref('manualSpin/'+DEVID).set(0);
-      toast('+'+x+' spin dari admin!','success');
+      // Set 0 dulu sebelum transaction untuk cegah double trigger
+      db.ref('manualSpin/'+DEVID).set(0).then(function(){
+        db.ref('userSpins/'+DEVID).transaction(function(v){return(v||0)+x;});
+        toast('+'+x+' spin dari admin!','success');
+      });
     }
   });
 
@@ -810,9 +815,12 @@ function startListeners() {
       document.getElementById('nameInput').value=v;
       document.getElementById('nameInput').disabled=true;
       var wa=document.getElementById('waInput'); if(wa) wa.disabled=true;
-      db.ref('presence/'+DEVID).once('value',function(ps){
-        if(ps.val()) db.ref('presence/'+DEVID).update({name:v});
-      });
+      if (v !== _cachedLockedName) {
+        _cachedLockedName = v;
+        db.ref('presence/'+DEVID).once('value',function(ps){
+          if(ps.val()) db.ref('presence/'+DEVID).update({name:v});
+        });
+      }
     }
   });
 
@@ -1074,29 +1082,22 @@ async function doSpin() {
   document.getElementById('result').className='';
   document.getElementById('result').innerText='';
 
-  // Countdown 3-2-1
-  await new Promise(function(resolve){
-    var count=3;
-    var resultEl=document.getElementById('result');
-    resultEl.style.fontSize='32px';
-    resultEl.style.color='#ffcc00';
-    var iv=setInterval(function(){
-      if(count>0){resultEl.innerText=count;count--;}
-      else{clearInterval(iv);resultEl.innerText='GO!';
-        setTimeout(function(){
-          resultEl.style.fontSize='';resultEl.style.color='';
-          resolve();
-        },400);
-      }
-    },500);
-  });
-
-  btn.innerText='SPINNING...';
-  cvs.classList.add('glow');
-  document.getElementById('result').innerText='...';
-  playSpin();
-
-  spinTo(idx, async function(){
+  // Countdown 3-2-1 → lalu spin
+  var resultEl=document.getElementById('result');
+  resultEl.style.fontSize='30px';resultEl.style.color='#ffcc00';
+  var cdCount=3;
+  var cdIv=setInterval(function(){
+    if(cdCount>0){resultEl.innerText=cdCount;cdCount--;}
+    else{
+      clearInterval(cdIv);
+      resultEl.innerText='GO!';
+      setTimeout(function(){
+        resultEl.style.fontSize='';resultEl.style.color='';
+        btn.innerText='SPINNING...';
+        cvs.classList.add('glow');
+        resultEl.innerText='...';
+        playSpin();
+        spinTo(idx, function(){
     cvs.classList.remove('glow'); stopSpin();
     var p=prizes[idx];
     document.getElementById('result').innerText=p.label;
@@ -1126,7 +1127,8 @@ async function doSpin() {
       if (loseRun>=3){var sk=document.getElementById('streak');sk.innerText=loseRun+'x Zonk!';sk.style.display='block';}
       toast(loseRun>=5?'Ayo jangan nyerah!':'Zonk! Coba lagi.','warn');
     }
-    spinning=false; btn.disabled=false; btn.innerText='SPIN RNG';
+        spinning=false; btn.disabled=false; btn.innerText='SPIN RNG';
+        });},400);}},500);
   });
 }
 
