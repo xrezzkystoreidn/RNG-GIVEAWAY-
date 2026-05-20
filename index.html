@@ -193,7 +193,7 @@ button:disabled{opacity:.5;cursor:not-allowed;transform:none}
   </div>
   <div id="bb"></div>
   <div id="tkw"><span id="tk">XREZZKYSTORE RNG GIVEAWAY - Putar roda dan menangkan hadiah!</span></div>
-  <div id="evInd" class="st-off">MEMUAT...</div>
+  <div id="evInd" class="st-off">EVENT OFFLINE</div>
   <div id="timerBox"><div id="timerDI"></div><div id="timerL">-</div><div id="timerC">-- : -- : -- : --</div></div>
   <div id="stats">
     <div class="sb"><div class="v" id="stWin">0</div><div class="l">MENANG</div></div>
@@ -228,8 +228,8 @@ button:disabled{opacity:.5;cursor:not-allowed;transform:none}
   <button id="claimBtn">KLAIM VIA WHATSAPP</button>
   <button id="shareBtn" style="display:none;background:linear-gradient(135deg,#0ea5e9,#0369a1);color:#fff;margin-top:4px;font-size:12px">SHARE HASIL</button>
   <span id="spinInfo">Memuat...</span>
-  <span id="spinFree"></span>
-  <span id="devInfo">Memuat...</span>
+  <span id="spinFree" style="min-height:15px"></span>
+  <span id="devInfo" style="cursor:pointer"></span>
   <!-- Riwayat Spin Saya (per user, realtime dari Firebase) -->
   <div class="panel" id="logPanel">
     <div class="ptitle"><span>RIWAYAT SPIN SAYA</span><span id="logCnt" style="color:#aaa;font-size:10px">0 spin</span></div>
@@ -242,10 +242,10 @@ button:disabled{opacity:.5;cursor:not-allowed;transform:none}
     </div>
     <div id="globalSpinList"></div>
   </div>
-  <div class="panel"><div class="ptitle">INFO EVENT</div><div id="infoContent" style="color:#ccc;font-size:11px;line-height:1.5">-</div></div>
+  <div class="panel"><div class="ptitle">INFO EVENT</div><div id="infoContent" style="color:#ccc;font-size:11px;line-height:1.5">Info event belum diisi admin.</div></div>
   <div class="panel" style="max-height:150px;overflow:auto">
     <div class="ptitle"><span>PEMENANG</span><span id="winBadge" style="background:#00ffd5;color:#000;font-size:9px;padding:2px 5px;border-radius:8px;font-weight:700">0</span></div>
-    <div id="winList">-</div>
+    <div id="winList"><div style="color:#aaa;font-size:11px;text-align:center;padding:8px">Belum ada pemenang.</div></div>
   </div>
   <!-- DAFTAR USER TERDAFTAR -->
   <div class="panel" style="max-height:200px;overflow:auto">
@@ -793,9 +793,13 @@ function startListeners() {
   });
 
   db.ref('userSpins/'+DEVID).on('value', function(s) {
-    mySpins = (s.val()===null||s.val()===undefined) ? 0 : s.val();
+    var raw=s.val();
+    mySpins=(raw===null||raw===undefined)?0:Number(raw);
     setTxt('stSpin',mySpins);
-    document.getElementById('spinInfo').innerText='Sisa Spin: '+mySpins;
+    var si=document.getElementById('spinInfo');
+    if(si) si.innerText='Sisa Spin: '+mySpins;
+    var sf=document.getElementById('spinFree');
+    if(sf&&sf.innerText==='Memuat...') sf.innerText='';
   });
 
   db.ref('manualSpin/'+DEVID).on('value', function(s) {
@@ -1926,11 +1930,20 @@ function renderCodes(data){
 
 function updateStatusUI(){
   var btn=document.getElementById('toggleBtn');if(!btn)return;
-  if(cfg.scheduleEnabled){btn.innerText='AUTO MODE';btn.style.background='#555';btn.style.color='#fff';btn.disabled=true;}
-  else{
+  if(cfg.scheduleEnabled){
+    btn.innerText='AUTO MODE';btn.style.background='#555';btn.style.color='#fff';btn.disabled=true;
+  }else{
     btn.disabled=false;
-    if(cfg.eventOn){btn.innerText='MATIKAN EVENT';btn.style.background='linear-gradient(135deg,#ef4444,#7f1d1d)';btn.style.color='#fff';setBadge('st-on','EVENT BERJALAN');document.getElementById('timerL').innerText='Event aktif';document.getElementById('timerC').innerText='LIVE';}
-    else{btn.innerText='HIDUPKAN EVENT';btn.style.background='linear-gradient(135deg,#16a34a,#052e16)';btn.style.color='#fff';setBadge('st-off','EVENT OFFLINE');document.getElementById('timerL').innerText='Event tidak aktif';document.getElementById('timerC').innerText='OFFLINE';}
+    var hasSchedule=(Number(cfg.eventStart||0)>0&&Number(cfg.eventEnd||0)>0);
+    if(cfg.eventOn){
+      btn.innerText='MATIKAN EVENT';btn.style.background='linear-gradient(135deg,#ef4444,#7f1d1d)';btn.style.color='#fff';
+      setBadge('st-on','EVENT BERJALAN');
+      if(!hasSchedule){document.getElementById('timerL').innerText='Event aktif';document.getElementById('timerC').innerText='LIVE';}
+    }else{
+      btn.innerText='HIDUPKAN EVENT';btn.style.background='linear-gradient(135deg,#16a34a,#052e16)';btn.style.color='#fff';
+      setBadge('st-off','EVENT OFFLINE');
+      if(!hasSchedule){document.getElementById('timerL').innerText='Event tidak aktif';document.getElementById('timerC').innerText='OFFLINE';}
+    }
   }
 }
 function updateDateInfo(){var el=document.getElementById('timerDI'),s=Number(cfg.eventStart||0),e=Number(cfg.eventEnd||0);if(!s||!e){el.innerHTML='';return;}var fmt={day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Asia/Jakarta'};el.innerHTML=new Date(s).toLocaleString('id-ID',fmt)+' s/d '+new Date(e).toLocaleString('id-ID',fmt)+' WIB';}
@@ -2025,17 +2038,19 @@ window.addEventListener('load', function() {
     _hideDone = true;
     clearTimeout(_loFailsafe);
     hideLo(msg||'Terhubung');
-    checkNewUser();
+    setTimeout(checkNewUser, 800);
   }
 
-  var _connTimeout = setTimeout(function(){ doHide('Siap'); }, 4000);
+  var _connTimeout = setTimeout(function(){ doHide('Siap (timeout)'); }, 5000);
 
   db.ref('.info/connected').on('value', function(s) {
     if (s.val() === true) {
       clearTimeout(_connTimeout);
       doHide('Terhubung');
+    } else if (s.val() === false) {
+      // Offline mode - hide setelah 2.5 detik
+      setTimeout(function(){ doHide('Mode offline'); }, 2500);
     }
-    // Kalau false (offline), biarkan timeout yang handle
   });
 });
 </script>
